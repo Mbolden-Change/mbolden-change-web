@@ -1708,6 +1708,52 @@
             "value": "fiftyFifty"
           }
         },
+        "mediaType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "image"
+              },
+              {
+                "type": "string",
+                "value": "video"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "imageAspectRatio": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "original"
+              },
+              {
+                "type": "string",
+                "value": "16:9"
+              },
+              {
+                "type": "string",
+                "value": "1:1"
+              },
+              {
+                "type": "string",
+                "value": "4:3"
+              },
+              {
+                "type": "string",
+                "value": "9:16"
+              }
+            ]
+          },
+          "optional": true
+        },
         "leftOrRightImage": {
           "type": "objectAttribute",
           "value": {
@@ -1739,6 +1785,20 @@
                 "value": "textTop"
               }
             ]
+          },
+          "optional": true
+        },
+        "leftVideoUrl": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "rightVideoUrl": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": true
         },
