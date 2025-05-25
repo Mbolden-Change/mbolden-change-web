@@ -76,6 +76,7 @@ export const fiftyfiftyType = defineType({
             name: 'leftVideoUrl',
             title: 'Left Video URL',
             type: 'url',
+            description: "From the Google Drive, please click 'share' tab down arrow then 'copy link', paste here",
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage !== 'left',
             validation: (Rule) =>
                 Rule.custom((value, context) => {
@@ -95,6 +96,7 @@ export const fiftyfiftyType = defineType({
             name: 'rightVideoUrl',
             title: 'Right Video URL',
             type: 'url',
+            description: "From the Google Drive, please click 'share' tab down arrow then 'copy link', paste here",
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage!== 'right',
             validation: (Rule) =>
                 Rule.custom((value, context) => {

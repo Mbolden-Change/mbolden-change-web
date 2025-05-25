@@ -23,14 +23,14 @@ export default function FiftyFifty({
     const isImageOnTop = mobileLayout === 'imageTop'
 
     const getAspectRatioClass = () => {
-      if (!imageAspectRatio || imageAspectRatio === 'original') return undefined;
+      if (!imageAspectRatio || imageAspectRatio === 'original') return '';
       
       switch (imageAspectRatio) {
         case '16:9': return styles['aspectRatio-16-9'];
         case '4:3': return styles['aspectRatio-4-3'];
         case '1:1': return styles['aspectRatio-1-1'];
         case '9:16': return styles['aspectRatio-9-16'];
-        default: return 'undefined';
+        default: return '';
       }
     }
 
