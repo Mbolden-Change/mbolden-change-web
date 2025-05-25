@@ -20,6 +20,9 @@ export type SanityNextImageProps = {
   className?: string;
   fit?: 'cover' | 'contain';
   sizes?: string;
+  aspectRatio?: number;
+  width?: number;
+  height?: number
 };
 
 const SanityNextImage: React.FC<SanityNextImageProps> = ({
@@ -35,6 +38,10 @@ const SanityNextImage: React.FC<SanityNextImageProps> = ({
   const { imageWidth, imageHeight } = getDimensionsFromRef(image.asset._ref);
 
   const imageBuilder = urlFor(image).auto('format').fit('max');
+
+  if (imageWidth && imageHeight){
+    imageBuilder.width(imageWidth).height(imageHeight);
+  }
 
   const src = imageBuilder.url();
 
