@@ -1,60 +1,72 @@
 .carouselFrame {
-  margin: 2rem auto;
-  padding: 0rem 2rem 2rem 2rem;
-  width: auto;
+    margin: 2rem auto;
+    padding: 0rem 1rem 2rem 1rem;
+    width: auto;
+    /* height: auto; */
+
 }
 
 .sectionHeader {
-  margin: 2rem auto;
-  padding: 1rem 2rem;
-  max-width: 1440px;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    max-width: 1440px;
 }
 
 .headline {
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 1.2;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
 }
 
 .button {
-  max-width: 200px;
+    max-width: 200px;
 }
 
 .carouselWrapper {
-  width: auto;
-  position: relative;
-  overflow: hidden;
-  padding: 0 2rem;
-  max-width: 1440px;
-  margin: 0 auto;
+    width: auto;
+    position: relative;
+    overflow: hidden;
+    padding: 0 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    /* height: auto; */
 }
 .embla {
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    /* height: auto; */
 }
 .emblaContainer {
-  display: flex;
+    display: flex;
+    height: auto;
 }
 .emblaSlide {
-  flex: 0 0 100%;
-  min-width: 100%;
+    flex: 0 0 100%;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+    height: auto;
 }
 
 .arrowButtonsContainer {
-  position: absolute;
-  bottom: 1rem;
-  background-color: rgba(255, 255, 255, 0.5);
-  right: 1rem;
-  display: flex;
-  z-index: 10;
-  align-content: center;
+    position: absolute;
+    bottom: 1rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    right: 1rem;
+    display: flex;
+    z-index: 10;
 }
 
 @media (max-width: 768px) {
-  .carouselFrame,
-  .carouselWrapper {
-    width: 100%;
-    padding: 1rem;
-  }
+    .carouselFrame,
+    .carouselWrapper {
+        width: 100%;
+        padding: 1rem;
+    }
+    .sectionHeader {
+        padding: 0 1rem;
+    }
 }

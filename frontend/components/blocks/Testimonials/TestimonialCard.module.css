@@ -1,119 +1,220 @@
 .tstSection {
-  /* height: 500px; */
-  width: auto;
-  padding: 0;
-  background-color: var(--brand-light-gray);
-  align-items: center;
+    height: auto;
+    width: 100%;
+    /* min-height: 743px; */
+    padding: 1.5rem;
+    background-color: var(--brand-aqua-teal);
+    align-items: center;
 }
 
 .tstGrid {
-  display: grid;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
-.textSection {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2rem;
-  overflow: hidden;
-  height: auto;
-}
-
-.imageSection {
-  display: flex;
-  width: auto;
-  height: auto;
-  align-items: center;
-  justify-content: center;
-}
-
-.tstImage {
-  width: 100%;
-  height: auto;
-  max-height: 600px;
-  object-fit: contain;
-}
-
-.headline {
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.pText {
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-.author {
-  font-size: 17px;
-}
-
-.credentials {
-  font-size: 14px;
-}
-
-.button {
-  max-width: 200px;
-  align-self: flex-start;
-}
-
-.desktopView {
-  display: block;
-}
-.mobileView {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .desktopView {
-    display: none;
-  }
-
-  .mobileView {
-    display: block;
-  }
-  .tstSection {
+    display: grid;
     width: 100%;
-    padding: 0;
-  }
-  .mobileContent {
-    background-color: var(--brand-light-gray);
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    height: auto;
-    padding: 1rem;
-  }
-
-  .mobileImageSection {
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 0;
-    margin-bottom: 1rem;
-  }
+}
 
-  .mobileImageSection img {
+
+.imageSection {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: auto;
-    object-fit: cover;
-  }
-
-  .mobileTextSection {
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    padding: 1rem 1rem 1rem 0;
+}
+.polaroidCard {
     width: 100%;
+    margin: 0 auto;
+    background-color: var(--brand-white);
+    padding: 1rem 1rem 2.5rem 1rem;
+    border-radius: 1rem;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* width: fit-content; */
+    max-width: 100%;
+}
+.tstImage {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 0;
+}
+.polaroidCaption {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    text-align: center;
+    color: var(--brand-black);
+    opacity: 0.8;
+    font-style: italic;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+
+.textSection {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 2rem;
-  }
-  .pText {
-    margin-bottom: 1rem;
-  }
+    padding: 0 1rem 1rem 1rem;
+    overflow: hidden;
+    height: auto;
+    min-height: 550px;
+    width: 100%;
+
+}
+.pTextWrapper {
+    position: relative;
+    padding: 2rem;
+    margin: 2rem 0 0.5rem 1.5rem;
+    width: 100%;
+    background-color: var(--brand-white);
+    border-radius: 1rem;
+    align-self: center;
+}
+.headline {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--brand-white);
+    padding: 1rem;
+}
+.pText {
+    width: 100%;
+    font-size: clamp(1rem, 1.5vw + 0.25rem, 1.25rem);
+    line-height: 1.6;
+}
+.openingQuote, .closingQuote {
+    position: absolute;
+    width: 50px;
+    height: auto;
+    pointer-events: none;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+.openingQuote {
+    top: 0;
+    left: 0;
+    transform: translate(-25%, -25%) rotate(-12deg);
+}
+.credit {
+    padding: 1.5rem 0 1.5rem 1.5rem;
+    font-size: clamp(1.1rem, 2vw + 0.3rem, 1.5rem);
+    color: var(--brand-white);
+}
+.credentials {
+    font-size: clamp(1rem, 1.5vw + 0.25rem, 1.25rem);
+}
+
+
+.button {
+    max-width: 200px;
+    align-self: flex-start;
+    color: var(--brand-white);
+    border: 2px solid var(--brand-white);
+    box-sizing: border-box;
+    margin: 0 0 1.5rem 1.5rem;
+
+    &:not(.disabled):hover {
+        border: 2px solid var(--brand-black);
+        color: var(--brand-black);
+    }
+    &.disabled {
+        opacity: 0.50;
+        cursor:default;
+    }
+}
+
+.desktopView {
+    display: block;
+}
+.mobileView {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .desktopView {
+        display: none;
+    }
+
+    .mobileView {
+        display: block;
+    }
+    .tstSection {
+        width: 100%;
+        padding: 0;
+    }
+    .mobileHeadline {
+        color: var(--brand-white);
+        padding: 2rem 0 0 0;
+        align-items: center;
+    }
+    .mobileContent {
+        background-color: var(--brand-aqua-teal);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 0 1.3rem;
+    }
+    .mobilePText {
+        width: 100%;
+        margin: 1.5rem 0;
+        padding: 0 1rem;
+        font-size: clamp(1rem, 1.5vw + 0.25rem, 1.25rem);
+        line-height: 1.6;
+    }
+    .openingQuote {
+        width: 40px;
+        height: auto;
+    }
+    .mobileCredit {
+        padding: 0 0 1.5rem 1rem;
+        font-size: clamp(1.1rem, 2vw + 0.3rem, 1.5rem);
+        color: var(--brand-white);
+    }
+
+    .mobileImageSection {
+        width: auto;
+        min-width: 95%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-left: 0;
+        margin-bottom: 1.5rem;
+        border-radius: 1rem;
+        object-fit: contain;
+        overflow: hidden;
+    }
+
+    .mobileTextSection {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 1rem;
+    }
+    .pTextWrapper {
+        align-self: center;
+        margin: 2.2rem 1.2rem 1rem 1.2rem;
+        padding: 1rem;
+    }
+    .pText {
+        margin: 1rem 0;
+        box-sizing: border-box;
+    }
+    .button {
+        margin: 0 0 1rem 1rem;
+    }
 }

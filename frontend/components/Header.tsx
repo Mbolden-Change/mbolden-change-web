@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Grid from './Grid';
 import GridItem from './GridItem';
@@ -13,6 +14,7 @@ type HeaderProps = { headerData: HeaderType };
 
 export default function Header({ headerData }: HeaderProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className={styles.header}>
@@ -43,24 +45,37 @@ export default function Header({ headerData }: HeaderProps) {
               <span className={styles.bar} />
               <span className={styles.bar} />
             </button>
+
             <ul className={`${styles.linkList} ${open ? styles.open : ''}`}>
-              {headerData.navigationLinks?.map((link, i) => (
-                <li key={i}>
-                  <LinkAtom
-                    isExternalLink={link.isExternalLink}
-                    reference={
-                      link.reference && 'slug' in link.reference
-                        ? (link.reference as ReferenceType)
-                        : undefined
-                    }
-                    target={link.target}
-                    url={link.url}
-                    title={link.title}
-                    ariaLabel={link.title}
-                    className={styles.headerLink}
-                  />
-                </li>
-              ))}
+              {headerData.navigationLinks?.map((link, i) => {
+                const slug =
+                  link.reference && 'slug' in link.reference
+                    ? (link.reference as ReferenceType).slug?.current
+                    : undefined;
+                const isActive =
+                  !link.isExternalLink &&
+                  slug &&
+                  pathname.startsWith(`/${slug}`);
+
+                return (
+                  <li key={i}>
+                    <LinkAtom
+                      isExternalLink={link.isExternalLink}
+                      reference={
+                        link.reference && 'slug' in link.reference
+                          ? (link.reference as ReferenceType)
+                          : undefined
+                      }
+                      target={link.target}
+                      url={link.url}
+                      title={link.title}
+                      ariaLabel={link.title}
+                      className={`${styles.headerLink} ${isActive ? styles.active : ''}`}
+                    />
+                  </li>
+                );
+              })}
+
               {headerData.donateCTA && (
                 <li>
                   <LinkAtom

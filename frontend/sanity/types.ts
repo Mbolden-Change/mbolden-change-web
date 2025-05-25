@@ -87,7 +87,42 @@ export type PageBuilder = Array<{
   _key: string;
 } | {
   _key: string;
-} & TestimonialsCarousel>;
+} & TestimonialsCarousel | {
+  _key: string;
+} & TabsContainer | {
+  _key: string;
+} & Tab>;
+
+export type Tab = {
+  _type: "tab";
+  label: string;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
+export type TabsContainer = {
+  _type: "tabsContainer";
+  tabs?: Array<{
+    _key: string;
+  } & Tab>;
+  defaultTabIndex?: number;
+};
 
 export type TestimonialCard = {
   _type: "testimonialCard";
@@ -122,6 +157,7 @@ export type TestimonialCard = {
     _type: "image";
     _key: string;
   }>;
+  quoteMarksColor?: "yellow" | "white" | "fuchsia" | "black" | "aqua";
   author?: string;
   credentials?: string;
   hasButton?: boolean;
@@ -675,5 +711,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | InternalOrExternalLink | PillarCard | PillarContainer | Footer | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | InternalOrExternalLink | PillarCard | PillarContainer | Footer | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

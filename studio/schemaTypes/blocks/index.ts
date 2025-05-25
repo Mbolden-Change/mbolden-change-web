@@ -4,6 +4,7 @@ export * from './richText'
 export * from './fiftyfiftyType'
 export * from './internalOrExternalLink'
 export * from './statementBannerType'
-
 export * from './testimonialsCarouselType'
 export * from './testimonialCardType'
+export * from './tabsContainerType'
+export * from './tabType'

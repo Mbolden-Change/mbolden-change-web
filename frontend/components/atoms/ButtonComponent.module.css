@@ -100,3 +100,14 @@
         cursor: default;
     }
 }
+
+
+.unstyled {
+    all: unset;
+    text-decoration: none;
+    cursor: pointer;
+    &.disabled {
+        opacity: 0.70;
+        cursor:default;
+    }
+}

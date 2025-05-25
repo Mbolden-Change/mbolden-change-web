@@ -15,6 +15,7 @@ const componentMap: ComponentsMap = {
   statementBanner: dynamic(() => import('@/components/blocks/StatementBanner')),
   heroCarousel: dynamic(() => import('@/components/blocks/Hero/HeroCarousel')),
   testimonialsCarousel: dynamic(() => import('@/components/blocks/Testimonials/TestimonialsCarousel')),
+  tabsContainer: dynamic(() => import('@/components/blocks/TabbedContent/TabbedContent')),
   // Add more components as needed
 };
 

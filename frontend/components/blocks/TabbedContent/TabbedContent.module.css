@@ -1,0 +1,106 @@
+.tabsFrame {
+    height: auto;
+    min-height: 1000px;
+    margin: 0 auto;
+    padding: 0rem 3rem;
+    width: auto;
+    background-color: var(--brand-white);
+}
+
+.tabsWrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+}
+
+.tabsNavigation {
+    display: flex;
+    height: 100%;
+    width: auto;
+    justify-content: center ;
+    /* flex-wrap: wrap; */
+    /* margin: 0 auto; */
+    padding: 5rem 0 0 0;
+    justify-content: center;
+    border-bottom: 1px solid #e5e5e5;
+    /* gap: 1rem; */
+}
+
+.tabButton {
+    flex: 0 1 170px;
+    padding: 1rem 2rem;
+    justify-content: center;
+    width: auto;
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--brand-black);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    position: relative;
+    transition: color 0.3s;
+    text-align: center;
+}
+
+.tabButton:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 1px;
+    z-index: 2;
+}
+
+.tabButton:hover::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--brand-fuchsia);
+    transition: all 0.3s ease;
+}
+
+.tabButton.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--brand-aqua-teal);
+    transition: all 0.3s ease;
+}
+
+.tabContent {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding: 2rem 3rem 10rem 3rem;
+    overflow-y: auto;
+}
+
+
+@media (max-width: 768px) {
+    .tabsFrame {
+        height: auto;
+        min-height: 1000px;
+        margin: 0;
+        padding: 0;
+    }
+    .tabsNavigation {
+        padding: 0.5rem 0 0 0;
+        width: 100%;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+    .tabButton {
+        text-align: center;
+        flex: 0 1 33%;
+        white-space: normal;
+        padding: 1rem 1.2rem;
+    }
+    .tabContent {
+        padding: 2rem 2rem 5rem 2rem;
+    }
+}

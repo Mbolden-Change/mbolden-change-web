@@ -18,12 +18,19 @@ export const pageBuilderType = defineType({
       type: 'statementBanner',
     }),
     defineArrayMember({
-    type: 'heroCarousel',
-  }),   defineArrayMember({
-    type: 'pillarContainer',
-  }),
-      defineArrayMember({
-    type: 'testimonialsCarousel',
-  })
- ],
+      type: 'heroCarousel',
+    }),
+    defineArrayMember({
+      type: 'pillarContainer',
+    }),
+    defineArrayMember({
+      type: 'testimonialsCarousel',
+    }),
+    defineArrayMember({
+      type: 'tabsContainer',
+    }),
+    defineArrayMember({
+      type: 'tab',
+    })
+  ],
 })
