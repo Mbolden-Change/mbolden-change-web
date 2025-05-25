@@ -76,7 +76,12 @@ export const fiftyfiftyType = defineType({
             name: 'leftVideoUrl',
             title: 'Left Video URL',
             type: 'url',
-            description: "From the Google Drive, please click 'share' tab down arrow then 'copy link', paste here",
+            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste
+
+            Correct url example: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+            
+            Wrong url example: https://drive.google.com/drive/folders/FOLDER_ID`,
+
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage !== 'left',
             validation: (Rule) =>
                 Rule.custom((value, context) => {
@@ -96,7 +101,11 @@ export const fiftyfiftyType = defineType({
             name: 'rightVideoUrl',
             title: 'Right Video URL',
             type: 'url',
-            description: "From the Google Drive, please click 'share' tab down arrow then 'copy link', paste here",
+            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste
+
+            Correct url example: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+            
+            Wrong url example: https://drive.google.com/drive/folders/FOLDER_ID`,
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage!== 'right',
             validation: (Rule) =>
                 Rule.custom((value, context) => {
