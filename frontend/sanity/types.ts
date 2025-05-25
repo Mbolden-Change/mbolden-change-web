@@ -237,6 +237,7 @@ export type StatementBanner = {
 
 export type FiftyFifty = {
   _type: "fiftyFifty";
+
   mediaType?: "image" | "video";
   imageAspectRatio?: "original" | "16:9" | "1:1" | "4:3" | "9:16";
   leftOrRightImage?: "left" | "right";
