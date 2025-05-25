@@ -19,6 +19,7 @@ export default function FiftyFifty({
     rightVideoUrl,
     mediaType,
     imageAspectRatio,
+    videoTitle,
 }: FiftyFiftyType) {
     const isImageOnTop = mobileLayout === 'imageTop'
 
@@ -42,10 +43,13 @@ export default function FiftyFifty({
 
     const VideoPlayer = ({ url, title }: { url: string, title: string }) => (
       <div className={styles.videoWrapper}>
+        {videoTitle && <Headline tag='h2' text={videoTitle} className={styles.videoTitle} />}
         <iframe
         src={getGoogleDriveUrl(url)}
         className={styles.video}
         title={title}
+        allow='autoplay; encrypted-media'
+        allowFullScreen
       />
       </div>
     )
