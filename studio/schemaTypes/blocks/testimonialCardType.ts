@@ -18,6 +18,22 @@ export const testimonialCardType = defineType({
       validation: (Rule) => Rule.required().error('A testimonial is required.'),
     }),
     defineField({
+      name: 'quoteMarksColor',
+      title: 'Quote-marks Color',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Yellow', value: 'yellow' },
+          { title: 'White', value: 'white' },
+          { title: 'Fuchsia', value: 'fuchsia' },
+          { title: 'Black', value: 'black' },
+          { title: 'Aqua', value: 'aqua' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'yellow',
+    }),
+    defineField({
       name: 'author',
       title: 'Author',
       type: 'string',

@@ -57,30 +57,30 @@ export default function TestimonialsCarousel({
             {slides.map((slide, index) => (
               <div className={styles.emblaSlide} key={slide._key || index}>
                 <TestimonialCard {...slide} />
+                {slides.length > 1 && (
+                  <div className={styles.arrowButtonsContainer}>
+                    <ButtonComponent
+                      variant="icon"
+                      className={styles.arrowButtons}
+                      onClick={() => emblaApi?.scrollPrev()}
+                      aria-label="Previous slide"
+                    >
+                      <IoIosArrowBack />
+                    </ButtonComponent>
+                    <ButtonComponent
+                      variant="icon"
+                      className={styles.arrowButtons}
+                      onClick={() => emblaApi?.scrollNext()}
+                      aria-label="Next slide"
+                    >
+                      <IoIosArrowForward />
+                    </ButtonComponent>
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
-          {slides.length > 1 && (
-            <div className={styles.arrowButtonsContainer}>
-              <ButtonComponent
-                variant="icon"
-                className={styles.arrowButtons}
-                onClick={() => emblaApi?.scrollPrev()}
-                aria-label="Previous slide"
-              >
-                <IoIosArrowBack />
-              </ButtonComponent>
-              <ButtonComponent
-                variant="icon"
-                className={styles.arrowButtons}
-                onClick={() => emblaApi?.scrollNext()}
-                aria-label="Next slide"
-              >
-                <IoIosArrowForward />
-              </ButtonComponent>
-            </div>
-          )}
         </div>
       </section>
     </section>

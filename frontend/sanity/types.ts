@@ -63,6 +63,7 @@ export type PageBuilder = Array<{
       marks?: Array<string>;
       text?: string;
       _type: "span";
+
       _key: string;
     }>;
     style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
@@ -76,18 +77,7 @@ export type PageBuilder = Array<{
     _type: "block";
     _key: string;
   }>;
-  pillars?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "pillarCard";
-  }>;
-  _type: "pillarContainer";
-  _key: string;
-} | {
-  _key: string;
-} & TestimonialsCarousel>;
+
 
 export type TestimonialCard = {
   _type: "testimonialCard";
@@ -122,6 +112,7 @@ export type TestimonialCard = {
     _type: "image";
     _key: string;
   }>;
+
   author?: string;
   credentials?: string;
   hasButton?: boolean;
@@ -201,12 +192,7 @@ export type StatementBanner = {
 
 export type FiftyFifty = {
   _type: "fiftyFifty";
-  mediaType?: "image" | "video";
-  imageAspectRatio?: "original" | "16:9" | "1:1" | "4:3" | "9:16";
-  leftOrRightImage?: "left" | "right";
-  mobileLayout?: "imageTop" | "textTop";
-  leftVideoUrl?: string;
-  rightVideoUrl?: string;
+
   rightImage?: {
     asset?: {
       _ref: string;
@@ -675,5 +661,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | InternalOrExternalLink | PillarCard | PillarContainer | Footer | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+
 export declare const internalGroqTypeReferenceTo: unique symbol;

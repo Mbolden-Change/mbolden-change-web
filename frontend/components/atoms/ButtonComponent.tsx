@@ -7,7 +7,7 @@ type BaseButtonAttributes = ComponentPropsWithoutRef<'button'>;
 type RefType = HTMLButtonElement;
 
 interface ButtonProps extends BaseButtonAttributes {
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'icon';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'icon' | 'unstyled';
     className?: string;
     isDisabled?: boolean;
     link?: InternalOrExternalLink;
@@ -18,7 +18,7 @@ const ButtonComponent = forwardRef<RefType, ButtonProps>((props, ref) => {
     const {
         type,
         children,
-        variant = 'primary',
+        variant = 'primary' as const,
         isDisabled,
         className,
         link,
