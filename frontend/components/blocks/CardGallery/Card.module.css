@@ -1,0 +1,39 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--brand-white);
+  border: 1px solid var(--brand-light-gray);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  height: 100%;
+  text-align: left;
+}
+
+.imageWrapper {
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.imageWrapper :global(img) {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--brand-black);
+}
+
+.text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--brand-black);
+  margin: 0;
+}

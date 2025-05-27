@@ -91,7 +91,36 @@ export type PageBuilder = Array<{
   _key: string;
 } & TabsContainer | {
   _key: string;
-} & Tab>;
+} & Tab | {
+  _key: string;
+} & CardGallery>;
+
+export type CardGallery = {
+  _type: "cardGallery";
+  title?: string;
+  cards: Array<{
+    _key: string;
+  } & Card>;
+};
+
+export type Card = {
+  _type: "card";
+  title?: string;
+  text?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+};
 
 export type Tab = {
   _type: "tab";
@@ -712,5 +741,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | InternalOrExternalLink | PillarCard | PillarContainer | Footer | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | InternalOrExternalLink | PillarCard | PillarContainer | Footer | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

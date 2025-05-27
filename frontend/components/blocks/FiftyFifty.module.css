@@ -15,7 +15,20 @@
     margin-top: auto;
     margin-bottom: auto;
     overflow: hidden;
+    position: relative;
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-top: auto;
+    margin-bottom: auto;
+    overflow: hidden;
   }
+
+    .imageWrapper img {
+      transform: scale(0.9);
+      transform-origin: center; 
+      object-fit: fill;
+    }
+  
 
     .imageWrapper img {
       transform: scale(0.9);
@@ -58,6 +71,7 @@
 }
 
 
+
   @media (max-width: 830px) {
     
     .desktopView {
@@ -78,6 +92,7 @@
   }
 
   }
+
 
   .videoTitle {
     margin-bottom: 16px;
