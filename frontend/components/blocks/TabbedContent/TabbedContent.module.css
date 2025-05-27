@@ -4,7 +4,7 @@
     margin: 0 auto;
     padding: 0rem 3rem;
     width: auto;
-    background-color: var(--brand-white);
+    background-color: none;
 }
 
 .tabsWrapper {
@@ -26,7 +26,7 @@
 
 .tabsNavInner {
     display: flex;
-    border-bottom: 1px solid var(--brand-light-gray);
+    border-bottom: 2px solid var(--brand-light-gray);
     width: fit-content;
 }
 
