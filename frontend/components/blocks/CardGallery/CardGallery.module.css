@@ -1,0 +1,23 @@
+.cardGallery {
+  padding: 12px 0;
+}
+
+.galleryHeader {
+  padding-top: 12px;
+  margin-block-end: 2.25rem;
+}
+
+.galleryTitle {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--brand-black);
+  margin: 0 0 0.5rem;
+}
+
+.galleryIntro {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--brand-black);
+  margin: 0;
+}
