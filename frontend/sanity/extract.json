@@ -1725,6 +1725,7 @@
           },
           "optional": true
         },
+
         "videoTitle": {
           "type": "objectAttribute",
           "value": {
