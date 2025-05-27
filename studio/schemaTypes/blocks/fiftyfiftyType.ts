@@ -32,6 +32,13 @@ export const fiftyfiftyType = defineType({
                 })
         }),
         defineField({
+            name: 'videoTitle',
+            title: 'Video Title',
+            type: 'string',
+            hidden: ({ parent }) => parent?.mediaType !== 'video',
+            description: 'Optional title to display above the video'
+        }),
+        defineField({
             name: 'imageAspectRatio',
             title: 'Image Aspect Ratio',
             type: 'string',

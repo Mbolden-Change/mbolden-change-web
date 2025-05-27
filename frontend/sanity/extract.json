@@ -1725,6 +1725,14 @@
           },
           "optional": true
         },
+
+        "videoTitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "imageAspectRatio": {
           "type": "objectAttribute",
           "value": {
