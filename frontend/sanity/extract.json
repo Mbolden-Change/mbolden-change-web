@@ -609,6 +609,13 @@
           },
           "optional": true
         },
+        "text": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "cards": {
           "type": "objectAttribute",
           "value": {
@@ -734,6 +741,14 @@
                 }
               }
             }
+          },
+          "optional": true
+        },
+        "link": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "internalOrExternalLink"
           },
           "optional": true
         }
