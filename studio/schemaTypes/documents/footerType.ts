@@ -94,6 +94,11 @@ export const footertype = defineField({
       ],
     }),
     defineField({
+      name: 'newsletterButton',
+      title: 'Newsletter Button',
+      type: 'internalOrExternalLink',
+    }),
+    defineField({
       name: 'organizationInfo',
       title: 'Organization Info',
       type: 'object',
