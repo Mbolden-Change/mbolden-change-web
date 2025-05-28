@@ -1,0 +1,28 @@
+.standalone {
+  width: 100%;
+  height:auto;
+  padding: 2rem 0rem;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--brand-black);
+  background-color: none;
+  box-sizing: border-box;
+  margin: 2rem 0;
+
+
+  .headline {
+    display: inline-block;
+    padding: 0.5rem 0;
+    color: var(--brand-black);
+    font-weight: 800;
+    width: fit-content;
+    margin: 0 auto;
+
+  }
+}
+
+.nested {
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--brand-white);
+}

@@ -81,7 +81,17 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   primaryLogo,
   secondaryLogo,
   organizationInfo,
-  }`);
+  newsletterButton {
+    isExternalLink,
+    url,
+    title,
+    target,
+    reference-> {
+      _type,
+      slug
+    }
+  }
+}`);
 
 export const PillarContainer_Query =
   defineQuery(`*[_type == "pillarContainer"][0]{

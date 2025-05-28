@@ -24,5 +24,11 @@ export const cardType = defineType({
         hotspot: true,
       },
     }),
+    defineField({
+      name: 'link',
+      title: 'Card Link (Optional)',
+      type: 'internalOrExternalLink',
+      description: 'Entire card will be clickable, with link',
+    }),
   ],
 })
