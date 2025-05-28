@@ -609,7 +609,6 @@
           },
           "optional": true
         },
-
         "text": {
           "type": "objectAttribute",
           "value": {
@@ -617,7 +616,6 @@
           },
           "optional": true
         },
-
         "cards": {
           "type": "objectAttribute",
           "value": {
@@ -745,7 +743,6 @@
             }
           },
           "optional": true
-
         },
         "link": {
           "type": "objectAttribute",
@@ -754,7 +751,6 @@
             "name": "internalOrExternalLink"
           },
           "optional": true
-
         }
       }
     }

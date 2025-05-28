@@ -98,9 +98,7 @@ export type PageBuilder = Array<{
 export type CardGallery = {
   _type: "cardGallery";
   title?: string;
-
   text?: string;
-
   cards: Array<{
     _key: string;
   } & Card>;
@@ -123,9 +121,7 @@ export type Card = {
     alt?: string;
     _type: "image";
   };
-
   link?: InternalOrExternalLink;
-
 };
 
 export type Tab = {
