@@ -103,7 +103,6 @@
 
 
 .unstyled {
-    all: unset;
     text-decoration: none;
     cursor: pointer;
     &.disabled {
