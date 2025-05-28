@@ -6,13 +6,19 @@ import Headline from '@/components/atoms/Headline';
 import Link from 'next/link';
 import { ReferenceType } from '@/components/atoms/Link';
 
+
 type Props = {
   card: CardType;
 };
 
 const Card = ({ card }: Props) => {
+
   const cardContent = (
     <>
+
+  return (
+    <div className={styles.card}>
+
       {card.image && (
         <div className={styles.imageWrapper}>
           <SanityNextImage image={card.image} />
@@ -20,6 +26,7 @@ const Card = ({ card }: Props) => {
       )}
       <Headline tag="h3" className={styles.title} text={card.title || ''} />
       <p className={styles.text}>{card.text}</p>
+
     </>
   );
 
@@ -65,6 +72,12 @@ const Card = ({ card }: Props) => {
 
 };
 
+
+
+
+    </div>
+  );
+};
 
 
 export default Card;
