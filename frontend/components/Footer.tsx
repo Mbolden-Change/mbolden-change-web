@@ -114,13 +114,15 @@ const Footer = ({ footerData }: FooterProps) => {
                   ))}
                 </div>
 
+                <div className={styles['footer-newsletter-container']}>
                   {footerData.newsletterButton && (
-                      <ButtonComponent
-                        variant="unstyled"
-                        link={footerData.newsletterButton}
-                        className={styles.newsletterButton}
-                      />
+                    <ButtonComponent
+                    variant="unstyled"
+                    link={footerData.newsletterButton}
+                    className={styles.newsletterButton}
+                    />
                   )}
+                </div>
 
               </div>
             </GridItem>

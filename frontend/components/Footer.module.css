@@ -121,6 +121,13 @@
   gap: 8px;
   place-items: center;
 }
+
+.footer-newsletter-container {
+  display: grid;
+  grid-template-columns: repeat(1, 226px);
+  place-items: center;
+}
+
 .copyright {
   color: #888888;
   font-size: 11px;
