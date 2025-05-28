@@ -136,7 +136,6 @@
     }
     .tabsNavInner {
         display: flex;
-        /* flex-wrap: wrap; */
         border-bottom: 1px solid var(--brand-light-gray);
         justify-content: center;
         width: 100%;

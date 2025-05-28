@@ -8,7 +8,6 @@ import styles from './RichText.module.css';
 type RichTextProps = {
   title: string;
   text: PortableTextBlock[];
-  // hasPadding?: boolean;
   variant?: 'standalone' | 'nested';
 };
 
