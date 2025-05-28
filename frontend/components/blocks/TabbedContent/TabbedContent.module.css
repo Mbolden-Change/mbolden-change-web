@@ -31,6 +31,7 @@
 }
 
 .tabButton {
+    font: inherit;
     flex: 0 1 300px;
     padding: 1rem 2rem;
     justify-content: center;
