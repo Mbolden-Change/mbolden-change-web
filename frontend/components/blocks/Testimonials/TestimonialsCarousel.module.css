@@ -2,7 +2,6 @@
     margin: 2rem auto;
     padding: 0rem 1rem 2rem 1rem;
     width: auto;
-    /* height: auto; */
 
 }
 
@@ -29,13 +28,11 @@
     padding: 0 2rem;
     max-width: 1440px;
     margin: 0 auto;
-    /* height: auto; */
 }
 .embla {
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-    /* height: auto; */
 }
 .emblaContainer {
     display: flex;
