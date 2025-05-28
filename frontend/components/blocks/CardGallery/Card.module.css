@@ -10,6 +10,12 @@
   text-align: left;
 }
 
+a.card:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .imageWrapper {
   width: 100%;
   margin-bottom: 1rem;
