@@ -9,7 +9,7 @@ import { ReferenceType } from '@/components/atoms/Link';
 type Props = {
   card: CardType;
 };
-
+//Push 
 const Card = ({ card }: Props) => {
   const cardContent = (
     <>
