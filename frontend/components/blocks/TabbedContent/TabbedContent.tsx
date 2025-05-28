@@ -31,18 +31,20 @@ export default function TabsContainer({ tabs, defaultTabIndex }: TabsContainerPr
         <section className={styles.tabsFrame}>
             <div className={styles.tabsWrapper}>
                 <div className={styles.tabsNavigation}>
-                    {tabs.map((tab, index) => (
-                        <ButtonComponent
-                            key={tab._key || index}
-                            variant="unstyled"
-                            className={`${styles.tabButton} ${index === activeIndex ? styles.active : ''}`}                            onClick={() => setActiveIndex(index)}
-                            aria-pressed={index === activeIndex}
-                            role="tab"
-                            tabIndex={0}
-                        >
-                            {tab.label}
-                        </ButtonComponent>
-                    ))}
+                    <div className={styles.tabsNavInner}>
+                        {tabs.map((tab, index) => (
+                            <ButtonComponent
+                                key={tab._key || index}
+                                variant="unstyled"
+                                className={`${styles.tabButton} ${index === activeIndex ? styles.active : ''}`}                            onClick={() => setActiveIndex(index)}
+                                aria-pressed={index === activeIndex}
+                                role="tab"
+                                tabIndex={0}
+                            >
+                                {tab.label}
+                            </ButtonComponent>
+                        ))}
+                    </div>
                 </div>
                 <div className={styles.tabContent}>
                     {activeTabContent && (

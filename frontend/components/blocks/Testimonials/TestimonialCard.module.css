@@ -1,10 +1,10 @@
 .tstSection {
     height: auto;
     width: 100%;
-    /* min-height: 743px; */
     padding: 1.5rem;
     background-color: var(--brand-aqua-teal);
-    align-items: center;
+    align-items: start;
+    justify-content: center;
 }
 
 .tstGrid {
@@ -23,20 +23,20 @@
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
-    padding: 1rem 1rem 1rem 0;
+    padding: 1rem 0 1rem 0;
 }
 .polaroidCard {
     width: 100%;
     margin: 0 auto;
     background-color: var(--brand-white);
     padding: 1rem 1rem 2.5rem 1rem;
+    margin: 1rem 0;
     border-radius: 1rem;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    /* width: fit-content; */
     max-width: 100%;
 }
 .tstImage {
@@ -65,7 +65,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 1rem 1rem 0.5rem;
     overflow: hidden;
     height: auto;
     min-height: 550px;
@@ -196,6 +196,10 @@
         border-radius: 1rem;
         object-fit: contain;
         overflow: hidden;
+    }
+
+    .polaroidCard {
+        margin: 0rem;
     }
 
     .mobileTextSection {
