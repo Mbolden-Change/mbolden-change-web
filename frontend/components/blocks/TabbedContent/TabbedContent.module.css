@@ -21,17 +21,18 @@
     width: auto;
     justify-content: center ;
     padding: 5rem 0 0 0;
-    justify-content: center;
 }
 
 .tabsNavInner {
     display: flex;
     border-bottom: 2px solid var(--brand-light-gray);
     width: fit-content;
+    justify-content: center;
 }
 
 .tabButton {
-    flex: 0 1 170px;
+    font: inherit;
+    flex: 0 1 300px;
     padding: 1rem 2rem;
     justify-content: center;
     width: auto;
@@ -121,7 +122,7 @@
         overflow-y: auto;
     }
     .tabButton {
-        flex: 0 1 170px;
+        flex: 0 1 180px;
         min-width: 100px;
         max-width: 200px;
         padding: 0.8rem;

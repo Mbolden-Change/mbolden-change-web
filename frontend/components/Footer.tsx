@@ -8,6 +8,7 @@ import { LinkAtom } from './atoms/Link';
 import { ReferenceType } from './atoms/Link';
 import SanityNextImage from './SanityNextImage';
 import { SocialIcon } from 'react-social-icons';
+import ButtonComponent from './atoms/ButtonComponent';
 
 type FooterProps = {
   footerData: FooterType;
@@ -112,6 +113,17 @@ const Footer = ({ footerData }: FooterProps) => {
                     </div>
                   ))}
                 </div>
+
+                <div className={styles['footer-newsletter-container']}>
+                  {footerData.newsletterButton && (
+                    <ButtonComponent
+                    variant="unstyled"
+                    link={footerData.newsletterButton}
+                    className={styles.newsletterButton}
+                    />
+                  )}
+                </div>
+
               </div>
             </GridItem>
           )}
