@@ -122,6 +122,7 @@ export type Card = {
     _type: "image";
   };
   link?: InternalOrExternalLink;
+  linkText?: string;
 };
 
 export type Tab = {

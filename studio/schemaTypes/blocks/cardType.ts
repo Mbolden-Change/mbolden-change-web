@@ -28,7 +28,7 @@ export const cardType = defineType({
       name: 'link',
       title: 'Card Link (Optional)',
       type: 'internalOrExternalLink',
-      description: 'Entire card will be clickable, with link',
+      description: 'Put link text here. Entire card will be clickable, with link',
     }),
   ],
 })

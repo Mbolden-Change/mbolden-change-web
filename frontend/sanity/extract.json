@@ -751,6 +751,13 @@
             "name": "internalOrExternalLink"
           },
           "optional": true
+        },
+        "linkText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
         }
       }
     }

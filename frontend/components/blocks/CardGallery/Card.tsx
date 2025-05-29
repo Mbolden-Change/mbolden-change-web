@@ -11,6 +11,26 @@ type Props = {
 };
 
 const Card = ({ card }: Props) => {
+  const hasLink = (() => {
+    if (!card.link) return false;
+
+    if (card.link.isExternalLink && card.link.url) {
+      return true;
+    }
+
+    if (!card.link.isExternalLink && card.link.reference && 'slug' in card.link.reference) {
+      return true;
+    }
+    return false;
+  })
+
+  const getLinkText = (card: CardType) => {
+    if (card.link?.title) {
+    return card.link.title;
+  }
+    return "Click"
+  }
+  
   const cardContent = (
     <>
       {card.image && (
@@ -20,6 +40,12 @@ const Card = ({ card }: Props) => {
       )}
       <Headline tag="h3" className={styles.title} text={card.title || ''} />
       <p className={styles.text}>{card.text}</p>
+    
+    {hasLink() && (
+      <div className={styles.linkText}>
+        {getLinkText(card)}
+      </div>
+    )}
     </>
   );
 

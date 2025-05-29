@@ -10,15 +10,8 @@
   text-align: left;
   margin-left: 20px;
   margin-right: 20px;
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
-
-
-a.card:hover {
-  cursor: pointer;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
 
 .imageWrapper {
   width: 100%;
@@ -47,4 +40,43 @@ a.card:hover {
   line-height: 1.6;
   color: var(--brand-black);
   margin: 0;
+}
+
+
+.linkText {
+  position: relative;
+  display: inline-block;
+  background: var(--brand-warm-yellow);
+  color: var(--brand-black);
+  padding: 8px 16px;
+  font-size: 18px;
+  font-weight: 600;
+  transform: skew(-10.25deg);
+  clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
+  overflow: hidden;
+  z-index: 1;
+  text-decoration: none;
+  min-width: 91%;
+  margin-top: auto;
+  margin-bottom: 5px;
+}
+
+.linkText::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #f3c919;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-in-out;
+  z-index: -1;
+}
+
+a.card:hover .linkText::before {
+  transform: scaleX(1);
+  /* opacity: 1; */
+}
+
+a.card:hover .linkText {
+  color: var(--brand-black);
 }
