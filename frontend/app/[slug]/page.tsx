@@ -13,6 +13,7 @@ export default async function Page({
     return <div>Page not found</div>;
   }
 
+  console.log('Page data:', page);
   return (
     <div className={styles.page}>
       {page.content && <PageBuilder content={page.content} />}
