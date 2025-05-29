@@ -21,6 +21,9 @@ const componentMap: ComponentsMap = {
   cardGallery: dynamic(
     () => import('@/components/blocks/CardGallery/CardGallery')
   ),
+  caseStudyHighlight: dynamic(
+    () => import('@/components/blocks/CaseStudyHighlight/CaseStudyHighlight')
+  ),
   // Add more components as needed
 };
 
