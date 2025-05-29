@@ -34,5 +34,8 @@ export const pageBuilderType = defineType({
     defineArrayMember({
       type: 'cardGallery',
     }),
+    defineArrayMember({
+      type: 'caseStudyHighlight',
+    }),
   ],
 })

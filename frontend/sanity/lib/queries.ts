@@ -10,6 +10,24 @@ export const PAGE_QUERY = defineQuery(`
   slug,
   content[]{
     ...,
+   _type == "caseStudyHighlight" => {
+    ...,
+    cta{
+      isExternalLink,
+      url,
+      target,
+      title,
+      reference->{
+        _type,
+        slug
+      }
+    },
+    "themeColour": coalesce(themeColour, "var(--brand-warm-yellow)"),
+    image{
+      ...,
+      "lqip": asset->metadata.lqip
+    }
+  },
     _type == "statementBanner" => {
       ...,
       cta{
