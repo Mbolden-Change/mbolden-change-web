@@ -13,6 +13,31 @@
   /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
 
+a.card {
+  position: relative;
+  z-index: 1;
+}
+
+a.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-warm-yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-in-out;
+  z-index: -1;
+  border-radius: 16px;
+}
+
+a.card:hover::before {
+  transform: scaleX(1);
+}
+
+a.card:hover {
+  cursor: pointer;
+}
+
 .imageWrapper {
   width: 100%;
   margin-bottom: 1rem;
@@ -46,37 +71,29 @@
 .linkText {
   position: relative;
   display: inline-block;
-  background: var(--brand-warm-yellow);
+  background: transparent;
   color: var(--brand-black);
   padding: 8px 16px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  transform: skew(-10.25deg);
-  clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
-  overflow: hidden;
-  z-index: 1;
-  text-decoration: none;
-  min-width: 91%;
   margin-top: auto;
   margin-bottom: 5px;
+  text-align: center;
+  transition: all 0.3s ease; 
 }
 
-.linkText::before {
+.linkText::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: #f3c919;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease-in-out;
-  z-index: -1;
+  left: 50%;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--brand-aqua-teal);
+  transition: width 0.3s ease;
+  transform: translateX(-50%);
 }
 
-a.card:hover .linkText::before {
-  transform: scaleX(1);
-  /* opacity: 1; */
-}
-
-a.card:hover .linkText {
-  color: var(--brand-black);
+a.card:hover .linkText::after {
+  width: 80%;
 }
