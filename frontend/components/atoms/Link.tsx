@@ -6,6 +6,7 @@ type LinkAtomProps = Omit<InternalOrExternalLinkType, 'reference' | '_type'> & {
   ariaLabel?: string;
   reference?: ReferenceType;
   children?: React.ReactNode;
+  onClick?: () => void
 };
 
 export type ReferenceType = {
@@ -23,6 +24,7 @@ export const LinkAtom = ({
   title,
   className,
   ariaLabel,
+  onClick,
 }: LinkAtomProps) => {
   const linkContent = <span className={className}>{title}</span>;
 
@@ -33,6 +35,7 @@ export const LinkAtom = ({
         target={target}
         rel="noopener noreferrer"
         aria-label={ariaLabel}
+        onClick={onClick}
       >
         {linkContent}
       </a>
@@ -40,7 +43,7 @@ export const LinkAtom = ({
   }
 
   return (
-    <Link href={`/${reference?.slug.current}`} aria-label={ariaLabel}>
+    <Link href={`/${reference?.slug.current}`} aria-label={ariaLabel} onClick={onClick}>
       {linkContent}
     </Link>
   );
