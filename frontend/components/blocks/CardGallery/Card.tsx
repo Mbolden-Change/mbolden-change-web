@@ -33,11 +33,17 @@ const Card = ({ card }: Props) => {
   
   const cardContent = (
     <>
+    <div className={styles.tooltipContainer}>
+        <div className={styles.tooltip}>
+          {card.link?.title || card.title}
+        </div>
+      </div>
       {card.image && (
         <div className={styles.imageWrapper}>
           <SanityNextImage image={card.image} />
         </div>
       )}
+      
       <Headline tag="h3" className={styles.title} text={card.title || ''} />
       <p className={styles.text}>{card.text}</p>
     

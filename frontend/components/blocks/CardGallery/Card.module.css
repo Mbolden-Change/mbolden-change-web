@@ -82,6 +82,12 @@ a.card:hover {
   transition: all 0.3s ease; 
 }
 
+@media (min-width: 768px) {
+  .linkText {
+    display: none;
+  }
+}
+
 .linkText::after {
   content: '';
   position: absolute;
@@ -96,4 +102,54 @@ a.card:hover {
 
 a.card:hover .linkText::after {
   width: 80%;
+}
+
+
+.tooltipContainer {
+  position: relative;
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--brand-warm-yellow);
+  color: var(--brand-black);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  margin-bottom: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--brand-warm-yellow);
+  color: var(--brand-black);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--brand-warm-yellow) transparent transparent transparent;
+}
+
+@media (min-width: 768px) {
+  a.card:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .tooltip {
+    display: none;
+  }
 }
