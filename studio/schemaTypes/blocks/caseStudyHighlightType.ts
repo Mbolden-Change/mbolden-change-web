@@ -37,4 +37,12 @@ export const caseStudyHighlight = defineType({
       initialValue: 'var(--brand-warm-yellow)',
     }),
   ],
+  preview: {
+    select: { title: 'label'},
+    prepare({ title }) {
+        return {
+        title: title || 'Case-Study Highlight',
+        };
+    }
+}
 })

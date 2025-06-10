@@ -9,11 +9,14 @@ export const testimonialCardType = defineType({
       name: 'title',
       title: 'Headline',
       type: 'string',
+      description: 'Optional headline that appears inside the testimonial block.',
+
     }),
     defineField({
       name: 'text',
       title: 'Body',
       type: 'array',
+      description: 'Add the testimonial text here.',
       of: [{type: 'block'}, {type: 'image'}],
       validation: (Rule) => Rule.required().error('A testimonial is required.'),
     }),
@@ -74,4 +77,16 @@ export const testimonialCardType = defineType({
       validation: (Rule) => Rule.required().error('Testimonial image is required.'),
     }),
   ],
+  preview: {
+    select: {
+      title: 'author',
+      media: 'image',
+    },
+    prepare({ title, media }) {
+      return {
+        title: title ? `Testimonial by ${title}` : `Testimonial Card`,
+        media,
+      };
+    },
+  },
 })

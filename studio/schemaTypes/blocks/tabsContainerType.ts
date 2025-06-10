@@ -9,6 +9,7 @@ export const tabsContainerType = defineType({
         name: 'tabs',
         title: 'Tabs',
         type: 'array',
+        description: 'Add a tab page',
         of: [{ type: 'tab' }],
         }),
         defineField({
@@ -20,4 +21,12 @@ export const tabsContainerType = defineType({
         validation: Rule => Rule.min(0),
         }),
     ],
+        preview: {
+        select: { title: 'title'},
+        prepare({ title}) {
+            return {
+            title: title || 'Tabbed Content',
+            };
+        }
+    }
 });

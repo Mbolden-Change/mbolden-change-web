@@ -24,4 +24,12 @@ export const cardGalleryType = defineType({
       validation: (Rule) => Rule.required().min(1).max(4),
     }),
   ],
+  preview: {
+    select: { title: 'title'},
+    prepare({ title}) {
+        return {
+        title: `Card Gallery — ${title || 'Card Gallery'}`,
+        };
+    }
+  }
 })
