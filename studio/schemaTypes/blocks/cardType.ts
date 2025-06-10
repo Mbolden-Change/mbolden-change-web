@@ -31,4 +31,12 @@ export const cardType = defineType({
       description: 'Entire card will be clickable, with link',
     }),
   ],
+  preview: {
+    select: { title: 'title'},
+    prepare({ title}) {
+        return {
+        title: `Card — ${title || 'Card'}`,
+        };
+    }
+  }
 })

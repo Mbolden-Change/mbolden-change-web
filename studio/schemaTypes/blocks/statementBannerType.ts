@@ -73,10 +73,10 @@ export const statementBannerType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title'},
+    select: { title: 'headline'},
     prepare({ title}) {
         return {
-        title: title || 'Statement Banner',
+        title: `Statement Banner — ${title} || 'Statement Banner`,
         };
     }
 }

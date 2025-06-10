@@ -9,6 +9,7 @@ export const heroType = defineType({
       name: 'title',
       title: 'Headline',
       type: 'string',
+      description: 'A headline is optional but recommended.',
     }),
     defineField({
       name: 'text',

@@ -1159,7 +1159,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "defaultTabIndex": {
           "type": "objectAttribute",

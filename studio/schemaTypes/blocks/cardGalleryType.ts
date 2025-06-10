@@ -20,6 +20,7 @@ export const cardGalleryType = defineType({
       name: 'cards',
       title: 'Cards',
       type: 'array',
+      description: 'Add up to 4 cards to this gallery.',
       of: [{type: 'card'}],
       validation: (Rule) => Rule.required().min(1).max(4),
     }),

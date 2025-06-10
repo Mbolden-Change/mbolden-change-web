@@ -41,6 +41,7 @@ export const fiftyfiftyType = defineType({
         defineField({
             name: 'imageAspectRatio',
             title: 'Image Aspect Ratio',
+            description: 'Controls how the image is cropped and displayed based on its aspect ratio. “16:9” is wide (good for landscapes or banners), “1:1” is square (ideal for profiles or icons), etc.',
             type: 'string',
             options: {
                 list: [
@@ -71,6 +72,7 @@ export const fiftyfiftyType = defineType({
             name: 'mobileLayout',
             title: 'Mobile Layout',
             type: 'string',
+            description: 'In mobile view, you can have either media or text appear on top.',
             options: {
                 list: [
                     { title: 'Media on Top', value: 'imageTop' },
@@ -145,6 +147,7 @@ export const fiftyfiftyType = defineType({
         defineField({
             name: 'leftTitle',
             title: 'Left Column Title',
+            description: 'Optional title for the text block.',
             type: 'string',
             hidden: ({ parent }) => parent?.leftOrRightImage !== 'right',
             validation: (Rule) =>
@@ -175,6 +178,7 @@ export const fiftyfiftyType = defineType({
         defineField({
             name: 'rightTitle',
             title: 'Right Column Title',
+            description: 'Optional title for the text block.',
             type: 'string',
             hidden: ({ parent }) => parent?.leftOrRightImage !== 'left',
             validation: (Rule) =>
