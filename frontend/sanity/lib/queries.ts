@@ -56,6 +56,19 @@ export const PAGE_QUERY = defineQuery(`
           reference->{ _type, slug }
         }
       }
+    },
+    _type == "cardGallery" => {
+      ...,
+      cards[] {
+        ...,
+        link{
+          title,
+          isExternalLink,
+          url,
+          target,
+          reference->{ _type, slug }
+        }
+      }
     }
   }
 }

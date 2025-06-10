@@ -36,6 +36,14 @@ a.card:hover {
   display: block;
 }
 
+.noImage {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 300px;
+}
+
 .title {
   font-size: 1.25rem;
   font-weight: 600;
@@ -43,11 +51,27 @@ a.card:hover {
   color: var(--brand-black);
 }
 
+.largeTitle {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
 .text {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--brand-black);
   margin: 0;
+}
+
+.largeText {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.noImage .linkText {
+  margin-top: auto;
 }
 
 

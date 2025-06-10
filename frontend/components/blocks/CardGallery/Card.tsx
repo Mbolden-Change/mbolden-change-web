@@ -11,25 +11,25 @@ type Props = {
 };
 
 const Card = ({ card }: Props) => {
-  const hasLink = (() => {
+  const hasLink = () => {
     if (!card.link) return false;
 
     if (card.link.isExternalLink && card.link.url) {
       return true;
     }
 
-    if (!card.link.isExternalLink && card.link.reference && 'slug' in card.link.reference) {
+    if (!card.link.isExternalLink && card.link.reference) {
       return true;
     }
     return false;
-  })
+  };
 
   const getLinkText = (card: CardType) => {
     if (card.link?.title) {
     return card.link.title;
   }
     return "Click"
-  }
+  };
   
   const cardContent = (
     <>
@@ -39,9 +39,15 @@ const Card = ({ card }: Props) => {
         </div>
       )}
       
-      <Headline tag="h3" className={styles.title} text={card.title || ''} />
-      <p className={styles.text}>{card.text}</p>
-    
+      <Headline 
+        tag="h3" 
+        className={`${styles.title} ${!card.image ? styles.largeTitle : ''}`} 
+        text={card.title || ''} 
+      />
+      <p className={`${styles.text} ${!card.image ? styles.largeText : ''}`}>
+        {card.text}
+      </p>
+
     {hasLink() && (
       <div className={styles.linkText}>
         {getLinkText(card)}
@@ -51,41 +57,45 @@ const Card = ({ card }: Props) => {
   );
 
   if (card.link) {
-    const referenceWithSlug =
-      card.link.reference && 'slug' in card.link.reference
-        ? (card.link.reference as ReferenceType)
-        : undefined;
+    if (card.link.isExternalLink && card.link.url) {
+      return (
+        <a
+          href={card.link.url}
+          target={card.link.target || '_self'}
+          rel="noopener noreferrer"
+          className={styles.card}
+          aria-label={card.link.title || card.title || 'Card link'}
+        >
+          {cardContent}
+        </a>
+      );
+    }
 
-  if (card.link.isExternalLink && card.link.url){
-    return (
-      <a
-      href={card.link.url}
-      target={card.link.target || '_self'}
-      rel="noopener noreferrer"
-      className={styles.card}
-      aria-label={card.link.title || card.title || 'Card link'}
-      >
-        {cardContent}
-      </a>
-    );
-  }
+ if (!card.link.isExternalLink && card.link.reference) {
+  
+  const slug =
+    card.link.reference && 'slug' in card.link.reference
+      ? (card.link.reference as ReferenceType).slug?.current
+      : undefined;
 
-  if (referenceWithSlug?.slug?.current) {
+
+  if (slug) {
     return (
       <Link
-      href={`/${referenceWithSlug?.slug.current}`}
-      className={styles.card}
-      aria-label={card.link.title || card.title || 'Card link'}
+        href={`/${slug}`}
+        className={styles.card}
+        aria-label={card.link.title || card.title || 'Card link'}
       >
         {cardContent}
       </Link>
-    );
-  }
-  }          
+        );
+      }
+    }
+  }      
   
  
   return ( 
-    <div className={styles.card}>
+    <div className={`${styles.card} ${!card.image ? styles.noImage : ''}`}>
       {cardContent}
     </div>
   );
