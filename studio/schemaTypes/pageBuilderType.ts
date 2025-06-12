@@ -37,5 +37,8 @@ export const pageBuilderType = defineType({
     defineArrayMember({
       type: 'caseStudyHighlight',
     }),
+    defineArrayMember({
+      type: 'logoGarden'
+    }),
   ],
 })
