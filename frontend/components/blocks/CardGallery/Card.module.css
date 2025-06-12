@@ -52,7 +52,7 @@ a.card:hover {
 }
 
 .largeTitle {
-  font-size: 1.75rem;
+  font-size: 1.9rem;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -62,11 +62,12 @@ a.card:hover {
   line-height: 1.6;
   color: var(--brand-black);
   margin: 0;
+  margin-bottom: 1rem;
 }
 
 .largeText {
-  font-size: 1.25rem;
-  line-height: 1.5;
+  font-size: 1.9rem;
+  line-height: 1.6;
   margin-bottom: 1.5rem;
 }
 
