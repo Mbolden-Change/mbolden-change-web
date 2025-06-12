@@ -47,7 +47,7 @@ export const testimonialsCarouselType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title'},
+    select: { title: 'headline'},
     prepare({ title}) {
         return {
         title: title ? `Testimonials Carousel — ${title}` : 'Testimonials Carousel',
