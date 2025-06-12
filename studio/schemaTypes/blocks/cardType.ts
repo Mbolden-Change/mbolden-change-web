@@ -9,16 +9,19 @@ export const cardType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'Add card title here.',
     }),
     defineField({
       name: 'text',
       title: 'Text',
       type: 'text',
+      description: 'Add card text here.',
     }),
     defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
+      description: 'Optional image to add to the card.',
       fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
       options: {
         hotspot: true,
@@ -31,4 +34,12 @@ export const cardType = defineType({
       description: 'Entire card will be clickable, with link',
     }),
   ],
+  preview: {
+    select: { title: 'title'},
+    prepare({ title}) {
+        return {
+        title: `Card — ${title || 'Card'}`,
+        };
+    }
+  }
 })

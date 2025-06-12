@@ -17,4 +17,12 @@ export const richText = defineType({
       of: [{type: 'block'}, {type: 'image'}],
     }),
   ],
+  preview: {
+    select: { title: 'title'},
+    prepare({ title}) {
+        return {
+        title: title ? `Rich Text — ${title}` : 'Rich Text',
+        };
+    }
+  }
 })

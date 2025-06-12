@@ -173,7 +173,7 @@ export type Tab = {
 
 export type TabsContainer = {
   _type: "tabsContainer";
-  tabs?: Array<{
+  tabs: Array<{
     _key: string;
   } & Tab>;
   defaultTabIndex?: number;

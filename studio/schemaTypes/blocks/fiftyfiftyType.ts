@@ -19,15 +19,15 @@ export const fiftyfiftyType = defineType({
             validation: (Rule) =>
                 Rule.custom((value, context) => {
                     const parent = context.parent as any;
-                    
+
                     if (value === 'image' && (parent?.leftVideoUrl || parent?.rightVideoUrl)) {
                         return 'To display Image, please delete video URL fields.';
                     }
-                    
+
                     if (value === 'video' && (parent?.leftImage || parent?.rightImage)) {
                         return 'To display Video, please clear image fields.';
                     }
-                    
+
                     return true;
                 })
         }),
@@ -36,13 +36,14 @@ export const fiftyfiftyType = defineType({
             title: 'Video Title',
             type: 'string',
             hidden: ({ parent }) => parent?.mediaType !== 'video',
-            description: 'Optional title to display above the video'
+            description: 'Optional title to display above the video.'
         }),
         defineField({
             name: 'imageAspectRatio',
             title: 'Image Aspect Ratio',
+            description: 'Controls how the image is cropped and displayed based on its aspect ratio. “16:9” is wide (good for landscapes or banners), “1:1” is square (ideal for profiles or icons), etc.',
             type: 'string',
-            options: { 
+            options: {
                 list: [
                     { title: 'Original Image Ratio', value: 'original'},
                     { title: '16:9', value: '16:9' },
@@ -71,6 +72,7 @@ export const fiftyfiftyType = defineType({
             name: 'mobileLayout',
             title: 'Mobile Layout',
             type: 'string',
+            description: 'In mobile view, you can have either media or text appear on top.',
             options: {
                 list: [
                     { title: 'Media on Top', value: 'imageTop' },
@@ -83,10 +85,8 @@ export const fiftyfiftyType = defineType({
             name: 'leftVideoUrl',
             title: 'Left Video URL',
             type: 'url',
-            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste  
-            ------------------------------------------------------------------------------------Correct url example:  'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'-----------------------------------------------------------------------------------
-            
-            Wrong url example: 'https://drive.google.com/drive/folders/FOLDER_ID'`,
+            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
+            (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,
 
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage !== 'left',
             validation: (Rule) =>
@@ -96,7 +96,7 @@ export const fiftyfiftyType = defineType({
                     if (parent?.mediaType !== 'video' || parent?.leftOrRightImage !== 'left') {
                         return true;
                     }
-                        
+
                     if (value && parent?.rightVideoUrl) {
                         return 'Cannot have both left and right video URLs - please remove one';
                     }
@@ -107,10 +107,8 @@ export const fiftyfiftyType = defineType({
             name: 'rightVideoUrl',
             title: 'Right Video URL',
             type: 'url',
-            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste  
-            ------------------------------------------------------------------------------------Correct url example:  'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'-----------------------------------------------------------------------------------
-            
-            Wrong url example: 'https://drive.google.com/drive/folders/FOLDER_ID'`,
+            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
+            (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage!== 'right',
             validation: (Rule) =>
                 Rule.custom((value, context) => {
@@ -119,7 +117,7 @@ export const fiftyfiftyType = defineType({
                     if (parent?.mediaType !== 'video' || parent?.leftOrRightImage !== 'right') {
                         return true;
                     }
-                        
+
                     if (value && parent?.leftVideoUrl) {
                         return 'Cannot have both left and right video URLs - please remove one';
                     }
@@ -149,6 +147,7 @@ export const fiftyfiftyType = defineType({
         defineField({
             name: 'leftTitle',
             title: 'Left Column Title',
+            description: 'Optional title for the text block.',
             type: 'string',
             hidden: ({ parent }) => parent?.leftOrRightImage !== 'right',
             validation: (Rule) =>
@@ -175,10 +174,11 @@ export const fiftyfiftyType = defineType({
                     return true
                   }),
             }),
-        
+
         defineField({
             name: 'rightTitle',
             title: 'Right Column Title',
+            description: 'Optional title for the text block.',
             type: 'string',
             hidden: ({ parent }) => parent?.leftOrRightImage !== 'left',
             validation: (Rule) =>
@@ -205,6 +205,25 @@ export const fiftyfiftyType = defineType({
                     return true
                   }),
         }),
-        
-    ]
+    ],
+    preview: {
+        select: {
+            leftText: 'leftText',
+            rightText: 'rightText',
+            leftTitle: 'leftTitle',
+            rightTitle: 'rightTitle',
+        },
+        prepare({ leftText, rightText, leftTitle, rightTitle }) {
+            let title;
+            if (leftText) {
+                leftTitle ? title = `50/50 — Text Left, Media Right — ${leftTitle}` : title = '50/50 — Text Left, Media Right';
+            } else if (rightText) {
+                rightTitle ? title = `50/50 — Media Left, Text Right — ${rightTitle}` : title = '50/50 — Media Left, Text Right';
+            } else {
+                title = '50/50 Section';
+            }
+
+            return { title };
+        },
+    },
 })
