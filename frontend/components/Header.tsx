@@ -15,6 +15,9 @@ type HeaderProps = { headerData: HeaderType };
 export default function Header({ headerData }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const handleLinkClick = () => {
+    setOpen(false)
+  }
 
   return (
     <header className={styles.header}>
@@ -71,6 +74,7 @@ export default function Header({ headerData }: HeaderProps) {
                       title={link.title}
                       ariaLabel={link.title}
                       className={`${styles.headerLink} ${isActive ? styles.active : ''}`}
+                      onClick={handleLinkClick}
                     />
                   </li>
                 );
@@ -94,6 +98,7 @@ export default function Header({ headerData }: HeaderProps) {
                     title={headerData.donateCTA.text}
                     ariaLabel={headerData.donateCTA.buttonLink?.title}
                     className={styles.donateButton}
+                    onClick={handleLinkClick}
                   />
                 </li>
               )}
