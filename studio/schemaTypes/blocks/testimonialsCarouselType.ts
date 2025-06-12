@@ -9,14 +9,14 @@ export const testimonialsCarouselType = defineType({
       name: 'title',
       title: 'Headline',
       type: 'string',
-      description: 'Optional headline. Appears outside the testimonial block.',
+      description: 'Optional headline. Appears above the testimonial block.',
 
     }),
     defineField({
       name: 'text',
       title: 'Body',
       type: 'array',
-      description: 'Optional text. Appears outside the testimonial block.',
+      description: 'Optional text. Appears above the testimonial block.',
       of: [{type: 'block'}, {type: 'image'}],
     }),
     defineField({

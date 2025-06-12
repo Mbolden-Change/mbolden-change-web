@@ -9,11 +9,13 @@ export const cardGalleryType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'Optional title above the card gallery.',
     }),
     defineField({
       name: 'text',
       title: 'Text',
       type: 'text',
+      description: 'Optional text above the card gallery.',
       rows: 3,
     }),
     defineField({

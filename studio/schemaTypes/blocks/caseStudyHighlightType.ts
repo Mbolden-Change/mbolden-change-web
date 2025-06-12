@@ -4,14 +4,15 @@ export const caseStudyHighlight = defineType({
   type: 'object',
   title: 'Case-Study Highlight',
   fields: [
-    defineField({name: 'label', type: 'string', initialValue: 'CASE STUDY HIGHLIGHT'}),
-    defineField({name: 'pullQuote', type: 'text', rows: 3}),
-    defineField({name: 'headline', type: 'string'}),
-    defineField({name: 'body', type: 'text', rows: 8}),
+    defineField({name: 'label', type: 'string', initialValue: 'CASE STUDY HIGHLIGHT', description: 'The label indicates to the user what this block is. E.g. CASE STUDY HIGHLIGHT'}),
+    defineField({name: 'pullQuote', type: 'text', rows: 3, description: 'Optionally showcase a quote.'},),
+    defineField({name: 'headline', type: 'string', description: 'Add a headline for the case study.'}),
+    defineField({name: 'body', type: 'text', rows: 8, description: 'Add the main case study text here.'}),
     defineField({
       name: 'cta',
       title: 'CTA',
       type: 'internalOrExternalLink',
+      description: 'Optionally add a call to action button.'
     }),
     defineField({
       name: 'image',
@@ -38,10 +39,10 @@ export const caseStudyHighlight = defineType({
     }),
   ],
   preview: {
-    select: { title: 'label'},
+    select: { title: 'headline'},
     prepare({ title }) {
         return {
-        title: title || 'Case-Study Highlight',
+        title: `Case-Study Highlight — ${title}`,
         };
     }
 }

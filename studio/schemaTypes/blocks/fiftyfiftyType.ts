@@ -209,14 +209,16 @@ export const fiftyfiftyType = defineType({
     preview: {
         select: {
             leftText: 'leftText',
-            rightText: 'rightText'
+            rightText: 'rightText',
+            leftTitle: 'leftTitle',
+            rightTitle: 'rightTitle',
         },
-        prepare({ leftText, rightText }) {
+        prepare({ leftText, rightText, leftTitle, rightTitle }) {
             let title;
             if (leftText) {
-                title = '50/50 — Text Left, Media Right';
+                leftTitle ? title = `50/50 — Text Left, Media Right — ${leftTitle}` : title = '50/50 — Text Left, Media Right';
             } else if (rightText) {
-                title = '50/50 — Media Left, Text Right';
+                rightTitle ? title = `50/50 — Media Left, Text Right — ${rightTitle}` : title = '50/50 — Media Left, Text Right';
             } else {
                 title = '50/50 Section';
             }
