@@ -35,10 +35,11 @@ export const cardType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title'},
-    prepare({ title}) {
+    select: { title: 'title', media: 'image'},
+    prepare({ title, media}) {
         return {
-        title: `Card — ${title || 'Card'}`,
+        title: title ? `Card — ${title}` : 'Card',
+        media
         };
     }
   }
