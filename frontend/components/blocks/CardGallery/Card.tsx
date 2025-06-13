@@ -39,14 +39,26 @@ const Card = ({ card }: Props) => {
         </div>
       )}
       
-      <Headline 
-        tag="h3" 
-        className={`${styles.title} ${!card.image ? styles.largeTitle : ''}`} 
-        text={card.title || ''} 
-      />
-      <p className={`${styles.text} ${!card.image ? styles.largeText : ''}`}>
-        {card.text}
-      </p>
+      {(card.titleLine1 || card.titleLine2) && (
+      <div className={`${styles.titleContainer} ${styles.hasTitles}`}>
+        {card.titleLine1 && card.titleLine2 ? (
+          <h3 className={`${styles.title} ${!card.image ? styles.largeTitle : ''}`}>
+            {card.titleLine1}
+            <br />
+            {card.titleLine2}
+          </h3>
+        ) : (
+          <h3 className={`${styles.title} ${!card.image ? styles.largeTitle : ''}`}>
+            {card.titleLine1 || card.titleLine2 || ''}
+          </h3>
+        )}
+      </div>
+    )}
+    
+    <p className={`${styles.text} ${!card.image ? styles.largeText : ''}`}>
+      {card.text}
+    </p>
+
 
     {hasLink() && (
       <div className={styles.linkText}>
@@ -64,7 +76,7 @@ const Card = ({ card }: Props) => {
           target={card.link.target || '_self'}
           rel="noopener noreferrer"
           className={styles.card}
-          aria-label={card.link.title || card.title || 'Card link'}
+          aria-label={card.link.title || `${card.titleLine1} ${card.titleLine2 || ''}`.trim() || 'Card link'}
         >
           {cardContent}
         </a>
@@ -84,7 +96,7 @@ const Card = ({ card }: Props) => {
       <Link
         href={`/${slug}`}
         className={styles.card}
-        aria-label={card.link.title || card.title || 'Card link'}
+        aria-label={card.link.title || `${card.titleLine1} ${card.titleLine2 || ''}`.trim() || 'Card link'}
       >
         {cardContent}
       </Link>

@@ -6,10 +6,16 @@ export const cardType = defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'titleLine1',
+      title: 'Title Line 1',
       type: 'string',
-      description: 'Add card title here.',
+      description: 'Add first line of card title here.',
+    }),
+    defineField({
+      name: 'titleLine2',
+      title: 'Title Line 2',
+      type: 'string',
+      description: 'Add second line of card title here.',
     }),
     defineField({
       name: 'text',
