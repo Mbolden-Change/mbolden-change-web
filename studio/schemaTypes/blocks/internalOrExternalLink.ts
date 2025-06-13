@@ -7,10 +7,12 @@ export const internalOrExternalLinkType = defineType({
     defineField({
       name: 'title',
       type: 'string',
+      description: 'A button must have a title label.',
     }),
     defineField({
       name: 'isExternalLink',
       type: 'boolean',
+      description: 'Toggle on if the button will link to an external URL.',
       initialValue: false,
     }),
     defineField({
@@ -39,6 +41,7 @@ export const internalOrExternalLinkType = defineType({
     defineField({
       name: 'reference',
       type: 'reference',
+      description: 'Select a reference if the button will link to an internal page.',
       to: [{type: 'page'}, {type: 'statement'}],
       hidden: ({parent}) => parent?.isExternalLink === true,
       validation: (Rule) =>
