@@ -3,16 +3,20 @@ import {defineField, defineType} from 'sanity'
 export const testimonialsCarouselType = defineType({
   name: 'testimonialsCarousel',
   type: 'object',
+  // title: 'Testimonials Carousel',
   fields: [
     defineField({
       name: 'title',
       title: 'Headline',
       type: 'string',
+      description: 'Optional headline. Appears above the testimonial block.',
+
     }),
     defineField({
       name: 'text',
       title: 'Body',
       type: 'array',
+      description: 'Optional text. Appears above the testimonial block.',
       of: [{type: 'block'}, {type: 'image'}],
     }),
     defineField({
@@ -37,8 +41,17 @@ export const testimonialsCarouselType = defineType({
     }),
     defineField({
       name: 'slides',
+      description: 'Add one or more slides. Carousel activates when slide count is two or higher.',
       type: 'array',
       of: [{type: 'testimonialCard'}],
     }),
   ],
+  preview: {
+    select: { title: 'headline'},
+    prepare({ title}) {
+        return {
+        title: title ? `Testimonials Carousel — ${title}` : 'Testimonials Carousel',
+        };
+    }
+  }
 })
