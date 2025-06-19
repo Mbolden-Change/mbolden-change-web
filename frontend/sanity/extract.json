@@ -823,7 +823,14 @@
             "value": "card"
           }
         },
-        "title": {
+        "titleLine1": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "titleLine2": {
           "type": "objectAttribute",
           "value": {
             "type": "string"

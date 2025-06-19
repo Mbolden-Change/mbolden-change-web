@@ -130,7 +130,8 @@ export type CardGallery = {
 
 export type Card = {
   _type: "card";
-  title?: string;
+  titleLine1?: string;
+  titleLine2?: string;
   text?: string;
   image?: {
     asset?: {
