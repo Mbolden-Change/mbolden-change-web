@@ -74,6 +74,13 @@ export const PAGE_QUERY = defineQuery(`
           reference->{ _type, slug }
         }
       }
+    },
+    _type == "donationBlock" => {
+      _type,
+      headline,
+      text,
+      blockTheme,
+      formTheme
     }
   }
 }

@@ -35,7 +35,6 @@ export const donationBlockType = defineType({
                 ],
             layout: 'radio',
             },
-        initialValue: 'Aqua Teal',
         }),
         defineField({
             name: 'formTheme',
@@ -54,7 +53,6 @@ export const donationBlockType = defineType({
                 ],
             layout: 'radio',
         },
-        initialValue: 'Warm Yellow',
         }),
     ],
     preview: {

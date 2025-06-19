@@ -24,6 +24,7 @@
 .formWrapper {
     margin: 0 auto;
     max-width: 500px;
+    background-color: var(--brand-white);
 }
 
 
@@ -36,7 +37,10 @@
     padding: 1rem;
     margin: none;
 }
+.formHeadline {
+    padding: 0 1rem;
 
+}
 .contentWrapper {
     /* display: flex;
     flex-direction: column; */
@@ -47,12 +51,16 @@
 
 
 .frequencyToggle {
-    padding: 2rem 0;
+    margin: 2rem 0;
+    padding: 0.5rem 0;
     align-items: center;
     justify-self: center;
+    border-radius: 5px;
 }
 .freqButton {
-    border: 2px solid var(--brand-black);
+    font-size: 15px;
+    /* border: 2px solid var(--brand-black); */
+    border: none;
     color: var(--brand-black);
     padding: 0.5rem 1rem;
     text-decoration: none;
@@ -117,7 +125,7 @@
     height: 50px;
     border-radius: 5px;
     border: 2px solid var(--brand-light-gray);
-    color: var(--brand-black);
+    /* color: var(--brand-black); */
     padding: 1rem;
     margin-top: 1rem;
     text-decoration: none;
