@@ -1,0 +1,130 @@
+/* DonationBlock styles */
+
+.donationBlock {
+    padding: 4rem 0.5rem;
+}
+
+.textContent {
+    /* padding: 2rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.headline {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.textContent p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.formWrapper {
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+
+/* DonationForm styles */
+
+
+.formHeader {
+    background-color: var(--brand-black);
+    color: var(--brand-white);
+    padding: 1rem;
+    margin: none;
+}
+
+.contentWrapper {
+    /* display: flex;
+    flex-direction: column; */
+    justify-items: center;
+    padding: 0 3rem 3rem 3rem;
+
+}
+
+
+.frequencyToggle {
+    padding: 2rem 0;
+    align-items: center;
+    justify-self: center;
+}
+.freqButton {
+    border: 2px solid var(--brand-black);
+    color: var(--brand-black);
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    background-color: transparent;
+}
+.freqButton:active {
+    background-color: var(--brand-black);
+    color: var(--brand-white);
+}
+
+
+.amountGrid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1rem 0;
+    align-items: center;
+    justify-self: center;
+}
+.amountButton {
+    border-radius: 5px;
+    border: 2px solid var(--brand-light-gray);
+    color: var(--brand-black);
+    padding: 1rem;
+    text-decoration: none;
+    background-color: transparent;
+    font-size: 18px;
+}
+.amountInputField {
+    display: flex;
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 5px;
+    border: 2px solid var(--brand-light-gray);
+}
+
+
+.checkboxLabel {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.checkbox {
+    margin-top: 3px;
+}
+
+.actionButtonBox {
+    width: 100%;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+
+}
+.nextButton {
+    width: 100%;
+    max-width: 500px;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid var(--brand-light-gray);
+    color: var(--brand-black);
+    padding: 1rem;
+    margin-top: 1rem;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+
+.amountButton:active, .freqButton:active {
+
+}
