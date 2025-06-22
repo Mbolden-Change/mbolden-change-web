@@ -47,7 +47,6 @@ export const donationBlockType = defineType({
                     {title: 'Aqua Teal', value: 'var(--brand-aqua-teal)'},
                     {title: 'Fuchsia', value: 'var(--brand-fuchsia)'},
                     {title: 'Black', value: 'var(--brand-black)'},
-                    {title: 'White', value: 'var(--brand-white)'},
                     {title: 'Light Gray', value: 'var(--brand-light-gray)'},
                     {title: 'Creamy Beige', value: 'var(--brand-creamy-beige)'},
                 ],

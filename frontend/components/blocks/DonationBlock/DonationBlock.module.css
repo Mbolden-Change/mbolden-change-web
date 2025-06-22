@@ -25,6 +25,7 @@
     margin: 0 auto;
     max-width: 500px;
     background-color: var(--brand-white);
+    border: 1px solid var(--brand-light-gray);
 }
 
 
@@ -52,23 +53,20 @@
 
 .frequencyToggle {
     margin: 2rem 0;
-    padding: 0.5rem 0;
+    /* padding: 0.5rem 0; */
     align-items: center;
     justify-self: center;
     border-radius: 5px;
 }
 .freqButton {
-    font-size: 15px;
-    /* border: 2px solid var(--brand-black); */
-    border: none;
+    font-size: 16px;
+    height: 100%;
+    border: 2px solid transparent;
+    /* border: none; */
     color: var(--brand-black);
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
     text-decoration: none;
     background-color: transparent;
-}
-.freqButton:active {
-    background-color: var(--brand-black);
-    color: var(--brand-white);
 }
 
 
@@ -88,7 +86,7 @@
     padding: 1rem;
     text-decoration: none;
     background-color: transparent;
-    font-size: 18px;
+    font-size: 17px;
 }
 .amountInputField {
     display: flex;
@@ -125,14 +123,48 @@
     height: 50px;
     border-radius: 5px;
     border: 2px solid var(--brand-light-gray);
-    /* color: var(--brand-black); */
     padding: 1rem;
     margin-top: 1rem;
     text-decoration: none;
     background-color: transparent;
 }
 
+.arrow svg {
+    display: flex;
+    height: 100%;
+    width: auto;
+    padding-left: 0.5rem;
+    align-self: center;
+    justify-self: center;
+}
 
-.amountButton:active, .freqButton:active {
 
+
+/* Buttons -- active, hover, on click styling */
+.freqButton,
+.amountButton,
+.nextButton {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.selectedButton {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+.freqButton:hover,
+.freqButton.active {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+
+}
+
+.amountButton:hover,
+.amountButton.active {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
 }

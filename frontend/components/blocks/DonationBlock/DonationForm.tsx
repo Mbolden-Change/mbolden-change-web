@@ -1,11 +1,16 @@
+'use client'
+
+import { useState } from 'react';
 import styles from './DonationBlock.module.css';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import Headline from '../../atoms/Headline';
+import { FaArrowRightLong } from "react-icons/fa6";
+
 
 
 function getTextColorFromTheme(theme: string) {
     const darkThemes = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'];
-    const lightThemes = ['var(--brand-warm-yellow)', 'var(--brand-white)', 'var(--brand-light-gray)'];
+    const lightThemes = ['var(--brand-warm-yellow)', 'var(--brand-white)', 'var(--brand-light-gray)', 'var(--brand-creamy-beige)'];
 
     if (darkThemes.includes(theme)) return 'var(--brand-white)';
     if (lightThemes.includes(theme)) return 'var(--brand-black)';
@@ -20,6 +25,13 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
     const isDarkTheme = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'].includes(formTheme);
     const contrastColor = isDarkTheme ? 'var(--brand-white)' : 'var(--brand-black)';
 
+    const frequencies = ['One-time', 'Monthly', 'Annually'];
+    const amounts = [100, 250, 500, 1000, 2500, 5000];
+
+    const [selectedFreq, setSelectedFreq] = useState<string>(frequencies[0]);
+    const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+
+
     return (
         <>
             <div style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.formHeader}>
@@ -28,14 +40,38 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
 
             <div  className={styles.contentWrapper}>
                 <div style={{ border: `2px solid ${formTheme}` }} className={styles.frequencyToggle}>
-                    <ButtonComponent variant="unstyled" className={styles.freqButton}>One-time</ButtonComponent>
-                    <ButtonComponent variant="unstyled" className={styles.freqButton}>Monthly</ButtonComponent>
-                    <ButtonComponent variant="unstyled" className={styles.freqButton}>Annually</ButtonComponent>
+                    {frequencies.map(freq => (
+                        <ButtonComponent
+                            key={freq}
+                            variant="unstyled"
+                            className={`${styles.freqButton} ${selectedFreq === freq ? styles.selectedButton : ''}`}
+                            onClick={() => setSelectedFreq(freq)}
+                            style={{
+                                '--bg-color': formTheme,
+                                '--text-color': contrastColor,
+                                '--border-color': formTheme
+                            } as React.CSSProperties}
+                        >
+                            {freq}
+                        </ButtonComponent>
+                    ))}
                 </div>
 
                 <div className={styles.amountGrid}>
-                    {[35, 50, 100, 250, 500, 1000].map((value) => (
-                    <ButtonComponent key={value} variant="unstyled" className={styles.amountButton}>${value}</ButtonComponent>
+                    {amounts.map((value) => (
+                        <ButtonComponent
+                            key={value}
+                            variant="unstyled"
+                            className={`${styles.amountButton} ${selectedAmount === value ? styles.selectedButton : ''}`}
+                            onClick={() => setSelectedAmount(value)}
+                            style={{
+                                '--bg-color': formTheme,
+                                '--text-color': contrastColor,
+                                '--border-color': formTheme
+                            } as React.CSSProperties}
+                        >
+                            ${value}
+                        </ButtonComponent>
                     ))}
                 </div>
                 <input
@@ -51,7 +87,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
 
                 <div className={styles.actionButtonBox}>
                     <ButtonComponent variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.nextButton}>
-                        Next <span className={styles.arrow}> &rarr;</span>
+                        Next <span className={styles.arrow}><FaArrowRightLong /></span>
                     </ButtonComponent>
                 </div>
             </div>

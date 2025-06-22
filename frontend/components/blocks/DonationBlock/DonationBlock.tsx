@@ -24,7 +24,6 @@ export default function DonationBlock({
     formTheme,
 }: DonationBlockType) {
     const contrastColor = getTextColorFromTheme(blockTheme || 'var(--brand-white)');
-    // const formTextColor = getTextColorFromTheme(formTheme || 'var(--brand-black)');
 
     return (
         <section style={{ backgroundColor: blockTheme }} className={styles.donationBlock}>
