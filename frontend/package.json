@@ -11,6 +11,8 @@
   "dependencies": {
     "@sanity/client": "^7.0.0",
     "@sanity/image-url": "^1.1.0",
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.3.1",
     "classnames": "^2.5.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
@@ -19,7 +21,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-    "react-social-icons": "^6.24.0"
+    "react-social-icons": "^6.24.0",
+    "stripe": "^18.2.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.4",
