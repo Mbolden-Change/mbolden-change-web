@@ -5,6 +5,8 @@
 .galleryHeader {
   padding-top: 12px;
   margin-block-end: 2.25rem;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .galleryTitle {
