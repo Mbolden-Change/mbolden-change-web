@@ -1,9 +1,8 @@
 import Grid from '@/components/Grid';
 import GridItem from '@/components/GridItem';
-import PortableTextComponent from '@/components/PortableTextComponent';
 import { getCaseStudy } from '@/lib/getCaseStudy';
-import Link from 'next/link';
 import styles from './page.module.css';
+import CaseStudyReport from '@/components/blocks/CaseStudyReport/CaseStudyReport';
 
 export default async function CaseStudyPage({
 params,
@@ -13,9 +12,14 @@ params,
   const caseStudy = await getCaseStudy((await params).slug);
 console.log(caseStudy)
   if (!caseStudy) {
-    return <div>Statement not found</div>;
+    return <div>Case Study not found</div>;
   }
 return(
-    <div>Hello</div>
+    <Grid className={styles.caseWrapper}>
+      <GridItem desktopSpan={12} mobileSpan={12}>
+
+        <CaseStudyReport caseStudyData={caseStudy}/>
+      </GridItem>
+    </Grid>
 );
 }

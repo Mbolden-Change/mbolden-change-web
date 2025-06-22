@@ -1,0 +1,48 @@
+.caseStudy-container {
+    width: 100%;
+    padding: 4rem 1.5rem 6rem;
+    margin-inline: auto;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.caseStudy-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-top: 24px;
+}
+
+.caseStudy-headline {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.25;
+    font-weight: 700;
+    margin: 0 auto 1rem;
+    max-width: var(--max-content-width);
+}
+
+.caseStudy-subheadline {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.caseStudy-download {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: var(--brand-black);
+    background: var(--brand-warm-yellow);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.25s ease;
+}
+
+.caseStudy-download:hover,
+.caseStudy-download:focus-visible {
+    background: #e1c71f;
+}
+
+.caseStudy-body {
+    margin-inline: auto;
+}
