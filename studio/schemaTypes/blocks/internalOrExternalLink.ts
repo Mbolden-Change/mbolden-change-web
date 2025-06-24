@@ -32,6 +32,7 @@ export const internalOrExternalLinkType = defineType({
       options: {
         list: ['_self', '_blank'],
       },
+      description: 'Select click behavior. "Self" opens the link on the same page, while "Blank" opens the link in a new page.',
       initialValue: '_self',
       hidden: ({parent}) => parent?.isExternalLink === false,
     }),

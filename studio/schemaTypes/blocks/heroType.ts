@@ -9,6 +9,7 @@ export const heroType = defineType({
       name: 'title',
       title: 'Headline',
       type: 'string',
+      description: 'A headline is optional but recommended.',
     }),
     defineField({
       name: 'text',
@@ -47,4 +48,16 @@ export const heroType = defineType({
       validation: (Rule) => Rule.required().error('Hero image is required.'),
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      media: 'image',
+    },
+    prepare({ title, media }) {
+      return {
+        title: `Slide — ${title || 'Untitled'}`,
+        media,
+      };
+    },
+  },
 })

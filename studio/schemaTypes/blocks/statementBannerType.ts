@@ -13,18 +13,21 @@ export const statementBannerType = defineType({
     defineField({
       name: 'headline',
       title: 'Headline',
+      description: 'Add the statement headline here.',
       type: 'string',
     }),
     defineField({
       name: 'body',
       title: 'Body',
       type: 'text',
+      description: 'Add the main statement text here.',
       rows: 5,
     }),
     defineField({
       name: 'cta',
       title: 'Call to Action',
       type: 'object',
+      description: 'Optional call to action button.',
       fields: [
         {
           name: 'label',
@@ -72,6 +75,14 @@ export const statementBannerType = defineType({
       },
     }),
   ],
+  preview: {
+    select: { title: 'headline'},
+    prepare({ title}) {
+        return {
+        title: `Statement Banner — ${title} || 'Statement Banner`,
+        };
+    }
+}
 })
 
 //TODO: Changing of the cta to be an object, with a reference to the statement document, also need to render a statement docuement page, statement/slug route.
