@@ -46,6 +46,21 @@ export const statementBannerType = defineType({
       ],
     }),
     defineField({
+      name: 'link',
+      title: 'Link',
+      type: 'url',
+      description:
+        'Optional URL to link to if no statement is selected in the CTA. This is a workaround for now while we transition to using internal/external link type',
+    }),
+    defineField({
+      name: 'linkLabel',
+      title: 'Link Label',
+      type: 'string',
+      description:
+        'Optional text for the link if no statement is selected in the CTA. This is a workaround for now while we transition to using internal/external link type',
+      initialValue: 'Read More',
+    }),
+    defineField({
       name: 'backgroundColor',
       title: 'Background Color',
       type: 'string',
@@ -76,13 +91,13 @@ export const statementBannerType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline'},
-    prepare({ title}) {
-        return {
+    select: {title: 'headline'},
+    prepare({title}) {
+      return {
         title: `Statement Banner — ${title} || 'Statement Banner`,
-        };
-    }
-}
+      }
+    },
+  },
 })
 
 //TODO: Changing of the cta to be an object, with a reference to the statement document, also need to render a statement docuement page, statement/slug route.

@@ -287,6 +287,8 @@ export type StatementBanner = {
       [internalGroqTypeReferenceTo]?: "statement";
     };
   };
+  link?: string;
+  linkLabel?: string;
   backgroundColor?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
   textColor?: "var(--brand-white)" | "var(--brand-black)";
 };

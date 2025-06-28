@@ -1995,6 +1995,20 @@
           },
           "optional": true
         },
+        "link": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "linkLabel": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "backgroundColor": {
           "type": "objectAttribute",
           "value": {
