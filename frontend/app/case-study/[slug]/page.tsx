@@ -10,7 +10,6 @@ params,
   params: Promise<{ slug: string }>;
 }) {
   const caseStudy = await getCaseStudy((await params).slug);
-console.log(caseStudy)
   if (!caseStudy) {
     return <div>Case Study not found</div>;
   }
