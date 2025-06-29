@@ -16,7 +16,7 @@ const CaseStudyReport = ( {caseStudyData}:caseStudy ) => {
 
     return (
         <main className="caseStudy-container">
-            <Grid>
+            <Grid >
                 <GridItem desktopOffset={2} desktopSpan={8} mobileSpan={6}>
                 <header className={styles[`caseStudy-header`]}>
                     <Headline className={styles[`caseStudy-headline`]} tag="h1" text={caseStudyData.heading}></Headline>
