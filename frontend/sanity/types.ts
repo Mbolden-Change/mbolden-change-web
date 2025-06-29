@@ -460,6 +460,58 @@ export type HeroCarousel = {
   } & Hero>;
 };
 
+export type CaseStudy = {
+  _id: string;
+  _type: "caseStudy";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heading: string;
+  subheading?: string;
+  slug: Slug;
+  date: string;
+  pdfDownload?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+  text?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
 export type Header = {
   _id: string;
   _type: "header";
@@ -771,5 +823,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

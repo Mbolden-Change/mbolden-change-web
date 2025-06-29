@@ -8,7 +8,6 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const page = await getPage((await params).slug);
-
   if (!page) {
     return <div>Page not found</div>;
   }

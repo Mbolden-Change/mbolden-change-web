@@ -16,6 +16,14 @@ export type ReferenceType = {
   };
 };
 
+interface RefMapType {
+  caseStudy: string;
+  page: string;
+  statement: string;
+  [key: string]: string;
+}
+
+
 export const LinkAtom = ({
   isExternalLink,
   reference,
@@ -27,6 +35,7 @@ export const LinkAtom = ({
   onClick,
 }: LinkAtomProps) => {
   const linkContent = <span className={className}>{title}</span>;
+
 
   if (isExternalLink && url) {
     return (
@@ -42,9 +51,18 @@ export const LinkAtom = ({
     );
   }
 
-  return (
-    <Link href={`/${reference?.slug.current}`} aria-label={ariaLabel} onClick={onClick}>
-      {linkContent}
-    </Link>
-  );
+  if (reference) {
+    const refType = reference._type;
+    const refMap: RefMapType = {
+      caseStudy: "case-study",
+      page: "",
+      statement: "statement"
+    }
+    console.log(typeof refMap[refType]);
+    return (
+      <Link href={`${refMap[refType]}/${reference?.slug.current}`} aria-label={ariaLabel} onClick={onClick}>
+        {linkContent}
+      </Link>
+    )
+  }
 };
