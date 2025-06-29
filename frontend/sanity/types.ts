@@ -102,6 +102,7 @@ export type PageBuilder = Array<{
 export type LogoGarden = {
   _type: "logoGarden";
   title?: string;
+  layout?: "single" | "double";
   logos: Array<{
     asset?: {
       _ref: string;
@@ -113,6 +114,22 @@ export type LogoGarden = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
+    link?: InternalOrExternalLink;
+    _type: "image";
+    _key: string;
+  }>;
+  secondRowLogos?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    link?: InternalOrExternalLink;
     _type: "image";
     _key: string;
   }>;
@@ -624,6 +641,17 @@ export type Footer = {
   };
 };
 
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  content?: PageBuilder;
+};
+
 export type InternalOrExternalLink = {
   _type: "internalOrExternalLink";
   title?: string;
@@ -641,17 +669,6 @@ export type InternalOrExternalLink = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "statement";
   };
-};
-
-export type Page = {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  slug: Slug;
-  content?: PageBuilder;
 };
 
 export type Statement = {
@@ -790,5 +807,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | LogoGarden | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | PillarCard | PillarContainer | Footer | Page | InternalOrExternalLink | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
