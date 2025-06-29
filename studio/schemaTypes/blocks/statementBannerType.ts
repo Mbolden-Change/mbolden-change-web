@@ -46,6 +46,21 @@ export const statementBannerType = defineType({
       ],
     }),
     defineField({
+      name: 'link',
+      title: 'Link',
+      type: 'url',
+      description:
+        'Optional URL to link to if no statement is selected in the CTA. This is a workaround for now while we transition to using internal/external link type',
+    }),
+    defineField({
+      name: 'linkLabel',
+      title: 'Link Label',
+      type: 'string',
+      description:
+        'Optional text for the link if no statement is selected in the CTA. This is a workaround for now while we transition to using internal/external link type',
+      initialValue: 'Read More',
+    }),
+    defineField({
       name: 'backgroundColor',
       title: 'Background Color',
       type: 'string',

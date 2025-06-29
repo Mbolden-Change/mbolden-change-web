@@ -34,13 +34,8 @@ export const PAGE_QUERY = defineQuery(`
         label,
         statement->{ "slug": slug.current }
       },
-      link{
-        title,
-        isExternalLink,
-        url,
-        target,
-        reference->{ _type, slug }
-      }
+      link,
+      linkLabel
     },
     _type == "heroCarousel" => {
       ...,
