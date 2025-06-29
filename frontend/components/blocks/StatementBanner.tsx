@@ -11,6 +11,8 @@ type PatchedStatementBanner = Omit<SB, 'cta'> & {
         };
       })
     | undefined;
+  link?: string;
+  linkLabel?: string;
 };
 
 const StatementBanner = ({
@@ -19,6 +21,8 @@ const StatementBanner = ({
   cta,
   headline,
   textColor,
+  link,
+  linkLabel,
 }: PatchedStatementBanner) => {
   //@ts-ignore
   const slug = cta?.statement?.slug;
@@ -40,6 +44,11 @@ const StatementBanner = ({
             style={{ color: textColor }}
           >
             {label}
+          </Link>
+        )}
+        {!slug && link && (
+          <Link href={link} className={styles.cta} style={{ color: textColor }}>
+            {linkLabel}
           </Link>
         )}
       </div>
