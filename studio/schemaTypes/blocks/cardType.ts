@@ -16,6 +16,7 @@ export const cardType = defineType({
       title: 'Title Line 2',
       type: 'string',
       description: 'Add second line of card title here.',
+      description: 'Add card title here.',
     }),
     defineField({
       name: 'text',
