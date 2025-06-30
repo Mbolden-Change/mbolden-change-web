@@ -14,13 +14,19 @@
 
 .scrollContainer {
     overflow: hidden;
-    white-space: nowrap;
     position: relative;
 }
 
-.scrollContent {
+.scrollContentRow1 {
     display: inline-flex;
     animation: scroll 30s linear infinite;
+    gap: 2rem;
+    align-items: center;
+}
+
+.scrollContentRow2 {
+    display: inline-flex;
+    animation: scrollReverse 30s linear infinite;
     gap: 2rem;
     align-items: center;
 }
@@ -56,6 +62,15 @@
     }
     100% {
         transform: translateX(-50%);
+    }
+}
+
+@keyframes scrollReverse {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
     }
 }
 

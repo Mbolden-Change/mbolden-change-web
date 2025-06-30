@@ -6,8 +6,9 @@ import SanityNextImage from '@/components/SanityNextImage';
 import { LinkAtom, ReferenceType } from '@/components/atoms/Link';
 import styles from './LogoGarden.module.css';
 
-export default function LogoGarden({ title, logos }: LogoGardenType) {
+export default function LogoGarden({ title, logos, layout, secondRowLogos }: LogoGardenType) {
     const duplicatedLogos = [...logos, ...logos];
+    const duplicatedSecondRowLogos = secondRowLogos ? [...secondRowLogos, ...secondRowLogos] : [];
 
     return (
         <section className={styles.logoGardenWrapper}>
@@ -19,9 +20,9 @@ export default function LogoGarden({ title, logos }: LogoGardenType) {
                 />
             )}
             <div className={styles.scrollContainer}>
-                <div className={styles.scrollContent}>
+                <div className={styles.scrollContentRow1}>
                     {duplicatedLogos.map((logo, index) => (
-                        <div className={styles.logoItem} key={`${logo._key || index}-${Math.floor(index / logos.length)}`}>
+                        <div className={styles.logoItem} key={`${logo._key || index}:${Math.floor(index / logos.length)}-row1`}>
                             <div className={styles.logoWrapper}>
                                 <SanityNextImage 
                                     image={logo}
@@ -33,6 +34,22 @@ export default function LogoGarden({ title, logos }: LogoGardenType) {
                         </div>
                     ))}
                 </div>
+                {layout === 'double' && secondRowLogos && (
+                <div className={styles.scrollContentRow2}>
+                    {duplicatedSecondRowLogos.map((logo, index) => (
+                        <div className={styles.logoItem} key={`${logo._key || index}:${Math.floor(index / logos.length)}-row2`}>
+                            <div className={styles.logoWrapper}>
+                                <SanityNextImage 
+                                    image={logo}
+                                    fit="contain"
+                                    className={styles.logo}
+                                    sizes="(max-width: 768px) 33vw, 20vw"
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                )}
             </div>
         </section>
     );
