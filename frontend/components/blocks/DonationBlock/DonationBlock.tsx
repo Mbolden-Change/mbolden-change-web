@@ -7,6 +7,8 @@ import PortableTextComponent from '../../PortableTextComponent';
 import Headline from '../../atoms/Headline';
 import styles from './DonationBlock.module.css';
 
+import StripeProvider from '@/components/StripeProvider';
+
 
 function getTextColorFromTheme(theme: string) {
     const darkThemes = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'];
@@ -41,7 +43,9 @@ export default function DonationBlock({
 
                 <GridItem desktopSpan={6} mobileSpan={6}>
                     <div className={styles.formWrapper}>
-                        <DonationForm formTheme={formTheme} />
+                        <StripeProvider>
+                            <DonationForm formTheme={formTheme} />
+                        </StripeProvider>
                     </div>
                 </GridItem>
             </Grid>

@@ -112,12 +112,13 @@
 
 .actionButtonBox {
     width: 100%;
+    gap: 2rem;
     margin: 1rem 0;
     display: flex;
     justify-content: center;
 
 }
-.nextButton {
+.navButton {
     width: 100%;
     max-width: 500px;
     height: 50px;
@@ -143,7 +144,7 @@
 /* Buttons -- active, hover, on click styling */
 .freqButton,
 .amountButton,
-.nextButton {
+.navButton {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -168,3 +169,20 @@
     color: var(--text-color);
     border-color: var(--border-color);
 }
+
+
+
+.modalOverlay {
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    inset: 0;
+    border-radius: 12px;
+  }
+  .modalContent {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    overflow-y:auto;
+
+  }
