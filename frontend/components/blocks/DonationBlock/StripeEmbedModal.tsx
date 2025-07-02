@@ -1,42 +1,38 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { loadStripe, Stripe } from '@stripe/stripe-js'
+import { loadStripe, StripeEmbeddedCheckout } from '@stripe/stripe-js'
 import styles from './StripeEmbedModal.module.css'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 export default function StripeEmbedModal({ clientSecret }: { clientSecret: string }) {
     const checkoutRef = useRef<HTMLDivElement>(null)
-    const mountedRef = useRef<boolean>(false)
+    const checkoutInstanceRef = useRef<StripeEmbeddedCheckout | null>(null)
 
-    useEffect(() => {
-        let stripeInstance: Stripe | null = null
+        useEffect(() => {
+            const mountCheckout = async () => {
+                const stripe = await stripePromise
+                if (!stripe || !checkoutRef.current) return
 
-        const mountCheckout = async () => {
-            if (mountedRef.current) {
-                console.warn('[StripeEmbedModal] Already mounted')
-                return
+                try {
+                    const checkout = await stripe.initEmbeddedCheckout({ clientSecret })
+                    checkout.mount(checkoutRef.current)
+                    checkoutInstanceRef.current = checkout
+                } catch (err) {
+                    console.error('[StripeEmbedModal] Mount error:', err)
+                }
             }
 
-            stripeInstance = await stripePromise
-            if (!stripeInstance || !checkoutRef.current) return
+            mountCheckout()
 
-            try {
-                const checkout = await stripeInstance.initEmbeddedCheckout({ clientSecret })
-                checkout.mount(checkoutRef.current)
-                mountedRef.current = true
-            } catch (err) {
-                console.error('[StripeEmbedModal] Mount error:', err)
+            return () => {
+                if (checkoutInstanceRef.current) {
+                    checkoutInstanceRef.current.destroy()
+                    checkoutInstanceRef.current = null
+                }
             }
-        }
-
-        mountCheckout()
-
-        return () => {
-            mountedRef.current = false
-        }
-    }, [clientSecret])
+        }, [clientSecret])
 
     return (
         <div className={styles.modalContent}>
