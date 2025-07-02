@@ -2,6 +2,7 @@
 
 .donationBlock {
     padding: 4rem 0.5rem;
+    /* transition: transform 0.35s ease; */
 }
 
 .textContent {
@@ -95,6 +96,7 @@
     margin-bottom: 2rem;
     border-radius: 5px;
     border: 2px solid var(--brand-light-gray);
+    transition: transform 0.35s ease;
 }
 
 
@@ -104,9 +106,11 @@
     align-items: flex-start;
     gap: 0.5rem;
     margin: 1rem 0;
+    cursor: pointer;
 }
 
 .checkbox {
+    cursor: pointer;
     margin-top: 3px;
 }
 
@@ -177,12 +181,4 @@
     background: rgba(0, 0, 0, 0.5);
     position: fixed;
     inset: 0;
-    border-radius: 12px;
-  }
-  .modalContent {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    overflow-y:auto;
-
-  }
+}

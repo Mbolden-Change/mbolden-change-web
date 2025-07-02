@@ -31,6 +31,10 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
     const [selectedFreq, setSelectedFreq] = useState<string>(frequencies[0]);
     const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
     const [customAmount, setCustomAmount] = useState<string>('');
+    const [coverFees, setCoverFees] = useState<boolean>(false);
+    const [isDedicated, setIsDedicated] = useState<boolean>(false);
+    const [dedicationName, setDedicationName] = useState<string>("");
+
 
     const [clientSecret, setClientSecret] = useState<string | null>(null)
 
@@ -40,11 +44,13 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
             alert("Please enter a valid donation amount.");
             return;
         }
+        const finalAmount = Math.round(amountToDonate * (coverFees ? 1.03 : 1) * 100);
+
         try {
             const response = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: amountToDonate * 100, frequency: selectedFreq })
+                body: JSON.stringify({ amount: finalAmount, frequency: selectedFreq, coverFees, isDedicated, dedicationName})
             });
             const data = await response.json();
 
@@ -60,6 +66,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
         }
     };
 
+    const liveAmount = (selectedAmount ?? parseFloat(customAmount)) || 0;
 
     return (
         <>
@@ -93,7 +100,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
                             key={value}
                             variant="unstyled"
                             className={`${styles.amountButton} ${selectedAmount === value ? styles.selectedButton : ''}`}
-                            onClick={() => setSelectedAmount(value)}
+                            onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
                             style={{
                                 '--bg-color': formTheme,
                                 '--text-color': contrastColor,
@@ -112,17 +119,32 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
                     placeholder="$ Custom Amount"
                     min="5"
                     max="25001"
-                    onChange={(e) => setCustomAmount(e.target.value)}
+                    onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
                 />
 
                 <label className={styles.checkboxLabel}>
-                    <input type="checkbox" className={styles.checkbox} />
-                    Dedicate my donation in honor or in memory of someone
+                    <input type="checkbox" className={styles.checkbox} style={{ accentColor: formTheme }} onChange={() => setCoverFees(!coverFees)}/>
+                    Add 3% to the donation amount to cover fees and make each dollar work harder
                 </label>
+                <div>
+                    <label className={styles.checkboxLabel}>
+                        <input type="checkbox" className={styles.checkbox} style={{ accentColor: formTheme }} onChange={() => setIsDedicated(!isDedicated)}/>
+                        Dedicate my donation in honor or in memory of someone
+                    </label>
+                </div>
+                {isDedicated && (
+                    <input
+                        className={styles.amountInputField}
+                        value={dedicationName}
+                        placeholder="Name of the person"
+                        onChange={(e) => setDedicationName(e.target.value)}
+                    />
+                )}
+
 
                 <div className={styles.actionButtonBox}>
                     <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.navButton}>
-                        Donate <span className={styles.arrow}><FaArrowRightLong /></span>
+                        Donate {liveAmount > 0 ? `$${liveAmount}` : ""}
                     </ButtonComponent>
                 </div>
             </div>
@@ -130,9 +152,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
 
         {clientSecret && (
             <div className={styles.modalOverlay}>
-                    <StripeEmbedModal clientSecret={clientSecret}/>
-                {/* <div >
-                </div> */}
+                <StripeEmbedModal clientSecret={clientSecret}/>
             </div>
         )}
         </>
