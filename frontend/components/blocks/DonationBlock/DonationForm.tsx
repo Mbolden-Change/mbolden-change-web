@@ -5,6 +5,8 @@ import styles from './DonationBlock.module.css';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import Headline from '../../atoms/Headline';
 import { useEffect, useRef } from 'react';
+import { FaToggleOff } from "react-icons/fa6";
+import { FaToggleOn } from "react-icons/fa6";
 
 import StripeEmbedModal from './StripeEmbedModal';
 
@@ -132,13 +134,28 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
                     className={styles.amountInputField}
                     type="number"
                     value={customAmount}
-                    placeholder="$ Custom Amount"
+                    placeholder="$ 0.00"
                     min="5"
                     max="25001"
                     onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
                 />
 
-                <label className={styles.checkboxLabel}>
+                <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
+                    {coverFees ? (
+                        <FaToggleOn  color={formTheme}/>
+                    ) : (
+                        <FaToggleOff  color={formTheme}/>
+                    )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
+                </div>
+                <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
+                    {isDedicated ? (
+                        <FaToggleOn  color={formTheme} />
+                    ) : (
+                        <FaToggleOff  color={formTheme} />
+                    )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate my donation in honor or in memory of someone</span>
+                </div>
+
+                {/* <label className={styles.checkboxLabel}>
                     <input type="checkbox" className={styles.checkbox} style={{ accentColor: formTheme }} onChange={() => setCoverFees(!coverFees)}/>
                     Add 3% to the donation amount to cover fees and make each dollar work harder
                 </label>
@@ -147,7 +164,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
                         <input type="checkbox" className={styles.checkbox} style={{ accentColor: formTheme }} onChange={() => setIsDedicated(!isDedicated)}/>
                         Dedicate my donation in honor or in memory of someone
                     </label>
-                </div>
+                </div> */}
                 {isDedicated && (
                     <input
                         className={styles.amountInputField}
