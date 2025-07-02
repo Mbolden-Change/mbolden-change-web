@@ -10,15 +10,25 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
         }
 
+        const isSubscription = frequency !== 'One-time';
+
         const session = await stripe.checkout.sessions.create({
-            mode: 'payment',
+            mode: isSubscription ? 'subscription' :'payment',
             ui_mode: 'embedded',
             line_items: [
                 {
                 price_data: {
                     currency: 'usd',
                     unit_amount: amount,
-                    product_data: { name: `Donation (${frequency})` },
+                    product_data: {
+                        name: `${frequency} Donation `,
+                        description: (isDedicated ? `Dedicated to ${dedicationName}` : undefined),
+                    },
+                    ...(isSubscription && {
+                        recurring: {
+                            interval: frequency === 'Monthly' ? 'month' : 'year',
+                        },
+                    }),
                 },
                 quantity: 1,
                 },
