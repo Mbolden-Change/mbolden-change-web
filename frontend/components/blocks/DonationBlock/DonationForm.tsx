@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from './DonationBlock.module.css';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import Headline from '../../atoms/Headline';
-import { FaArrowRightLong } from "react-icons/fa6";
+import { useEffect, useRef } from 'react';
 
 import StripeEmbedModal from './StripeEmbedModal';
 
@@ -34,6 +34,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
     const [coverFees, setCoverFees] = useState<boolean>(false);
     const [isDedicated, setIsDedicated] = useState<boolean>(false);
     const [dedicationName, setDedicationName] = useState<string>("");
+    const liveAmount = (selectedAmount ?? parseFloat(customAmount)) || 0;
 
 
     const [clientSecret, setClientSecret] = useState<string | null>(null)
@@ -66,10 +67,25 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
         }
     };
 
-    const liveAmount = (selectedAmount ?? parseFloat(customAmount)) || 0;
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                setClientSecret(null);
+            }
+        };
+        if (clientSecret) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [clientSecret]);
+
 
     return (
-        <>
+        <div className={styles.formContainer}>
         <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
             <div style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.formHeader}>
                 <Headline tag="h2" text="Choose amount" className={styles.formHeadline}/>
@@ -152,9 +168,12 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
 
         {clientSecret && (
             <div className={styles.modalOverlay}>
-                <StripeEmbedModal clientSecret={clientSecret}/>
+                <div className={styles.modalInner} ref={modalRef}>
+                    <StripeEmbedModal clientSecret={clientSecret} />
+                </div>
+                {/* <ButtonComponent className={styles.cancelButton} onClick={() => setClientSecret(null)}>Cancel</ButtonComponent> */}
             </div>
         )}
-        </>
+        </div>
     );
 }

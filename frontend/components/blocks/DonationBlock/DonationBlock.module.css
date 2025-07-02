@@ -2,11 +2,11 @@
 
 .donationBlock {
     padding: 4rem 0.5rem;
-    /* transition: transform 0.35s ease; */
+    transition: transform 0.35s ease;
 }
 
+
 .textContent {
-    /* padding: 2rem; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,10 +29,12 @@
     border: 1px solid var(--brand-light-gray);
 }
 
+.formContainer {
+    transition: height 0.4s ease, opacity 0.3s ease;
+
+}
 
 /* DonationForm styles */
-
-
 .formHeader {
     background-color: var(--brand-black);
     color: var(--brand-white);
@@ -44,8 +46,6 @@
 
 }
 .contentWrapper {
-    /* display: flex;
-    flex-direction: column; */
     justify-items: center;
     padding: 0 3rem 3rem 3rem;
 
@@ -54,7 +54,6 @@
 
 .frequencyToggle {
     margin: 2rem 0;
-    /* padding: 0.5rem 0; */
     align-items: center;
     justify-self: center;
     border-radius: 5px;
@@ -63,7 +62,6 @@
     font-size: 16px;
     height: 100%;
     border: 2px solid transparent;
-    /* border: none; */
     color: var(--brand-black);
     padding: 0.6rem 1rem;
     text-decoration: none;
@@ -176,9 +174,27 @@
 
 
 
+
+/* Stripe checkout modal */
 .modalOverlay {
     z-index: 9999;
     background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+
     position: fixed;
     inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+
+}
+
+.cancelButton {
+    margin-top: 1rem;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
 }

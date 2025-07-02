@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
 import styles from './StripeEmbedModal.module.css'
 
@@ -39,10 +39,8 @@ export default function StripeEmbedModal({ clientSecret }: { clientSecret: strin
     }, [clientSecret])
 
     return (
-        <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
+        <div className={styles.modalContent}>
             <div ref={checkoutRef} className={styles.scrollableContent}/>
-            </div>
         </div>
     )
 }
