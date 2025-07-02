@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        const { amount, frequency } = await req.json();
+        const { amount, frequency, coverFees, isDedicated, dedicationName } = await req.json();
         const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
         if (!amount || typeof amount !== 'number') {
@@ -24,6 +24,12 @@ export async function POST(req: NextRequest) {
                 },
             ],
             return_url: `${origin}/return?session_id={CHECKOUT_SESSION_ID}`,
+            metadata: {
+                frequency,
+                coverFees: coverFees ? 'yes' : 'no',
+                isDedicated: isDedicated ? 'yes' : 'no',
+                dedicationName: dedicationName || ''
+            }
         });
 
         return NextResponse.json({ clientSecret: session.client_secret });
