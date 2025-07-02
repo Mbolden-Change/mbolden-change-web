@@ -6,6 +6,19 @@ export const donationBlockType = defineType({
     type: 'object',
     fields: [
         defineField({
+            name: 'paymentsPlatform',
+            title: 'Payments Platform',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Stripe', value: 'stripe' },
+                    { title: 'Zeffy', value: 'zeffy'},
+                ],
+                layout: 'radio',
+            },
+            description: 'Toggle between two payment processing platforms. Stripe is used by default',
+        }),
+        defineField({
             name: 'headline',
             title: 'Headline',
             type: 'string',
@@ -54,6 +67,9 @@ export const donationBlockType = defineType({
         },
         }),
     ],
+    initialValue: {
+        paymentsPlatform: 'stripe',
+    },
     preview: {
         select: { title: 'headline' },
         prepare({ title }) {

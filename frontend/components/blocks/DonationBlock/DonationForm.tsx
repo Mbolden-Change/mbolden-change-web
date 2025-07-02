@@ -21,9 +21,10 @@ function getTextColorFromTheme(theme: string) {
 
 type DonationFormProps = {
     formTheme?: string;
+    paymentsPlatform?: 'stripe' | 'zeffy';
 };
 
-export default function DonationForm({ formTheme = 'var(--brand-black'}: DonationFormProps) {
+export default function DonationForm({ formTheme = 'var(--brand-black', paymentsPlatform = 'stripe' }: DonationFormProps) {
     const isDarkTheme = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'].includes(formTheme);
     const contrastColor = isDarkTheme ? 'var(--brand-white)' : 'var(--brand-black)';
 
@@ -37,7 +38,6 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
     const [isDedicated, setIsDedicated] = useState<boolean>(false);
     const [dedicationName, setDedicationName] = useState<string>("");
     const liveAmount = (selectedAmount ?? parseFloat(customAmount)) || 0;
-
 
     const [clientSecret, setClientSecret] = useState<string | null>(null)
 
@@ -86,111 +86,106 @@ export default function DonationForm({ formTheme = 'var(--brand-black'}: Donatio
     }, [clientSecret]);
 
 
-    return (
-        <div className={styles.formContainer}>
-        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-            <div style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.formHeader}>
-                <Headline tag="h2" text="Choose amount" className={styles.formHeadline}/>
-            </div>
-
-            <div  className={styles.contentWrapper}>
-                <div style={{ border: `2px solid ${formTheme}` }} className={styles.frequencyToggle}>
-                    {frequencies.map(freq => (
-                        <ButtonComponent
-                            key={freq}
-                            variant="unstyled"
-                            className={`${styles.freqButton} ${selectedFreq === freq ? styles.selectedButton : ''}`}
-                            onClick={() => setSelectedFreq(freq)}
-                            style={{
-                                '--bg-color': formTheme,
-                                '--text-color': contrastColor,
-                                '--border-color': formTheme
-                            } as React.CSSProperties}
-                        >
-                            {freq}
-                        </ButtonComponent>
-                    ))}
+    if (paymentsPlatform === "stripe") {
+        return (
+            <div className={styles.formContainer}>
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                <div style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.formHeader}>
+                    <Headline tag="h2" text="Choose amount" className={styles.formHeadline}/>
                 </div>
 
-                <div className={styles.amountGrid}>
-                    {amounts.map((value) => (
-                        <ButtonComponent
-                            key={value}
-                            variant="unstyled"
-                            className={`${styles.amountButton} ${selectedAmount === value ? styles.selectedButton : ''}`}
-                            onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
-                            style={{
-                                '--bg-color': formTheme,
-                                '--text-color': contrastColor,
-                                '--border-color': formTheme
-                            } as React.CSSProperties}
-                        >
-                            ${value}
-                        </ButtonComponent>
-                    ))}
-                </div>
+                <div  className={styles.contentWrapper}>
+                    <div style={{ border: `2px solid ${formTheme}` }} className={styles.frequencyToggle}>
+                        {frequencies.map(freq => (
+                            <ButtonComponent
+                                key={freq}
+                                variant="unstyled"
+                                className={`${styles.freqButton} ${selectedFreq === freq ? styles.selectedButton : ''}`}
+                                onClick={() => setSelectedFreq(freq)}
+                                style={{
+                                    '--bg-color': formTheme,
+                                    '--text-color': contrastColor,
+                                    '--border-color': formTheme
+                                } as React.CSSProperties}
+                            >
+                                {freq}
+                            </ButtonComponent>
+                        ))}
+                    </div>
 
-                <input
-                    className={styles.amountInputField}
-                    type="number"
-                    value={customAmount}
-                    placeholder="$ 0.00"
-                    min="5"
-                    max="25001"
-                    onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
-                />
+                    <div className={styles.amountGrid}>
+                        {amounts.map((value) => (
+                            <ButtonComponent
+                                key={value}
+                                variant="unstyled"
+                                className={`${styles.amountButton} ${selectedAmount === value ? styles.selectedButton : ''}`}
+                                onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
+                                style={{
+                                    '--bg-color': formTheme,
+                                    '--text-color': contrastColor,
+                                    '--border-color': formTheme
+                                } as React.CSSProperties}
+                            >
+                                ${value}
+                            </ButtonComponent>
+                        ))}
+                    </div>
 
-                <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
-                    {coverFees ? (
-                        <FaToggleOn  color={formTheme}/>
-                    ) : (
-                        <FaToggleOff  color={formTheme}/>
-                    )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
-                </div>
-                <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
-                    {isDedicated ? (
-                        <FaToggleOn  color={formTheme} />
-                    ) : (
-                        <FaToggleOff  color={formTheme} />
-                    )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate my donation in honor or in memory of someone</span>
-                </div>
-
-                {/* <label className={styles.checkboxLabel}>
-                    <input type="checkbox" className={styles.checkbox} style={{ accentColor: formTheme }} onChange={() => setCoverFees(!coverFees)}/>
-                    Add 3% to the donation amount to cover fees and make each dollar work harder
-                </label>
-                <div>
-                    <label className={styles.checkboxLabel}>
-                        <input type="checkbox" className={styles.checkbox} style={{ accentColor: formTheme }} onChange={() => setIsDedicated(!isDedicated)}/>
-                        Dedicate my donation in honor or in memory of someone
-                    </label>
-                </div> */}
-                {isDedicated && (
                     <input
                         className={styles.amountInputField}
-                        value={dedicationName}
-                        placeholder="Name of the person"
-                        onChange={(e) => setDedicationName(e.target.value)}
+                        type="number"
+                        value={customAmount}
+                        placeholder="$ Other amount"
+                        min="5"
+                        max="25001"
+                        onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
                     />
-                )}
+
+                    <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
+                        {coverFees ? (
+                            <FaToggleOn  color={formTheme}/>
+                        ) : (
+                            <FaToggleOff  color={formTheme}/>
+                        )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
+                    </div>
+                    <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
+                        {isDedicated ? (
+                            <FaToggleOn  color={formTheme} />
+                        ) : (
+                            <FaToggleOff  color={formTheme} />
+                        )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate my donation in honor or in memory of someone</span>
+                    </div>
+
+                    {isDedicated && (
+                        <input
+                            className={styles.amountInputField}
+                            value={dedicationName}
+                            placeholder="Name of the person"
+                            onChange={(e) => setDedicationName(e.target.value)}
+                        />
+                    )}
 
 
-                <div className={styles.actionButtonBox}>
-                    <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.navButton}>
-                        Donate {liveAmount > 0 ? `$${liveAmount}` : ""}
-                    </ButtonComponent>
+                    <div className={styles.actionButtonBox}>
+                        <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.navButton}>
+                            Donate {liveAmount > 0 ? `$${liveAmount}` : ""}
+                        </ButtonComponent>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        {clientSecret && (
-            <div className={styles.modalOverlay}>
-                <div className={styles.modalInner} ref={modalRef}>
-                    <StripeEmbedModal clientSecret={clientSecret} />
+            {clientSecret && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalInner} ref={modalRef}>
+                        <StripeEmbedModal clientSecret={clientSecret} />
+                    </div>
                 </div>
-                {/* <ButtonComponent className={styles.cancelButton} onClick={() => setClientSecret(null)}>Cancel</ButtonComponent> */}
+            )}
             </div>
-        )}
-        </div>
-    );
+        );
+    } else if (paymentsPlatform === "zeffy") {
+        return (
+                <p>Zeffy coming soon</p>
+        )
+    }
 }

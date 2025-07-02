@@ -632,6 +632,23 @@
             "value": "donationBlock"
           }
         },
+        "paymentsPlatform": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "stripe"
+              },
+              {
+                "type": "string",
+                "value": "zeffy"
+              }
+            ]
+          },
+          "optional": true
+        },
         "headline": {
           "type": "objectAttribute",
           "value": {
@@ -956,10 +973,6 @@
               {
                 "type": "string",
                 "value": "var(--brand-black)"
-              },
-              {
-                "type": "string",
-                "value": "var(--brand-white)"
               },
               {
                 "type": "string",
