@@ -1,0 +1,18 @@
+.confirmationContainer {
+    height: 65vh;
+    min-height: 700px;
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    align-content: center;
+    width: 100%;
+}
+
+.transactionHeadlines {
+    font-size: 90px;
+}
+
+.transactionDetails {
+    padding-top: 3rem;
+}

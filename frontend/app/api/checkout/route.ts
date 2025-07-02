@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
     try {
         const { amount, frequency, coverFees, isDedicated, dedicationName } = await req.json();
-        const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+        const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL;
 
         if (!amount || typeof amount !== 'number') {
         return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
