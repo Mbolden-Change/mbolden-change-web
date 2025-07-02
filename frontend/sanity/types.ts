@@ -722,6 +722,11 @@ export type InternalOrExternalLink = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "statement";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "caseStudy";
   };
 };
 
@@ -861,5 +866,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | LogoGarden | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | InternalOrExternalLink | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
