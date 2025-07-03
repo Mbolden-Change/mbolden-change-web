@@ -24,7 +24,16 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: 'mBOLDen CHANGE',
-  description: 'mBOLDen CHANGE',
+  description:
+    'mBOLDen CHANGE is a national nonprofit that incubates bold, community-led solutions to dismantle barriers, close equity gaps, and drive lasting, stystems-level change.',
+  keywords: [
+    'mBOLDen Change',
+    'Bay Area nonprofit',
+    'youth empowerment',
+    'education',
+    'community support',
+  ],
+  authors: [{ name: 'mBOLDen Change', url: 'https://www.mboldenchange.org' }],
 };
 
 export default async function RootLayout({
