@@ -91,13 +91,13 @@ export const statementBannerType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline'},
-    prepare({ title}) {
-        return {
+    select: {title: 'headline'},
+    prepare({title}) {
+      return {
         title: `Statement Banner — ${title} || 'Statement Banner`,
-        };
-    }
-}
+      }
+    },
+  },
 })
 
 //TODO: Changing of the cta to be an object, with a reference to the statement document, also need to render a statement docuement page, statement/slug route.
