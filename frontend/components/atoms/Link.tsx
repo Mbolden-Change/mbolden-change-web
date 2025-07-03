@@ -6,7 +6,7 @@ type LinkAtomProps = Omit<InternalOrExternalLinkType, 'reference' | '_type'> & {
   ariaLabel?: string;
   reference?: ReferenceType;
   children?: React.ReactNode;
-  onClick?: () => void
+  onClick?: () => void;
 };
 
 export type ReferenceType = {
@@ -23,7 +23,6 @@ interface RefMapType {
   [key: string]: string;
 }
 
-
 export const LinkAtom = ({
   isExternalLink,
   reference,
@@ -35,7 +34,6 @@ export const LinkAtom = ({
   onClick,
 }: LinkAtomProps) => {
   const linkContent = <span className={className}>{title}</span>;
-
 
   if (isExternalLink && url) {
     return (
@@ -54,15 +52,18 @@ export const LinkAtom = ({
   if (reference) {
     const refType = reference._type;
     const refMap: RefMapType = {
-      caseStudy: "case-study",
-      page: "",
-      statement: "statement"
-    }
-    console.log(typeof refMap[refType]);
+      caseStudy: 'case-study',
+      page: '',
+      statement: 'statement',
+    };
     return (
-      <Link href={`${refMap[refType]}/${reference?.slug.current}`} aria-label={ariaLabel} onClick={onClick}>
+      <Link
+        href={`${refMap[refType]}/${reference?.slug.current}`}
+        aria-label={ariaLabel}
+        onClick={onClick}
+      >
         {linkContent}
       </Link>
-    )
+    );
   }
 };
