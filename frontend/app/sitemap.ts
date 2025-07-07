@@ -29,7 +29,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           path = `/statement/${item.currentSlug}`;
         } else if (item._type === 'page') {
           path = `/${item.currentSlug}`;
-          priority =0.8;
         }
         
 
