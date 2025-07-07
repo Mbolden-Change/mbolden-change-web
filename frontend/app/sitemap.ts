@@ -3,7 +3,7 @@ import type { SanityDocument } from '@sanity/client';
 import { client } from '@/sanity/lib/client';
 
 async function getData() {
-  const query = `*[_type in ["caseStudy", "statement"] && defined(slug.current)] {
+  const query = `*[_type in ["caseStudy", "statement", "page"] && defined(slug.current)] {
     "currentSlug": slug.current,
     "updated": _updatedAt,
     _type
@@ -20,22 +20,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     : 'https://www.mboldenchange.org';
     const dynamicPages: MetadataRoute.Sitemap = data.map((item: SanityDocument) => {
         let path;
+        let priority = 0.9;
         
         //Add other document types here
         if (item._type === 'caseStudy') {
           path = `/case-study/${item.currentSlug}`;
         } else if (item._type === 'statement') {
           path = `/statement/${item.currentSlug}`;
-        } 
-        else {
-          path = `/${item._type}/${item.currentSlug}`;
+        } else if (item._type === 'page') {
+          path = `/${item.currentSlug}`;
+          priority =0.8;
         }
+        
 
         return {
             url: `${baseUrl}${path}`,
             lastModified: new Date(item.updated),
             changeFrequency: 'monthly',
-            priority: 0.9,
+            priority,
         };
     });
     return [
