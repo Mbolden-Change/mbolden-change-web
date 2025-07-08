@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import { Header as HeaderType } from '@/sanity/types';
 import { getHeader } from '@/lib/getHeader';
 import Header from '@/components/Header';
+import ZeffyScript from '../components/blocks/DonationBlock/ZeffyScript';
 
 const archivoNarrow = Archivo_Narrow({
   subsets: ['latin'],
@@ -41,6 +42,7 @@ export default async function RootLayout({
         <Header headerData={headerData} />
         {children}
         <Footer footerData={footerData} />
+        <ZeffyScript />
       </body>
     </html>
   );

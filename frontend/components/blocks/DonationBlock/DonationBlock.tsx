@@ -24,6 +24,7 @@ export default function DonationBlock({
     text,
     blockTheme,
     formTheme,
+    paymentsPlatform
 }: DonationBlockType) {
     const contrastColor = getTextColorFromTheme(blockTheme || 'var(--brand-white)');
 
@@ -42,11 +43,11 @@ export default function DonationBlock({
                 </GridItem>
 
                 <GridItem desktopSpan={6} mobileSpan={6}>
-                    <div className={styles.formWrapper}>
+                    {/* <div className={styles.formWrapper}> */}
                         <StripeProvider>
-                            <DonationForm formTheme={formTheme} />
+                            <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
                         </StripeProvider>
-                    </div>
+                    {/* </div> */}
                 </GridItem>
             </Grid>
         </section>
