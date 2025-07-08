@@ -673,6 +673,11 @@ export type InternalOrExternalLink = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "statement";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "caseStudy";
   };
 };
 
