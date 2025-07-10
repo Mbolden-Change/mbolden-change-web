@@ -1,4 +1,4 @@
-/* DonationForm styles */
+/* DonationForm Stripe styles */
 .formWrapper {
     margin: 0 auto;
     max-width: 500px;
@@ -204,72 +204,6 @@
 }
 
 
-/* Zeffy */
-/* .zeffyContainer {
-    display: flex;
-    width: auto;
-    height: 200px;
-    background-color: transparent;
-    align-items: center;
-    justify-items: center;
-
-    position: relative;
-    display: inline-block;
-    background: var(--brand-warm-yellow);
-    color: var(--brand-black);
-    padding: 8px 16px;
-    font-size: 18px;
-    font-weight: 600;
-    transform: skew(-10.25deg);
-    clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
-    overflow: hidden;
-    z-index: 1;
-    text-decoration: none;
-    min-width: 91%;
-}
-
-.zeffyButton {
-    display: flex;
-    position: relative;
-    align-self: center;
-    justify-self: center;
-} */
-
-.zeffyContainer {
-    background-color: transparent;
-    border: none;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-}
-
-.zeffyButton {
-    display: inline-block;
-    color: var(--brand-white);
-    background-color: var(--brand-black);
-    padding: 12px 24px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    min-width: 150px;
-    width: 200px;
-    height: auto;
-    transform: skew(-10.25deg);
-    clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
-    /* transform: skewX(15deg); */
-
-
-}
-
-
 /* Stripe - Compact */
 
 .compactFormWrapper {
@@ -419,4 +353,45 @@
     margin-top: 1rem;
     text-decoration: none;
     background-color: transparent;
+}
+
+
+
+
+/* Zeffy */
+
+.zeffyContainer {
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-content: start;
+
+}
+
+.zeffyButton {
+    display: inline-block;
+    color: var(--brand-white);
+    background-color: var(--border-color);
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    min-width: 150px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+
+    font-size: 15px;
+    box-shadow: 0 2px 3px rgba(0 0 0 / 0.4) !important;
+
+    &:not(.disabled):active {
+        box-shadow: none !important;
+    }
+}
+
+.zeffyButton:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 1px;
 }

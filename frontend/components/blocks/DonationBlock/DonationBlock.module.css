@@ -46,3 +46,52 @@
     margin-bottom: 1rem;
     font-size: clamp(3rem, 6vw, 5rem);
 }
+
+
+
+/* Zeffy - Donation Block */
+
+
+.zeffyDonationWrapper {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    background-color: transparent;
+    align-self: center;
+    justify-self: center;
+}
+.zeffyDonationBlock {
+    display: inline-block;
+    color: var(--brand-white);
+    background-color: var(--brand-black);
+    padding: 0 1.5rem 1rem 1.5rem;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
+    min-width: 300px;
+    max-width: 1000px;
+    width: 100%;
+    height: auto;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+
+}
+.zeffyHeadline {
+    font-size: clamp(3rem, 6vw, 5rem);
+
+}
+
+.zeffyTextContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* padding: 0 1rem; */
+}
+
+.zeffyTextContent p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+}

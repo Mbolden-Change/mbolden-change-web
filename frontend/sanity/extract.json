@@ -648,6 +648,10 @@
               {
                 "type": "string",
                 "value": "zeffy"
+              },
+              {
+                "type": "string",
+                "value": "zeffy-compact"
               }
             ]
           },

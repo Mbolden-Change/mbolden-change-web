@@ -14,6 +14,7 @@ export const donationBlockType = defineType({
                     { title: 'Stripe', value: 'stripe' },
                     { title: 'Stripe (compact)', value: 'stripe-compact' },
                     { title: 'Zeffy', value: 'zeffy'},
+                    { title: 'Zeffy (compact)', value: 'zeffy-compact'},
                 ],
                 layout: 'radio',
             },

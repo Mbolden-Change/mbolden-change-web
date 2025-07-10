@@ -68,13 +68,30 @@ export default function DonationBlock({
                     </GridItem>
 
                     <GridItem desktopSpan={7} mobileSpan={6}>
-                        {/* <div className={styles.formWrapper}> */}
                             <StripeProvider>
                                 <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
                             </StripeProvider>
-                        {/* </div> */}
                     </GridItem>
                 </Grid>
+            </section>
+        );
+    } else if (paymentsPlatform === "zeffy-compact") {
+        return (
+            <section  className={styles.zeffyDonationWrapper}>
+                    <div style={{ backgroundColor: blockTheme }} className={styles.zeffyDonationBlock}>
+                        <div style={{ color: contrastColor }} className={styles.zeffyTextContent}>
+                            {headline && <Headline tag='h1' text={headline} className={styles.zeffyHeadline} />}
+                            {text && (
+                                <div className={styles.pText}>
+                                    <PortableTextComponent value={text as PortableTextBlock[]} />
+                                </div>
+                            )}
+                        </div>
+
+                        <div>
+                            <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
+                        </div>
+                    </div>
             </section>
         );
     }

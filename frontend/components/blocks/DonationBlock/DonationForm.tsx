@@ -21,12 +21,10 @@ function getTextColorFromTheme(theme: string) {
 
 type DonationFormProps = {
     formTheme?: string;
-    paymentsPlatform?: 'stripe' | 'stripe-compact' | 'zeffy';
+    paymentsPlatform?: 'stripe' | 'stripe-compact' | 'zeffy' | 'zeffy-compact';
 };
 
 export default function DonationForm({ formTheme = 'var(--brand-black)', paymentsPlatform='stripe' }: DonationFormProps) {
-    // const isDarkTheme = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'].includes(formTheme);
-    // const contrastColor = isDarkTheme ? 'var(--brand-white)' : 'var(--brand-black)';
     const contrastColor = getTextColorFromTheme(formTheme);
 
 
@@ -305,10 +303,10 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
             )}
             </div>
         );
-    } else {
+    } else if (paymentsPlatform === "zeffy-compact") {
         return (
             <div className={styles.zeffyContainer}>
-                <ButtonComponent variant='unstyled' zeffy-form-link="https://www.zeffy.com/en-US/peer-to-peer/mbolden-change-formerly-my-new-red-shoes" className={styles.zeffyButton}>
+                <ButtonComponent variant='unstyled' zeffy-form-link="https://www.zeffy.com/en-US/peer-to-peer/mbolden-change-formerly-my-new-red-shoes" className={styles.zeffyButton} style={{ backgroundColor: formTheme, color: getTextColorFromTheme(formTheme) }}>
                     Donate
                 </ButtonComponent>
             </div>
