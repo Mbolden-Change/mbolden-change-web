@@ -136,13 +136,17 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                         </div>
 
                         <input
-                            className={styles.amountInputField}
+                            className={`${styles.amountInputField} ${customAmount ? styles.activeBorder : ''}`}
                             type="number"
                             value={customAmount}
                             placeholder="$ Other amount"
                             min="5"
                             max="25001"
-                            onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
+                            style={{
+                                '--border-color': formTheme
+                            } as React.CSSProperties}
+                            onFocus={() => setSelectedAmount(null)}
+                            onChange={(e) => {setCustomAmount(e.target.value)}}
                         />
 
                         <div className={styles.checkbox} onClick={() => setCoverFees(!coverFees)}>
@@ -162,9 +166,12 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
 
                         {isDedicated && (
                             <input
-                                className={styles.amountInputField}
+                                className={`${styles.amountInputField} ${customAmount ? styles.activeBorder : ''}`}
                                 value={dedicationName}
                                 placeholder="Name of the person"
+                                style={{
+                                    '--border-color': formTheme
+                                } as React.CSSProperties}
                                 onChange={(e) => setDedicationName(e.target.value)}
                             />
                         )}
@@ -235,20 +242,20 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                             </div>
 
                             <div className={styles.compactAmountInputWrapper} style={{'--border-color': formTheme} as React.CSSProperties}>
-                                <span className={styles.currencySymbol}>$</span>
+                                <span>$</span>
                                 <input
                                     className={styles.compactAmountInputField}
                                     type="number"
                                     value={customAmount}
-                                    // placeholder="Other"
                                     min="5"
                                     max="25001"
-                                    onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
+                                    onFocus={() => setSelectedAmount(null)}
+                                    onChange={(e) => {setCustomAmount(e.target.value)}}
                                     style={{
                                         '--border-color': formTheme
                                     } as React.CSSProperties}
                                     />
-                                <span className={styles.currencyLabel}>USD</span>
+                                <span>USD</span>
                             </div>
                         </div>
 

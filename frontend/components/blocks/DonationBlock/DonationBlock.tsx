@@ -44,11 +44,9 @@ export default function DonationBlock({
                     </GridItem>
 
                     <GridItem desktopSpan={6} mobileSpan={6}>
-                        {/* <div className={styles.formWrapper}> */}
-                            <StripeProvider>
-                                <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
-                            </StripeProvider>
-                        {/* </div> */}
+                        <StripeProvider>
+                            <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
+                        </StripeProvider>
                     </GridItem>
                 </Grid>
             </section>
