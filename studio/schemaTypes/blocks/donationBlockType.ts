@@ -12,11 +12,12 @@ export const donationBlockType = defineType({
             options: {
                 list: [
                     { title: 'Stripe', value: 'stripe' },
+                    { title: 'Stripe (compact)', value: 'stripe-compact' },
                     { title: 'Zeffy', value: 'zeffy'},
                 ],
                 layout: 'radio',
             },
-            description: 'Toggle between two payment processing platforms. Stripe is used by default',
+            description: 'Toggle between payment processing platforms and styles. Full size Stripe is used by default',
         }),
         defineField({
             name: 'headline',

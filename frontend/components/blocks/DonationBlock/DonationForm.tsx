@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react';
-import styles from './DonationBlock.module.css';
+import styles from './DonationForm.module.css';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import Headline from '../../atoms/Headline';
 import { useEffect, useRef } from 'react';
-import { FaToggleOff } from "react-icons/fa6";
-import { FaToggleOn } from "react-icons/fa6";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { MdCheckBox } from "react-icons/md";
 
 import StripeEmbedModal from './StripeEmbedModal';
 
@@ -21,15 +21,18 @@ function getTextColorFromTheme(theme: string) {
 
 type DonationFormProps = {
     formTheme?: string;
-    paymentsPlatform?: 'stripe' | 'zeffy';
+    paymentsPlatform?: 'stripe' | 'stripe-compact' | 'zeffy';
 };
 
 export default function DonationForm({ formTheme = 'var(--brand-black)', paymentsPlatform='stripe' }: DonationFormProps) {
-    const isDarkTheme = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'].includes(formTheme);
-    const contrastColor = isDarkTheme ? 'var(--brand-white)' : 'var(--brand-black)';
+    // const isDarkTheme = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'].includes(formTheme);
+    // const contrastColor = isDarkTheme ? 'var(--brand-white)' : 'var(--brand-black)';
+    const contrastColor = getTextColorFromTheme(formTheme);
+
 
     const frequencies = ['One-time', 'Monthly', 'Annually'];
     const amounts = [100, 250, 500, 1000, 2500, 5000];
+    const compactAmounts = [100, 250, 500, 1000];
 
     const [selectedFreq, setSelectedFreq] = useState<string>(frequencies[0]);
     const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -144,16 +147,16 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
 
                         <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
                             {coverFees ? (
-                                <FaToggleOn  color={formTheme}/>
+                                <MdCheckBox  color={formTheme}/>
                             ) : (
-                                <FaToggleOff  color={formTheme}/>
+                                <MdCheckBoxOutlineBlank  color={formTheme}/>
                             )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
                         </div>
                         <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
                             {isDedicated ? (
-                                <FaToggleOn  color={formTheme} />
+                                <MdCheckBox  color={formTheme} />
                             ) : (
-                                <FaToggleOff  color={formTheme} />
+                                <MdCheckBoxOutlineBlank  color={formTheme} />
                             )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate my donation in honor or in memory of someone</span>
                         </div>
 
@@ -185,6 +188,104 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
             )}
             </div>
         );
+
+
+    } else if (paymentsPlatform === "stripe-compact") {
+        return (
+            <div className={styles.compactFormWrapper}>
+                <div className={styles.compactFormContainer} style={{ color: contrastColor }}>
+                <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                    <div  className={styles.contentWrapper}>
+
+                        <div style={{ border: `2px solid ${formTheme}` }} className={styles.compactFrequencyToggle}>
+                            {frequencies.map(freq => (
+                                <ButtonComponent
+                                    key={freq}
+                                    variant="unstyled"
+                                    className={`${styles.compactFreqButton} ${selectedFreq === freq ? styles.compactSelectedButton : ''}`}
+                                    onClick={() => setSelectedFreq(freq)}
+                                    style={{
+                                        '--bg-color': formTheme,
+                                        '--text-color': contrastColor,
+                                        '--border-color': formTheme
+                                    } as React.CSSProperties}
+                                >
+                                    {freq}
+                                </ButtonComponent>
+                            ))}
+                        </div>
+
+                        <div className={styles.compactAmountGrid}>
+                            {compactAmounts.map((value) => (
+                                <ButtonComponent
+                                    key={value}
+                                    variant="unstyled"
+                                    className={`${styles.compactAmountButton} ${selectedAmount === value ? styles.compactSelectedButton : ''}`}
+                                    onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
+                                    style={{
+                                        '--bg-color': formTheme,
+                                        '--text-color': contrastColor,
+                                        '--border-color': formTheme
+                                    } as React.CSSProperties}
+                                >
+                                    ${value}
+                                </ButtonComponent>
+                            ))}
+                        </div>
+
+                        <input
+                            className={styles.compactAmountInputField}
+                            type="number"
+                            value={customAmount}
+                            placeholder="$ Other amount"
+                            min="5"
+                            max="25001"
+                            onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
+                        />
+
+                        <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
+                            {coverFees ? (
+                                <MdCheckBox  color={formTheme}/>
+                            ) : (
+                                <MdCheckBoxOutlineBlank  color={formTheme}/>
+                            )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
+                        </div>
+                        <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
+                            {isDedicated ? (
+                                <MdCheckBox  color={formTheme} />
+                            ) : (
+                                <MdCheckBoxOutlineBlank  color={formTheme} />
+                            )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate your donation</span>
+                        </div>
+
+                        {isDedicated && (
+                            <input
+                                className={styles.amountInputField}
+                                value={dedicationName}
+                                placeholder="Name of the person"
+                                onChange={(e) => setDedicationName(e.target.value)}
+                            />
+                        )}
+
+
+                        <div className={styles.compactActionButtonBox}>
+                            <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.navButton}>
+                                Donate {liveAmount > 0 ? `$${liveAmount}` : ""}
+                            </ButtonComponent>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {clientSecret && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalInner} ref={modalRef}>
+                        <StripeEmbedModal clientSecret={clientSecret} />
+                    </div>
+                </div>
+            )}
+            </div>
+        );
     } else {
         return (
             <div className={styles.zeffyContainer}>
@@ -192,6 +293,6 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                     Donate
                 </ButtonComponent>
             </div>
-        )
+        );
     }
 }

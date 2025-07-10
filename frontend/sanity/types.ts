@@ -101,7 +101,7 @@ export type PageBuilder = Array<{
 
 export type DonationBlock = {
   _type: "donationBlock";
-  paymentsPlatform?: "stripe" | "zeffy";
+  paymentsPlatform?: "stripe" | "stripe-compact" | "zeffy";
   headline?: string;
   text?: Array<{
     children?: Array<{

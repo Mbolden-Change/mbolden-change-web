@@ -28,28 +28,57 @@ export default function DonationBlock({
 }: DonationBlockType) {
     const contrastColor = getTextColorFromTheme(blockTheme || 'var(--brand-white)');
 
-    return (
-        <section style={{ backgroundColor: blockTheme }} className={styles.donationBlock}>
-            <Grid>
-                <GridItem desktopSpan={6} mobileSpan={6}>
-                    <div style={{ color: contrastColor }} className={styles.textContent}>
-                        {headline && <Headline tag='h1' text={headline} className={styles.headline}/>}
-                        {text && (
-                            <div className={styles.pText}>
-                                <PortableTextComponent value={text as PortableTextBlock[]} />
-                            </div>
-                        )}
-                    </div>
-                </GridItem>
+    if (paymentsPlatform === "stripe") {
+        return (
+            <section style={{ backgroundColor: blockTheme }} className={styles.donationBlock}>
+                <Grid>
+                    <GridItem desktopSpan={6} mobileSpan={6}>
+                        <div style={{ color: contrastColor }} className={styles.textContent}>
+                            {headline && <Headline tag='h1' text={headline} className={styles.headline}/>}
+                            {text && (
+                                <div className={styles.pText}>
+                                    <PortableTextComponent value={text as PortableTextBlock[]} />
+                                </div>
+                            )}
+                        </div>
+                    </GridItem>
 
-                <GridItem desktopSpan={6} mobileSpan={6}>
-                    {/* <div className={styles.formWrapper}> */}
-                        <StripeProvider>
-                            <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
-                        </StripeProvider>
-                    {/* </div> */}
-                </GridItem>
-            </Grid>
-        </section>
-    );
+                    <GridItem desktopSpan={6} mobileSpan={6}>
+                        {/* <div className={styles.formWrapper}> */}
+                            <StripeProvider>
+                                <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
+                            </StripeProvider>
+                        {/* </div> */}
+                    </GridItem>
+                </Grid>
+            </section>
+        );
+
+    } else if (paymentsPlatform === "stripe-compact") {
+        return (
+            <section style={{ backgroundColor: blockTheme }} className={styles.donationBlock}>
+                <Grid>
+                    <GridItem desktopSpan={5} mobileSpan={6}>
+                        <div style={{ color: contrastColor }} className={styles.textContent}>
+                            {headline && <Headline tag='h1' text={headline} className={styles.headline}/>}
+                            {text && (
+                                <div className={styles.pText}>
+                                    <PortableTextComponent value={text as PortableTextBlock[]} />
+                                </div>
+                            )}
+                        </div>
+                    </GridItem>
+
+                    <GridItem desktopSpan={7} mobileSpan={6}>
+                        {/* <div className={styles.formWrapper}> */}
+                            <StripeProvider>
+                                <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
+                            </StripeProvider>
+                        {/* </div> */}
+                    </GridItem>
+                </Grid>
+            </section>
+        );
+    }
+
 };
