@@ -56,11 +56,11 @@ export default function DonationBlock({
 
     } else if (paymentsPlatform === "stripe-compact") {
         return (
-            <section style={{ backgroundColor: blockTheme }} className={styles.donationBlock}>
+            <section style={{ backgroundColor: blockTheme }} className={styles.compactDonationBlock}>
                 <Grid>
                     <GridItem desktopSpan={5} mobileSpan={6}>
                         <div style={{ color: contrastColor }} className={styles.textContent}>
-                            {headline && <Headline tag='h1' text={headline} className={styles.headline}/>}
+                            {headline && <Headline tag='h1' text={headline} className={styles.compactHeadline}/>}
                             {text && (
                                 <div className={styles.pText}>
                                     <PortableTextComponent value={text as PortableTextBlock[]} />

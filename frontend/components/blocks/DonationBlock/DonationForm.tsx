@@ -32,7 +32,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
 
     const frequencies = ['One-time', 'Monthly', 'Annually'];
     const amounts = [100, 250, 500, 1000, 2500, 5000];
-    const compactAmounts = [100, 250, 500, 1000];
+    const compactAmounts = [100, 500, 1000];
 
     const [selectedFreq, setSelectedFreq] = useState<string>(frequencies[0]);
     const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -145,14 +145,14 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                             onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
                         />
 
-                        <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
+                        <div className={styles.checkbox} onClick={() => setCoverFees(!coverFees)}>
                             {coverFees ? (
                                 <MdCheckBox  color={formTheme}/>
                             ) : (
                                 <MdCheckBoxOutlineBlank  color={formTheme}/>
                             )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
                         </div>
-                        <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
+                        <div className={styles.checkbox} onClick={() => setIsDedicated(!isDedicated)}>
                             {isDedicated ? (
                                 <MdCheckBox  color={formTheme} />
                             ) : (
@@ -195,7 +195,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
             <div className={styles.compactFormWrapper}>
                 <div className={styles.compactFormContainer} style={{ color: contrastColor }}>
                 <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-                    <div  className={styles.contentWrapper}>
+                    <div  className={styles.compactContentWrapper}>
 
                         <div style={{ border: `2px solid ${formTheme}` }} className={styles.compactFrequencyToggle}>
                             {frequencies.map(freq => (
@@ -215,61 +215,73 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                             ))}
                         </div>
 
-                        <div className={styles.compactAmountGrid}>
-                            {compactAmounts.map((value) => (
-                                <ButtonComponent
-                                    key={value}
-                                    variant="unstyled"
-                                    className={`${styles.compactAmountButton} ${selectedAmount === value ? styles.compactSelectedButton : ''}`}
-                                    onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
+                        <div className={styles.compactAmountGridWrapper}>
+                            <div className={styles.compactAmountGrid}>
+                                {compactAmounts.map((value) => (
+                                    <ButtonComponent
+                                        key={value}
+                                        variant="unstyled"
+                                        className={`${styles.compactAmountButton} ${selectedAmount === value ? styles.compactSelectedButton : ''}`}
+                                        onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
+                                        style={{
+                                            '--bg-color': formTheme,
+                                            '--text-color': contrastColor,
+                                            '--border-color': formTheme
+                                        } as React.CSSProperties}
+                                    >
+                                        ${value}
+                                    </ButtonComponent>
+                                ))}
+                            </div>
+
+                            <div className={styles.compactAmountInputWrapper} style={{'--border-color': formTheme} as React.CSSProperties}>
+                                <span className={styles.currencySymbol}>$</span>
+                                <input
+                                    className={styles.compactAmountInputField}
+                                    type="number"
+                                    value={customAmount}
+                                    // placeholder="Other"
+                                    min="5"
+                                    max="25001"
+                                    onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
                                     style={{
-                                        '--bg-color': formTheme,
-                                        '--text-color': contrastColor,
                                         '--border-color': formTheme
                                     } as React.CSSProperties}
-                                >
-                                    ${value}
-                                </ButtonComponent>
-                            ))}
+                                    />
+                                <span className={styles.currencyLabel}>USD</span>
+                            </div>
                         </div>
 
-                        <input
-                            className={styles.compactAmountInputField}
-                            type="number"
-                            value={customAmount}
-                            placeholder="$ Other amount"
-                            min="5"
-                            max="25001"
-                            onChange={(e) => {setCustomAmount(e.target.value); setSelectedAmount(null);}}
-                        />
-
-                        <div className={styles.toggle} onClick={() => setCoverFees(!coverFees)}>
-                            {coverFees ? (
-                                <MdCheckBox  color={formTheme}/>
-                            ) : (
-                                <MdCheckBoxOutlineBlank  color={formTheme}/>
-                            )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
+                        <div className={styles.checkboxMenu} style={{'--border-color': formTheme} as React.CSSProperties}>
+                            <div className={styles.checkbox} onClick={() => setCoverFees(!coverFees)}>
+                                {coverFees ? (
+                                    <MdCheckBox  color={formTheme}/>
+                                ) : (
+                                    <MdCheckBoxOutlineBlank  color={formTheme}/>
+                                )}<span style={{width: "80%", paddingTop: "2px"}}>Add 3% to cover fees</span>
+                            </div>
+                            <div className={styles.checkbox} onClick={() => setIsDedicated(!isDedicated)}>
+                                {isDedicated ? (
+                                    <MdCheckBox  color={formTheme} />
+                                ) : (
+                                    <MdCheckBoxOutlineBlank  color={formTheme} />
+                                )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate your donation to someone</span>
+                            </div>
+                            {isDedicated && (
+                                <input
+                                    className={styles.compactDedicationField}
+                                    style={{'--text-color': contrastColor, '--border-bottom': formTheme} as React.CSSProperties}
+                                    value={dedicationName}
+                                    placeholder="Name of the person"
+                                    onChange={(e) => setDedicationName(e.target.value)}
+                                />
+                            )}
                         </div>
-                        <div className={styles.toggle} onClick={() => setIsDedicated(!isDedicated)}>
-                            {isDedicated ? (
-                                <MdCheckBox  color={formTheme} />
-                            ) : (
-                                <MdCheckBoxOutlineBlank  color={formTheme} />
-                            )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate your donation</span>
-                        </div>
 
-                        {isDedicated && (
-                            <input
-                                className={styles.amountInputField}
-                                value={dedicationName}
-                                placeholder="Name of the person"
-                                onChange={(e) => setDedicationName(e.target.value)}
-                            />
-                        )}
 
 
                         <div className={styles.compactActionButtonBox}>
-                            <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.navButton}>
+                            <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.compactNavButton}>
                                 Donate {liveAmount > 0 ? `$${liveAmount}` : ""}
                             </ButtonComponent>
                         </div>

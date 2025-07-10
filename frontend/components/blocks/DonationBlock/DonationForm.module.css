@@ -75,20 +75,7 @@
 }
 
 
-/* .checkboxLabel {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin: 1rem 0;
-    cursor: pointer;
-}
-
 .checkbox {
-    cursor: pointer;
-    margin-top: 3px;
-} */
-.toggle {
     width: 100%;
     height: auto;
     display: flex;
@@ -97,7 +84,7 @@
     margin: 0.6rem 0;
     cursor: pointer;
 }
-.toggle svg {
+.checkbox svg {
     height: 100%;
     width: 24px;
 }
@@ -138,7 +125,8 @@
 .compactFreqButton,
 .amountButton,
 .compactAmountButton,
-.navButton {
+.navButton,
+.compactNavButton {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -262,15 +250,19 @@
 
 .compactFormWrapper {
     margin: 0 auto;
-    max-width: 600px;
-    min-width: 450px;
+    max-width: 100%;
+    width: auto;
+    /* min-width: 400px; */
     /* background-color: var(--brand-white);
     border: 1px solid var(--brand-light-gray); */
 }
-
 .compactFormContainer {
     width: 100%;
 
+}
+.compactContentWrapper {
+    justify-items: center;
+    /* padding: 1rem 1rem; */
 }
 
 .compactFrequencyToggle {
@@ -278,7 +270,7 @@
     width: 100%;
     height: 3rem;
     grid-template-columns: repeat(3, 1fr);
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
     align-items: center;
     justify-self: center;
     border-radius: 5px;
@@ -326,33 +318,85 @@
     border: 2px solid var(--border-color);
     box-sizing: border-box;
 }
+
+.compactAmountGridWrapper {
+    display: grid;
+    width: 100%;
+    height: 3rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin: 0 0 1rem 0;
+    align-items: center;
+    justify-self: center;
+}
+.compactAmountGrid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    /* margin: 1rem 0; */
+    align-items: center;
+    justify-self: center;
+}
+.compactAmountInputWrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.1rem;
+    border-bottom: 2px solid var(--border-color);
+}
 .compactAmountInputField {
     display: flex;
     width: 100%;
-    height: 3rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    border: 2px solid var(--brand-light-gray);
+    height: 100%;
+    text-align: center;
+    background-color: transparent;
+    border: none;
     transition: transform 0.35s ease;
     font-size: 16px;
     font-weight: 100;
 }
-
-.compactAmountGrid {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    margin: 1rem 0;
-    align-items: center;
-    justify-self: center;
+.compactAmountInputField:focus {
+    border-color: var(--border-color);
+    outline: none;
 }
 
+.checkboxMenu {
+    width: 100%;
+    border-radius: 5px;
+    border: 2px solid var(--border-color);
+    padding: 0.2rem 0.5rem;
+}
+
+.compactDedicationField {
+    display: flex;
+    width: 100%;
+    height: 3rem;
+    padding: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--border-bottom);
+    color: var(--text-color);
+    transition: transform 0.35s ease;
+    font-size: 16px;
+    font-weight: 100;
+    outline: none;
+
+}
 .compactActionButtonBox {
     width: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
 
+}
+.compactNavButton {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid var(--brand-light-gray);
+    padding: 1rem;
+    margin-top: 1rem;
+    text-decoration: none;
+    background-color: transparent;
 }
