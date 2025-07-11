@@ -3,6 +3,8 @@
     overflow: hidden;
     padding: 4rem 0;
     background: #000;
+    max-width: 1000px;
+    margin: 0  auto;
 }
 
 .title {
@@ -18,17 +20,32 @@
 }
 
 .scrollContentRow1 {
-    display: inline-flex;
-    animation: scroll 30s linear infinite;
-    gap: 2rem;
-    align-items: center;
+    display: flex;
+    &:hover .group {
+        animation-play-state: paused;
+    }
 }
 
 .scrollContentRow2 {
-    display: inline-flex;
-    animation: scrollReverse 30s linear infinite;
+    display: flex;
+    &:hover .group {
+        animation-play-state: paused;
+    }
+}
+
+.group {
+    display: flex;
     gap: 2rem;
     align-items: center;
+    padding-right: 2rem;
+    
+    will-change: transform;
+    
+    animation: scrolling 30s linear infinite;
+}
+
+.scrollContentRow2 .group {
+    animation: scrollingReverse 30s linear infinite;
 }
 
 .logoItem {
@@ -48,35 +65,42 @@
 .logo {
     max-width: 100%;
     max-height: 100%;
-    /* filter: brightness(0) invert(1); */
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* .logo:hover {
-    opacity: 0.8;
-} */
+.logoItem a {
+    display: block;
+    cursor: pointer;
+}
 
-@keyframes scroll {
+a.logoItem:hover .logo {
+    opacity: 0.6;
+    transform: scale(1.05);
+}
+
+a.logoItem .logo {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+@keyframes scrolling {
     0% {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
     }
 }
 
-@keyframes scrollReverse {
+@keyframes scrollingReverse {
     0% {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
     }
     100% {
         transform: translateX(0);
     }
 }
 
-/* .scrollContent:hover {
-    animation-play-state: paused;
-} */
 
 @media (max-width: 768px) {
     .logoItem {
@@ -87,7 +111,7 @@
         height: 80px;
     }
     
-    .scrollContent {
+    .group {
         animation-duration: 20s;
     }
 }

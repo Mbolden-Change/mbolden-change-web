@@ -114,7 +114,7 @@ export type LogoGarden = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
-    link?: InternalOrExternalLink;
+    link?: OptionalLink;
     _type: "image";
     _key: string;
   }>;
@@ -129,7 +129,7 @@ export type LogoGarden = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
-    link?: InternalOrExternalLink;
+    link?: OptionalLink;
     _type: "image";
     _key: string;
   }>;
@@ -695,6 +695,30 @@ export type Footer = {
   };
 };
 
+export type InternalOrExternalLink = {
+  _type: "internalOrExternalLink";
+  title?: string;
+  isExternalLink?: boolean;
+  url?: string;
+  target?: "_self" | "_blank";
+  reference?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "statement";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "caseStudy";
+  };
+};
+
 export type Page = {
   _id: string;
   _type: "page";
@@ -706,8 +730,8 @@ export type Page = {
   content?: PageBuilder;
 };
 
-export type InternalOrExternalLink = {
-  _type: "internalOrExternalLink";
+export type OptionalLink = {
+  _type: "optionalLink";
   title?: string;
   isExternalLink?: boolean;
   url?: string;
@@ -866,5 +890,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | LogoGarden | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | InternalOrExternalLink | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | LogoGarden | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | OptionalLink | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

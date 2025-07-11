@@ -41,8 +41,8 @@ export const logoGardenType = defineType({
                         },
                         {
                         name: 'link',
-                        type: 'internalOrExternalLink',
-                        title: 'Logo Link (Optional',
+                        type: 'optionalLink',
+                        title: 'Logo Link (Optional)',
                         description: 'Optional link when clicking logo',
                         }
                     ],
@@ -51,7 +51,7 @@ export const logoGardenType = defineType({
                     }
                 }
             ],
-            validation: (Rule) => Rule.required().min(4).error('At least 4 logos required')
+            validation: (Rule) => Rule.required().min(4).max(8).error('At least 4 logos required, max of 8 per row')
         }),
         defineField({
             name: 'secondRowLogos',
@@ -69,8 +69,8 @@ export const logoGardenType = defineType({
                         },
                         {
                         name: 'link',
-                        type: 'internalOrExternalLink',
-                        title: 'Logo Link (Optional',
+                        type: 'optionalLink',
+                        title: 'Logo Link (Optional)',
                         description: 'Optional link when clicking logo', 
                         },
                     ],
@@ -84,7 +84,10 @@ export const logoGardenType = defineType({
                 Rule.custom((value, context) => {
                     const parent = context.parent as any;
                     if (parent?.layout === 'double' && (!value || value.length < 4)) {
-                        return 'At least 4 logos are required for the second row when using double row';
+                        return 'At least 4 logos are required';
+                    }
+                    if (parent?.layout === 'double' && (!value || value.length > 8)) {
+                        return 'Maximum of 8 logos allowed';
                     }
                     return true
                 }),
