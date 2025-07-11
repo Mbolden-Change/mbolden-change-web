@@ -1,4 +1,4 @@
-/* DonationBlock styles */
+/* Default Stripe & General styles  -  */
 
 .donationBlock {
     padding: 4rem 0.5rem;
@@ -36,7 +36,7 @@
 }
 
 
-/* Compact - Donation Block */
+/* Stripe Compact */
 .compactDonationBlock {
     padding: 1.5rem 0.5rem;
     transition: transform 0.35s ease;
@@ -49,8 +49,7 @@
 
 
 
-/* Zeffy - Donation Block */
-
+/* Zeffy  */
 
 .zeffyDonationWrapper {
     display: flex;
@@ -60,10 +59,74 @@
     align-self: center;
     justify-self: center;
 }
+
+
 .zeffyDonationBlock {
     display: inline-block;
-    color: var(--brand-white);
-    background-color: var(--brand-black);
+    padding: 2rem 3rem 3rem 3rem;
+    margin: 0rem auto 1rem auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
+    min-width: 300px;
+    width: 100%;
+    height: auto;
+
+    --size: 44px;
+    --angle: 111deg;
+    mask:
+        conic-gradient(
+            from calc(var(--angle)/-2) at bottom,
+            #0000, #000 1deg calc(var(--angle) - 1deg), #0000 var(--angle)
+        ) 50%/var(--size) 100%;
+
+}
+
+.zeffyInnerWrapper {
+    display: flex;
+    width: 100%;
+    height:100%;
+    flex-direction: column;
+    position: relative;
+    max-width: 1000px;;
+    margin: 0 auto;
+    align-self: center;
+    justify-content: start;
+}
+
+.zeffyHeadline {
+    font-size: clamp(4rem, 6vw, 5rem);
+    margin-bottom: 1rem;;
+
+}
+
+.zeffyTextContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.zeffyTextContent p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+}
+
+
+/* Zeffy Compact */
+
+.compactZeffyDonationWrapper {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    background-color: transparent;
+    align-self: center;
+    justify-self: center;
+}
+.compactZeffyDonationBlock {
+    display: inline-block;
     padding: 0 1.5rem 1rem 1.5rem;
     margin: 0 auto;
     font-size: 1.5rem;
@@ -78,19 +141,20 @@
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
 
 }
-.zeffyHeadline {
-    font-size: clamp(3rem, 6vw, 5rem);
+.compactZeffyHeadline {
+    font-size: clamp(4rem, 6vw, 5rem);
+    margin: 0.5rem 0;
 
 }
 
-.zeffyTextContent {
+.compactZeffyTextContent {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* padding: 0 1rem; */
+    margin-bottom: 0.5rem;
 }
 
-.zeffyTextContent p {
+.compactZeffyTextContent p {
     font-size: 1rem;
     line-height: 1.6;
     margin: 0 0 1rem 0;

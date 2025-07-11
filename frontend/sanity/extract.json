@@ -984,6 +984,10 @@
               },
               {
                 "type": "string",
+                "value": "var(--brand-white)"
+              },
+              {
+                "type": "string",
                 "value": "var(--brand-light-gray)"
               },
               {

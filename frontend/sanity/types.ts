@@ -134,7 +134,7 @@ export type DonationBlock = {
     _key: string;
   }>;
   blockTheme?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
-  formTheme?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
+  formTheme?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
 };
 
 export type CaseStudyHighlight = {

@@ -7,12 +7,10 @@ import PortableTextComponent from '../../PortableTextComponent';
 import Headline from '../../atoms/Headline';
 import styles from './DonationBlock.module.css';
 
-import StripeProvider from '@/components/StripeProvider';
 
-
-function getTextColorFromTheme(theme: string) {
+function getcontrastColor(theme: string) {
     const darkThemes = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'];
-    const lightThemes = ['var(--brand-warm-yellow)', 'var(--brand-white)', 'var(--brand-light-gray)'];
+    const lightThemes = ['var(--brand-warm-yellow)', 'var(--brand-white)', 'var(--brand-light-gray)', 'var(--brand-creamy-beige)'];
 
     if (darkThemes.includes(theme)) return 'var(--brand-white)';
     if (lightThemes.includes(theme)) return 'var(--brand-black)';
@@ -26,7 +24,7 @@ export default function DonationBlock({
     formTheme,
     paymentsPlatform
 }: DonationBlockType) {
-    const contrastColor = getTextColorFromTheme(blockTheme || 'var(--brand-white)');
+    const contrastColor = getcontrastColor(blockTheme || 'var(--brand-white)');
 
     if (paymentsPlatform === "stripe") {
         return (
@@ -44,9 +42,7 @@ export default function DonationBlock({
                     </GridItem>
 
                     <GridItem desktopSpan={6} mobileSpan={6}>
-                        <StripeProvider>
                             <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
-                        </StripeProvider>
                     </GridItem>
                 </Grid>
             </section>
@@ -68,29 +64,48 @@ export default function DonationBlock({
                     </GridItem>
 
                     <GridItem desktopSpan={7} mobileSpan={6}>
-                            <StripeProvider>
                                 <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
-                            </StripeProvider>
                     </GridItem>
                 </Grid>
             </section>
         );
-    } else if (paymentsPlatform === "zeffy-compact") {
+    } else if (paymentsPlatform === "zeffy") {
         return (
             <section  className={styles.zeffyDonationWrapper}>
                     <div style={{ backgroundColor: blockTheme }} className={styles.zeffyDonationBlock}>
-                        <div style={{ color: contrastColor }} className={styles.zeffyTextContent}>
-                            {headline && <Headline tag='h1' text={headline} className={styles.zeffyHeadline} />}
-                            {text && (
-                                <div className={styles.pText}>
-                                    <PortableTextComponent value={text as PortableTextBlock[]} />
-                                </div>
-                            )}
-                        </div>
+                        <div className={styles.zeffyInnerWrapper}>
+                            <div style={{ color: contrastColor }} className={styles.zeffyTextContent}>
+                                {headline && <Headline tag='h1' text={headline} className={styles.zeffyHeadline} />}
+                                {text && (
+                                    <div className={styles.pText}>
+                                        <PortableTextComponent value={text as PortableTextBlock[]} />
+                                    </div>
+                                )}
+                            </div>
 
-                        <div>
-                            <DonationForm formTheme={formTheme} paymentsPlatform={paymentsPlatform}/>
+                            <div>
+                                <DonationForm formTheme={formTheme} blockTheme={blockTheme} paymentsPlatform={paymentsPlatform}/>
+                            </div>
                         </div>
+                    </div>
+            </section>
+        );
+    } else {
+        return (
+            <section  className={styles.compactZeffyDonationWrapper}>
+                    <div style={{ backgroundColor: blockTheme }} className={styles.compactZeffyDonationBlock}>
+                            <div style={{ color: contrastColor }} className={styles.compactZeffyTextContent}>
+                                {headline && <Headline tag='h1' text={headline} className={styles.compactZeffyHeadline} />}
+                                {text && (
+                                    <div className={styles.pText}>
+                                        <PortableTextComponent value={text as PortableTextBlock[]} />
+                                    </div>
+                                )}
+                            </div>
+
+                            <div>
+                                <DonationForm formTheme={formTheme} blockTheme={blockTheme} paymentsPlatform={paymentsPlatform}/>
+                            </div>
                     </div>
             </section>
         );

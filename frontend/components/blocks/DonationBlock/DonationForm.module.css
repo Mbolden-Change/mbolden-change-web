@@ -1,4 +1,4 @@
-/* DonationForm Stripe styles */
+/* Default Stripe & General styles */
 .formWrapper {
     margin: 0 auto;
     max-width: 500px;
@@ -288,7 +288,6 @@
     width: 100%;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
-    /* margin: 1rem 0; */
     align-items: center;
     justify-self: center;
 }
@@ -357,7 +356,6 @@
 
 
 
-
 /* Zeffy */
 
 .zeffyContainer {
@@ -365,10 +363,78 @@
     position: relative;
     align-self: center;
     justify-content: start;
-
+    width: 100%;
 }
 
 .zeffyButton {
+    display: inline-block;
+    min-width: 150px;
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    justify-self: start;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    text-decoration: none;
+    position: relative;
+    z-index: 0;
+    transform: skew(-10.25deg);
+    clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
+    font-size: 17px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    &:not(.disabled):active {
+        box-shadow: none !important;
+    }
+
+}
+
+.zeffyButton:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 1px;
+}
+
+.zeffyButton::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--background);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease-in-out;
+    z-index: -1;
+}
+
+.zeffyButton:hover::before {
+    transform: scaleX(1);
+}
+
+.zeffyButton:hover {
+    color: var(--contrast-text-color);
+}
+
+@media (max-width: 768px) {
+    .zeffyButton {
+        margin: 0 auto;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+
+/* Zeffy Compact*/
+
+.compactZeffyContainer {
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-content: start;
+
+}
+
+.compactZeffyButton {
     display: inline-block;
     color: var(--brand-white);
     background-color: var(--border-color);
@@ -383,7 +449,7 @@
     height: auto;
     margin: 0 auto;
 
-    font-size: 15px;
+    font-size: 16px;
     box-shadow: 0 2px 3px rgba(0 0 0 / 0.4) !important;
 
     &:not(.disabled):active {
@@ -391,7 +457,7 @@
     }
 }
 
-.zeffyButton:focus-visible {
+.compactZeffyButton:focus-visible {
     outline: 3px solid var(--brand-aqua-teal);
     outline-offset: 1px;
 }

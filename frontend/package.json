@@ -11,7 +11,6 @@
   "dependencies": {
     "@sanity/client": "^7.0.0",
     "@sanity/image-url": "^1.1.0",
-    "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.3.1",
     "classnames": "^2.5.1",
     "embla-carousel-autoplay": "^8.6.0",
