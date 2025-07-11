@@ -97,10 +97,23 @@ const ZeffyPopUpScript = `
             d.addEventListener("click", () => { y() });
 
             s[e].forEach(t => {
-            t.addEventListener("click", () => {
-                c();
-                o.contentWindow.postMessage({ id: t, open: !0 }, "*");
+            let iframeLoaded = false;
+
+            o.addEventListener("load", () => {
+            iframeLoaded = true;
             });
+
+            t.addEventListener("click", () => {
+            c();
+            if (iframeLoaded) {
+                o.contentWindow.postMessage({ id: t, open: !0 }, "*");
+            } else {
+                o.addEventListener("load", () => {
+                o.contentWindow.postMessage({ id: t, open: !0 }, "*");
+                }, { once: true });
+            }
+            });
+
             });
 
             window.addEventListener("keydown", e => {
