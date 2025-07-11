@@ -53,6 +53,7 @@
 
 .zeffyDonationWrapper {
     display: flex;
+    flex-direction: column;
     margin: 0 auto;
     width: 100%;
     background-color: transparent;
@@ -64,7 +65,7 @@
 .zeffyDonationBlock {
     display: inline-block;
     padding: 2rem 3rem 3rem 3rem;
-    margin: 0rem auto 1rem auto;
+    margin: 0rem auto 0rem auto;
     font-size: 1.5rem;
     font-weight: 700;
     border: none;
@@ -73,14 +74,24 @@
     width: 100%;
     height: auto;
 
-    --size: 44px;
+    /* --size: 44px;
     --angle: 111deg;
     mask:
         conic-gradient(
             from calc(var(--angle)/-2) at bottom,
             #0000, #000 1deg calc(var(--angle) - 1deg), #0000 var(--angle)
-        ) 50%/var(--size) 100%;
+        ) 50%/var(--size) 100%; */
 
+}
+
+.zigzagDivider {
+    display: block;
+    width: 100vw;
+    height: 24px;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
 }
 
 .zeffyInnerWrapper {

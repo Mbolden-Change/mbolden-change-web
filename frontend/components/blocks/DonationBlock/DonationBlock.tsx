@@ -72,22 +72,40 @@ export default function DonationBlock({
     } else if (paymentsPlatform === "zeffy") {
         return (
             <section  className={styles.zeffyDonationWrapper}>
-                    <div style={{ backgroundColor: blockTheme }} className={styles.zeffyDonationBlock}>
-                        <div className={styles.zeffyInnerWrapper}>
-                            <div style={{ color: contrastColor }} className={styles.zeffyTextContent}>
-                                {headline && <Headline tag='h1' text={headline} className={styles.zeffyHeadline} />}
-                                {text && (
-                                    <div className={styles.pText}>
-                                        <PortableTextComponent value={text as PortableTextBlock[]} />
-                                    </div>
-                                )}
-                            </div>
+                <div style={{ backgroundColor: blockTheme }} className={styles.zeffyDonationBlock}>
+                    <div className={styles.zeffyInnerWrapper}>
+                        <div style={{ color: contrastColor }} className={styles.zeffyTextContent}>
+                            {headline && <Headline tag='h1' text={headline} className={styles.zeffyHeadline} />}
+                            {text && (
+                                <div className={styles.pText}>
+                                    <PortableTextComponent value={text as PortableTextBlock[]} />
+                                </div>
+                            )}
+                        </div>
 
-                            <div>
-                                <DonationForm formTheme={formTheme} blockTheme={blockTheme} paymentsPlatform={paymentsPlatform}/>
-                            </div>
+                        <div>
+                            <DonationForm formTheme={formTheme} blockTheme={blockTheme} paymentsPlatform={paymentsPlatform}/>
                         </div>
                     </div>
+
+                </div>
+
+                    <svg
+                        className={styles.zigzagDivider}
+                        viewBox="0 0 100 10"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                    >
+                        <polygon
+                            points="
+                            0,0 3.33,10 6.66,0 9.99,10 13.32,0 16.65,10 19.98,0 23.31,10 26.64,0 29.97,10
+                            33.3,0 36.63,10 39.96,0 43.29,10 46.62,0 49.95,10 53.28,0 56.61,10 59.94,0
+                            63.27,10 66.6,0 69.93,10 73.26,0 76.59,10 79.92,0 83.25,10 86.58,0 89.91,10
+                            93.24,0 96.57,10 100,0
+                            "
+                            fill={blockTheme}
+                        />
+                    </svg>
             </section>
         );
     } else {
