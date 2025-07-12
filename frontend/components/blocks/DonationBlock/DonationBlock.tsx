@@ -8,7 +8,7 @@ import Headline from '../../atoms/Headline';
 import styles from './DonationBlock.module.css';
 
 
-function getcontrastColor(theme: string) {
+function getContrastColor(theme: string) {
     const darkThemes = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'];
     const lightThemes = ['var(--brand-warm-yellow)', 'var(--brand-white)', 'var(--brand-light-gray)', 'var(--brand-creamy-beige)'];
 
@@ -24,7 +24,7 @@ export default function DonationBlock({
     formTheme,
     paymentsPlatform
 }: DonationBlockType) {
-    const contrastColor = getcontrastColor(blockTheme || 'var(--brand-white)');
+    const contrastColor = getContrastColor(blockTheme || 'var(--brand-white)');
 
     if (paymentsPlatform === "stripe") {
         return (

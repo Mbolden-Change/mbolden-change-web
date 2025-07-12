@@ -10,7 +10,7 @@ import { MdCheckBox } from "react-icons/md";
 
 import StripeEmbedModal from './StripeEmbedModal';
 
-function getcontrastColor(theme: string) {
+function getContrastColor(theme: string) {
     const darkThemes = ['var(--brand-black)', 'var(--brand-fuchsia)', 'var(--brand-aqua-teal)'];
     const lightThemes = ['var(--brand-warm-yellow)', 'var(--brand-white)', 'var(--brand-light-gray)', 'var(--brand-creamy-beige)'];
 
@@ -25,8 +25,8 @@ type DonationFormProps = {
     paymentsPlatform?: 'stripe' | 'stripe-compact' | 'zeffy' | 'zeffy-compact';
 };
 
-export default function DonationForm({ formTheme = '', paymentsPlatform='stripe', blockTheme= '' }: DonationFormProps) {
-    const contrastColor = getcontrastColor(formTheme);
+export default function DonationForm({ formTheme = '', paymentsPlatform ='stripe', blockTheme = '' }: DonationFormProps) {
+    const contrastColor = getContrastColor(formTheme);
 
 
     const frequencies = ['One-time', 'Monthly', 'Annually'];
@@ -199,7 +199,7 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
     } else if (paymentsPlatform === "stripe-compact") {
         return (
             <div className={styles.compactFormWrapper}>
-                <div className={styles.compactFormContainer} style={{ color: getcontrastColor(blockTheme) }}>
+                <div className={styles.compactFormContainer} style={{ color: getContrastColor(blockTheme) }}>
                 <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                     <div  className={styles.compactContentWrapper}>
 
@@ -212,7 +212,7 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
                                     onClick={() => setSelectedFreq(freq)}
                                     style={{
                                         '--bg-color': formTheme,
-                                        '--text-color': getcontrastColor(blockTheme),
+                                        '--text-color': getContrastColor(blockTheme),
                                         '--contrast-text-color': contrastColor,
                                         '--border-color': formTheme
                                     } as React.CSSProperties}
@@ -232,7 +232,7 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
                                         onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
                                         style={{
                                             '--bg-color': formTheme,
-                                            '--text-color': getcontrastColor(blockTheme),
+                                            '--text-color': getContrastColor(blockTheme),
                                             '--contrast-text-color': contrastColor,
                                             '--border-color': formTheme
                                         } as React.CSSProperties}
@@ -283,7 +283,7 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
                                         placeholder="Name of the person"
                                         onChange={(e) => setDedicationName(e.target.value)}
                                         style={{
-                                            '--text-color': getcontrastColor(blockTheme),
+                                            '--text-color': getContrastColor(blockTheme),
                                             '--bg-color': blockTheme,
                                             '--border-bottom': formTheme
                                         } as React.CSSProperties}
@@ -291,8 +291,6 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
                                 </div>
                             )}
                         </div>
-
-
 
                         <div className={styles.compactActionButtonBox}>
                             <ButtonComponent type="submit" variant="primary" style={{ backgroundColor: formTheme, color: contrastColor }} className={styles.compactNavButton}>
@@ -302,7 +300,6 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
                     </div>
                 </form>
             </div>
-
             {clientSecret && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalInner} ref={modalRef}>
@@ -312,18 +309,38 @@ export default function DonationForm({ formTheme = '', paymentsPlatform='stripe'
             )}
             </div>
         );
+
+
     } else if (paymentsPlatform === "zeffy") {
         return (
             <div className={styles.zeffyContainer}>
-                <ButtonComponent variant='unstyled' zeffy-form-link="https://www.zeffy.com/en-US/peer-to-peer/mbolden-change-formerly-my-new-red-shoes" className={styles.zeffyButton} style={{'--text-color': contrastColor, '--bg-color': formTheme, '--background': getcontrastColor(blockTheme), '--contrast-text-color': getcontrastColor(contrastColor)} as React.CSSProperties}>
+                <ButtonComponent
+                    variant='unstyled'
+                    zeffy-form-link="https://www.zeffy.com/en-US/peer-to-peer/mbolden-change-formerly-my-new-red-shoes"
+                    className={styles.zeffyButton}
+                    style={{
+                        '--bg-color': formTheme,
+                        '--text-color': contrastColor,
+                        '--background': getContrastColor(formTheme),
+                        '--contrast-text-color': formTheme
+                    } as React.CSSProperties}>
                     Donate
                 </ButtonComponent>
             </div>
         );
+
+
     } else {
         return (
             <div className={styles.compactZeffyContainer}>
-                <ButtonComponent variant='unstyled' zeffy-form-link="https://www.zeffy.com/en-US/peer-to-peer/mbolden-change-formerly-my-new-red-shoes" className={styles.compactZeffyButton} style={{ backgroundColor: formTheme, color: getcontrastColor(formTheme) }}>
+                <ButtonComponent
+                    variant='unstyled'
+                    zeffy-form-link="https://www.zeffy.com/en-US/peer-to-peer/mbolden-change-formerly-my-new-red-shoes"
+                    className={styles.compactZeffyButton}
+                    style={{
+                        backgroundColor: formTheme,
+                        color: getContrastColor(formTheme)
+                    }}>
                     Donate
                 </ButtonComponent>
             </div>
