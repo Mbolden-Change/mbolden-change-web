@@ -130,7 +130,7 @@
 
 .compactZeffyDonationWrapper {
     display: flex;
-    margin: 0 auto;
+    margin: 0 auto 1rem auto;
     width: 100%;
     background-color: transparent;
     align-self: center;
