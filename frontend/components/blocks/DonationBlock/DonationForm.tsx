@@ -25,7 +25,7 @@ type DonationFormProps = {
     paymentsPlatform?: 'stripe' | 'stripe-compact' | 'zeffy' | 'zeffy-compact';
 };
 
-export default function DonationForm({ formTheme = 'var(--brand-black)', paymentsPlatform='stripe', blockTheme= 'var(--brand-fuchsia)' }: DonationFormProps) {
+export default function DonationForm({ formTheme = '', paymentsPlatform='stripe', blockTheme= '' }: DonationFormProps) {
     const contrastColor = getcontrastColor(formTheme);
 
 
@@ -199,7 +199,7 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
     } else if (paymentsPlatform === "stripe-compact") {
         return (
             <div className={styles.compactFormWrapper}>
-                <div className={styles.compactFormContainer} style={{ color: contrastColor }}>
+                <div className={styles.compactFormContainer} style={{ color: getcontrastColor(blockTheme) }}>
                 <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                     <div  className={styles.compactContentWrapper}>
 
@@ -212,7 +212,8 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                                     onClick={() => setSelectedFreq(freq)}
                                     style={{
                                         '--bg-color': formTheme,
-                                        '--text-color': contrastColor,
+                                        '--text-color': getcontrastColor(blockTheme),
+                                        '--contrast-text-color': contrastColor,
                                         '--border-color': formTheme
                                     } as React.CSSProperties}
                                 >
@@ -231,7 +232,8 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                                         onClick={() => {setSelectedAmount(value); setCustomAmount("");}}
                                         style={{
                                             '--bg-color': formTheme,
-                                            '--text-color': contrastColor,
+                                            '--text-color': getcontrastColor(blockTheme),
+                                            '--contrast-text-color': contrastColor,
                                             '--border-color': formTheme
                                         } as React.CSSProperties}
                                     >
@@ -274,13 +276,19 @@ export default function DonationForm({ formTheme = 'var(--brand-black)', payment
                                 )}<span style={{width: "80%", paddingTop: "2px"}}>Dedicate your donation to someone</span>
                             </div>
                             {isDedicated && (
-                                <input
-                                    className={styles.compactDedicationField}
-                                    style={{'--text-color': contrastColor, '--border-bottom': formTheme} as React.CSSProperties}
-                                    value={dedicationName}
-                                    placeholder="Name of the person"
-                                    onChange={(e) => setDedicationName(e.target.value)}
-                                />
+                                <div className={styles.dedicationWrapper}>
+                                    <input
+                                        className={styles.compactDedicationField}
+                                        value={dedicationName}
+                                        placeholder="Name of the person"
+                                        onChange={(e) => setDedicationName(e.target.value)}
+                                        style={{
+                                            '--text-color': getcontrastColor(blockTheme),
+                                            '--bg-color': blockTheme,
+                                            '--border-bottom': formTheme
+                                        } as React.CSSProperties}
+                                    />
+                                </div>
                             )}
                         </div>
 
