@@ -35,9 +35,9 @@ export const donationBlockType = defineType({
         }),
         defineField({
             name: 'blockTheme',
-            title: 'Block Theme Color',
+            title: 'Primary Theme Color',
             type: 'string',
-            description: 'Select a theme color for the block.',
+            description: 'Select a primary theme color for the block. For optimal visibility, consider primary and secondary theme combinations with high contrast. E.g.: yellow and black, fuchsia and beige, aqua teal and beige, etc.',
             options: {
                 list: [
                     {title: 'Warm Yellow', value: 'var(--brand-warm-yellow)'},
@@ -53,9 +53,9 @@ export const donationBlockType = defineType({
         }),
         defineField({
             name: 'formTheme',
-            title: 'Form Theme Color',
+            title: 'Secondary Theme Color',
             type: 'string',
-            description: 'Select a theme color for the donation form.',
+            description: 'Select a secondary theme color that applies directly to the form and elements like buttons. For optimal visibility, consider primary and secondary theme combinations with high contrast. E.g.: yellow and black, fuchsia and beige, aqua teal and beige, etc.',
             options: {
                 list: [
                     {title: 'Warm Yellow', value: 'var(--brand-warm-yellow)'},
