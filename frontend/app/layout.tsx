@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-touch-icon.png',
   },
-  openGraph: {
+  openGraph: { // card preview when sharing social media link
     title: 'mBOLDen CHANGE',
     description:
       'Bold, community-led solutions for a more equitable world.',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     ],
     type: 'website',
   },
-  twitter: {
+  twitter: { // card preview when sharing social media link
     card: 'summary_large_image',
     title: 'mBOLDen CHANGE',
     description:
