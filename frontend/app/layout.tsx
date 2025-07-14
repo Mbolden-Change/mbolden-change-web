@@ -34,6 +34,37 @@ export const metadata: Metadata = {
     'community support',
   ],
   authors: [{ name: 'mBOLDen Change', url: 'https://www.mboldenchange.org' }],
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-32x32.png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', sizes: '16x16' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: 'mBOLDen CHANGE',
+    description:
+      'Bold, community-led solutions for a more equitable world.',
+    url: 'https://www.mboldenchange.org',
+    siteName: 'mBOLDen CHANGE',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'mBOLDen CHANGE social banner',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'mBOLDen CHANGE',
+    description:
+      'Bold, community-led solutions for a more equitable world.',
+    images: ['/og-image.png'],
+  },
 };
 
 export default async function RootLayout({
