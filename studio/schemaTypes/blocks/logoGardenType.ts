@@ -40,10 +40,10 @@ export const logoGardenType = defineType({
                             description: 'Description of logo',
                         },
                         {
-                        name: 'link',
-                        type: 'optionalLink',
-                        title: 'Logo Link (Optional)',
-                        description: 'Optional link when clicking logo',
+                            name: 'link',
+                            type: 'optionalLink',
+                            title: 'Logo Link (Optional)',
+                            description: 'Optional link when clicking logo',
                         }
                     ],
                     options: {
@@ -68,18 +68,18 @@ export const logoGardenType = defineType({
                             description: 'Description of Logo',
                         },
                         {
-                        name: 'link',
-                        type: 'optionalLink',
-                        title: 'Logo Link (Optional)',
-                        description: 'Optional link when clicking logo', 
+                            name: 'link',
+                            type: 'optionalLink',
+                            title: 'Logo Link (Optional)',
+                            description: 'Optional link when clicking logo',
                         },
                     ],
                     options: {
-                        hotspots: true,
+                        hotspot: true,
                     }
                 }
             ],
-            hidden: ({ parent }) =>parent?.layout !== 'double',
+            hidden: ({ parent }) => parent?.layout !== 'double',
             validation: (Rule) =>
                 Rule.custom((value, context) => {
                     const parent = context.parent as any;
@@ -102,8 +102,8 @@ export const logoGardenType = defineType({
         },
         prepare({ title, layout, logoCount, secondRowCount }) {
             const subtitle = layout === 'double'
-            ?`${logoCount || 0} + ${secondRowCount || 0} logos (Double Row)`
-            :`${logoCount || 0} logos (Single Row)`;
+                ? `${logoCount || 0} + ${secondRowCount || 0} logos (Double Row)`
+                : `${logoCount || 0} logos (Single Row)`;
             return {
                 title: title || 'Logo Garden',
                 subtitle

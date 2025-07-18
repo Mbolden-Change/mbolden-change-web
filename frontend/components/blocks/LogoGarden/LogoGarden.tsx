@@ -19,7 +19,7 @@ export default function LogoGarden({ title, logos, layout, secondRowLogos }: Log
                 <div className={styles.scrollContentRow1}>
                     <div className={styles.group}>
                         {logos.map((logo, index) => (
-                            logo.link && logo.link.isExternalLink && logo.link.url ? (
+                            logo.link && logo.link.url ? (
                                 <a
                                     href={logo.link.url}
                                     target={logo.link.target || '_self'}
@@ -53,7 +53,7 @@ export default function LogoGarden({ title, logos, layout, secondRowLogos }: Log
                     
                     <div className={styles.group} aria-hidden="true">
                         {logos.map((logo, index) => (
-                            logo.link && logo.link.isExternalLink && logo.link.url ? (
+                            logo.link && logo.link.url ? (
                                 <a
                                     href={logo.link.url}
                                     target={logo.link.target || '_self'}
@@ -90,7 +90,7 @@ export default function LogoGarden({ title, logos, layout, secondRowLogos }: Log
                     <div className={styles.scrollContentRow2}>
                         <div className={styles.group}>
                             {secondRowLogos.map((logo, index) => (
-                                logo.link && logo.link.isExternalLink && logo.link.url ? (
+                                logo.link && logo.link.url ? (
                                     <a
                                         href={logo.link.url}
                                         target={logo.link.target || '_self'}
@@ -124,7 +124,7 @@ export default function LogoGarden({ title, logos, layout, secondRowLogos }: Log
                         
                         <div className={styles.group} aria-hidden="true">
                             {secondRowLogos.map((logo, index) => (
-                                logo.link && logo.link.isExternalLink && logo.link.url ? (
+                                logo.link && logo.link.url ? (
                                     <a
                                         href={logo.link.url}
                                         target={logo.link.target || '_self'}

@@ -733,25 +733,8 @@ export type Page = {
 export type OptionalLink = {
   _type: "optionalLink";
   title?: string;
-  isExternalLink?: boolean;
   url?: string;
   target?: "_self" | "_blank";
-  reference?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "page";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "statement";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "caseStudy";
-  };
 };
 
 export type Statement = {
