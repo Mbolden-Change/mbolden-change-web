@@ -1,6 +1,6 @@
 .modalWrapper {
     position: fixed;
-    bottom: 60px;
+    bottom: 20px;
     right: 20px;
     height: auto;
     max-width: 400px;
@@ -50,5 +50,13 @@
 }
 
 .popupCTA {
+
+}
+
+.minimizedContent {
+
+}
+
+.modalHeader {
 
 }
