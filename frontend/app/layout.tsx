@@ -7,6 +7,9 @@ import Footer from '@/components/Footer';
 import { Header as HeaderType } from '@/sanity/types';
 import { getHeader } from '@/lib/getHeader';
 import Header from '@/components/Header';
+import { PopUpModal as PopUpModalType } from '@/sanity/types';
+import { getPopUpModal } from '@/lib/getPopUpModal';
+import PopUpModal from '@/components/PopUpModal';
 
 const archivoNarrow = Archivo_Narrow({
   subsets: ['latin'],
@@ -74,12 +77,14 @@ export default async function RootLayout({
 }>) {
   const footerData = (await getFooter()) as FooterType;
   const headerData = (await getHeader()) as HeaderType;
-
+  const popUpModalData = (await getPopUpModal()) as PopUpModalType;
+  
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${archivoNarrow.variable}`}>
         <Header headerData={headerData} />
         {children}
+        <PopUpModal popUpModalData={popUpModalData}/>
         <Footer footerData={footerData} />
       </body>
     </html>
