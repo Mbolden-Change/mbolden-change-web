@@ -27,7 +27,7 @@ export const structure: StructureResolver = (S) =>
       singletonListItem(S, 'footer', 'Footer').icon(EarthGlobeIcon),
       singletonListItem(S, 'header', 'Header').icon(EarthGlobeIcon),
       S.divider(),
-      singletonListItem(S, 'popUpModal', 'Pop Up Modal').icon(EarthGlobeIcon),
+      singletonListItem(S, 'popUpModal', 'Pop-Up Modal').icon(EarthGlobeIcon),
       S.divider(),
       singletonListItem(S, 'statement', 'Statements').icon(BlockquoteIcon),
       singletonListItem(S, 'caseStudy', 'Case Study').icon(BlockquoteIcon),

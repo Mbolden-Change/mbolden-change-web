@@ -149,14 +149,21 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   }
   }`);
 
+
+
 export const POPUPMODAL_QUERY = defineQuery(`*[_type == 'popUpModal'][0]{
   ...,
   CTA{
+  ...,
   reference-> {
   _type,
   slug}
   },
   }`);
+// export const POPUPMODAL_QUERY = defineQuery(`*[_type == 'popUpModal'][0]{
+//   title,
+//   CTA,
+//   }`);
 
 export const STATEMENT_QUERY = defineQuery(`
   *[_type == "statement" && slug.current == $slug][0]{

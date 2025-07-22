@@ -38,16 +38,15 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
         const newState = modalState === "expanded" ? "collapsed" : "expanded";
         setModalState(newState)
     }
-
     return (
         <div className={`${styles.modalWrapper} ${modalState === "collapsed" ? styles.minimized : ''}`}>
             {modalState === "collapsed" ? (
                 <div className={styles.minimizedContent} onClick={handleToggle}>
                     {popUpModalData.image && (
                         <div className={styles.logoWrapper}>
-                            <SanityNextImage 
-                                image={popUpModalData.image} 
-                                fit='contain' 
+                            <SanityNextImage
+                                image={popUpModalData.image}
+                                fit='contain'
                                 sizes='60px'
                                 className={styles.companyLogo}
                             />
@@ -58,7 +57,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
 
                 <>
                     <div className={styles.modalHeader}>
-                        <button 
+                        <button
                             onClick={handleToggle}
                             className={styles.minimizeButton}
                             aria-label="Minimize modal"

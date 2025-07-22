@@ -78,7 +78,7 @@ export default async function RootLayout({
   const footerData = (await getFooter()) as FooterType;
   const headerData = (await getHeader()) as HeaderType;
   const popUpModalData = (await getPopUpModal()) as PopUpModalType;
-  
+
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${archivoNarrow.variable}`}>
