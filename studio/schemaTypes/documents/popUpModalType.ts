@@ -22,7 +22,9 @@ fields: [
     options: {
         collapsed: false,
         collapsible: true,
+        hotspot: true,
     },
+
     fields: [
         {
         title: 'Alt Text',

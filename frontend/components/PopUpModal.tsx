@@ -10,14 +10,17 @@ import SanityNextImage from './SanityNextImage';
 import { ReferenceType } from './atoms/Link';
 import { FaWindowMinimize } from 'react-icons/fa';
 
+import ButtonComponent from './atoms/ButtonComponent';
+
 type PopUpModalProps = {
     popUpModalData: PopUpModalType;
 };
 
-// Attn: Modal should not cover up carousel nav buttons
-// Add onclick activity for modal like open/close
-// Fix CTA not rendering
+// Attn: Modal should not cover up carousel nav buttons - DONE
+// Add onclick activity for modal like open/close - DONE
+// Fix CTA not rendering - DONE
 // Styling stuff
+// Onclick CTA, modal should close
 
 const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
 
@@ -56,6 +59,8 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
             ) : (
 
                 <>
+
+            <div className={styles.modalContent}>
                     <div className={styles.modalHeader}>
                         <button
                             onClick={handleToggle}
@@ -66,23 +71,29 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                             <FaWindowMinimize />
                         </button>
                     </div>
-
-            <div className={styles.modalContent}>
-                {popUpModalData.title ? <Headline tag='h4' text={popUpModalData.title || ''}/> : null}
-                {popUpModalData.body ? <p>{popUpModalData.body || ''}</p> : null}
+                <div className={styles.topText}>
+                    {popUpModalData.title ? <Headline tag='h3' text={popUpModalData.title || ''} className={styles.headline}/> : null}
+                    {popUpModalData.body ? <p className={styles.body}>{popUpModalData.body || ''}</p> : null}
+                </div>
                 {popUpModalData.image ?
                     <div className={styles.imageWrapper}>
-                        <SanityNextImage image={popUpModalData.image}  fit='cover' sizes='80'/>
+                        <SanityNextImage image={popUpModalData.image}  fit='contain' sizes='80'/>
                     </div> : null}
                 {popUpModalData.CTA ?
-                    <LinkAtom
-                        ariaLabel={popUpModalData.CTA.title || 'Untitled'}
-                        isExternalLink={popUpModalData.CTA.isExternalLink}
-                        url={popUpModalData.CTA.url}
-                        reference={popUpModalData.CTA.reference as any as ReferenceType}
+                    // <LinkAtom
+                    //     ariaLabel={popUpModalData.CTA.title || 'Untitled'}
+                    //     isExternalLink={popUpModalData.CTA.isExternalLink}
+                    //     url={popUpModalData.CTA.url}
+                    //     reference={popUpModalData.CTA.reference as any as ReferenceType}
+                    //     className={styles.popupCTA}
+                    //     title={popUpModalData.CTA.title}
+                    //     target={popUpModalData.CTA.target}
+                    // /> : null}
+                    <ButtonComponent
+                        link={popUpModalData.CTA}
+                        variant='secondary'
                         className={styles.popupCTA}
                         title={popUpModalData.CTA.title}
-                        target={popUpModalData.CTA.target}
                     /> : null}
             </div>
             </>
