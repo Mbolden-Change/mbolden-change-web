@@ -149,7 +149,7 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   }
   }`);
 
-export const POPUPMODAL_QUERY = defineQuery(`*[_type == 'popUpModal'][1]{
+export const POPUPMODAL_QUERY = defineQuery(`*[_type == 'popUpModal'][0]{
   ...,
   CTA{
   ...,
