@@ -3,46 +3,29 @@
     bottom: 20px;
     right: 20px;
     height: auto;
-    /* max-width: 400px;
-    max-height: 400px; */
+    transition: 300ms ease;
 
     z-index: 1000;
 
-    /* display: flex;
-    border-radius: 12px;
-    */
-
 }
 
-/* background: var(--brand-light-gray);
-opacity: 99%;
-padding: 1rem; */
 
 .modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     border: 3px black solid;
     border-radius: 12px;
     background-color: var(--brand-light-gray);
     /* backdrop-filter: blur(10%); */
     padding: 1rem;
     border-radius: 12px;
-    overflow:auto;
-    /* max-width: 398px;
-    max-height: 398px; */
+    /* overflow:auto; */
+    width: auto;
+    min-height: 210px;
+    max-width: 500px;
+    max-height: 70vh;
 
-    /*
-    padding: 1rem 0;
-    border-radius: 12px;
-    height: auto;
-    margin: 0 auto;
-    width: 500px;
-
-    @media (max-width: 768px) {
-        width: 450px;
-    } */
-
-}
-.modalHeader {
-    /* padding: 0.5rem; */
 }
 
 .headline {
@@ -57,43 +40,42 @@ padding: 1rem; */
 }
 
 .imageWrapper {
-    /* display: flex; */
-    /* width: 100%;
-    height: 100%; */
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: 100%;
-    padding: 0.6rem 0;
-    /* height: auto; */
+    width: 100%;
+    max-height: 40vh;
+    overflow: hidden;
+    border-radius: 12px;
 }
+
 .image {
+    border-radius: 12px;
+    padding: 0.2rem;
+    border: 1px solid transparent;
 
-    /* max-height: 50%;
-    max-width: 50%; */
-
-    /* width: 50%; */
 }
 
-
+.companyLogo {
+    display: flex;
+    height: 100%;
+    border-radius: 12px;
+    padding: none;
+    border: 2px solid black;
+}
 .minimizedContent {
     width: 100px;
     height: auto;
-    background-color: var(--brand-light-gray);
-    opacity: 90%;
+    opacity: 75%;
     border-radius: 12px;
-    padding: 0.1rem;
-
-
+    padding: none;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 300ms ease;
 }
 
-/* Add on hover effect to signal clickability */
-.minimizedContent::before {
 
+.minimizedContent:hover {
+    opacity: 100%;
 }
 
-.minimizedContent::after {
-
-}
 
 .topText {
     justify-items: center;
@@ -104,4 +86,46 @@ padding: 1rem; */
     margin: 0 auto;
     width: 100%;
 
+}
+
+
+@media (max-width: 555px) {
+
+    .modalWrapper {
+        position: fixed;
+        bottom: 1rem;
+        right: 0px;
+        height: auto;
+        margin: 0 auto;
+    }
+    .modalContent {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 90vw;
+        max-height: 70vh;
+        margin: 0 1rem;
+        padding: 1rem;
+        overflow: hidden;
+        box-sizing: border-box;
+        /* overflow-y: auto; */
+        /* scrollbar-gutter: stable; */
+    }
+    .minimizedContent {
+        width: 60px;
+        height: auto;
+        max-height: 60vh;
+        background-color: var(--brand-light-gray);
+        opacity: 90%;
+        border-radius: 12px;
+        padding: 0.1rem;
+        margin-right: 1rem;
+        overflow: hidden;
+    }
+    .imageWrapper {
+        height: auto;
+        max-height: 40vh;
+        overflow: hidden;
+
+    }
 }

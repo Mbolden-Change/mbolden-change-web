@@ -46,14 +46,14 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
             {modalState === "collapsed" ? (
                 <div className={styles.minimizedContent} onClick={handleToggle}>
                     {popUpModalData.image && (
-                        <div className={styles.logoWrapper}>
                             <SanityNextImage
                                 image={popUpModalData.image}
                                 fit='contain'
                                 sizes='60px'
                                 className={styles.companyLogo}
                             />
-                        </div>
+                        // <div className={styles.logoWrapper}>
+                        // </div>
                     )}
                 </div>
             ) : (
@@ -77,7 +77,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                 </div>
                 {popUpModalData.image ?
                     <div className={styles.imageWrapper}>
-                        <SanityNextImage image={popUpModalData.image}  fit='contain' sizes='80'/>
+                        <SanityNextImage image={popUpModalData.image}  fit='cover' sizes='80' className={styles.image}/>
                     </div> : null}
                 {popUpModalData.CTA ?
                     // <LinkAtom
