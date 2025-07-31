@@ -58,7 +58,7 @@ export const LinkAtom = ({
       page: "",
       statement: "statement"
     }
- 
+
     return (
       <Link href={`${refMap[refType]}/${reference?.slug.current}`} aria-label={ariaLabel} onClick={onClick}>
         {linkContent}
