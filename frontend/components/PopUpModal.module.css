@@ -95,14 +95,13 @@
 
     .modalWrapper {
         position: fixed;
-        width: 100vw;
+        bottom: 1rem;
+        right: 0px;
         height: auto;
-        top: 50%;
-        left: 50%;
-        transform: translateY(-50%);
-        transform: translate(-50%, -50%);
+        transition: 300ms ease;
         margin: 0 auto;
         z-index: 1000;
+
     }
     .modalContent {
         display: flex;
@@ -110,7 +109,7 @@
         width: 100%;
         max-width: 90vw;
         max-height: 70vh;
-        margin: 0 auto;
+        margin: 0 1rem;
         padding: 1rem;
         overflow: hidden;
         box-sizing: border-box;
