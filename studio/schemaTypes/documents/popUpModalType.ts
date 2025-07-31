@@ -6,6 +6,13 @@ title: 'Pop-Up Modal',
 type: 'document',
 fields: [
     defineField({
+    name: 'visibility',
+    title: 'Show Pop-up?',
+    type: 'boolean',
+    initialValue: true,
+    description: 'Control pop-up visibility by toggling on or off. ',
+    }),
+    defineField({
     name: 'title',
     title: 'Title',
     type: 'string',

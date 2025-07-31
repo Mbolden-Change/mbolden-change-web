@@ -466,6 +466,7 @@ export type PopUpModal = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  visibility?: boolean;
   title?: string;
   body?: string;
   image?: {
