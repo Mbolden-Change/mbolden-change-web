@@ -1,0 +1,136 @@
+.modalWrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: auto;
+    transition: 300ms ease;
+
+    z-index: 1000;
+
+}
+
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 3px black solid;
+    border-radius: 12px;
+    background-color: var(--brand-light-gray);
+    /* backdrop-filter: blur(10%); */
+    padding: 1rem;
+    border-radius: 12px;
+    /* overflow:auto; */
+    width: auto;
+    min-height: 210px;
+    max-width: 500px;
+    max-height: 70vh;
+
+}
+
+.headline {
+    /* padding: 0.5rem 0; */
+    text-align: center;
+
+}
+
+.body {
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.imageWrapper {
+    width: 100%;
+    max-height: 40vh;
+    display: flex;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.image {
+    border-radius: 12px;
+    padding: 0.2rem;
+    border: 1px solid transparent;
+
+}
+
+.companyLogo {
+    display: flex;
+    height: 100%;
+    border-radius: 12px;
+    padding: none;
+    border: 2px solid black;
+}
+.minimizedContent {
+    width: 100px;
+    height: auto;
+    opacity: 75%;
+    border-radius: 12px;
+    padding: none;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 300ms ease;
+}
+
+
+.minimizedContent:hover {
+    opacity: 100%;
+}
+
+
+.topText {
+    justify-items: center;
+}
+
+
+.popupCTA {
+    justify-self: center;
+    border-radius: 12px ;
+    margin: 0 auto;
+    width: 100%;
+
+}
+
+
+@media (max-width: 555px) {
+
+    .modalWrapper {
+        position: fixed;
+        bottom: 1rem;
+        right: 0px;
+        height: auto;
+        transition: 300ms ease;
+        margin: 0 auto;
+        z-index: 1000;
+
+    }
+    .modalContent {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 90vw;
+        max-height: 70vh;
+        margin: 0 1rem;
+        padding: 1rem;
+        overflow: hidden;
+        box-sizing: border-box;
+        /* overflow-y: auto; */
+        /* scrollbar-gutter: stable; */
+    }
+    .minimizedContent {
+        width: 60px;
+        height: auto;
+        max-height: 60vh;
+        background-color: var(--brand-light-gray);
+        opacity: 90%;
+        border-radius: 12px;
+        padding: 0.1rem;
+        margin-right: 1rem;
+        overflow: hidden;
+    }
+    .imageWrapper {
+        height: auto;
+        max-height: 40vh;
+        overflow: hidden;
+    }
+}
