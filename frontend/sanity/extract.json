@@ -3449,7 +3449,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "body": {
         "type": "objectAttribute",
@@ -3532,7 +3532,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "CTA": {
         "type": "objectAttribute",

@@ -16,6 +16,7 @@ fields: [
     name: 'title',
     title: 'Title',
     type: 'string',
+    validation: (Rule) => Rule.required(),
     }),
     defineField({
     name: 'body',
@@ -31,14 +32,26 @@ fields: [
         collapsible: true,
         hotspot: true,
     },
-
     fields: [
         {
         title: 'Alt Text',
         name: 'alt',
         type: 'string',
+        validation: Rule => Rule.custom((alt, context) => {
+            //@ts-ignore
+        const image = context.parent.asset;
+
+        if (image && !alt) {
+          return 'Alt text is required when an image is set';
+        }
+        if (!image && alt) {
+          return 'You must upload an image if you provide alt text';
+        }
+        return true;
+      })
         },
     ],
+    validation: Rule => Rule.required().error('A main image is required.')
     }),
     defineField({
     name: 'CTA',

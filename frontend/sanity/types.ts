@@ -467,9 +467,9 @@ export type PopUpModal = {
   _updatedAt: string;
   _rev: string;
   visibility?: boolean;
-  title?: string;
+  title: string;
   body?: string;
-  image?: {
+  image: {
     asset?: {
       _ref: string;
       _type: "reference";
