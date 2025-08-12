@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Headline from '../atoms/Headline';
 import styles from './StatementBanner.module.css';
+import SanityNextImage from '../SanityNextImage';
 import type { StatementBanner as SB } from '@/sanity/types';
 
 type PatchedStatementBanner = Omit<SB, 'cta'> & {
@@ -23,6 +24,13 @@ const StatementBanner = ({
   textColor,
   link,
   linkLabel,
+  mediaProperties,
+  leftHeadline,
+  leftText,
+  leftImage,
+  rightHeadline,
+  rightText,
+  rightImage,
 }: PatchedStatementBanner) => {
   //@ts-ignore
   const slug = cta?.statement?.slug;
@@ -30,12 +38,14 @@ const StatementBanner = ({
   const label = cta?.label ?? 'Read more';
 
   return (
+    // {No image}
     <section
       className={styles.banner}
       style={{ backgroundColor, color: textColor }}
     >
       <div className={styles['banner-content']}>
         <Headline text={headline || ''} tag="h3" className={styles.headline} />
+        
         {body && <p className={styles.body}>{body}</p>}
         {slug && (
           <Link

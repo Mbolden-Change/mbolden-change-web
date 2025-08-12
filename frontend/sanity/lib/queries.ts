@@ -173,6 +173,7 @@ export const STATEMENT_QUERY = defineQuery(`
     date,
     "slug": slug.current,
     text,
+    image,
     pdfDownload{
       "url": asset->url,
       originalFilename
