@@ -2,7 +2,11 @@ import Link from 'next/link';
 import Headline from '../atoms/Headline';
 import styles from './StatementBanner.module.css';
 import SanityNextImage from '../SanityNextImage';
+import { PortableTextBlock } from "next-sanity";
+import PortableTextComponent from "../PortableTextComponent";
 import type { StatementBanner as SB } from '@/sanity/types';
+import Grid from '../Grid'
+import GridItem from '../GridItem';
 
 type PatchedStatementBanner = Omit<SB, 'cta'> & {
   cta?:
@@ -36,7 +40,7 @@ const StatementBanner = ({
   const slug = cta?.statement?.slug;
   //@ts-ignore
   const label = cta?.label ?? 'Read more';
-
+  if (mediaProperties === 'no-image') {
   return (
     // {No image}
     <section
@@ -64,6 +68,95 @@ const StatementBanner = ({
       </div>
     </section>
   );
-};
+ }
+//  LeftImage section
+ else if ( mediaProperties === 'left') {
+  return (
+    <section
+      className={styles.banner}
+      style={{ backgroundColor, color: textColor }}
+    >
+    <Headline text={headline || ''} tag="h3" className={styles.headline} />
+      <Grid>
+        <GridItem desktopSpan={6}>
+          <div className={styles['banner-content']}>
+            <div className={styles.leftImage}>
+              <SanityNextImage image={leftImage} fit="cover" />
+            </div>
+          </div>
+        </GridItem>
 
+
+        <GridItem desktopSpan={6}>
+            <div className={styles['banner-content']}>
+              <div className={styles.rightText}>
+                {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />} 
+              </div>
+            </div>
+        </GridItem>
+      </Grid>
+
+      {slug && (
+          <Link
+          href={`/statement/${slug}`}
+          className={styles.cta}
+          style={{ color: textColor }}
+          >
+            {label}
+          </Link>
+        )}
+        {!slug && link && (
+          <Link href={link} className={styles.cta} style={{ color: textColor }}>
+            {linkLabel}
+          </Link>
+        )}
+
+    </section>
+  )
+  // right image section
+ } else if ( mediaProperties === 'right') {
+  return (
+    <section
+      className={styles.banner}
+      style={{ backgroundColor, color: textColor }}
+    >
+      <Headline text={headline || ''} tag="h3" className={styles.headline} />
+      <Grid>
+        <GridItem desktopSpan={6}>
+            <div className={styles['banner-content']}>
+              <div className={styles.leftText}>
+                {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />} 
+              </div>
+            </div>
+        </GridItem>
+
+        <GridItem desktopSpan={6}>
+          <div className={styles['banner-content']}>
+            <div className={styles.rightImage}>
+              <SanityNextImage image={rightImage} fit="cover" />
+            </div>
+          </div>
+        </GridItem>
+
+
+      </Grid>
+
+      {slug && (
+          <Link
+          href={`/statement/${slug}`}
+          className={styles.cta}
+          style={{ color: textColor }}
+          >
+            {label}
+          </Link>
+        )}
+        {!slug && link && (
+          <Link href={link} className={styles.cta} style={{ color: textColor }}>
+            {linkLabel}
+          </Link>
+        )}
+    </section>
+  )
+ }
+}
 export default StatementBanner;
