@@ -29,12 +29,7 @@ const StatementBanner = ({
   link,
   linkLabel,
   mediaProperties,
-  leftHeadline,
-  leftText,
-  leftImage,
-  rightHeadline,
-  rightText,
-  rightImage,
+  image, 
 }: PatchedStatementBanner) => {
   //@ts-ignore
   const slug = cta?.statement?.slug;
@@ -50,7 +45,7 @@ const StatementBanner = ({
       <div className={styles['banner-content']}>
         <Headline text={headline || ''} tag="h3" className={styles.headline} />
         
-        {body && <p className={styles.body}>{body}</p>}
+        {body && <PortableTextComponent value={body as PortableTextBlock[]} />}
         {slug && (
           <Link
             href={`/statement/${slug}`}
@@ -81,7 +76,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6}>
           <div className={styles['banner-content']}>
             <div className={styles.leftImage}>
-              <SanityNextImage image={leftImage} fit="cover" />
+              <SanityNextImage image={image} fit="cover" />
             </div>
           </div>
         </GridItem>
@@ -90,7 +85,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6}>
             <div className={styles['banner-content']}>
               <div className={styles.rightText}>
-                {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />} 
+                {body && <PortableTextComponent value={body as PortableTextBlock[]} />} 
               </div>
             </div>
         </GridItem>
@@ -125,7 +120,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6}>
             <div className={styles['banner-content']}>
               <div className={styles.leftText}>
-                {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />} 
+                {body && <PortableTextComponent value={body as PortableTextBlock[]} />} 
               </div>
             </div>
         </GridItem>
@@ -133,7 +128,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6}>
           <div className={styles['banner-content']}>
             <div className={styles.rightImage}>
-              <SanityNextImage image={rightImage} fit="cover" />
+              <SanityNextImage image={image} fit="cover" />
             </div>
           </div>
         </GridItem>

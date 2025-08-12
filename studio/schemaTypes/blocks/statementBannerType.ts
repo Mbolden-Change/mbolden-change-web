@@ -19,9 +19,10 @@ export const statementBannerType = defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'text',
+      type: 'array',
       description: 'Add the main statement text here.',
-      rows: 5,
+      // rows: 5,
+      of: [{ type: 'block' }],
     }),
     defineField({
             name: 'mediaProperties',
@@ -37,114 +38,34 @@ export const statementBannerType = defineType({
             },
             validation: (Rule) => Rule.required(),
         }),
-        defineField({
-            name: 'rightImage',
-            title: 'Right Column Image',
-            type: 'image',
-            fields: [{ title: 'Alt Text', name: 'alt', type: 'string' }],
-            options: {
-                hotspot: true,
-            },
-            hidden: ({ parent }) => parent?.mediaProperties !== 'right'  && parent?.mediaProperties !== 'no-image',
-        }),
-        defineField({
-            name: 'leftImage',
-            title: 'Left Column Image',
-            type: 'image',
-            fields: [{ title: 'Alt Text', name: 'alt', type: 'string' }],
-            options: {
-                hotspot: true,
-            },
-            hidden: ({ parent }) => parent?.mediaProperties !== 'left'  && parent?.mediaProperties !== 'no-image',
-        }),
     defineField({
-            name: 'leftHeadline',
-            title: 'Left Column Headline',
-            description: 'Optional headline for the text block.',
-            type: 'string',
-            hidden: ({ parent }) => parent?.mediaProperties  !== 'right',
-            validation: (Rule) =>
-                Rule.custom((value, context): any  => {
-                  const leftImage = (context.parent as any).leftImage;
-                  if (value && leftImage) {
-                    return 'Cannot add with left image present';
-                  }
-                  return true
-                }),
-        }),
-        defineField({
-            name: 'leftText',
-            title: 'Left Column Text',
-            type: 'array',
-            of: [{ type: 'block' }],
-            hidden: ({ parent }) => parent?.mediaProperties  !== 'right',
-            validation: (Rule) =>
-                Rule.custom((value, context): any  => {
-                    const leftImage = (context.parent as any).leftImage;
-                    if (value && leftImage) {
-                      return 'Cannot add with left image present';
-                    }
-                    return true
-                  }),
-            }),
-            defineField({
-            name: 'rightHeadline',
-            title: 'Right Column Headline',
-            description: 'Optional headline for the text block.',
-            type: 'string',
-            hidden: ({ parent }) => parent?.mediaProperties !== 'left',
-            validation: (Rule) =>
-                Rule.custom((value, context): any  => {
-                    const rightImage = (context.parent as any).rightImage;
-                    if (value && rightImage) {
-                      return 'Cannot add with right image present';
-                    }
-                    return true
-                  }),
-        }),
-        defineField({
-            name: 'rightText',
-            title: 'Right Column Text',
-            type: 'array',
-            of: [{ type: 'block' }],
-            hidden: ({ parent }) => parent?.mediaProperties  !== 'left',
-            validation: (Rule) =>
-                Rule.custom((value, context): any  => {
-                    const rightImage = (context.parent as any).rightImage;
-                    if (value && rightImage) {
-                      return 'Cannot add with right image present';
-                    }
-                    return true
-                  }),
-        }),
-    // defineField({
-    // name: 'image',
-    // title: 'Image',
-    // type: 'image',
-    // description: 'Add Optional Image',
-    // options: {
-    //     hotspot: true,
-    // },
-    // fields: [
-    //     {
-    //     title: 'Alt Text',
-    //     name: 'alt',
-    //     type: 'string',
-    //     validation: Rule => Rule.custom((alt, context) => {
-    //         //@ts-ignore
-    //     const image = context.parent.asset;
+    name: 'image',
+    title: 'Image',
+    type: 'image',
+    description: 'Add Optional Image',
+    options: {
+        hotspot: true,
+    },
+    fields: [
+        {
+        title: 'Alt Text',
+        name: 'alt',
+        type: 'string',
+        validation: Rule => Rule.custom((alt, context) => {
+            //@ts-ignore
+        const image = context.parent.asset;
 
-    //     if (image && !alt) {
-    //       return 'Alt text is required when an image is set';
-    //     }
-    //     if (!image && alt) {
-    //       return 'You must upload an image if you provide alt text';
-    //     }
-    //     return true;
-    //   })
-    //     },
-    // ],
-    // }),
+        if (image && !alt) {
+          return 'Alt text is required when an image is set';
+        }
+        if (!image && alt) {
+          return 'You must upload an image if you provide alt text';
+        }
+        return true;
+      })
+        },
+    ],
+    }),
     defineField({
       name: 'cta',
       title: 'Call to Action',
