@@ -73,16 +73,15 @@ const StatementBanner = ({
     >
     <Headline text={headline || ''} tag="h3" className={styles.headline} />
       <Grid>
-        <GridItem desktopSpan={6}>
+        <GridItem desktopSpan={6} mobileSpan={6}>
           <div className={styles['banner-content']}>
-            <div className={styles.leftImage}>
-              <SanityNextImage image={image} fit="cover" />
-            </div>
+            {/* @ts-ignore */}
+              <SanityNextImage className={styles.leftImage} image={image} fit="cover" />
           </div>
         </GridItem>
 
 
-        <GridItem desktopSpan={6}>
+        <GridItem desktopSpan={6} mobileSpan={6}>
             <div className={styles['banner-content']}>
               <div className={styles.rightText}>
                 {body && <PortableTextComponent value={body as PortableTextBlock[]} />} 
@@ -105,7 +104,6 @@ const StatementBanner = ({
             {linkLabel}
           </Link>
         )}
-
     </section>
   )
   // right image section
@@ -117,7 +115,7 @@ const StatementBanner = ({
     >
       <Headline text={headline || ''} tag="h3" className={styles.headline} />
       <Grid>
-        <GridItem desktopSpan={6}>
+        <GridItem desktopSpan={6} mobileSpan={6}>
             <div className={styles['banner-content']}>
               <div className={styles.leftText}>
                 {body && <PortableTextComponent value={body as PortableTextBlock[]} />} 
@@ -125,11 +123,10 @@ const StatementBanner = ({
             </div>
         </GridItem>
 
-        <GridItem desktopSpan={6}>
+        <GridItem desktopSpan={6} mobileSpan={6}>
           <div className={styles['banner-content']}>
-            <div className={styles.rightImage}>
-              <SanityNextImage image={image} fit="cover" />
-            </div>
+            {/* @ts-ignore */}
+              <SanityNextImage className={styles.rightImage} image={image} fit="cover" />
           </div>
         </GridItem>
 
