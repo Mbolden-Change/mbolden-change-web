@@ -9,7 +9,7 @@ import Headline from './atoms/Headline';
 import SanityNextImage from './SanityNextImage';
 import { ReferenceType } from './atoms/Link';
 import { FaWindowMinimize } from 'react-icons/fa';
-
+import { PiArrowSquareUpLeftBold } from "react-icons/pi";
 import ButtonComponent from './atoms/ButtonComponent';
 
 type PopUpModalProps = {
@@ -45,19 +45,52 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
     if (popUpModalData.visibility) {
         return (
             //   Collapsed State
-            <div className={`${styles.modalWrapper} ${modalState === "collapsed" ? styles.minimized : ''}`}>
+            
+
+                <div className={`${styles.modalWrapper} ${modalState === "collapsed" ? styles.minimized : ''}`}>
                 {modalState === "collapsed" ? (
-                    <div className={styles.minimizedContent} onClick={handleToggle}>
-                        {popUpModalData.image && (
-                            <SanityNextImage
-                                image={popUpModalData.image}
-                                fit='contain'
-                                sizes='60px'
-                                className={styles.companyLogo}
-                            />
-                        )}
-                    </div>
+                    <div  onClick={handleToggle}>
+                    {popUpModalData.image  &&  (
+                        <div className={styles.minimizedContent}>
+                        <SanityNextImage
+                        image={popUpModalData.image}
+                        fit='contain'
+                        sizes='60px'
+                        className={styles.companyLogo}
+                        />
+                        </div>
+                    )}
+                    
+                    <div/>
+                        
+                        {/* <div className={styles.minimizedContentButtonBox} onClick={handleToggle}>
+                        {!popUpModalData.image &&  (
+                        <button
+                                onClick={handleToggle}
+                                className={styles.minimizeButton}
+                                aria-label="Minimize modal"
+                                type="button"
+                            >
+                                < PiArrowSquareUpLeftBold className={styles.minimizedContentButton} />
+                            </button>
+                    )}
+                    </div> */}
+                    
+                        {!popUpModalData.image &&  (
+                        <ButtonComponent
+                                onClick={handleToggle}
+                                className={styles.expandIcon}
+                                aria-label="Minimize modal"
+                                type="button"
+                                variant='unstyled'
+                            >
+                                < PiArrowSquareUpLeftBold />
+                            </ButtonComponent>
+                    )}
+                    
+                </div>
                 ) : (
+                        
 
             //   Expanded State
                     <>
