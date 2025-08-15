@@ -30,6 +30,7 @@ export const PAGE_QUERY = defineQuery(`
   },
     _type == "statementBanner" => {
       ...,
+      text,
       cta{
         label,
         statement->{ "slug": slug.current }

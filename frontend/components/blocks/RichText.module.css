@@ -26,3 +26,19 @@
   line-height: 1.6;
   color: var(--brand-white);
 }
+
+.resource {
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  line-height: 1.1;
+  background-color: none;
+  box-sizing: border-box;
+  padding: none;
+  margin: none;
+
+}
+
+.resource ul {
+  list-style:inside;
+  text-align:start;
+  line-height: 1.2rem;
+}

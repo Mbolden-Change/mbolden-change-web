@@ -2,11 +2,11 @@ import Link from 'next/link';
 import Headline from '../atoms/Headline';
 import styles from './StatementBanner.module.css';
 import SanityNextImage from '../SanityNextImage';
-import { PortableTextBlock } from "next-sanity";
-import PortableTextComponent from "../PortableTextComponent";
+import RichText from './RichText';
 import type { StatementBanner as SB } from '@/sanity/types';
 import Grid from '../Grid'
 import GridItem from '../GridItem';
+import { PortableTextBlock } from 'next-sanity';
 
 type PatchedStatementBanner = Omit<SB, 'cta'> & {
   cta?:
@@ -29,7 +29,7 @@ const StatementBanner = ({
   link,
   linkLabel,
   mediaProperties,
-  image, 
+  image,
 }: PatchedStatementBanner) => {
   //@ts-ignore
   const slug = cta?.statement?.slug;
@@ -43,9 +43,9 @@ const StatementBanner = ({
       style={{ backgroundColor, color: textColor }}
     >
       <div className={styles['banner-content']}>
-        <Headline text={headline || ''} tag="h3" className={styles.headline} />
-        
-        {body && <PortableTextComponent value={body as PortableTextBlock[]} />}
+        <Headline text={headline || ''} tag="h3" className={styles.headlineNoImage} />
+
+        {body && <RichText title={''} text={body as PortableTextBlock[]} variant="resource" />}
         {slug && (
           <Link
             href={`/statement/${slug}`}
@@ -84,7 +84,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6} mobileSpan={6}>
             <div className={styles['banner-content']}>
               <div className={styles.rightText}>
-                {body && <PortableTextComponent value={body as PortableTextBlock[]} />} 
+                {body && <RichText title={''}  text={body as PortableTextBlock[]} variant="resource" />}
               </div>
             </div>
         </GridItem>
@@ -118,7 +118,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6} mobileSpan={6}>
             <div className={styles['banner-content']}>
               <div className={styles.leftText}>
-                {body && <PortableTextComponent value={body as PortableTextBlock[]} />} 
+                {body && <RichText  title={ ''} text={body as PortableTextBlock[]} variant="resource" className={styles.richtext}/>}
               </div>
             </div>
         </GridItem>
@@ -126,7 +126,7 @@ const StatementBanner = ({
         <GridItem desktopSpan={6} mobileSpan={6}>
           <div className={styles['banner-content']}>
             {/* @ts-ignore */}
-              <SanityNextImage className={styles.rightImage} image={image} fit="cover" />
+              <SanityNextImage className={styles.rightImage} image={image} fit="contain" />
           </div>
         </GridItem>
 

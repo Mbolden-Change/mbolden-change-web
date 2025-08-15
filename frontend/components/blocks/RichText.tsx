@@ -8,11 +8,14 @@ import styles from './RichText.module.css';
 type RichTextProps = {
   title: string;
   text: PortableTextBlock[];
-  variant?: 'standalone' | 'nested';
+  variant?: 'standalone' | 'nested' | 'resource';
+  className?: string;
 };
 
-export default function RichText({ title, text, variant = 'standalone' }: RichTextProps) {
-  const variantClass = variant === 'standalone'? styles.standalone: styles.nested;
+export default function RichText({ title, text, variant = 'standalone', className }: RichTextProps) {
+  // const variantClass = variant === 'standalone'? styles.standalone: styles.nested;
+
+  const variantClass = `${styles[variant]} ${className || ''}`.trim();
 
     const content = (
       <div className={variantClass}>
