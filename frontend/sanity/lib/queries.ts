@@ -34,13 +34,8 @@ export const PAGE_QUERY = defineQuery(`
         label,
         statement->{ "slug": slug.current }
       },
-      link{
-        title,
-        isExternalLink,
-        url,
-        target,
-        reference->{ _type, slug }
-      }
+      link,
+      linkLabel
     },
     _type == "heroCarousel" => {
       ...,
@@ -81,6 +76,19 @@ export const PAGE_QUERY = defineQuery(`
       text,
       blockTheme,
       formTheme
+    },
+    _type == "cardGallery" => {
+      ...,
+      cards[] {
+        ...,
+        link{
+          title,
+          isExternalLink,
+          url,
+          target,
+          reference->{ _type, slug }
+        }
+      }
     }
   }
 }
@@ -148,6 +156,20 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   }
   }`);
 
+export const POPUPMODAL_QUERY = defineQuery(`*[_type == 'popUpModal'][0]{
+  ...,
+  CTA{
+  ...,
+  reference-> {
+  _type,
+  slug}
+  },
+  }`);
+// export const POPUPMODAL_QUERY = defineQuery(`*[_type == 'popUpModal'][0]{
+//   title,
+//   CTA,
+//   }`);
+
 export const STATEMENT_QUERY = defineQuery(`
   *[_type == "statement" && slug.current == $slug][0]{
     _id,
@@ -155,6 +177,24 @@ export const STATEMENT_QUERY = defineQuery(`
     _createdAt,
     _updatedAt,
     title,
+    date,
+    "slug": slug.current,
+    text,
+    pdfDownload{
+      "url": asset->url,
+      originalFilename
+    }
+  }
+`);
+
+export const CASESTUDY_QUERY = defineQuery(`
+  *[_type == "caseStudy" && slug.current == $slug][0]{
+    _id,
+    _type,
+    _createdAt,
+    _updatedAt,
+    heading,
+    subheading,
     date,
     "slug": slug.current,
     text,

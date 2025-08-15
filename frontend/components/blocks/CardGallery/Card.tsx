@@ -11,6 +11,26 @@ type Props = {
 };
 
 const Card = ({ card }: Props) => {
+  const hasLink = () => {
+    if (!card.link) return false;
+
+    if (card.link.isExternalLink && card.link.url) {
+      return true;
+    }
+
+    if (!card.link.isExternalLink && card.link.reference) {
+      return true;
+    }
+    return false;
+  };
+
+  const getLinkText = (card: CardType) => {
+    if (card.link?.title) {
+    return card.link.title;
+  }
+    return "Click"
+  };
+  
   const cardContent = (
     <>
       {card.image && (
@@ -18,47 +38,76 @@ const Card = ({ card }: Props) => {
           <SanityNextImage image={card.image} />
         </div>
       )}
-      <Headline tag="h3" className={styles.title} text={card.title || ''} />
-      <p className={styles.text}>{card.text}</p>
+      
+      {(card.titleLine1 || card.titleLine2) && (
+      <div className={`${styles.titleContainer} ${styles.hasTitles}`}>
+        {card.titleLine1 && card.titleLine2 ? (
+          <h3 className={`${styles.title} ${!card.image ? styles.largeTitle : ''}`}>
+            {card.titleLine1}
+            <br />
+            {card.titleLine2}
+          </h3>
+        ) : (
+          <h3 className={`${styles.title} ${!card.image ? styles.largeTitle : ''}`}>
+            {card.titleLine1 || card.titleLine2 || ''}
+          </h3>
+        )}
+      </div>
+    )}
+    
+    <p className={`${styles.text} ${!card.image ? styles.largeText : ''}`}>
+      {card.text}
+    </p>
+
+
+    {hasLink() && (
+      <div className={styles.linkText}>
+        {getLinkText(card)}
+      </div>
+    )}
     </>
   );
 
   if (card.link) {
-    const referenceWithSlug =
-      card.link.reference && 'slug' in card.link.reference
-        ? (card.link.reference as ReferenceType)
-        : undefined;
+    if (card.link.isExternalLink && card.link.url) {
+      return (
+        <a
+          href={card.link.url}
+          target={card.link.target || '_self'}
+          rel="noopener noreferrer"
+          className={styles.card}
+          aria-label={card.link.title || `${card.titleLine1} ${card.titleLine2 || ''}`.trim() || 'Card link'}
+        >
+          {cardContent}
+        </a>
+      );
+    }
 
-  if (card.link.isExternalLink && card.link.url){
-    return (
-      <a
-      href={card.link.url}
-      target={card.link.target || '_self'}
-      rel="noopener noreferrer"
-      className={styles.card}
-      aria-label={card.link.title || card.title || 'Card link'}
-      >
-        {cardContent}
-      </a>
-    );
-  }
+ if (!card.link.isExternalLink && card.link.reference) {
+  
+  const slug =
+    card.link.reference && 'slug' in card.link.reference
+      ? (card.link.reference as ReferenceType).slug?.current
+      : undefined;
 
-  if (referenceWithSlug?.slug?.current) {
+
+  if (slug) {
     return (
       <Link
-      href={`/${referenceWithSlug?.slug.current}`}
-      className={styles.card}
-      aria-label={card.link.title || card.title || 'Card link'}
+        href={`/${slug}`}
+        className={styles.card}
+        aria-label={card.link.title || `${card.titleLine1} ${card.titleLine2 || ''}`.trim() || 'Card link'}
       >
         {cardContent}
       </Link>
-    );
-  }
-  }          
+        );
+      }
+    }
+  }      
   
  
   return ( 
-    <div className={styles.card}>
+    <div className={`${styles.card} ${!card.image ? styles.noImage : ''}`}>
       {cardContent}
     </div>
   );

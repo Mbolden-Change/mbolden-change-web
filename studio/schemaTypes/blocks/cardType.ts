@@ -6,8 +6,14 @@ export const cardType = defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'titleLine1',
+      title: 'Title Line 1',
+      type: 'string',
+      description: 'Add first line of card title here.',
+    }),
+    defineField({
+      name: 'titleLine2',
+      title: 'Title Line 2',
       type: 'string',
       description: 'Add card title here.',
     }),
@@ -31,7 +37,7 @@ export const cardType = defineType({
       name: 'link',
       title: 'Card Link (Optional)',
       type: 'internalOrExternalLink',
-      description: 'Entire card will be clickable, with link',
+      description: 'Put link text here. Entire card will be clickable, with link',
     }),
   ],
   preview: {
