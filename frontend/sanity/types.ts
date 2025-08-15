@@ -134,7 +134,7 @@ export type DonationBlock = {
     _key: string;
   }>;
   blockTheme?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
-  formTheme?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
+  formTheme?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
 };
 
 export type CaseStudyHighlight = {
@@ -509,7 +509,7 @@ export type PopUpModal = {
   visibility?: boolean;
   title: string;
   body?: string;
-  image: {
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -893,9 +893,5 @@ export type Slug = {
   source?: string;
 };
 
-<<<<<<< HEAD
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | DonationBlock | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
-=======
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
->>>>>>> origin/dev
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | DonationBlock | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

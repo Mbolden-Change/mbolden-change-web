@@ -984,10 +984,6 @@
               },
               {
                 "type": "string",
-                "value": "var(--brand-white)"
-              },
-              {
-                "type": "string",
                 "value": "var(--brand-light-gray)"
               },
               {
@@ -3929,7 +3925,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "CTA": {
         "type": "objectAttribute",
