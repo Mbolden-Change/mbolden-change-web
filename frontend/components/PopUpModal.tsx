@@ -45,6 +45,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
     if (popUpModalData.visibility) {
         return (
             //   Collapsed State
+
             
 
                 <div className={`${styles.modalWrapper} ${modalState === "collapsed" ? styles.minimized : ''}`}>
@@ -92,6 +93,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                 ) : (
                         
 
+
             //   Expanded State
                     <>
                 <div className={styles.modalContent}>
@@ -116,15 +118,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
 
                     <div onClick={handleToggle}>
                         {popUpModalData.CTA ?
-                            // <LinkAtom
-                            //     ariaLabel={popUpModalData.CTA.title || 'Untitled'}
-                            //     isExternalLink={popUpModalData.CTA.isExternalLink}
-                            //     url={popUpModalData.CTA.url}
-                            //     reference={popUpModalData.CTA.reference as any as ReferenceType}
-                            //     className={styles.popupCTA}
-                            //     title={popUpModalData.CTA.title}
-                            //     target={popUpModalData.CTA.target}
-                            // /> : null}
+                            
                             <ButtonComponent
                             link={popUpModalData.CTA}
                             variant='primary'
