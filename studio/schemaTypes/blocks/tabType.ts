@@ -15,6 +15,7 @@ export const tabType = defineType({
         defineField({
         name: 'content',
         title: 'Tab Content',
+        description: 'Add the main tab content here',
         type: 'array',
         of: [{ type: 'block'}],
         validation: Rule => Rule.required().error('Tab content is required.'),
@@ -24,7 +25,7 @@ export const tabType = defineType({
         select: { title: 'label'},
         prepare({ title}) {
             return {
-            title: `Tab — ${title || 'label'}`,
+            title: `Tab — ${title || 'No Label'}`,
             };
         }
     }

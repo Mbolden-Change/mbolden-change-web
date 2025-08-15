@@ -1,0 +1,29 @@
+.modalContent {
+    padding: 1rem 0;
+    max-height: 90vh;
+    min-height: 300px;
+    background: white;
+    border-radius: 12px;
+    height: auto;
+    width: 500px;
+
+    @media (max-width: 768px) {
+        width: 450px;
+    }
+
+}
+
+.scrollableContent {
+    display: flex;
+    justify-self: center;
+    background: white;
+    border-radius: 12px;
+    height: auto;
+    min-height: 270px;
+    max-height: 70vh;
+    padding: 0.5rem 0;
+    width: 98%;
+    border-radius: 12px;
+    overflow-y:auto;
+
+}

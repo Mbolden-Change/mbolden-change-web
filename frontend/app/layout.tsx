@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import { Header as HeaderType } from '@/sanity/types';
 import { getHeader } from '@/lib/getHeader';
 import Header from '@/components/Header';
+import ZeffyScript from '../components/blocks/DonationBlock/ZeffyScript';
 import { PopUpModal as PopUpModalType } from '@/sanity/types';
 import { getPopUpModal } from '@/lib/getPopUpModal';
 import PopUpModal from '@/components/PopUpModal';
@@ -86,6 +87,7 @@ export default async function RootLayout({
         {children}
         <PopUpModal popUpModalData={popUpModalData}/>
         <Footer footerData={footerData} />
+        <ZeffyScript />
       </body>
     </html>
   );

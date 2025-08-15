@@ -23,6 +23,7 @@ export const testimonialsCarouselType = defineType({
       name: 'hasButton',
       title: 'Add Button?',
       type: 'boolean',
+      description: 'Optional button. Appears above the testimonial block.',
       initialValue: false,
     }),
     defineField({

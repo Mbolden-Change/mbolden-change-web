@@ -223,7 +223,7 @@ export const fiftyfiftyType = defineType({
                 title = '50/50 Section';
             }
 
-            return { title };
+            return { title};
         },
     },
 })

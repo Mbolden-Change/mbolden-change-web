@@ -1,0 +1,172 @@
+/* Default Stripe & General styles  -  */
+
+.donationBlock {
+    padding: 4rem 0.5rem;
+    transition: transform 0.35s ease;
+}
+
+
+.textContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 1rem;
+}
+
+.headline {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.textContent p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.formWrapper {
+    margin: 0 auto;
+    max-width: 500px;
+    background-color: var(--brand-white);
+    border: 1px solid var(--brand-light-gray);
+}
+
+.formContainer {
+    transition: height 0.4s ease, opacity 0.3s ease;
+
+}
+
+
+/* Stripe Compact */
+.compactDonationBlock {
+    padding: 1.5rem 0.5rem;
+    transition: transform 0.35s ease;
+    align-content: center;
+}
+.compactHeadline {
+    margin-bottom: 1rem;
+    font-size: clamp(3rem, 6vw, 5rem);
+}
+
+
+
+/* Zeffy  */
+
+.zeffyDonationWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    background-color: transparent;
+    align-self: center;
+    justify-self: center;
+}
+
+
+.zeffyDonationBlock {
+    display: inline-block;
+    padding: 2rem 3rem 3rem 3rem;
+    margin: 0rem auto 0rem auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
+    min-width: 300px;
+    width: 100%;
+    height: auto;
+
+    /* --size: 44px;
+    --angle: 111deg;
+    mask:
+        conic-gradient(
+            from calc(var(--angle)/-2) at bottom,
+            #0000, #000 1deg calc(var(--angle) - 1deg), #0000 var(--angle)
+        ) 50%/var(--size) 100%; */
+
+}
+
+.zigzagDivider {
+    display: block;
+    width: 100vw;
+    height: 24px;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+
+.zeffyInnerWrapper {
+    display: flex;
+    width: 100%;
+    height:100%;
+    flex-direction: column;
+    position: relative;
+    max-width: 1000px;;
+    margin: 0 auto;
+    align-self: center;
+    justify-content: start;
+}
+
+.zeffyHeadline {
+    font-size: clamp(4rem, 6vw, 5rem);
+    margin-bottom: 1rem;;
+
+}
+
+.zeffyTextContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.zeffyTextContent p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+}
+
+
+/* Zeffy Compact */
+
+.compactZeffyDonationWrapper {
+    display: flex;
+    margin: 0 auto 1rem auto;
+    width: 100%;
+    background-color: transparent;
+    align-self: center;
+    justify-self: center;
+}
+.compactZeffyDonationBlock {
+    display: inline-block;
+    padding: 0 1.5rem 1rem 1.5rem;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
+    min-width: 300px;
+    max-width: 1000px;
+    width: 100%;
+    height: auto;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+
+}
+.compactZeffyHeadline {
+    font-size: clamp(4rem, 6vw, 5rem);
+    margin: 0.5rem 0;
+
+}
+
+.compactZeffyTextContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.compactZeffyTextContent p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+}

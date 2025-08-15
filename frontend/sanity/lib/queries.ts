@@ -70,6 +70,13 @@ export const PAGE_QUERY = defineQuery(`
         }
       }
     },
+    _type == "donationBlock" => {
+      _type,
+      headline,
+      text,
+      blockTheme,
+      formTheme
+    },
     _type == "cardGallery" => {
       ...,
       cards[] {

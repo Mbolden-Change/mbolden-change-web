@@ -42,7 +42,7 @@ export const caseStudyHighlight = defineType({
     select: { title: 'headline'},
     prepare({ title }) {
         return {
-        title: `Case-Study Highlight — ${title}`,
+          title: title ? `Case-Study Highlight — ${title}` : 'Case-Study Highlight',
         };
     }
 }
