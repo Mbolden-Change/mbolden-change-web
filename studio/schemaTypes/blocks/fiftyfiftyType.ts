@@ -85,7 +85,7 @@ export const fiftyfiftyType = defineType({
             name: 'leftVideoUrl',
             title: 'Left Video URL',
             type: 'url',
-            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
+            description:`Paste your Youtube or Google Drive video urls. For Youtube, copy the browser url, then paste. For Google Drive, click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
             (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,
 
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage !== 'left',
@@ -107,7 +107,7 @@ export const fiftyfiftyType = defineType({
             name: 'rightVideoUrl',
             title: 'Right Video URL',
             type: 'url',
-            description:`Paste your Google Drive video url. Click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
+            description:`Paste your Youtube or Google Drive video urls. For Youtube, copy the browser url, then paste. For Google Drive, click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
             (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,
             hidden: ({ parent }) => parent?.mediaType !== 'video' || parent?.leftOrRightImage!== 'right',
             validation: (Rule) =>

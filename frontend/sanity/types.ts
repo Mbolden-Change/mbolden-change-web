@@ -318,6 +318,15 @@ export type StatementBanner = {
       [internalGroqTypeReferenceTo]?: "statement";
     };
   };
+  cta2?: {
+    label: string;
+    statement: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "statement";
+    };
+  };
   link?: string;
   linkLabel?: string;
   backgroundColor?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";

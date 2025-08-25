@@ -25,7 +25,7 @@ export default function FiftyFifty({
 
     const getAspectRatioClass = () => {
       if (!imageAspectRatio || imageAspectRatio === 'original') return '';
-      
+
       switch (imageAspectRatio) {
         case '16:9': return styles['aspectRatio-16-9'];
         case '4:3': return styles['aspectRatio-4-3'];
@@ -35,24 +35,36 @@ export default function FiftyFifty({
       }
     }
 
-    const getGoogleDriveUrl = (url: string) => {
+    // Helper function to handle Youtube and Google Drive videos
+    const getYoutubeOrGoogleUrl = (url: string) => {
       if (!url) return '';
-      const fileId = url.split('/')[5];
-      return `https://drive.google.com/file/d/${fileId}/preview`;
+      if (url.includes("youtube")) {
+        const fileIdString = url.split('?v=');
+        console.log("TESTING: ", fileIdString);
+        const fileId = fileIdString[1].split("&").shift()
+        console.log("ID: ", fileId);
+        return `https://www.youtube.com/embed/${fileId}/preview`;
+      } else {
+        const fileId = url.split('/')[5];
+        return `https://drive.google.com/file/d/${fileId}/preview`;
+      }
     }
+
 
     const VideoPlayer = ({ url, title }: { url: string, title: string }) => (
       <div className={styles.videoWrapper}>
         {videoTitle && <Headline tag='h2' text={videoTitle} className={styles.videoTitle} />}
         <iframe
-        src={getGoogleDriveUrl(url)}
+        src={getYoutubeOrGoogleUrl(url)}
         className={styles.video}
         title={title}
         allow='autoplay; encrypted-media'
+        referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       />
       </div>
     )
+
 
     return (
         <section className={styles.section}>
@@ -62,31 +74,31 @@ export default function FiftyFifty({
 
       <Grid>
       <GridItem desktopSpan={6}>
-                {mediaType === 'video' && leftVideoUrl 
+                {mediaType === 'video' && leftVideoUrl
                   ? <VideoPlayer url={leftVideoUrl} title="Left Google Drive Video" />
-                  : leftImage 
+                  : leftImage
                   ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
                       <SanityNextImage image={leftImage} fit="cover"/>
                     </div>
                   : null}
                 {leftTitle && <Headline tag='h2' text={leftTitle} />}
-                {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />} 
+                {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />}
               </GridItem>
-            
+
               <GridItem desktopSpan={6}>
-                {mediaType === 'video' && rightVideoUrl 
+                {mediaType === 'video' && rightVideoUrl
                   ? <VideoPlayer url={rightVideoUrl} title="Left Google Drive Video" />
-                  : rightImage 
+                  : rightImage
                   ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
                       <SanityNextImage image={rightImage} fit="cover"/>
                     </div>
                   : null}
                 {rightTitle && <Headline tag='h2' text={rightTitle} />}
-                {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />} 
+                {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />}
               </GridItem>
       </Grid>
       </div>
-      
+
 
        {/* Mobile View */}
        <div className={styles.fiftyFiftyMobileView}>
@@ -96,7 +108,7 @@ export default function FiftyFifty({
               <div className={styles.fiftyFiftyMobileImageContainer}>
                 {mediaType === 'video' && leftVideoUrl
                 ? <VideoPlayer url={leftVideoUrl} title="Left Mobile Video" />
-                : leftImage 
+                : leftImage
                 ?  <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
                     <SanityNextImage image={leftImage} fit="cover" />
                   </div>
@@ -109,7 +121,7 @@ export default function FiftyFifty({
                   </div>
                 : null}
               </div>
-            
+
               <div className={styles.fiftyFiftyMobileTextContainer}>
                 {leftTitle && <Headline tag='h2' text={leftTitle} />}
                 {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />}
@@ -125,11 +137,11 @@ export default function FiftyFifty({
                 {rightTitle && <Headline tag='h2' text={rightTitle} />}
                 {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />}
               </div>
-              
+
               <div className={styles.fiftyFiftyMobileImageContainer}>
                 {mediaType === 'video' && leftVideoUrl
                 ? <VideoPlayer url={leftVideoUrl} title="Left Mobile Video" />
-                : leftImage 
+                : leftImage
                 ?  <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
                     <SanityNextImage image={leftImage} fit="cover"/>
                   </div>
@@ -149,4 +161,3 @@ export default function FiftyFifty({
     </section>
     )
 }
-
