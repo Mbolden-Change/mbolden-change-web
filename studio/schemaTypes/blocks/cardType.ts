@@ -34,9 +34,48 @@ export const cardType = defineType({
       },
     }),
     defineField({
+      name: 'addVideoLink',
+      title: 'Add Video Link?',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle on and add a video link to have a video popup enabled. The other link toggle must be off',
+      validation: (Rule) =>
+        Rule.custom((value, context): any  => {
+          const addLink = (context.parent as any).addLink;
+          if (value && addLink) {
+            return 'If you want to add a video link, please toggle off the "Add Link" switch';
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'videoURL',
+      title: 'Video URL',
+      type: 'url',
+      hidden: ({parent}) => parent?.addVideoLink === false,
+      description:`Paste your Youtube or Google Drive video urls. For Youtube, copy the browser url, then paste. For Google Drive, click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
+      (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,  }),
+
+      defineField({
+      name: 'addLink',
+      title: 'Add Link?',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle on and add a link to navigate to a different page. The other video toggle must be off',
+      validation: (Rule) =>
+        Rule.custom((value, context): any  => {
+          const addVideoLink = (context.parent as any).addVideoLink;
+          if (value && addVideoLink) {
+            return 'If you want to add a link, please toggle off the "Add Video Link" switch';
+          }
+          return true
+        }),
+    }),
+    defineField({
       name: 'link',
       title: 'Card Link (Optional)',
       type: 'internalOrExternalLink',
+      hidden: ({parent}) => parent?.addLink === false,
       description: 'Put link text here. Entire card will be clickable, with link',
     }),
   ],

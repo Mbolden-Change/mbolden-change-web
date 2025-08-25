@@ -146,6 +146,7 @@ export type Card = {
     alt?: string;
     _type: "image";
   };
+  videoURL?: string;
   link?: InternalOrExternalLink;
 };
 
@@ -469,7 +470,7 @@ export type PopUpModal = {
   visibility?: boolean;
   title: string;
   body?: string;
-  image: {
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";

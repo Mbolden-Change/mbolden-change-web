@@ -920,6 +920,13 @@
           },
           "optional": true
         },
+        "videoURL": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "link": {
           "type": "objectAttribute",
           "value": {
@@ -3532,7 +3539,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "CTA": {
         "type": "objectAttribute",
