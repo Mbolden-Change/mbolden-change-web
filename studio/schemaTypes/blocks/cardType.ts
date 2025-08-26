@@ -49,6 +49,13 @@ export const cardType = defineType({
         }),
     }),
     defineField({
+      name: 'videoTitle',
+      title: 'Video Title',
+      type: 'string',
+      hidden: ({parent}) => parent?.addVideoLink === false,
+      description: 'Add video title for the button here.',
+    }),
+    defineField({
       name: 'videoURL',
       title: 'Video URL',
       type: 'url',

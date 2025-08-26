@@ -11,16 +11,27 @@
   margin-left: 20px;
   margin-right: 20px;
 }
-
+.unstyledCard {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--brand-white);
+  border: 1px solid var(--brand-light-gray);
+  border-radius: 16px;
+  padding: 0 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  height: 100%;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 a.card {
   position: relative;
   z-index: 1;
 }
 
-a.card:hover {
+a.card:hover, div.card:hover {
   cursor: pointer;
 }
-
 .imageWrapper {
   width: 100%;
   margin-bottom: 1rem;
@@ -104,6 +115,7 @@ a.card:hover {
   margin-bottom: 1rem;
   text-align: center;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .linkText::after {
@@ -117,7 +129,7 @@ a.card:hover {
   color: var(--brand-white)
 }
 
-a.card:hover .linkText {
+a.card:hover .linkText, div.card:hover .linkText {
   background: var(--brand-black);
   color: var(--brand-white);
   border-color: var(--brand-warm-yellow);

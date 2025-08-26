@@ -146,7 +146,10 @@ export type Card = {
     alt?: string;
     _type: "image";
   };
+  addVideoLink?: boolean;
+  videoTitle?: string;
   videoURL?: string;
+  addLink?: boolean;
   link?: InternalOrExternalLink;
 };
 
@@ -686,6 +689,7 @@ export type Footer = {
 export type InternalOrExternalLink = {
   _type: "internalOrExternalLink";
   title?: string;
+  isActive?: boolean;
   isExternalLink?: boolean;
   url?: string;
   target?: "_self" | "_blank";
