@@ -1,4 +1,6 @@
+import { link } from 'fs';
 import {defineField, defineType} from 'sanity'
+import { isExternal } from 'util/types';
 
 export const cardType = defineType({
   name: 'card',
@@ -41,9 +43,16 @@ export const cardType = defineType({
       description: 'Toggle on and add a video link to have a video popup enabled. The other link toggle must be off',
       validation: (Rule) =>
         Rule.custom((value, context): any  => {
+          const addVideoLink = (context.parent as any).addVideoLink;
+          const videoField= (context.parent as any).videoURL;
           const addLink = (context.parent as any).addLink;
-          if (value && addLink) {
+          const videoTitle= (context.parent as any).videoTitle;
+          if (value && addLink) 
+          {
             return 'If you want to add a video link, please toggle off the "Add Link" switch';
+          }
+          if ((videoTitle || videoField) && addVideoLink === false){
+            return 'If you want to turn off video toggle, clear video field'
           }
           return true
         }),
@@ -61,7 +70,8 @@ export const cardType = defineType({
       type: 'url',
       hidden: ({parent}) => parent?.addVideoLink === false,
       description:`Paste your Youtube or Google Drive video urls. For Youtube, copy the browser url, then paste. For Google Drive, click 'Share' tab and 'copy link', then paste. (e.g. Valid url -> 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'),
-      (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,  }),
+      (e.g. Invalid url -> 'https://drive.google.com/drive/folders/FOLDER_ID'.)`,  
+    }),
 
       defineField({
       name: 'addLink',
@@ -72,8 +82,13 @@ export const cardType = defineType({
       validation: (Rule) =>
         Rule.custom((value, context): any  => {
           const addVideoLink = (context.parent as any).addVideoLink;
+          const linkField= (context.parent as any).link
+          const addLinkToggle= (context.parent as any).addLink
           if (value && addVideoLink) {
             return 'If you want to add a link, please toggle off the "Add Video Link" switch';
+          }
+          if ((linkField.isActive || linkField.title || linkField.reference || linkField.isExternalLink) && addLinkToggle === false )  {
+            return 'If you want to turn off link toggle, clear link field and toggle external link';
           }
           return true
         }),
@@ -84,6 +99,15 @@ export const cardType = defineType({
       type: 'internalOrExternalLink',
       hidden: ({parent}) => parent?.addLink === false,
       description: 'Put link text here. Entire card will be clickable, with link',
+      // validation: (Rule) =>
+      //   Rule.custom((value, context): any => {
+      //     const linkField= (context.parent as any).link
+      //     const addLinkToggle= (context.parent as any).addLink
+      //     if (value && linkField && !addLinkToggle)  {
+      //       return 'If you want to add a video link, please toggle off the "Add Link" switch';
+      //     }
+      //     return true
+      //   })
     }),
   ],
   preview: {
