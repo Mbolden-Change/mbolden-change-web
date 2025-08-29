@@ -1,0 +1,77 @@
+import { useEffect, useRef, useState } from 'react'
+import Headline from '@/components/atoms/Headline';
+import styles from "./VideoModal.module.css"
+// import { FaRegWindowClose } from "react-icons/fa";
+
+
+type VideoModalProps = {
+  url: string;
+  title: string;
+};
+
+const VideoModal = ({url, title}: VideoModalProps) => {
+
+  // const [isMountedModal, setIsMountedModal] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+
+    // const handleToggle = () => {
+    //   setIsMountedModal(!isMountedModal);
+    //   console.log("TEST: ", "Button click success")
+    // }
+
+    const handleVideoLoad = () => {
+    setTimeout(() => {
+      setIsVideoLoading(false);
+    }, 500);
+  }
+
+    const getYoutubeOrGoogleUrl = (url: string) => {
+      if (!url) return '';
+      if (url.includes("youtube")) {
+        const fileIdString = url.split('?v=');
+        const fileId = fileIdString[1].split("&").shift()
+        return `https://www.youtube.com/embed/${fileId}/preview`;
+      } else {
+        const fileId = url.split('/')[5];
+        return `https://drive.google.com/file/d/${fileId}/preview`;
+      }
+    }
+
+    const VideoPlayer = () => (
+      <div className={styles.videoWrapper}>
+        {isVideoLoading && (
+          <div className={styles.spinnerContainer}>
+            <div className={styles.threeDotLoader}>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+            </div>
+          </div>
+        )}
+        <iframe
+          src={getYoutubeOrGoogleUrl(url)}
+          className={styles.video}
+          title={title}
+          allow='autoplay; encrypted-media'
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          style={{
+          opacity: isVideoLoading ? 0 : 1,
+        }}
+        onLoad={handleVideoLoad}
+        />
+      </div>
+    )
+
+    return (
+      <div className={styles.modalWrapper}>
+        <div className={styles.modalContent}>
+
+        <VideoPlayer/>
+      </div>
+    </div>
+    );
+}
+
+
+export default VideoModal;

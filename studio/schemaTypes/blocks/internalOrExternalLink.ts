@@ -9,6 +9,12 @@ export const internalOrExternalLinkType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'isActive',
+      type: 'boolean',
+      hidden: true,
+      initialValue: false,
+    }),
+    defineField({
       name: 'isExternalLink',
       type: 'boolean',
       initialValue: false,
@@ -44,7 +50,7 @@ export const internalOrExternalLinkType = defineType({
       validation: (Rule) =>
         Rule.custom((value, context) => {
           const parent = context.parent as any
-          if (parent && parent.isExternalLink === false && !value) {
+          if (parent && parent.isActive && parent.isExternalLink === false && !value) {
             return 'Reference is required for internal links'
           }
           return true
