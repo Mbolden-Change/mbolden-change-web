@@ -11,12 +11,19 @@ type VideoModalProps = {
 
 const VideoModal = ({url, title}: VideoModalProps) => {
 
-  const [isMountedModal, setIsMountedModal] = useState(false);
+  // const [isMountedModal, setIsMountedModal] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
 
-    const handleToggle = () => {
-      setIsMountedModal(!isMountedModal);
-      console.log("TEST: ", "Button click success")
-    }
+    // const handleToggle = () => {
+    //   setIsMountedModal(!isMountedModal);
+    //   console.log("TEST: ", "Button click success")
+    // }
+
+    const handleVideoLoad = () => {
+    setTimeout(() => {
+      setIsVideoLoading(false);
+    }, 500);
+  }
 
     const getYoutubeOrGoogleUrl = (url: string) => {
       if (!url) return '';
@@ -32,7 +39,15 @@ const VideoModal = ({url, title}: VideoModalProps) => {
 
     const VideoPlayer = () => (
       <div className={styles.videoWrapper}>
-        {/* {title && <Headline tag='h2' text={title} className={styles.videoTitle} />} */}
+        {isVideoLoading && (
+          <div className={styles.spinnerContainer}>
+            <div className={styles.threeDotLoader}>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+            </div>
+          </div>
+        )}
         <iframe
           src={getYoutubeOrGoogleUrl(url)}
           className={styles.video}
@@ -40,6 +55,10 @@ const VideoModal = ({url, title}: VideoModalProps) => {
           allow='autoplay; encrypted-media'
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
+          style={{
+          opacity: isVideoLoading ? 0 : 1,
+        }}
+        onLoad={handleVideoLoad}
         />
       </div>
     )
