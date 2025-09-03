@@ -8,6 +8,14 @@ import { useState } from 'react'
 import { ReferenceType } from '@/components/atoms/Link';
 import VideoModal from './VideoModal';
 
+interface RefMapType {
+  caseStudy: string;
+  page: string;
+  statement: string;
+  report: string;
+  [key: string]: string;
+}
+
 type Props = {
   card: CardType;
 };
@@ -97,11 +105,20 @@ const Card = ({ card }: Props) => {
         </a>
       );
     }
+    
     if (!card.link?.isExternalLink && card.link?.reference) {
+      const refType = card.link.reference._type;
+      const refMap: RefMapType = {
+        caseStudy: "case-study",
+        page: "",
+        statement: "statement",
+        report: "report"
+      }
       const slug =
         card.link.reference && 'slug' in card.link.reference
-          ? (card.link.reference as ReferenceType).slug?.current
+          ? `${(refMap[refType])}/${(card.link.reference as ReferenceType).slug?.current}`
           : undefined;
+          console.log(card.link)
       if (slug) {
         return (
           <Link
