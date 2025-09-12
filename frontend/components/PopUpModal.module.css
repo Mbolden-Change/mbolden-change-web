@@ -39,8 +39,7 @@
 .body {
     text-align: center;
     padding: 0.5rem;
-
-    font-size: small;
+    font-size: 0.85rem; /* between small and medium */
     font-weight: 550;
     overflow-y: auto;
     max-height: 200px;
