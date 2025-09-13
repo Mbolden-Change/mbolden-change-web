@@ -39,12 +39,8 @@
 .body {
     text-align: center;
     padding: 0.5rem;
-<<<<<<< HEAD
     font-size: 0.85rem; /* between small and medium */
     font-weight: 550;
-=======
-    font-size: small;
->>>>>>> 2f63bcd56f93009cb2a14f5f18ecc77ec93d3f4c
     overflow-y: auto;
     max-height: 200px;
 
@@ -228,7 +224,7 @@
     }
 .expandIcon{
     position: relative;
-    background: transparent;
+    background: stransparent;
     border: none;
     border-radius: 4px;
     padding: 0px;
