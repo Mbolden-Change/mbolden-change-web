@@ -217,7 +217,8 @@
     .body {
     text-align: center;
     padding: 0.5rem 0 0 0;
-    font-size: small;
+    font-size: 0.85rem;
+    font-weight: 550;
     overflow-y: auto;
     max-height: 100px
 }
