@@ -31,6 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           path = `/${item.currentSlug}`;
         } else if (item._type === 'report') {
           path = `/report/${item.currentSlug}`;
+        }
         
 
         return {
@@ -39,7 +40,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: 'monthly',
             priority,
         };
-      };
     });
     return [
         {
