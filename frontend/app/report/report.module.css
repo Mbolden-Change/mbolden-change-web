@@ -1,0 +1,55 @@
+.container {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  padding-bottom: 140px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.download {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--brand-warm-yellow);
+  color: black;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background 0.3s ease;
+}
+
+.download:hover {
+  background-color: #e1c71f;
+}
+
+.body p {
+  margin: 1rem 0;
+  line-height: 1.7;
+}
+
+.body h2 {
+  margin-top: 2rem;
+  font-family: var(--font-headline);
+  color: var(--brand-black);
+}
+
+.body ul,
+.body ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+  line-height: 1.7;
+}
+
+.body li {
+  margin-bottom: 1rem;
+}
