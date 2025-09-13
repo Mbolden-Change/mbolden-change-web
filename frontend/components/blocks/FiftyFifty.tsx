@@ -70,7 +70,7 @@ export default function FiftyFifty({
 
   useEffect(() => {
     // if (fiftyFiftyRef.current) {
-    //   const elements = [fiftyFiftyRef.current.querySelectorAll("h2"), fiftyFiftyRef.current.querySelectorAll("p")];
+    //   const elements = [fiftyFiftyRef.current.querySelectorAll("img"), fiftyFiftyRef.current.querySelectorAll("p")];
     //   console.log("Elements: ", elements);
 
     //   gsap.from(elements[0], {
@@ -119,36 +119,41 @@ export default function FiftyFifty({
       {/* Desktop View */}
       <div className={styles.desktopView}>
 
-        <AnimationComponent
+        {/* <AnimationComponent
           animationClass="scroll"
-          target="h2"
-          horizontalAxis={700}
+          target="p"
+          verticalAxis={100}
           start="top center"
-          end="+=300"
+          end="+=50"
           scrub={1}
           snapTo="labels"
-          durationMin= {0.05}
-          durationMax= {3}
-          delay={0.05}
+          durationMin= {0}
+          durationMax= {2}
+          delay={0}
           ease='power1.inOut'
-          markers={false}
-          >
+          markers={true}
+          > */}
       <Grid>
       <GridItem desktopSpan={6}>
 
-        <AnimationComponent
+        {/* <AnimationComponent
         animationClass="scroll"
-        target="img"
-        verticalAxis={300}
+        target="div"
+        horizontalAxis={1000}
         start="top center"
         end="+300"
         scrub={1}
         snapTo="labels"
         durationMin= {0.05}
         durationMax= {3}
-        delay={0.05}
+        delay={0}
         ease='power1.inOut'
-        markers={false}
+        markers={true}
+        > */}
+        <AnimationComponent
+          animationClass="scroll"
+          componentName="fiftyFifty"
+          elementType="image"
         >
         {mediaType === 'video' && leftVideoUrl
           ? <VideoPlayer url={leftVideoUrl} title="Left Google Drive Video" />
@@ -157,9 +162,9 @@ export default function FiftyFifty({
               <SanityNextImage image={leftImage} fit="cover"/>
             </div>
           : null}
+          </AnimationComponent>
             {leftTitle && <Headline tag='h2' text={leftTitle} />}
             {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />}
-          </AnimationComponent>
         </GridItem>
 
         <GridItem desktopSpan={6}>
@@ -174,7 +179,7 @@ export default function FiftyFifty({
           {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />}
         </GridItem>
       </Grid>
-      </AnimationComponent>
+      {/* </AnimationComponent> */}
       </div>
 
 
