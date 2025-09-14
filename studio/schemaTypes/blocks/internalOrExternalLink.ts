@@ -45,7 +45,7 @@ export const internalOrExternalLinkType = defineType({
     defineField({
       name: 'reference',
       type: 'reference',
-      to: [{type: 'page'}, {type: 'statement'}, {type: 'caseStudy'}, {type: 'report'}],
+      to: [{type: 'page'}, {type: 'statement'}, {type: 'caseStudy'}],
       hidden: ({parent}) => parent?.isExternalLink === true,
       validation: (Rule) =>
         Rule.custom((value, context) => {

@@ -20,7 +20,6 @@ interface RefMapType {
   caseStudy: string;
   page: string;
   statement: string;
-  report: string;
   [key: string]: string;
 }
 
@@ -57,8 +56,7 @@ export const LinkAtom = ({
     const refMap: RefMapType = {
       caseStudy: "case-study",
       page: "",
-      statement: "statement",
-      report: "report"
+      statement: "statement"
     }
 
     return (
