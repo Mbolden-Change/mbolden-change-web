@@ -31,5 +31,6 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       singletonListItem(S, 'statement', 'Statements').icon(BlockquoteIcon),
       singletonListItem(S, 'caseStudy', 'Case Study').icon(BlockquoteIcon),
+      singletonListItem(S, 'report', 'Reports').icon(BlockquoteIcon),
       S.divider(),
     ])
