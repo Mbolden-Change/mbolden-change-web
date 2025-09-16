@@ -11,7 +11,7 @@ import styles from './FiftyFifty.module.css'
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { AnimationComponent } from "../atoms/AnimationComponent";
 import { GiDuration } from "react-icons/gi";
 gsap.registerPlugin(useGSAP);
@@ -68,74 +68,32 @@ export default function FiftyFifty({
 
   const fiftyFiftyRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // if (fiftyFiftyRef.current) {
-    //   const elements = [fiftyFiftyRef.current.querySelectorAll("img"), fiftyFiftyRef.current.querySelectorAll("p")];
-    //   console.log("Elements: ", elements);
-
-    //   gsap.from(elements[0], {
-    //     x: 1000,
-    //     scrollTrigger: {
-    //       trigger: elements[0],
-    //       pin: false,
-    //       start: 'top center',
-    //       end: '+300',
-    //       scrub: 1,
-    //       snap: {
-    //         snapTo: 'labels',
-    //         duration: { min: 0, max: 3 },
-    //         delay: 0,
-    //         ease: 'power1.inOut'
-    //       },
-    //       markers: true
-    //     },
-    //   }),
-    //   gsap.from(elements[1], {
-    //     x: 1000,
-    //     scrollTrigger: {
-    //       trigger: elements[1],
-    //       pin: false,
-    //       start: 'top center',
-    //       end: '+300',
-    //       scrub: 1,
-    //       snap: {
-    //         snapTo: 'labels',
-    //         duration: { min: 0.05, max: 3 },
-    //         delay: 0.05,
-    //         ease: 'power1.inOut'
-    //       },
-    //       markers: true
-    //     }
-    //   });
-    // }
-  }, []);
-
-
-
-
+  
     return (
 
       <section className={styles.section} ref={fiftyFiftyRef}>
       {/* Desktop View */}
+        <AnimationComponent
+          animationClass="scroll"
+          componentName="fiftyFifty"
+          elementType= "box"
+          effectFrom={(leftVideoUrl || leftImage) ? "left" : "right"}
+        >
       <div className={styles.desktopView}>
         <Grid>
           <GridItem desktopSpan={6}>
-            <AnimationComponent
-              animationClass="scroll"
-              componentName="fiftyFifty"
-              elementType="image"
-            >
             {mediaType === 'video' && leftVideoUrl
-              ? <VideoPlayer url={leftVideoUrl} title="Left Google Drive Video" />
+              ? <VideoPlayer url={leftVideoUrl} title="Left Google Drive Video"/>
               : leftImage
               ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
                   <SanityNextImage image={leftImage} fit="cover"/>
                 </div>
               : null}
-              </AnimationComponent>
-            {leftTitle && <Headline tag='h2' text={leftTitle} />}
-            {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />}
+
+              {leftTitle && <Headline tag='h2' text={leftTitle} />}
+              {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />}
           </GridItem>
+
 
           <GridItem desktopSpan={6}>
             {mediaType === 'video' && rightVideoUrl
@@ -145,24 +103,12 @@ export default function FiftyFifty({
                   <SanityNextImage image={rightImage} fit="cover"/>
                 </div>
               : null}
-            <AnimationComponent
-              animationClass="scroll"
-              componentName="fiftyFifty"
-              elementType="headline-2"
-            >
               {rightTitle && <Headline tag='h2' text={rightTitle} />}
-            </AnimationComponent>
-            <AnimationComponent
-              animationClass="scroll"
-              componentName="fiftyFifty"
-              elementType="text"
-            >
               {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />}
-            </AnimationComponent>
           </GridItem>
         </Grid>
-      {/* </AnimationComponent> */}
       </div>
+      </AnimationComponent>
 
 
 

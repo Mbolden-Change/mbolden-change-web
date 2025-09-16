@@ -105,7 +105,7 @@ const Card = ({ card }: Props) => {
         </a>
       );
     }
-    
+
     if (!card.link?.isExternalLink && card.link?.reference) {
       const refType = card.link.reference._type;
       const refMap: RefMapType = {
@@ -118,7 +118,7 @@ const Card = ({ card }: Props) => {
         card.link.reference && 'slug' in card.link.reference
           ? `${(refMap[refType])}/${(card.link.reference as ReferenceType).slug?.current}`
           : undefined;
-          console.log(card.link)
+          // console.log(card.link)
       if (slug) {
         return (
           <Link
