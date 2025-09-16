@@ -118,67 +118,49 @@ export default function FiftyFifty({
       <section className={styles.section} ref={fiftyFiftyRef}>
       {/* Desktop View */}
       <div className={styles.desktopView}>
-
-        {/* <AnimationComponent
-          animationClass="scroll"
-          target="p"
-          verticalAxis={100}
-          start="top center"
-          end="+=50"
-          scrub={1}
-          snapTo="labels"
-          durationMin= {0}
-          durationMax= {2}
-          delay={0}
-          ease='power1.inOut'
-          markers={true}
-          > */}
-      <Grid>
-      <GridItem desktopSpan={6}>
-
-        {/* <AnimationComponent
-        animationClass="scroll"
-        target="div"
-        horizontalAxis={1000}
-        start="top center"
-        end="+300"
-        scrub={1}
-        snapTo="labels"
-        durationMin= {0.05}
-        durationMax= {3}
-        delay={0}
-        ease='power1.inOut'
-        markers={true}
-        > */}
-        <AnimationComponent
-          animationClass="scroll"
-          componentName="fiftyFifty"
-          elementType="image"
-        >
-        {mediaType === 'video' && leftVideoUrl
-          ? <VideoPlayer url={leftVideoUrl} title="Left Google Drive Video" />
-          : leftImage
-          ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
-              <SanityNextImage image={leftImage} fit="cover"/>
-            </div>
-          : null}
-          </AnimationComponent>
+        <Grid>
+          <GridItem desktopSpan={6}>
+            <AnimationComponent
+              animationClass="scroll"
+              componentName="fiftyFifty"
+              elementType="image"
+            >
+            {mediaType === 'video' && leftVideoUrl
+              ? <VideoPlayer url={leftVideoUrl} title="Left Google Drive Video" />
+              : leftImage
+              ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
+                  <SanityNextImage image={leftImage} fit="cover"/>
+                </div>
+              : null}
+              </AnimationComponent>
             {leftTitle && <Headline tag='h2' text={leftTitle} />}
             {leftText && <PortableTextComponent value={leftText as PortableTextBlock[]} />}
-        </GridItem>
+          </GridItem>
 
-        <GridItem desktopSpan={6}>
-          {mediaType === 'video' && rightVideoUrl
-            ? <VideoPlayer url={rightVideoUrl} title="Left Google Drive Video" />
-            : rightImage
-            ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
-                <SanityNextImage image={rightImage} fit="cover"/>
-              </div>
-            : null}
-          {rightTitle && <Headline tag='h2' text={rightTitle} />}
-          {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />}
-        </GridItem>
-      </Grid>
+          <GridItem desktopSpan={6}>
+            {mediaType === 'video' && rightVideoUrl
+              ? <VideoPlayer url={rightVideoUrl} title="Left Google Drive Video" />
+              : rightImage
+              ? <div className={`${styles.imageWrapper} ${getAspectRatioClass()}`}>
+                  <SanityNextImage image={rightImage} fit="cover"/>
+                </div>
+              : null}
+            <AnimationComponent
+              animationClass="scroll"
+              componentName="fiftyFifty"
+              elementType="headline-2"
+            >
+              {rightTitle && <Headline tag='h2' text={rightTitle} />}
+            </AnimationComponent>
+            <AnimationComponent
+              animationClass="scroll"
+              componentName="fiftyFifty"
+              elementType="text"
+            >
+              {rightText && <PortableTextComponent value={rightText as PortableTextBlock[]} />}
+            </AnimationComponent>
+          </GridItem>
+        </Grid>
       {/* </AnimationComponent> */}
       </div>
 
