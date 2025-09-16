@@ -68,7 +68,7 @@ export default function FiftyFifty({
 
   const fiftyFiftyRef = useRef<HTMLDivElement>(null);
 
-  
+
     return (
 
       <section className={styles.section} ref={fiftyFiftyRef}>

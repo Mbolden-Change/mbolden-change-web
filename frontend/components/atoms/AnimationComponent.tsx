@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -13,8 +13,8 @@ import React, { ReactNode } from 'react';
 
 type AnimationProps = {
     animationClass: "scroll" | "fade";
-    componentName: "fiftyFifty" | null;
-    elementType: "image" | "video" | "text" | "box" | "headline-2";
+    componentName: "fiftyFifty" | "cardGallery";
+    elementType: "image" | "video" | "text" | "box" | "headline-2" | "grid";
     effectFrom: "left" | "right" | "top" | "bottom";
     children?: ReactNode;
 
@@ -30,9 +30,9 @@ export const AnimationComponent = ({
     const animationComponentRef = useRef<HTMLDivElement>(this) as any;
 
     const effectDirection = (num:number, effectFrom:string) => {
-        if (effectFrom == "left" || "bottom") {
+        if (effectFrom == "left" || effectFrom == "bottom") {
             return num = Math.abs(num);
-        } else if (effectFrom == "right" || "top") {
+        } else if (effectFrom == "right" || effectFrom == "top") {
             return num = -(Math.abs(num));
         }
     }
@@ -46,7 +46,6 @@ export const AnimationComponent = ({
                 // console.log("Elements: ", element);
                 gsap.from(element, {
                     x: effectDirection(-1000, effectFrom),
-                    // y: effect
                     scrollTrigger: {
                     trigger: element[0],
                     pin: false,
@@ -63,40 +62,20 @@ export const AnimationComponent = ({
                     },
                 });
             }
-            if (animationClass == "scroll" && componentName == "fiftyFifty" && elementType == "text") {
-                const element = animationComponentRef.current.querySelectorAll("p");
+            if (animationClass == "scroll" && componentName == "cardGallery" && elementType == "box") {
+                const element = animationComponentRef.current.querySelectorAll("div");
                 gsap.from(element, {
-                    x: 1000,
+                    y: effectDirection(300, effectFrom),
                     scrollTrigger: {
                     trigger: element[0],
                     pin: false,
                     start: 'top center',
-                    end: '+300',
+                    end: '=+300',
                     scrub: 1,
                     snap: {
                         snapTo: 'labels',
-                        duration: { min: 0.05, max: 3 },
-                        delay: 0.05,
-                        ease: 'power1.inOut'
-                    },
-                    markers: true
-                    },
-                });
-            }
-            if (animationClass == "scroll" && componentName == "fiftyFifty" && elementType == "headline-2") {
-                const element = animationComponentRef.current.querySelectorAll("h2");
-                gsap.from(element, {
-                    x: 1000,
-                    scrollTrigger: {
-                    trigger: element[0],
-                    pin: false,
-                    start: 'top center',
-                    end: '+300',
-                    scrub: 1,
-                    snap: {
-                        snapTo: 'labels',
-                        duration: { min: 0.05, max: 3 },
-                        delay: 0.05,
+                        duration: { min: 0, max: 2 },
+                        delay: 0,
                         ease: 'power1.inOut'
                     },
                     markers: true

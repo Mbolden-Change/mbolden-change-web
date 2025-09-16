@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useState } from 'react'
 import { ReferenceType } from '@/components/atoms/Link';
 import VideoModal from './VideoModal';
+import { AnimationComponent } from "../../atoms/AnimationComponent";
 
 interface RefMapType {
   caseStudy: string;
@@ -133,14 +134,27 @@ const Card = ({ card }: Props) => {
     }
   }
 
-    return (
-      (!card.link?.isExternalLink && !card.link?.reference && !card.videoURL) ? (
-        <div
+  return (
+    (!card.link?.isExternalLink && !card.link?.reference && !card.videoURL) ? (
+      // <AnimationComponent
+      //   animationClass="scroll"
+      //   componentName="cardGallery"
+      //   elementType= "box"
+      //   effectFrom="bottom"
+      // >
+      <div
           className={styles.unstyledCard}
-        >
+          >
           {cardContent}
         </div>
-      ): (
+      // </AnimationComponent>
+    ): (
+      // <AnimationComponent
+      //   animationClass="scroll"
+      //   componentName="cardGallery"
+      //   elementType= "box"
+      //   effectFrom="bottom"
+      // >
         <div className={styles.card} onClick={handleToggle}>
           {cardContent}
           {isMountedModal && (
@@ -148,8 +162,9 @@ const Card = ({ card }: Props) => {
             <VideoModal url={card.videoURL} title={card.videoTitle || ""}/>
           )}
         </div>
-      )
-    );
+      // </AnimationComponent>
+    )
+  );
 };
 
 
