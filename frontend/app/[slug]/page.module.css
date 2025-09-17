@@ -6,9 +6,19 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  font-size : clamp(1.2rem, 4vw, 2.5rem);
-  font-weight : bold;
+  font-size: clamp(1.2rem, 4vw, 2.5rem);
+  font-weight: bold;
   text-align: center;
-  background: linear-gradient(135deg, #00c3ff 0%, #ffff1c 100%);
+
+  background: linear-gradient(
+  135deg,
+  var(--brand-aqua-teal) 0%,
+  var(--brand-warm-yellow) 100%
+);
+/* text gradient trick */
+-webkit-background-clip: text; /* Safari/Chrome */
+background-clip: text;         /* Standard */
+-webkit-text-fill-color: transparent; /* Safari/Chrome */
+color: transparent; 
   
 }
