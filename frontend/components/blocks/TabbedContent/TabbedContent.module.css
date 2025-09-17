@@ -1,8 +1,9 @@
-/* Make the active tab text aqua teal */
+/* Active tab text color */
 .tabButton.active {
   color: var(--brand-aqua-teal);
 }
 
+/* Frame & layout */
 .tabsFrame {
   height: auto;
   min-height: 1000px;
@@ -28,24 +29,25 @@
   padding: 5rem 0 0 0;
 }
 
-/* The shared underline lives on this container */
+/* ===== Shared underline host ===== */
 .tabsNavInner {
-  position: relative;
+  position: relative; /* for ::before positioning */
   display: inline-flex;
   border-bottom: 2px solid var(--brand-light-gray);
   width: fit-content;
   justify-content: center;
 
-  /* CSS vars that TS sets */
+  /* JS mutates these */
   --underline-width: 0px;
   --underline-offset-x: 0px;
 }
 
-/* The underline bar */
+/* The underline bar (anchored to the host’s left edge) */
 .tabsNavInner::before {
   content: "";
   position: absolute;
   top: 100%;
+  left: 0; /* critical: transform origin = nav’s left edge */
   height: 3px;
   width: var(--underline-width);
   transform: translateX(var(--underline-offset-x));
@@ -55,6 +57,7 @@
   will-change: transform, width;
 }
 
+/* Buttons */
 .tabButton {
   font: inherit;
   flex: 0 1 300px;
@@ -71,18 +74,22 @@
   position: relative;
   transition: color 0.3s;
   text-align: center;
-  transform: scaleX(1);
 }
 
-/* Focus ring for keyboard users */
+/* Keyboard focus */
 .tabButton:focus-visible {
   outline: 3px solid var(--brand-aqua-teal);
   outline-offset: 1px;
-  z-index: 2;
+  z-index: 1;
 }
 
+/* Label span measured for underline */
+.tabLabel {
+  display: inline-block;  /* rect = text only */
+  line-height: 1.2;
+}
 
-
+/* Content */
 .tabContent {
   width: 100%;
   height: auto;
@@ -91,6 +98,14 @@
   overflow-y: auto;
 }
 
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .tabsNavInner::before {
+    transition: none;
+  }
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 1000px) {
   .tabsFrame {
     height: auto;
