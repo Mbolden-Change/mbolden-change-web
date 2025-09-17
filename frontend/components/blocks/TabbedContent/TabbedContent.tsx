@@ -109,7 +109,7 @@ export default function TabsContainer({ tabs, defaultTabIndex }: TabsContainerPr
             {tabs.map((tab, i) => (
               <ButtonComponent
                 key={tab._key || i}
-                ref={(el: HTMLButtonElement) => (buttonRefs.current[i] = el)}
+                ref={(el: HTMLButtonElement | null) => { buttonRefs.current[i] = el; }}
                 variant="unstyled"
                 className={`${styles.tabButton} ${i === activeIndex ? styles.active : ''}`}
                 onClick={() => {
