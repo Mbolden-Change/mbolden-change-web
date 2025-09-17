@@ -123,6 +123,7 @@ const Card = ({ card }: Props) => {
           : undefined;
           console.log(card.link)
 
+      
       if (slug) {
         return (
           <Link
