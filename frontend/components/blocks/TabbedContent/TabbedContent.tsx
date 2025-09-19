@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PortableTextBlock } from 'next-sanity';
 import PortableTextComponent from '../../PortableTextComponent';
 import ButtonComponent from '@/components/atoms/ButtonComponent';
@@ -19,39 +19,79 @@ type TabsContainerProps = {
 
 export default function TabsContainer({ tabs, defaultTabIndex }: TabsContainerProps) {
   const [activeIndex, setActiveIndex] = useState(defaultTabIndex || 0);
-  const [hoverDirection, setHoverDirection] = useState<{[key: number]: 'left' | 'right' | null}>({});
-  const [leavingDirection, setLeavingDirection] = useState<{[key: number]: 'left' | 'right' | null}>({});
-  const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const handleMouseEnter = (index: number, e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, right } = e.currentTarget.getBoundingClientRect();
-    const mouseX = e.clientX;
-    const direction = mouseX - left < right - mouseX ? 'left' : 'right';
-    setHoverDirection((prev) => ({ ...prev, [index]: direction }));
-    setLeavingDirection((prev) => ({ ...prev, [index]: null }));
+  const navRef = useRef<HTMLDivElement | null>(null);
+  // 🔄 store refs to the full buttons, not spans
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const hoveredElRef = useRef<HTMLElement | null>(null);
+
+  if (!tabs || tabs.length === 0) return null;
+
+  // underline helpers
+  const setUnderline = (w: number, x: number) => {
+    const nav = navRef.current;
+    if (!nav) return;
+    nav.style.setProperty('--underline-width', `${w}px`);
+    nav.style.setProperty('--underline-offset-x', `${x}px`);
   };
 
-  const handleMouseLeave = (index: number, e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, right } = e.currentTarget.getBoundingClientRect();
-    const mouseX = e.clientX;
-    const direction = mouseX - left < right - mouseX ? 'left' : 'right';
-    setLeavingDirection((prev) => ({ ...prev, [index]: direction }));
-    setHoverDirection((prev) => ({ ...prev, [index]: null }));
+  const computeOffsets = (el: HTMLElement) => {
+    const nav = navRef.current!;
+    const navRect = nav.getBoundingClientRect();
+    const elRect  = el.getBoundingClientRect();
 
-    const btn = tabRefs.current[index];
-    if (btn) {
-      const handleTransitionEnd = () => {
-        setLeavingDirection(prev => ({ ...prev, [index]: null }));
-        setHoverDirection(prev => ({ ...prev, [index]: null }));
-        btn.removeEventListener('transitionend', handleTransitionEnd);
-      };
-      btn.addEventListener('transitionend', handleTransitionEnd);
-    }
+    const cs = window.getComputedStyle(nav);
+    const paddingLeft = parseFloat(cs.paddingLeft) || 0;
+    const borderLeft  = parseFloat(cs.borderLeftWidth) || 0;
+
+    const width  = elRect.width;
+    const offsetX = (elRect.left - navRect.left) - paddingLeft - borderLeft;
+
+    return { width, offsetX };
   };
 
-  if (!tabs || tabs.length === 0) {
-    return null;
-  }
+  const positionToEl = (el: HTMLElement | null) => {
+    if (!el) return;
+    const { width, offsetX } = computeOffsets(el);
+    setUnderline(width, offsetX);
+  };
+
+  const positionToActive = () => positionToEl(buttonRefs.current[activeIndex] ?? null);
+
+  useEffect(() => {
+    positionToActive();
+  }, [activeIndex, tabs.length]);
+
+  useEffect(() => {
+    const handle = () => {
+      if (hoveredElRef.current) positionToEl(hoveredElRef.current);
+      else positionToActive();
+    };
+    window.addEventListener('resize', handle);
+    (document as any).fonts?.ready?.then(handle).catch(() => {});
+    return () => window.removeEventListener('resize', handle);
+  }, [activeIndex]);
+
+  // Handlers
+  const onNavLeave = () => {
+    hoveredElRef.current = null;
+    positionToActive();
+  };
+  const onButtonEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    hoveredElRef.current = e.currentTarget;
+    positionToEl(e.currentTarget);
+  };
+  const onButtonLeave = () => {
+    hoveredElRef.current = null;
+  };
+  const onButtonFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+    hoveredElRef.current = e.currentTarget;
+    positionToEl(e.currentTarget);
+  };
+  const onButtonBlur = () => {
+    hoveredElRef.current = null;
+    positionToActive();
+  };
 
   const activeTabContent = tabs[activeIndex]?.content;
 
@@ -59,41 +99,39 @@ export default function TabsContainer({ tabs, defaultTabIndex }: TabsContainerPr
     <section className={styles.tabsFrame}>
       <div className={styles.tabsWrapper}>
         <div className={styles.tabsNavigation}>
-          <div className={styles.tabsNavInner}>
-            {tabs.map((tab, index) => {
-              let directionClass = '';
-              if (hoverDirection[index]) {
-                directionClass = hoverDirection[index] === 'left' ? styles.fromLeft : styles.fromRight;
-              } else if (leavingDirection[index]) {
-                directionClass = leavingDirection[index] === 'left' ? styles.fromLeft : styles.fromRight;
-              }
-              return (
-                <ButtonComponent
-                  key={tab._key || index}
-                  variant="unstyled"
-                  className={`${styles.tabButton} ${index === activeIndex ? styles.active : ''} ${directionClass}`}
-                  onClick={() => setActiveIndex(index)}
-                  aria-pressed={index === activeIndex}
-                  role="tab"
-                  tabIndex={0}
-                >
-                  <div
-                    ref={el => { tabRefs.current[index] = el; }}
-                    onMouseEnter={e => handleMouseEnter(index, e)}
-                    onMouseLeave={e => handleMouseLeave(index, e)}
-                    style={{ display: 'inline-block', width: '100%' }}
-                  >
-                    {tab.label}
-                  </div>
-                </ButtonComponent>
-              );
-            })}
+          <div
+            ref={navRef}
+            className={styles.tabsNavInner}
+            onMouseLeave={onNavLeave}
+            role="tablist"
+            aria-orientation="horizontal"
+          >
+            {tabs.map((tab, i) => (
+              <ButtonComponent
+                key={tab._key || i}
+                ref={(el: HTMLButtonElement | null) => { buttonRefs.current[i] = el; }}
+                variant="unstyled"
+                className={`${styles.tabButton} ${i === activeIndex ? styles.active : ''}`}
+                onClick={() => {
+                  setActiveIndex(i);
+                  positionToEl(buttonRefs.current[i]);
+                }}
+                onMouseEnter={onButtonEnter}
+                onMouseLeave={onButtonLeave}
+                onFocus={onButtonFocus}
+                onBlur={onButtonBlur}
+                aria-selected={i === activeIndex}
+                role="tab"
+                tabIndex={i === activeIndex ? 0 : -1}
+              >
+                {tab.label}
+              </ButtonComponent>
+            ))}
           </div>
         </div>
+
         <div className={styles.tabContent}>
-          {activeTabContent && (
-            <PortableTextComponent value={activeTabContent} />
-          )}
+          {activeTabContent && <PortableTextComponent value={activeTabContent} />}
         </div>
       </div>
     </section>
