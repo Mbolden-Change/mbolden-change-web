@@ -8,13 +8,14 @@ import { useState } from 'react'
 import { ReferenceType } from '@/components/atoms/Link';
 import VideoModal from './VideoModal';
 
+
 interface RefMapType {
   caseStudy: string;
   page: string;
   statement: string;
   report: string;
   [key: string]: string;
-}
+};
 
 type Props = {
   card: CardType;
@@ -23,6 +24,7 @@ type Props = {
 const Card = ({ card }: Props) => {
   const hasALink = () => {
     if (!card.link && !card.videoURL) return false;
+
 
     if (card.link?.isExternalLink && card.link.url) {
       return "hasExternalLink";
@@ -35,6 +37,7 @@ const Card = ({ card }: Props) => {
     if (card.videoURL) {
       return "hasVideoLink";
     }
+
 
     return false;
   };
