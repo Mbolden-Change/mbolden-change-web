@@ -24,7 +24,7 @@ export const AnimationComponent = ({
     elementType,
     effectFrom,
     children,
-    componentIndex = 0,
+    componentIndex = 1,
     }: AnimationProps) => {
     const animationComponentRef = useRef<HTMLDivElement>(this) as any;
 
@@ -37,7 +37,7 @@ export const AnimationComponent = ({
     }
 
     const animationStart = () => {
-        if (componentIndex < 2) {
+        if (componentIndex < 1) {
             return "top 100%";
         } else {
             return "top 85%"
@@ -63,7 +63,6 @@ export const AnimationComponent = ({
                         delay: 0.05,
                         ease: 'power1.inOut'
                     },
-                    // markers: true
                     },
                 });
             }
@@ -81,7 +80,6 @@ export const AnimationComponent = ({
                         delay: 0,
                         ease: 'power1.inOut'
                     },
-                    // markers: true
                     },
                 });
             }
