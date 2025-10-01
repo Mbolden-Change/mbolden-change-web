@@ -13,8 +13,8 @@ const ActionNetworkModal = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           person: {
-            given_name: "John",
-            family_name: "Wintz",
+            given_name: "demo",
+            family_name: "test",
             email_addresses: [{ address: email, status: "subscribed" }]
           },
           triggers: {
