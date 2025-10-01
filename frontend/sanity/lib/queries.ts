@@ -199,3 +199,20 @@ export const CASESTUDY_QUERY = defineQuery(`
     }
   }
 `);
+
+export const REPORT_QUERY = defineQuery(`
+  *[_type == "report" && slug.current == $slug][0]{
+    _id,
+    _type,
+    _createdAt,
+    _updatedAt,
+    title,
+    date,
+    "slug": slug.current,
+    text,
+    pdfDownload{
+      "url": asset->url,
+      originalFilename
+    }
+  }
+`);

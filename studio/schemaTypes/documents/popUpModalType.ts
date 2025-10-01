@@ -51,7 +51,9 @@ fields: [
       })
         },
     ],
-    validation: Rule => Rule.required().error('A main image is required.')
+
+    // validation: Rule => Rule.required().error('A main image is required.')
+
     }),
     defineField({
     name: 'CTA',
