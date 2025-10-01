@@ -13,7 +13,6 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { AnimationComponent } from "../atoms/AnimationComponent";
-import { GiDuration } from "react-icons/gi";
 gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollTrigger);
 
