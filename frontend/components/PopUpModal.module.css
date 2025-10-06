@@ -1,4 +1,4 @@
-.modalWrapper {
+.modalWrapper, .minimized {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -68,7 +68,7 @@
     padding: none;
     border: 2px solid black;
 }
-.minimizedContent {
+/* .minimizedContent {
     width: 100px;
     height: auto;
     opacity: 75%;
@@ -77,7 +77,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: 300ms ease;
-}
+} */
 
 
 /* .minimizedContentButtonBox{
@@ -106,7 +106,7 @@
     padding: 0px;
     width: auto;
     margin: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -114,7 +114,7 @@
     transition: background 0.2s ease;
     background-color: var(--brand-warm-yellow);
     opacity: 80%;
-    
+
 
      &:not(.disabled):hover {
         box-shadow: 0px 0px 20px var(--brand-warm-yellow);
@@ -157,8 +157,20 @@
         right: 0px;
         height: auto;
         transition: 300ms ease;
+        width: 100%;
 
-        /* margin: 0 auto; */
+        margin: 0 auto;
+        z-index: 1000;
+       /* max-width: 90vw; */
+    }
+    .minimized {
+        position: fixed;
+        bottom: 1rem;
+        right: 0px;
+        height: auto;
+        transition: 300ms ease;
+
+        margin-right: 0.3rem;
         /* width: 100%; */
         z-index: 1000;
        /* max-width: 90vw; */
@@ -170,7 +182,7 @@
         width: 100%;
         max-width: 90vw;
         max-height: 60vh;
-        margin: 0 1rem;
+        margin: 0 auto;
         padding: 1rem;
         overflow: hidden;
         box-sizing: border-box;
@@ -179,7 +191,7 @@
 
         /* scrollbar-gutter: stable; */
     }
-    .minimizedContent {
+    /* .minimizedContent {
         width: 60px;
         height: auto;
         max-height: 60vh;
@@ -189,9 +201,9 @@
         padding: 0.1rem;
         margin-right: 1rem;
         overflow: hidden;
-    }
+    } */
 
-    
+
     .imageWrapper {
         /* height: auto; */
         width: 100%;
@@ -199,7 +211,7 @@
         height: auto;
         overflow: hidden;
         margin: 0 auto;
-        justify-self: center; 
+        justify-self: center;
         display: flex;
         /* padding-bottom: 0.5rem; */
          /* min-height: 100px; */
@@ -230,7 +242,7 @@
     padding: 0px;
     width: auto;
     margin: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -239,7 +251,7 @@
     background-color: var(--brand-warm-yellow);
     opacity: 80%;
     margin-right: 1rem;
-    
+
 
      &:not(.disabled):hover {
         box-shadow: 0px 0px 20px var(--brand-warm-yellow);
