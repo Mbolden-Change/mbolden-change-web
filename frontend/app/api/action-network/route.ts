@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+
+    console.log('=== SENDING TO ACTION NETWORK ===');
+    console.log(JSON.stringify(body, null, 2));
+
     const response = await fetch(
       `https://actionnetwork.org/api/v2/forms/${process.env.ACTION_NETWORK_FORM_ID}/submissions`,
       {
@@ -29,6 +33,10 @@ export async function POST(req: NextRequest) {
 
     const data = await response.text();
     console.log('Form Submission Response:', response.status, data);
+
+    console.log('=== ACTION NETWORK RESPONSE ===');
+    console.log('Status:', response.status);
+    console.log('Response:', data);
     
     return NextResponse.json({
       success: response.ok,
