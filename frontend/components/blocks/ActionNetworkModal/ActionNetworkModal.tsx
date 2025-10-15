@@ -14,8 +14,15 @@ interface ActionNetworkModalProps {
   description?: string;
 }
 
-const ActionNetworkModal = ({ isOpen, onClose, title = "Sign Up for Updates", description }: ActionNetworkModalProps) => {
-  const [formData, setFormData] = useState({
+const ActionNetworkModal = ({ isOpen, onClose, title = "Sign Up for Updates" }: ActionNetworkModalProps) => {
+  const [formData, setFormData] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('actionNetworkFormData');
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    }
+    return {
     firstName: '',
     lastName: '',
     email: '',
@@ -29,22 +36,28 @@ const ActionNetworkModal = ({ isOpen, onClose, title = "Sign Up for Updates", de
     textAlerts: false,
     printMailings: false,
     signUpForEverything: false
+    }
   });
 
 const [isSubmitting, setIsSubmitting] = useState(false);
 const [submitStatus, setSubmitStatus] = useState<'neutral' | 'success' | 'error'>('neutral');
 
+
 const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData(prev => ({
-      ...prev,
+    const newFormData = {
+      ...formData,
       [field]: value
-    }));
+    };
+  setFormData(newFormData);
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('actionNetworkFormData', JSON.stringify(newFormData));
+  }
   };
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsSubmitting(true);
-  setSubmitStatus('neutral')
+  setSubmitStatus('neutral');
 
     try {
       const formDataStructure = {
@@ -55,18 +68,21 @@ const handleSubmit = async (e: React.FormEvent) => {
                 address: formData.email,
                 status: "subscribed"
             }],
-            phone_numbers: formData.mobile ? [{
+             ...(formData.mobile ? {
+            phone_numbers: [{
               number: formData.mobile,
-              //?May need to leave in number_type
-              // number_type: "Mobile", 
+              number_type: "Mobile",
               status: "subscribed"
-            }] : [],
-            postal_addresses: formData.street ? [{
-                  address_lines: [formData.street],
-                  locality: formData.city,
-                  postal_code: formData.zip,
-                  country: "US"
-            }] : [],
+            }]
+            } : {}),
+            ...(formData.street ? {
+            postal_addresses: [{
+              address_lines: [formData.street],
+              locality: formData.city,
+              postal_code: formData.zip,
+              country: "US"
+              }]
+            } : {}),
             custom_fields: {
             "Sign-Up_E-Newsletter": formData.eNewsletter ? "1" : "0",
             "Sign-Up_Advocacy Alerts (email)": formData.advocacyAlerts ? "1" : "0",
@@ -93,7 +109,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         setSubmitStatus('success');
         setTimeout(() => {
           onClose();
-          setFormData({
+          const emptyFormData ={
             firstName: '',
             lastName: '',
             email: '',
@@ -107,20 +123,26 @@ const handleSubmit = async (e: React.FormEvent) => {
             textAlerts: false,
             printMailings: false,
             signUpForEverything: false
-          })
+          };
+
+        setFormData(emptyFormData);
+
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('actionNetworkFormData');
+        }
           setSubmitStatus('neutral');
         }, 1000);
       } else {
         setSubmitStatus('error');
       }
       
-      } catch (error) {
+    }catch (error) {
         console.error('Error:', error);
         setSubmitStatus('error');
       } finally {
         setIsSubmitting(false);
       }
-  };
+    };
 
   if(!isOpen) return null;
 
@@ -144,7 +166,18 @@ const handleSubmit = async (e: React.FormEvent) => {
             <IoMdClose />
           </button>
         </div>
-
+        {/* {submitStatus === 'success' ? (
+          <div className={styles.successMessage}>
+            <h3>Thank you!</h3>
+            <p>Your subscription has been successfully submitted. You'll receive updates soon!</p>
+            <ButtonComponent 
+              onClick={onClose}
+              variant="primary"
+            >
+              Close
+            </ButtonComponent>
+          </div>
+        ) : ( */}
       <form onSubmit={handleSubmit}>
         {/* Personal Info */}
         <div className={styles.formSection}>
@@ -155,7 +188,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           value={formData.firstName}
           onChange={(e) => handleInputChange('firstName', e.target.value)}
           className={styles.input}
-          required
+          maxLength={50}
         />
         <input
           type="text"
@@ -163,23 +196,24 @@ const handleSubmit = async (e: React.FormEvent) => {
           value={formData.lastName}
           onChange={(e) => handleInputChange('lastName', e.target.value)}
           className={styles.input}
-          required
+          maxLength={50}
         />
         </div>
         <input
           type="email"
-          placeholder="Email *"
+          placeholder="Email (required to sign-up)"
           value={formData.email}
           onChange={(e) => handleInputChange('email', e.target.value)}
           className={styles.input}
           required
-        />
+        /> 
         <input
           type="tel"
-          placeholder="Mobile Number"
+          placeholder="Phone Number"
           value={formData.mobile}
           onChange={(e) => handleInputChange('mobile', e.target.value)}
           className={styles.input}
+          maxLength={20}
         />
         <input
           type="text"
@@ -187,14 +221,15 @@ const handleSubmit = async (e: React.FormEvent) => {
           value={formData.street}
           onChange={(e) => handleInputChange('street', e.target.value)}
           className={styles.input}
+          maxLength={100}
         />
-        <div className={styles.inputRow}>
         <input
           type="text"
           placeholder="City"
           value={formData.city}
           onChange={(e) => handleInputChange('city', e.target.value)}
           className={styles.input}
+          maxLength={50}
         />
         <input
           type="text"
@@ -202,11 +237,11 @@ const handleSubmit = async (e: React.FormEvent) => {
           value={formData.zip}
           onChange={(e) => handleInputChange('zip', e.target.value)}
           className={styles.input}
+          maxLength={10}
         />
         </div>
-      </div>
 
-      {/* Subscription Preferences */}
+      {/* CheckBoxes */}
       <div className={styles.formSection}>
         <h4>Sign-Up</h4>
           <div className={styles.inputRowBoxes}>
@@ -264,15 +299,16 @@ const handleSubmit = async (e: React.FormEvent) => {
       <ButtonComponent 
             type="submit"
             variant="primary"
-            disabled={isSubmitting || !formData.email}
+            disabled={isSubmitting}
           >
             {isSubmitting ? 'Submitting...' : 'Submit'}
           </ButtonComponent>
           </form>
+        
     </div>
     </div>
     </div>
-  );
+   );
 };
 
 export default ActionNetworkModal;
