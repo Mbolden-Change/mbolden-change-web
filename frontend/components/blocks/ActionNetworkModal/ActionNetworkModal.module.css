@@ -73,6 +73,8 @@
 .formSection h4 {
   color: var(--brand-fuchsia);
   font-weight: 800;
+  cursor: default;
+  user-select: none;
 }
 
 .inputRowBoxes input[type="checkbox"] {
@@ -125,14 +127,14 @@
 
 }
 
-/* .successMessage {
+.successMessage {
   text-align: center;
   padding: 2rem;
   color: var(--brand-black);
 }
 
 .successMessage h3 {
-  color: #16a34a;
+  color: var(--brand-fuchsia);
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
@@ -144,21 +146,15 @@
 }
 
 .successBanner {
-  background-color: #dcfce7;
-  border: 1px solid #16a34a;
-  color: #15803d;
+  color: var(--brand-fuchsia);
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-.errorBanner {
-  background-color: #fef2f2;
-  border: 1px solid #dc2626;
-  color: #dc2626;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  text-align: center;
-} */
+
+.headline {
+  user-select: none;
+  cursor: default;
+}

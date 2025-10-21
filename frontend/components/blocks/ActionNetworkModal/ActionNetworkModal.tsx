@@ -11,7 +11,6 @@ interface ActionNetworkModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  description?: string;
 }
 
 const ActionNetworkModal = ({ isOpen, onClose, title = "Sign Up for Updates" }: ActionNetworkModalProps) => {
@@ -80,7 +79,6 @@ const handleSubmit = async (e: React.FormEvent) => {
               address_lines: [formData.street],
               locality: formData.city,
               postal_code: formData.zip,
-              country: "US"
               }]
             } : {}),
             custom_fields: {
@@ -107,8 +105,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       if(result.success) {
         setSubmitStatus('success');
-        setTimeout(() => {
-          onClose();
           const emptyFormData ={
             firstName: '',
             lastName: '',
@@ -130,8 +126,6 @@ const handleSubmit = async (e: React.FormEvent) => {
         if (typeof window !== 'undefined') {
           sessionStorage.removeItem('actionNetworkFormData');
         }
-          setSubmitStatus('neutral');
-        }, 1000);
       } else {
         setSubmitStatus('error');
       }
@@ -166,18 +160,21 @@ const handleSubmit = async (e: React.FormEvent) => {
             <IoMdClose />
           </button>
         </div>
-        {/* {submitStatus === 'success' ? (
+        {submitStatus === 'success' ? (
           <div className={styles.successMessage}>
             <h3>Thank you!</h3>
             <p>Your subscription has been successfully submitted. You'll receive updates soon!</p>
             <ButtonComponent 
-              onClick={onClose}
-              variant="primary"
+               onClick={() => {
+                setSubmitStatus('neutral');
+                onClose();
+                }}
+                variant='primary'
             >
               Close
             </ButtonComponent>
           </div>
-        ) : ( */}
+        ) : (
       <form onSubmit={handleSubmit}>
         {/* Personal Info */}
         <div className={styles.formSection}>
@@ -304,7 +301,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             {isSubmitting ? 'Submitting...' : 'Submit'}
           </ButtonComponent>
           </form>
-        
+        )}
     </div>
     </div>
     </div>

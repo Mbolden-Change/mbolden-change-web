@@ -44,9 +44,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
         setModalState(newState)
     }
 
-    const isActionNetworkUrl = (url?: string) => {
-        return url?.includes('https://actionnetwork.org/forms/sign-up-to-get-the-latest-from-mbolden-change') || false;
-    };
+    const isActionNetworkUrl = (url?: string) => url?.includes('https://actionnetwork.org/forms/sign-up-to-get-the-latest-from-mbolden-change');
 
     const handleCTAClick = (e: React.MouseEvent) => {
         if (isActionNetworkUrl(popUpModalData.CTA?.url)) {
