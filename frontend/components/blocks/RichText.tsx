@@ -16,6 +16,20 @@ type RichTextProps = {
 export default function RichText({ title, text, email, emailMessage, variant = 'standalone' }: RichTextProps) {
   const variantClass = variant === 'standalone'? styles.standalone: styles.nested;
 
+  const charWrap = (msg: string) => {
+    return msg.split('').map((char, i) => (
+        <span
+          key={i}
+          className={styles.charWave}
+          style={{
+            animationDelay: `${i * 0.1}s`
+          }}
+          >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
     const content = (
       <div className={variantClass}>
         {title && <Headline tag='h2' text={title} className={styles.headline}/>}
@@ -26,7 +40,7 @@ export default function RichText({ title, text, email, emailMessage, variant = '
             aria-label="Email"
             className={styles.emailMsg}
           >
-            {emailMessage}
+            {charWrap(emailMessage)}
           </a>
         }
       </div>

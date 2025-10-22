@@ -31,38 +31,26 @@
   font-size: large;
   font-weight: 600;
   color: var(--brand-black);
-  /* border-radius: 10px; */
-  /* background: var(--brand-warm-yellow); */
-  /* background-color: rgba(218, 218, 218, 0.898); */
-  /* letter-spacing: 2px; */
-  padding: 1px 10px;
   position: relative;
   display: inline-block;
-  transform: skew(-10.25deg);
   overflow: hidden;
   z-index: 1;
-  text-decoration: underline;
 }
 
-.emailMsg:hover {
-  /* color: var(--brand-white); */
-  /* background-color: var(--brand-aqua-teal); */
-  /* text-decoration-line: underline; */
+.charWave {
+  display: inline-block;
+  animation:
+    color-pulse 2.3s ease-in-out infinite;
+  animation-delay: calc(var(--char-index) * 0.1s);
+
 }
 
-
-.emailMsg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--brand-warm-yellow);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease-in-out;
-    clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
-  z-index: -1;
+@keyframes color-pulse {
+  0%, 100% { color: var(--brand-black); }
+  50% { color: var(--brand-fuchsia); }
 }
 
-.emailMsg:hover::before {
-  transform: scaleX(1);
+.emailMsg:hover .charWave {
+  animation: none;
+  color: var(--brand-fuchsia);
 }
