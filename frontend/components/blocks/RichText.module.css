@@ -26,3 +26,31 @@
   line-height: 1.6;
   color: var(--brand-white);
 }
+
+.emailMsg {
+  font-size: large;
+  font-weight: 600;
+  color: var(--brand-black);
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.charWave {
+  display: inline-block;
+  animation:
+    color-pulse 2.3s ease-in-out infinite;
+  animation-delay: calc(var(--char-index) * 0.1s);
+
+}
+
+@keyframes color-pulse {
+  0%, 100% { color: var(--brand-black); }
+  50% { color: var(--brand-fuchsia); }
+}
+
+.emailMsg:hover .charWave {
+  animation: none;
+  color: var(--brand-fuchsia);
+}
