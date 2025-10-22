@@ -109,7 +109,7 @@ const Card = ({ card }: Props) => {
       );
     }
 
-    if (!card.link?.isExternalLink && card.link?.reference) {
+ if (!card.link?.isExternalLink && card.link?.reference) {
       const refType = card.link.reference._type;
       const refMap: RefMapType = {
         caseStudy: "case-study",
@@ -117,7 +117,9 @@ const Card = ({ card }: Props) => {
         statement: "statement",
         report: "report"
       }
-      const slug =
+
+
+  const slug =
         card.link.reference && 'slug' in card.link.reference
           ? `${(refMap[refType])}/${(card.link.reference as ReferenceType).slug?.current}`
           : undefined;
