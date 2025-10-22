@@ -1,4 +1,4 @@
-import NotFoundWithRedirect from './NotFoundWithRedirect';
+import { notFound } from 'next/navigation';
 import { PageBuilder } from '@/components/PageBuilder';
 import { getPage } from '@/lib/getPage';
 import styles from './page.module.css';
@@ -10,7 +10,7 @@ export default async function Page({
 }) {
   const page = await getPage((await params).slug);
   if (!page) {
-    return <NotFoundWithRedirect />;
+    notFound();
   }
 
   return (
