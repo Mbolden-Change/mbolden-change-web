@@ -101,7 +101,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         body: JSON.stringify(formDataStructure)
         });
       const result = await response.json();
-      console.log('Form submission result:', result);
+      // console.log('Form submission result:', result);
 
       if(result.success) {
         setSubmitStatus('success');
