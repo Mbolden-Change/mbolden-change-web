@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import Grid from '@/components/Grid';
 import GridItem from '@/components/GridItem';
 import PortableTextComponent from '@/components/PortableTextComponent';
@@ -13,7 +14,7 @@ export default async function ReportPage({
   const report = await getReport((await params).slug);
 
   if (!report) {
-    return <div>Report not found</div>;
+    notFound();
   }
 
   return (
