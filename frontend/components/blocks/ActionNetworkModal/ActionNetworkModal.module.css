@@ -45,7 +45,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  /* width: 80%; */
 }
 
 .inputRowBoxes {
@@ -68,6 +67,7 @@
 
 .inputRowBoxes label {
   padding: .25rem;
+  cursor: default;
 }
 
 .formSection h4 {
@@ -80,6 +80,8 @@
 .inputRowBoxes input[type="checkbox"] {
   margin-right: 0.5rem;
   transform: scale(1.2);
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .inputRowBoxes input[type="checkbox"]:checked { 

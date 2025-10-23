@@ -101,7 +101,6 @@ const handleSubmit = async (e: React.FormEvent) => {
         body: JSON.stringify(formDataStructure)
         });
       const result = await response.json();
-      // console.log('Form submission result:', result);
 
       if(result.success) {
         setSubmitStatus('success');
@@ -139,6 +138,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     };
 
   if(!isOpen) return null;
+  
 
    return (
     <div>
@@ -154,7 +154,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             onClose();
           }}
             className={styles.closeButton}
-            aria-label="Close modal"
+            aria-label="Close Modal"
             type="button"
           >
             <IoMdClose />

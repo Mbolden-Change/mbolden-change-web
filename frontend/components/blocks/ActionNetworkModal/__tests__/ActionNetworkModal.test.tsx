@@ -2,7 +2,6 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ActionNetworkModal from '../ActionNetworkModal';
-import { mock } from 'node:test';
 
 jest.mock('../../../atoms/ButtonComponent', () => {
     return function MockButton({ children, onClick, type, disabled }: any) {
@@ -20,10 +19,6 @@ jest.mock('../../../atoms/Headline', () => {
         return <Tag>{text}</Tag>;
     };
 });
-
-jest.mock('react-icons/io', () => ({
-    IoMdClose: () => <span>Close Icon</span>,
-}))
 
 describe('ActionNetworkModal', () => {
 
@@ -65,7 +60,7 @@ describe('ActionNetworkModal', () => {
 
     it('should call onClose when close button is clicked', () => {
         render(<ActionNetworkModal {...defaultProps} />);
-        const closeButton = screen.getByLabelText('Close modal');
+        const closeButton = screen.getByLabelText('Close Modal');
         fireEvent.click(closeButton);
         expect(mockOnClose).toHaveBeenCalledTimes(1);
     });
@@ -81,7 +76,7 @@ describe('ActionNetworkModal', () => {
     it('should toggle checkboxes when clicked', async () => {
         const user = userEvent.setup();
         render(<ActionNetworkModal {...defaultProps}/>);
-        const checkbox = screen.getByLabelText(/E-Newsletter/i) as HTMLInputElement;
+        const checkbox = screen.getByLabelText(/E-Newsletter/) as HTMLInputElement;
         expect(checkbox.checked).toBe(false);
         await user.click(checkbox);
         expect(checkbox.checked).toBe(true);

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 
 jest.mock('next/server', () => ({
@@ -25,10 +25,6 @@ describe('Action Network API Route', () => {
 
         process.env.ACTION_NETWORK_FORM_ID = mockEnv.ACTION_NETWORK_FORM_ID;
         process.env.ACTION_NETWORK_API_KEY = mockEnv.ACTION_NETWORK_API_KEY;
-    })
-
-    afterEach(() => {
-        jest.restoreAllMocks();
     })
 
     const createMockRequest = (body: any): NextRequest => {
