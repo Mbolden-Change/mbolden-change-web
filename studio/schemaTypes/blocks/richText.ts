@@ -16,6 +16,17 @@ export const richText = defineType({
       type: 'array',
       of: [{type: 'block'}, {type: 'image'}],
     }),
+    defineField({
+      name: 'email',
+      title: 'Email',
+      type: 'string',
+    }),
+    defineField({
+      name: 'emailMessage',
+      title: 'Email Message',
+      type: 'string',
+      description: 'Formatted such that message is clickable and take'
+    }),
   ],
   preview: {
     select: { title: 'title'},

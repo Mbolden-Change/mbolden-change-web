@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import Grid from '@/components/Grid';
 import GridItem from '@/components/GridItem';
 import { getCaseStudy } from '@/lib/getCaseStudy';
@@ -11,7 +12,7 @@ params,
 }) {
   const caseStudy = await getCaseStudy((await params).slug);
   if (!caseStudy) {
-    return <div>Case Study not found</div>;
+    notFound();
   }
 return(
     <Grid className={styles.caseWrapper}>

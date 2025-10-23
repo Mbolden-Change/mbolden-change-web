@@ -12,10 +12,10 @@ export function PageBuilder({ content }: PageBuilderProps) {
 
   return (
     <main id="as-main">
-      {content.map((block) => {
+      {content.map((block, index) => {
         const Component =
           componentMap[block._type] || (() => <div>Block not found</div>);
-        return <Component key={block._key} {...block} />;
+        return <Component key={block._key} {...block} componentIndex={index}/>;
       })}
     </main>
   );

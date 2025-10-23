@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import Grid from '@/components/Grid';
 import GridItem from '@/components/GridItem';
 import PortableTextComponent from '@/components/PortableTextComponent';
@@ -13,7 +14,7 @@ export default async function StatementPage({
   const statement = await getStatement((await params).slug);
 
   if (!statement) {
-    return <div>Statement not found</div>;
+    notFound();
   }
 
   return (

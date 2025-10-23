@@ -60,13 +60,13 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
         return (
             //   Collapsed State
 
-            
 
-                <div className={`${styles.modalWrapper} ${modalState === "collapsed" ? styles.minimized : ''}`}>
+
+                <div className={`${modalState === "collapsed" ? styles.minimized : styles.modalWrapper}`}>
                 {modalState === "collapsed" ? (
                     <div  onClick={handleToggle}>
                     {popUpModalData.image  &&  (
-                        <div className={styles.minimizedContent}>
+                        <div className={styles.minimized}>
                         <SanityNextImage
                         image={popUpModalData.image}
                         fit='contain'
@@ -75,9 +75,9 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                         />
                         </div>
                     )}
-                    
+
                     <div/>
-                        
+
                         {/* <div className={styles.minimizedContentButtonBox} onClick={handleToggle}>
                         {!popUpModalData.image &&  (
                         <button
@@ -90,7 +90,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                             </button>
                     )}
                     </div> */}
-                    
+
                         {!popUpModalData.image &&  (
                         <ButtonComponent
                                 onClick={handleToggle}
@@ -102,10 +102,10 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                                 < PiArrowSquareUpLeftBold />
                             </ButtonComponent>
                     )}
-                    
+
                 </div>
                 ) : (
-                        
+
 
 
             //   Expanded State
@@ -132,7 +132,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
 
                     <div onClick={handleCTAClick}>
                         {popUpModalData.CTA ?
-                            
+
                             <ButtonComponent
                             link={popUpModalData.CTA}
                             variant='primary'
