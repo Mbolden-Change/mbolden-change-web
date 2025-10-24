@@ -160,3 +160,11 @@
   user-select: none;
   cursor: default;
 }
+
+.inputLabel {
+  display: block;
+  padding: 2px 0px 2px 5px;
+  color: var(--brand-black);
+  font-weight: 600;
+  font-size: 0.9rem;
+}

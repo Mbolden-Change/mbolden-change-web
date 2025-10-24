@@ -405,6 +405,8 @@ export type RichText = {
     _type: "image";
     _key: string;
   }>;
+  email?: string;
+  emailMessage?: string;
 };
 
 export type Hero = {

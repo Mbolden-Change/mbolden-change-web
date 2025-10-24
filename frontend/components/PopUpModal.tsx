@@ -17,12 +17,6 @@ type PopUpModalProps = {
     popUpModalData: PopUpModalType;
 };
 
-// Attn: Modal should not cover up carousel nav buttons - DONE
-// Add onclick activity for modal like open/close - DONE
-// Fix CTA not rendering - DONE
-// Styling stuff - DONE
-// Onclick CTA, modal should close - DONE
-
 const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
 
     const [modalState, setModalState] = useState("expanded");
@@ -144,7 +138,6 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                 <ActionNetworkModal
                     isOpen={isActionNetworkModalOpen}
                     onClose={() => {setIsActionNetworkModalOpen(false);
-                    handleToggle();
                         }}
                 />
                 </>
