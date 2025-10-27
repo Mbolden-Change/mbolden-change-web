@@ -101,22 +101,29 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   _type,
   slug}
   },
+  "resolvedUrl": coalesce(url, reference->slug.current, "")
   },
   socialLinks[]{
-  ...,},
-  primaryLogo,
-  secondaryLogo,
-  organizationInfo,
+  ...,
+  "resolvedUrl": coalesce(url, "")
+},
   newsletterButton {
     isExternalLink,
     url,
+    "resolvedUrl": coalesce(url, reference->slug.current, ""),
     title,
     target,
     reference-> {
       _type,
       slug
     }
-  }
+  },
+  primaryLogo,
+  secondaryLogo,
+  // logos 
+  "primaryLogoUrl": primaryLogo.asset->url,
+  "secondaryLogoUrl": secondaryLogo.asset->url,
+  organizationInfo
 }`);
 
 export const PillarContainer_Query =
