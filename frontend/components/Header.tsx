@@ -9,6 +9,8 @@ import SanityNextImage from './SanityNextImage';
 import { Header as HeaderType } from '@/sanity/types';
 import { LinkAtom, ReferenceType } from './atoms/Link';
 import styles from './Header.module.css';
+import HeaderStructuredData from './HeaderStructureData';
+
 
 type HeaderProps = { headerData: HeaderType };
 
@@ -20,6 +22,7 @@ export default function Header({ headerData }: HeaderProps) {
   }
 
   return (
+    <>
     <header className={styles.header}>
       <Grid>
         <GridItem desktopSpan={12} mobileSpan={12}>
@@ -107,5 +110,11 @@ export default function Header({ headerData }: HeaderProps) {
         </GridItem>
       </Grid>
     </header>
+
+    <HeaderStructuredData
+        header={headerData}
+        siteUrl={'https://www.mboldenchange.org/'}
+      />
+      </>
   );
 }
