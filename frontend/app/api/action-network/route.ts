@@ -17,6 +17,15 @@ export async function POST(req: NextRequest) {
     );
 
     const data = await response.text();
+
+    if (!response.ok) {
+      return NextResponse.json({
+        success: false,
+        status: response.status,
+        error: 'Action Network request failed',
+        data: data || '{}'
+      }, { status: response.status });
+    }
  
     return NextResponse.json({
       success: response.ok,

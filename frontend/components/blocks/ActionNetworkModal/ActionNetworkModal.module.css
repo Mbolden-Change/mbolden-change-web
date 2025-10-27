@@ -168,3 +168,26 @@
   font-weight: 600;
   font-size: 0.9rem;
 }
+
+.errorMessage {
+  text-align: center;
+  padding: 2rem;
+  color: var(--brand-black);
+  cursor: default;
+}
+
+.errorMessage h3 {
+  color: var(--brand-fuchsia);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  cursor: default;
+  user-select: none;
+}
+
+.errorMessage p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  cursor: default;
+  user-select: none;
+}

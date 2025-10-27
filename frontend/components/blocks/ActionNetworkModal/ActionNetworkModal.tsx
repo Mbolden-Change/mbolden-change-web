@@ -102,7 +102,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         });
       const result = await response.json();
 
-      if(result.success) {
+      if(response.ok && result.success) {
         setSubmitStatus('success');
           const emptyFormData ={
             firstName: '',
@@ -164,6 +164,20 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div className={styles.successMessage}>
             <h3>Thank you!</h3>
             <p>Your subscription has been successfully submitted. You'll receive updates soon!</p>
+            <ButtonComponent 
+               onClick={() => {
+                setSubmitStatus('neutral');
+                onClose();
+                }}
+                variant='primary'
+            >
+              Close
+            </ButtonComponent>
+          </div>
+        ) : submitStatus === 'error' ? (
+          <div className={styles.successMessage}>
+            <h3>Oops! Something went wrong</h3>
+            <p>Sorry, the Action Network servers are currently unavailable. Please try again later.</p>
             <ButtonComponent 
                onClick={() => {
                 setSubmitStatus('neutral');
