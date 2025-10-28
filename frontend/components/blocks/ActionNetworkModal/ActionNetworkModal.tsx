@@ -193,109 +193,121 @@ const handleSubmit = async (e: React.FormEvent) => {
         {/* Personal Info */}
         <div className={styles.formSection}>
           <div className={styles.inputRow}>
-            <div>
-              <label htmlFor="firstName" className={styles.inputLabel}>
-                First Name
-              </label>
+            <div className={styles.inputWrapper}>
               <input
                 type="text"
                 id="firstName"
-                placeholder="Enter your first name"
+                placeholder=" "
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
                 className={styles.input}
                 maxLength={50}
               />
+              <label htmlFor='firstName' className={styles.inputLabel}>
+                First Name
+              </label>
             </div>
             <div>
-              <label htmlFor="lastName" className={styles.inputLabel}>
-                Last Name
-              </label>
+              <div className={styles.inputWrapper}>
               <input
                 type="text"
                 id="lastName"
-                placeholder="Enter your last name"
+                placeholder=" "
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
                 className={styles.input}
                 maxLength={50}
               />
+              <label htmlFor="lastName" className={styles.inputLabel}>
+                Last Name
+              </label>
+              </div>
             </div>
           </div>
           
           <div>
-            <label htmlFor="email" className={styles.inputLabel}>
-              Email <span className={styles.required}>*</span>
-            </label>
+            <div className={styles.inputWrapper}>
             <input
               type="email"
               id="email"
-              placeholder="Enter your email address"
+              placeholder=" "
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               className={styles.input}
               required
             />
+            <label htmlFor="email" className={styles.inputLabel}>
+              Email  <span className={styles.required}>(Required)*</span>
+            </label>
+            </div>
           </div>
           
           <div>
-            <label htmlFor="tel" className={styles.inputLabel}>
-              Phone Number
-            </label>
+          <div className={styles.inputWrapper}>
             <input
               type="tel"
               id="tel"
-              placeholder="Enter your phone number"
+              placeholder=" "
               value={formData.mobile}
               onChange={(e) => handleInputChange('mobile', e.target.value)}
               className={styles.input}
               maxLength={20}
             />
+            <label htmlFor="tel" className={styles.inputLabel}>
+              Phone Number
+            </label>
+            </div>
           </div>
           
           <div>
-            <label htmlFor="street-address" className={styles.inputLabel}>
-              Street Address
-            </label>
+            <div className={styles.inputWrapper}>
             <input
               type="text"
               id="street-address"
-              placeholder="Enter your street address"
+              placeholder=" "
               value={formData.street}
               onChange={(e) => handleInputChange('street', e.target.value)}
               className={styles.input}
               maxLength={100}
             />
+            <label htmlFor="street-address" className={styles.inputLabel}>
+              Street Address
+            </label>
+            </div>
           </div>
           
           <div>
-            <label htmlFor="city" className={styles.inputLabel}>
-              City
-            </label>
+            <div className={styles.inputWrapper}>
             <input
               type="text"
               id="city"
-              placeholder="Enter your city"
+              placeholder=" "
               value={formData.city}
               onChange={(e) => handleInputChange('city', e.target.value)}
               className={styles.input}
               maxLength={50}
             />
+            <label htmlFor="city" className={styles.inputLabel}>
+              City
+            </label>
+            </div>
           </div>
           
           <div>
-            <label htmlFor="zip-code" className={styles.inputLabel}>
-              Zip/Postal Code
-            </label>
+            <div className={styles.inputWrapper}>
             <input
               type="text"
               id="zip-code"
-              placeholder="Enter your zip code"
+              placeholder=" "
               value={formData.zip}
               onChange={(e) => handleInputChange('zip', e.target.value)}
               className={styles.input}
               maxLength={10}
             />
+            <label htmlFor="zip-code" className={styles.inputLabel}>
+              Zip/Postal Code
+            </label>
+            </div>
           </div>
         </div>
 

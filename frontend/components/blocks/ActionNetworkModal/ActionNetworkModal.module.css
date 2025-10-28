@@ -56,13 +56,51 @@
   font-weight: 800;
 }
 
+.inputWrapper {
+  position: relative;
+}
+
 .input {
     width: 100%;
     padding: 0.75rem;
     border: 2px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
-    margin-bottom: 1rem;
+    margin: .75rem 0 .75rem 0;
+}
+
+.inputLabel {
+  position: absolute;
+  left: 0.75rem;
+  top: 1.2rem;
+  color: #666;
+  font-weight: 600;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  padding: 0 0.75rem;
+}
+
+.input:focus + .inputLabel {
+  top: -.80rem;
+  left: 0.75rem;
+  font-size: 1rem;
+  color: var(--brand-fuchsia)
+}
+
+.input:not(:placeholder-shown) + .inputLabel {
+  top: -0.5rem;
+  left: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.input::placeholder {
+  transition: opacity 0.2s ease;
+}
+
+.input:focus::placeholder {
+  opacity: 0;
 }
 
 .inputRowBoxes label {

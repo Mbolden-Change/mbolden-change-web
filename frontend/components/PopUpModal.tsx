@@ -137,7 +137,9 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                 </div>
                 <ActionNetworkModal
                     isOpen={isActionNetworkModalOpen}
-                    onClose={() => {setIsActionNetworkModalOpen(false);
+                    onClose={() => {
+                        setIsActionNetworkModalOpen(false);
+                        setModalState("collapsed");
                         }}
                 />
                 </>
