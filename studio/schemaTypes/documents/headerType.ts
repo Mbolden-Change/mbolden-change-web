@@ -41,11 +41,6 @@ export const headerType = defineType({
       type: 'object',
       fields: [
         defineField({
-          name: 'text',
-          title: 'Button Text',
-          type: 'string',
-        }),
-        defineField({
           name: 'buttonLink',
           title: 'Button Link',
           type: 'internalOrExternalLink',
