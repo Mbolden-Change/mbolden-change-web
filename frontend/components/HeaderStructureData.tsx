@@ -33,15 +33,22 @@ function safeString(value: unknown): string {
 export default function HeaderStructuredData({ header, siteUrl }: Props) {
   if (!header || !siteUrl) return null;
 
+  // const navItems = (header.navigationLinks || []).map((l: any) => {
+  //   const raw = safeString(l.resolvedUrl) || safeString(l.url) || safeString(l.reference?.slug) || safeString(l.reference);
+  //   const path = normalizeRaw(raw);
+  //   return { "@type": "SiteNavigationElement", name: safeString(l.title), url: toAbsolute(path, siteUrl) || siteUrl };
+  // });
   const navItems = (header.navigationLinks || []).map((l: any) => {
-    const raw = safeString(l.resolvedUrl) || safeString(l.url) || safeString(l.reference?.slug) || safeString(l.reference);
+    const raw = safeString(l.url) || safeString(l.reference?.slug) || safeString(l.reference);
     const path = normalizeRaw(raw);
     return { "@type": "SiteNavigationElement", name: safeString(l.title), url: toAbsolute(path, siteUrl) || siteUrl };
   });
 
   if (header.donateCTA && header.donateCTA.buttonLink) {
     const donateLink = header.donateCTA.buttonLink as any;
-    const raw = safeString(donateLink.resolvedUrl) || safeString(donateLink.url) || safeString(donateLink.reference?.slug) || safeString(donateLink.reference);
+    //const raw = safeString(donateLink.resolvedUrl) || safeString(donateLink.url) || safeString(donateLink.reference?.slug) || safeString(donateLink.reference);
+       const raw = safeString(donateLink.url) || safeString(donateLink.reference?.slug) || safeString(donateLink.reference);
+
     const path = normalizeRaw(raw);
     navItems.push({ "@type": "SiteNavigationElement", name: safeString(header.donateCTA.text) || "Donate", url: toAbsolute(path, siteUrl) || siteUrl });
   }

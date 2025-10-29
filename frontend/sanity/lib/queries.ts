@@ -135,7 +135,7 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   ...,
   navigationLinks[]{
   ...,
-  "resolvedUrl": coalesce(url, reference->slug.current, ""),
+  //"resolvedUrl": coalesce(url, reference->slug.current, ""),
   reference-> {
   _type,
   slug}
@@ -144,7 +144,7 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   ...,
   buttonLink{
   ...,
-  "resolvedUrl": coalesce(url, reference->slug.current, ""),
+  // "resolvedUrl": coalesce(url, reference->slug.current, ""),
   reference-> {
   _type,
   slug,}}
