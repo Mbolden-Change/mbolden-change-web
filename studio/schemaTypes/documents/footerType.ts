@@ -28,6 +28,7 @@ export const footertype = defineField({
     defineField({
       name: 'columnCategories',
       title: 'Column Categories',
+      description: 'Recommended columns: Learn More, and Support Us.',
       type: 'array',
       of: [
         defineField({
@@ -44,6 +45,7 @@ export const footertype = defineField({
             defineField({
               name: 'links',
               title: 'Subcategories',
+              description: 'Recommended subcategories––a) Learn More: Home, About, Our Work, Fueling Bold Change, Ideas In Action, and Our Substack. b) Support Us: Donate.',
               type: 'array',
               of: [
                 defineField({
@@ -60,6 +62,7 @@ export const footertype = defineField({
     defineField({
       name: 'socialLinks',
       title: 'Social Links',
+      description: 'Suggested social media––Facebook, Instagram, X, Linkedin, YouTube, Bluesky.',
       type: 'array',
       of: [
         defineField({
