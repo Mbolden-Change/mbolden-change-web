@@ -72,9 +72,9 @@
 .inputLabel {
   position: absolute;
   left: 0.75rem;
-  top: 1.2rem;
+  top: 1.5rem;
   color: #666;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1rem;
   pointer-events: none;
   transition: all 0.2s ease;
@@ -83,16 +83,19 @@
 }
 
 .input:focus + .inputLabel {
-  top: -.80rem;
+  top: -.5rem;
   left: 0.75rem;
-  font-size: 1rem;
+  font-size: .75rem;
+  font-weight: 700;
   color: var(--brand-fuchsia)
 }
 
 .input:not(:placeholder-shown) + .inputLabel {
   top: -0.5rem;
   left: 0.75rem;
+  font-weight: 700;
   font-size: 0.75rem;
+  color: var(--brand-black)
 }
 
 .input::placeholder {
@@ -197,14 +200,6 @@
 .headline {
   user-select: none;
   cursor: default;
-}
-
-.inputLabel {
-  display: block;
-  padding: 2px 0px 2px 5px;
-  color: var(--brand-black);
-  font-weight: 600;
-  font-size: 0.9rem;
 }
 
 .errorMessage {
