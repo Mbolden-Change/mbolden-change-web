@@ -3955,6 +3955,13 @@
           "name": "internalOrExternalLink"
         },
         "optional": true
+      },
+      "openActionNetworkModal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
       }
     }
   },
@@ -5313,6 +5320,20 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "newsletterButtonText": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "openActionNetworkModal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },

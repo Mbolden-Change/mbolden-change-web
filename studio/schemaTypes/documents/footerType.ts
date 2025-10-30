@@ -94,9 +94,42 @@ export const footertype = defineField({
       ],
     }),
     defineField({
+      name: 'newsletterButtonText',
+      title: 'Newsletter Button Text',
+      type: 'string',
+      initialValue: 'Sign up for our Newsletter',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'openActionNetworkModal',
+      title: 'Open Action Network Modal',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Toggle On to open the Action Network signup modal. Toggle off to add a link.',
+      validation: (Rule) => 
+    Rule.custom((value, context) => {
+      const button = (context.document as any)?.newsletterButton;
+      
+      if (value === true && button?.url) {
+        return 'Please clear the Newsletter Button Link URL before enabling the Action Network Modal toggle.';
+      }
+      return true;
+    }),
+    }),
+    defineField({
       name: 'newsletterButton',
       title: 'Newsletter Button',
       type: 'internalOrExternalLink',
+      description: 'Only used when "Open Action Network Modal" is toggled OFF.',
+      hidden: ({document}) => document?.openActionNetworkModal !== false,
+      validation: (Rule) => 
+        Rule.custom((value, context) => {
+          const openModal = (context.document as any)?.openActionNetworkModal;
+          if (openModal === false && !value) {
+            return 'Newsletter button link is required when Action Network Modal is disabled.';
+          }
+          return true;
+        })
     }),
     defineField({
       name: 'organizationInfo',

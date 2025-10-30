@@ -540,6 +540,7 @@ export type PopUpModal = {
     _type: "image";
   };
   CTA?: InternalOrExternalLink;
+  openActionNetworkModal?: boolean;
 };
 
 export type CaseStudy = {
@@ -731,6 +732,8 @@ export type Footer = {
     _type: "socialLink";
     _key: string;
   }>;
+  newsletterButtonText: string;
+  openActionNetworkModal?: boolean;
   newsletterButton?: InternalOrExternalLink;
   organizationInfo?: {
     address?: string;

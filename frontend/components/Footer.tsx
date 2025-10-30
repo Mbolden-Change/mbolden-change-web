@@ -120,15 +120,32 @@ const Footer = ({ footerData }: FooterProps) => {
                 </div>
 
                 <div className={styles['footer-newsletter-container']}>
-                  {footerData.newsletterButton && (
-                    <ButtonComponent
-                      variant="unstyled"
-                      onClick={() => setIsActionNetworkModalOpen(true)}
-                      className={styles.newsletterButton}
-                    >
-                      Sign up for our Newsletter
-                    </ButtonComponent>
-                  )}
+                    <>
+                    {footerData.openActionNetworkModal ? (
+                      <ButtonComponent
+                        variant="unstyled"
+                        onClick={() => setIsActionNetworkModalOpen(true)}
+                        className={styles.newsletterButton}
+                      >
+                        <span className={styles.buttonText}>
+                          {footerData.newsletterButtonText || 'Sign up for our Newsletter'}
+                        </span>
+                      </ButtonComponent>
+                    ) : (
+                      footerData.newsletterButton && (
+                        <ButtonComponent
+                          variant="unstyled"
+                          link={{
+                            ...footerData.newsletterButton,
+                            title: footerData.newsletterButton.title || footerData.newsletterButtonText,
+                          }}
+                          className={styles.newsletterButton}
+                        >
+                          {footerData.newsletterButtonText}
+                        </ButtonComponent>
+                      )
+                    )}
+                    </>
                 </div>
 
               </div>

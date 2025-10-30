@@ -38,14 +38,13 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
         setModalState(newState)
     }
 
-    const isActionNetworkUrl = (url?: string) => url?.includes('https://actionnetwork.org/forms/sign-up-to-get-the-latest-from-mbolden-change');
 
     const handleCTAClick = (e: React.MouseEvent) => {
-        if (isActionNetworkUrl(popUpModalData.CTA?.url)) {
+        if (popUpModalData.openActionNetworkModal) {
             e.preventDefault();
             setIsActionNetworkModalOpen(true);
         } else {
-            handleToggle();
+            setModalState("collapsed");
         }
     };
 
@@ -71,20 +70,6 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                     )}
 
                     <div/>
-
-                        {/* <div className={styles.minimizedContentButtonBox} onClick={handleToggle}>
-                        {!popUpModalData.image &&  (
-                        <button
-                                onClick={handleToggle}
-                                className={styles.minimizeButton}
-                                aria-label="Minimize modal"
-                                type="button"
-                            >
-                                < PiArrowSquareUpLeftBold className={styles.minimizedContentButton} />
-                            </button>
-                    )}
-                    </div> */}
-
                         {!popUpModalData.image &&  (
                         <ButtonComponent
                                 onClick={handleToggle}
@@ -125,14 +110,15 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                         </div> : null}
 
                     <div onClick={handleCTAClick}>
-                        {popUpModalData.CTA ?
-
-                            <ButtonComponent
-                            link={popUpModalData.CTA}
-                            variant='primary'
-                            className={styles.popupCTA}
-                            title={popUpModalData.CTA.title}
-                        /> : null}
+                    {popUpModalData.CTA && (
+                        <ButtonComponent
+                        link={popUpModalData.openActionNetworkModal ? undefined : popUpModalData.CTA}
+                        variant='primary'
+                        className={styles.popupCTA}
+                        >
+                        {popUpModalData.CTA.title}
+                        </ButtonComponent>
+                    )}
                     </div>
                 </div>
                 <ActionNetworkModal
