@@ -177,7 +177,17 @@ const handleSubmit = async (e: React.FormEvent) => {
         ) : submitStatus === 'error' ? (
           <div className={styles.successMessage}>
             <h3>Oops! Something went wrong</h3>
-            <p>Sorry, the Action Network servers are currently unavailable. Please try again later.</p>
+            <p>
+              Sorry, your request didn't go through. Please try again later, or feel free to sign up directly through{' '}
+              <a 
+                href="https://actionnetwork.org/forms/sign-up-to-get-the-latest-from-mbolden-change" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ color: 'var(--brand-fuchsia)', textDecoration: 'underline' }}
+              >
+                Action Network
+              </a>
+            </p>
             <ButtonComponent 
                onClick={() => {
                 setSubmitStatus('neutral');
