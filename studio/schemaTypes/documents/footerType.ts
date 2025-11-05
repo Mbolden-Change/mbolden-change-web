@@ -93,35 +93,49 @@ export const footertype = defineField({
         }),
       ],
     }),
+    
+    defineField({
+      name: 'openActionNetworkModal',
+      title: 'Open Action Network Modal',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle ON to open the Action Network signup modal. Toggle OFF to use a custom link.',
+      validation: (Rule) => 
+        Rule.custom((value, context) => {
+          const buttonText = (context.document as any)?.newsletterButtonText;
+          const button = (context.document as any)?.newsletterButton;
+          
+          if (value === false && buttonText) {
+            return 'Please clear the Newsletter Button Text field before disabling the Action Network Modal toggle.';
+          }
+          if (value === true && button?.url) {
+            return 'Please clear the Newsletter Button Link URL before enabling the Action Network Modal toggle.';
+          }
+          return true;
+        }),
+    }),
     defineField({
       name: 'newsletterButtonText',
       title: 'Newsletter Button Text',
       type: 'string',
       initialValue: 'Sign up for our Newsletter',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'openActionNetworkModal',
-      title: 'Open Action Network Modal',
-      type: 'boolean',
-      initialValue: true,
-      description: 'Toggle On to open the Action Network signup modal. Toggle off to add a link.',
+      description: 'Text displayed on the newsletter button.',
+      hidden: ({document}) => document?.openActionNetworkModal !== true,
       validation: (Rule) => 
-    Rule.custom((value, context) => {
-      const button = (context.document as any)?.newsletterButton;
-      
-      if (value === true && button?.url) {
-        return 'Please clear the Newsletter Button Link URL before enabling the Action Network Modal toggle.';
-      }
-      return true;
-    }),
+        Rule.custom((value, context) => {
+          const openModal = (context.document as any)?.openActionNetworkModal;
+          if (openModal === true && !value) {
+            return 'Button text is required when Action Network Modal is enabled.';
+          }
+          return true;
+        }),
     }),
     defineField({
       name: 'newsletterButton',
-      title: 'Newsletter Button',
+      title: 'Newsletter Button Link',
       type: 'internalOrExternalLink',
       description: 'Only used when "Open Action Network Modal" is toggled OFF.',
-      hidden: ({document}) => document?.openActionNetworkModal !== false,
+      hidden: ({document}) => document?.openActionNetworkModal === true,
       validation: (Rule) => 
         Rule.custom((value, context) => {
           const openModal = (context.document as any)?.openActionNetworkModal;
@@ -129,7 +143,7 @@ export const footertype = defineField({
             return 'Newsletter button link is required when Action Network Modal is disabled.';
           }
           return true;
-        })
+        }),
     }),
     defineField({
       name: 'organizationInfo',
