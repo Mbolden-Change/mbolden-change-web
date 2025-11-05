@@ -49,13 +49,13 @@ describe('ActionNetworkModal', () => {
     it('should render all form fields', () => {
         render(<ActionNetworkModal {...defaultProps} />);
 
-        expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('Last Name')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('Email (required to sign-up)')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('Phone Number')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('Street Address')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('City')).toBeInTheDocument();
-        expect(screen.getByPlaceholderText('Zip/Postal Code')).toBeInTheDocument();
+        expect(screen.getByLabelText('First Name')).toBeInTheDocument();
+        expect(screen.getByLabelText('Last Name')).toBeInTheDocument();
+        expect(screen.getByLabelText(/Email/)).toBeInTheDocument();
+        expect(screen.getByLabelText('Phone Number')).toBeInTheDocument();
+        expect(screen.getByLabelText('Street Address')).toBeInTheDocument();
+        expect(screen.getByLabelText('City')).toBeInTheDocument();
+        expect(screen.getByLabelText('Zip/Postal Code')).toBeInTheDocument();
     });
 
     it('should call onClose when close button is clicked', () => {
@@ -68,7 +68,7 @@ describe('ActionNetworkModal', () => {
     it('should update form fields when user types', async () => {
         const user = userEvent.setup();
         render(<ActionNetworkModal {...defaultProps}/>);
-        const firstNameInput = screen.getByPlaceholderText('First Name') as HTMLInputElement;
+        const firstNameInput = screen.getByLabelText('First Name') as HTMLInputElement;
         await user.type(firstNameInput, 'Demo');
         expect(firstNameInput.value).toBe('Demo');
     })
@@ -86,11 +86,12 @@ describe('ActionNetworkModal', () => {
         const user = userEvent.setup();
         const mockFetch = global.fetch as jest.Mock;
         mockFetch.mockResolvedValueOnce({
+            ok: true,
             json: async () => ({ success: true }),
         });
 
         render(<ActionNetworkModal {...defaultProps}/>);
-        const emailInput = screen.getByPlaceholderText('Email (required to sign-up)');
+        const emailInput = screen.getByLabelText(/Email/);
         await user.type(emailInput, 'test@example.com');
 
         const submitButton = screen.getByText('Submit');
