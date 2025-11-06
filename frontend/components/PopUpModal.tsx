@@ -11,20 +11,16 @@ import { ReferenceType } from './atoms/Link';
 import { FaWindowMinimize } from 'react-icons/fa';
 import { PiArrowSquareUpLeftBold } from "react-icons/pi";
 import ButtonComponent from './atoms/ButtonComponent';
+import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
 
 type PopUpModalProps = {
     popUpModalData: PopUpModalType;
 };
 
-// Attn: Modal should not cover up carousel nav buttons - DONE
-// Add onclick activity for modal like open/close - DONE
-// Fix CTA not rendering - DONE
-// Styling stuff - DONE
-// Onclick CTA, modal should close - DONE
-
 const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
 
     const [modalState, setModalState] = useState("expanded");
+    const [isActionNetworkModalOpen, setIsActionNetworkModalOpen] = useState(false)
 
     useEffect(() => {
         sessionStorage.setItem('modalState', modalState)
@@ -41,6 +37,18 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
         const newState = modalState === "expanded" ? "collapsed" : "expanded";
         setModalState(newState)
     }
+
+    const isActionNetworkUrl = (url?: string) => url?.includes('https://actionnetwork.org/forms/sign-up-to-get-the-latest-from-mbolden-change');
+
+    const handleCTAClick = (e: React.MouseEvent) => {
+        if (isActionNetworkUrl(popUpModalData.CTA?.url)) {
+            e.preventDefault();
+            setIsActionNetworkModalOpen(true);
+        } else {
+            handleToggle();
+        }
+    };
+
 
     if (popUpModalData.visibility) {
         return (
@@ -116,7 +124,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                             <SanityNextImage image={popUpModalData.image}  fit='cover' sizes='80' className={styles.image}/>
                         </div> : null}
 
-                    <div onClick={handleToggle}>
+                    <div onClick={handleCTAClick}>
                         {popUpModalData.CTA ?
 
                             <ButtonComponent
@@ -127,6 +135,13 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                         /> : null}
                     </div>
                 </div>
+                <ActionNetworkModal
+                    isOpen={isActionNetworkModalOpen}
+                    onClose={() => {
+                        setIsActionNetworkModalOpen(false);
+                        setModalState("collapsed");
+                        }}
+                />
                 </>
                 )}
             </div>

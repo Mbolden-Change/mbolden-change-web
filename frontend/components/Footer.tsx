@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import type { Footer as FooterType } from '@/sanity/types';
 import styles from './Footer.module.css';
@@ -9,12 +11,15 @@ import { ReferenceType } from './atoms/Link';
 import SanityNextImage from './SanityNextImage';
 import { SocialIcon } from 'react-social-icons';
 import ButtonComponent from './atoms/ButtonComponent';
+import { useState } from 'react';
+import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
 
 type FooterProps = {
   footerData: FooterType;
 };
 
 const Footer = ({ footerData }: FooterProps) => {
+  const [isActionNetworkModalOpen, setIsActionNetworkModalOpen] = useState(false);
   const yearString = new Date().getFullYear().toString();
 
   if (Array.isArray(footerData)) {
@@ -117,10 +122,12 @@ const Footer = ({ footerData }: FooterProps) => {
                 <div className={styles['footer-newsletter-container']}>
                   {footerData.newsletterButton && (
                     <ButtonComponent
-                    variant="unstyled"
-                    link={footerData.newsletterButton}
-                    className={styles.newsletterButton}
-                    />
+                      variant="unstyled"
+                      onClick={() => setIsActionNetworkModalOpen(true)}
+                      className={styles.newsletterButton}
+                    >
+                      Sign up for our Newsletter
+                    </ButtonComponent>
                   )}
                 </div>
 
@@ -141,6 +148,10 @@ const Footer = ({ footerData }: FooterProps) => {
           </GridItem>
         </Grid>
       </div>
+      <ActionNetworkModal
+        isOpen={isActionNetworkModalOpen}
+        onClose={() => setIsActionNetworkModalOpen(false)}
+      />
     </footer>
   );
 };
