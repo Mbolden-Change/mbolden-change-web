@@ -28,7 +28,7 @@ export const footertype = defineField({
     defineField({
       name: 'columnCategories',
       title: 'Column Categories',
-      description: 'Recommended columns: Learn More, and Support Us.',
+      description: 'Create one or more columns for the footer. Limit to a maximum of 3',
       type: 'array',
       of: [
         defineField({
@@ -39,13 +39,14 @@ export const footertype = defineField({
             defineField({
               name: 'title',
               title: 'Category Header',
+              description: "Title of the column",
               type: 'string',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'links',
               title: 'Subcategories',
-              description: 'Recommended subcategories––a) Learn More: Home, About, Our Work, Fueling Bold Change, Ideas In Action, and Our Substack. b) Support Us: Donate.',
+              description: "Links listed below the column's header",
               type: 'array',
               of: [
                 defineField({
@@ -62,7 +63,7 @@ export const footertype = defineField({
     defineField({
       name: 'socialLinks',
       title: 'Social Links',
-      description: 'Suggested social media––Facebook, Instagram, X, Linkedin, YouTube, Bluesky.',
+      description: 'Supported social media––Facebook, Instagram, X, Linkedin, YouTube, Bluesky.',
       type: 'array',
       of: [
         defineField({
