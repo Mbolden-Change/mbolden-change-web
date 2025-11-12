@@ -24,7 +24,6 @@ const Footer = ({ footerData }: FooterProps) => {
   // those runtime properties without widening the public types globally.
   const footerAny = footerData as any;
   const orgName = footerAny?.organizationInfo?.name || footerAny?.title || 'Site logo';
-  type SocialLink = { _key: string; url: string; resolvedUrl?: string };
 
 // // DEBUG (dev only): inspect primaryLogo shape and fallback to direct URL if available
 // if (process.env.NODE_ENV === 'development') {
@@ -49,15 +48,7 @@ const Footer = ({ footerData }: FooterProps) => {
                   <SanityNextImage image={footerData.primaryLogo} sizes="196" />
                 </div>
               )}
-              {/* {footerData.primaryLogo ? (
-                <div className={styles.logoWrapper}>
-                  <SanityNextImage image={footerData.primaryLogo} sizes="196" />
-                </div>
-              ) : footerAny?.primaryLogoUrl ? (
-                <div className={styles.logoWrapper}>
-                  <img src={footerAny.primaryLogoUrl} alt={orgName} style={{maxWidth: '196px'}} />
-                </div>
-              ) : null} */}
+              
               {footerData.organizationInfo && (
                 <div className={styles.textBlock}>
                   <address className={styles.addressBlock}>

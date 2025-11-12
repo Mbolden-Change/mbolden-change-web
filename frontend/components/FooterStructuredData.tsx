@@ -77,7 +77,6 @@ export default function FooterStructuredData({ footer, siteUrl }: Props) {
     (cat.links || []).map((l: any) => {
       // use safeString to avoid TS errors for various shapes (string, object, reference)
       const raw =
-        safeString(l.resolvedUrl) ||
         safeString(l.url) ||
         safeString(l.reference?.slug) ||
         safeString(l.reference);
@@ -91,7 +90,7 @@ export default function FooterStructuredData({ footer, siteUrl }: Props) {
   );
 
   const sameAs = (footer.socialLinks || [])
-    .map((s: any) => safeString(s.resolvedUrl) || safeString(s.url) || safeString(s))
+    .map((s: any) =>  safeString(s.url) || safeString(s))
     .filter(Boolean)
     .map((u: string) => {
       const normalized = normalizeRaw(u);
