@@ -38,7 +38,6 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
         setModalState(newState)
     }
 
-<<<<<<< HEAD
 
     const handleCTAClick = (e: React.MouseEvent) => {
         if (popUpModalData.openActionNetworkModal) {
@@ -46,16 +45,6 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
             setIsActionNetworkModalOpen(true);
         } else {
             setModalState("collapsed");
-=======
-    const isActionNetworkUrl = (url?: string) => url?.includes('https://actionnetwork.org/forms/sign-up-to-get-the-latest-from-mbolden-change');
-
-    const handleCTAClick = (e: React.MouseEvent) => {
-        if (isActionNetworkUrl(popUpModalData.CTA?.url)) {
-            e.preventDefault();
-            setIsActionNetworkModalOpen(true);
-        } else {
-            handleToggle();
->>>>>>> eadad9a6f1e68a49a03ebde94a00bd0e986ced23
         }
     };
 
@@ -121,26 +110,15 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                         </div> : null}
 
                     <div onClick={handleCTAClick}>
-<<<<<<< HEAD
                     {popUpModalData.CTA && (
                         <ButtonComponent
                         link={popUpModalData.openActionNetworkModal ? undefined : popUpModalData.CTA}
                         variant='primary'
                         className={styles.popupCTA}
                         >
-                        {popUpModalData.CTA.title}
+                        {popUpModalData.CTA.title || 'Sign Up'}
                         </ButtonComponent>
                     )}
-=======
-                        {popUpModalData.CTA ?
-
-                            <ButtonComponent
-                            link={popUpModalData.CTA}
-                            variant='primary'
-                            className={styles.popupCTA}
-                            title={popUpModalData.CTA.title}
-                        /> : null}
->>>>>>> eadad9a6f1e68a49a03ebde94a00bd0e986ced23
                     </div>
                 </div>
                 <ActionNetworkModal

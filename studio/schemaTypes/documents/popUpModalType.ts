@@ -53,24 +53,33 @@ fields: [
     ],
     }),
     defineField({
-      name: 'CTA',
-      title: 'CTA',
-      type: 'internalOrExternalLink',
-    }),
-    defineField({
       name: 'openActionNetworkModal',
       title: 'Open Action Network Modal',
       type: 'boolean',
       initialValue: false,
-      description: 'Toggle this on to open the Action Network modal when CTA button is clicked.',
-      hidden: ({ document }) => !document?.CTA,
+      description: 'Toggle ON to open the Action Network modal when CTA is clicked. Toggle OFF to use the CTA link below.',
       validation: (Rule) => Rule.custom((value, context) => {
         const cta = (context.document as any)?.CTA;
-        if (value === true && cta?.url) {
-          return 'Please clear the CTA URL field before enabling Action Network Modal toggle.';
+        
+        if (value === true && (cta?.url || cta?.title)) {
+          return 'Please clear the CTA Link field before enabling Action Network Modal toggle.';
         }
         return true;
       })
+    }),
+    defineField({
+      name: 'CTA',
+      title: 'CTA',
+      type: 'internalOrExternalLink',
+      hidden: ({ document }) => document?.openActionNetworkModal === true,
+      validation: (Rule) => 
+        Rule.custom((value, context) => {
+          const openModal = (context.document as any)?.openActionNetworkModal;
+          if (openModal === false && !value) {
+            return 'CTA link is required when Action Network Modal is disabled.';
+          }
+          return true;
+        }),
     }),
   ],
 })

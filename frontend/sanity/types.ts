@@ -732,8 +732,8 @@ export type Footer = {
     _type: "socialLink";
     _key: string;
   }>;
-  newsletterButtonText: string;
   openActionNetworkModal?: boolean;
+  newsletterButtonText?: string;
   newsletterButton?: InternalOrExternalLink;
   organizationInfo?: {
     address?: string;
