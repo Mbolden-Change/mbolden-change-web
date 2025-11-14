@@ -539,8 +539,8 @@ export type PopUpModal = {
     alt?: string;
     _type: "image";
   };
-  CTA?: InternalOrExternalLink;
   openActionNetworkModal?: boolean;
+  CTA?: InternalOrExternalLink;
 };
 
 export type CaseStudy = {

@@ -3948,18 +3948,18 @@
         },
         "optional": true
       },
+      "openActionNetworkModal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "CTA": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
           "name": "internalOrExternalLink"
-        },
-        "optional": true
-      },
-      "openActionNetworkModal": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
         },
         "optional": true
       }
