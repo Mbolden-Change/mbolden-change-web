@@ -3948,6 +3948,13 @@
         },
         "optional": true
       },
+      "openActionNetworkModal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "CTA": {
         "type": "objectAttribute",
         "value": {
@@ -5313,6 +5320,20 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "openActionNetworkModal": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
+      "newsletterButtonText": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },

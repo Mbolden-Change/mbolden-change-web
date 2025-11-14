@@ -107,6 +107,8 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   primaryLogo,
   secondaryLogo,
   organizationInfo,
+  newsletterButtonText,
+  openActionNetworkModal,
   newsletterButton {
     isExternalLink,
     url,

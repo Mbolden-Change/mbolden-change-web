@@ -539,6 +539,7 @@ export type PopUpModal = {
     alt?: string;
     _type: "image";
   };
+  openActionNetworkModal?: boolean;
   CTA?: InternalOrExternalLink;
 };
 
@@ -731,6 +732,8 @@ export type Footer = {
     _type: "socialLink";
     _key: string;
   }>;
+  openActionNetworkModal?: boolean;
+  newsletterButtonText?: string;
   newsletterButton?: InternalOrExternalLink;
   organizationInfo?: {
     address?: string;
