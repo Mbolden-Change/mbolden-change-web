@@ -105,7 +105,6 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   socialLinks[]{
   ...,},
   primaryLogo,
-  secondaryLogo,
   organizationInfo,
   newsletterButton {
     isExternalLink,
@@ -135,7 +134,6 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   ...,
   navigationLinks[]{
   ...,
-  //"resolvedUrl": coalesce(url, reference->slug.current, ""),
   reference-> {
   _type,
   slug}
@@ -144,7 +142,6 @@ export const HEADER_QUERY = defineQuery(`*[_type == 'header'][0]{
   ...,
   buttonLink{
   ...,
-  // "resolvedUrl": coalesce(url, reference->slug.current, ""),
   reference-> {
   _type,
   slug,}}
