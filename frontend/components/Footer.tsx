@@ -19,19 +19,6 @@ type FooterProps = {
 const Footer = ({ footerData }: FooterProps) => {
   const yearString = new Date().getFullYear().toString();
 
-  // some fields are added in the GROQ query (primaryLogoUrl, resolvedUrl on links/social)
-  // but the generated types may not include them. Use a small local cast to safely access
-  // those runtime properties without widening the public types globally.
-  const footerAny = footerData as any;
-  const orgName = footerAny?.organizationInfo?.name || footerAny?.title || 'Site logo';
-
-// // DEBUG (dev only): inspect primaryLogo shape and fallback to direct URL if available
-// if (process.env.NODE_ENV === 'development') {
-//    // eslint-disable-next-line no-console
-//    console.log('Footer data primaryLogo:', footerAny?.primaryLogo);
-//  }
-
-
   if (Array.isArray(footerData)) {
     return null;
   }

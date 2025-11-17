@@ -116,10 +116,8 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
     }
   },
   primaryLogo,
-  secondaryLogo,
   // logos 
   "primaryLogoUrl": primaryLogo.asset->url,
-  "secondaryLogoUrl": secondaryLogo.asset->url,
   organizationInfo
 }`);
 
