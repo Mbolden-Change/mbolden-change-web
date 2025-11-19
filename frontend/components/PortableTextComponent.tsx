@@ -5,6 +5,7 @@ import styles from './PortableTextComponent.module.css';
 
 type PortableTextComponentProps = {
   value: PortableTextBlock[];
+  className?: string;
 };
 
 const myPortableTextComponents: PortableTextComponents = {
@@ -87,7 +88,12 @@ const myPortableTextComponents: PortableTextComponents = {
 
 const PortableTextComponent: React.FC<PortableTextComponentProps> = ({
   value,
+  className,
 }) => {
-  return <PortableText value={value} components={myPortableTextComponents} />;
+  return (
+    <div className={className}>
+      <PortableText value={value} components={myPortableTextComponents} />
+    </div>
+  );
 };
 export default PortableTextComponent;

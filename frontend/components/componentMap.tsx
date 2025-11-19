@@ -24,6 +24,9 @@ const componentMap: ComponentsMap = {
   caseStudyHighlight: dynamic(
     () => import('@/components/blocks/CaseStudyHighlight/CaseStudyHighlight')
   ),
+  holidayCard: dynamic(
+    () => import('@/components/blocks/HolidayCard/HolidayCard')
+  ),
   // Add more components as needed
 };
 

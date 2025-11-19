@@ -1,0 +1,36 @@
+.holiday-card {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #f5f5f0;
+  outline: 12px solid #a7a79f;
+  outline-offset: -25px;
+}
+
+.image {
+  max-width: 450px;
+  aspect-ratio: 16/9;
+}
+
+.green-playfair {
+  font-family: 'Playfair Display', serif;
+  color: #1f4d32;
+}
+
+.greenPlayfair p,
+.greenPlayfair span,
+.greenPlayfair strong,
+.greenPlayfair em,
+.greenPlayfair h1,
+.greenPlayfair h2,
+.greenPlayfair h3,
+.greenPlayfair h4,
+.greenPlayfair h5,
+.greenPlayfair h6,
+.greenPlayfair li,
+.greenPlayfair blockquote {
+  font-family: 'Playfair Display', serif !important;
+  color: #1f4d32 !important;
+}
