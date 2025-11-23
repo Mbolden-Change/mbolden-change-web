@@ -95,7 +95,7 @@ export default function Header({ headerData }: HeaderProps) {
                     }
                     target={headerData.donateCTA.buttonLink?.target}
                     url={headerData.donateCTA.buttonLink?.url}
-                    title={headerData.donateCTA.text}
+                    title={headerData.donateCTA?.buttonLink?.title}
                     ariaLabel={headerData.donateCTA.buttonLink?.title}
                     className={styles.donateButton}
                     onClick={handleLinkClick}

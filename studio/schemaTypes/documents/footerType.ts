@@ -28,6 +28,7 @@ export const footertype = defineField({
     defineField({
       name: 'columnCategories',
       title: 'Column Categories',
+      description: 'Create one or more columns for the footer. Limit to a maximum of 3',
       type: 'array',
       of: [
         defineField({
@@ -38,12 +39,14 @@ export const footertype = defineField({
             defineField({
               name: 'title',
               title: 'Category Header',
+              description: "Title of the column",
               type: 'string',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'links',
               title: 'Subcategories',
+              description: "Links listed below the column's header",
               type: 'array',
               of: [
                 defineField({
@@ -60,6 +63,7 @@ export const footertype = defineField({
     defineField({
       name: 'socialLinks',
       title: 'Social Links',
+      description: 'Supported social media––Facebook, Instagram, X, Linkedin, YouTube, Bluesky.',
       type: 'array',
       of: [
         defineField({
