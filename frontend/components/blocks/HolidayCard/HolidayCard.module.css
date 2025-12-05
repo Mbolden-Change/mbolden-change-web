@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 4rem 2rem;
+  padding: 1rem 1rem;
   text-align: center;
   background-color: #f5f5f0;
   outline: 12px solid #a7a79f;
@@ -10,7 +10,7 @@
 }
 
 .image {
-  max-width: 450px;
+  max-width: 600px;
   aspect-ratio: 16/9;
 }
 
@@ -33,4 +33,152 @@
 .greenPlayfair blockquote {
   font-family: 'Playfair Display', serif !important;
   color: #1f4d32 !important;
+}
+/* add near top or end of file */
+
+.holiday-card {
+  /* responsive default row height (component-scoped) */
+  --holiday-row-height: 320px;
+}
+
+/* larger breakpoints */
+@media (min-width: 768px) { .holiday-card { --holiday-row-height: 420px; } }
+@media (min-width: 1200px) { .holiday-card { --holiday-row-height: 520px; } }
+
+/* treat each direct child Grid as a row: force min-height and make it a two-column flex */
+.holiday-card > div {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  align-items: stretch;         /* columns will match row height */
+  width: 100%;
+  min-height: var(--holiday-row-height);
+  box-sizing: border-box;
+}
+
+
+
+/* ensure columns fill the row height */
+.text-column,
+.image-column {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* let the cover and image fill their columns */
+.text-column .cover { height: 100%; }
+.image { width:100%; height:100%; object-fit:cover; }
+
+/* stacked / relaxed behavior on small screens */
+@media (max-width: 479px) {
+  .holiday-card > div { flex-direction: column; min-height: auto; }
+  .text-column .cover { height: auto; }
+}
+.cover {
+  background-color: #1f4d32;
+  color: #ffffff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1.5rem;
+  box-sizing: border-box;
+  /* border-radius: 6px; */
+}
+
+.coverImage {
+  width: 360px;            /* desired size on desktop */
+  max-width: 60%;          /* won't exceed 40% of column */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  margin-top: 40%;     
+}
+
+/* responsive smaller size on narrow screens */
+@media (max-width: 767px) {
+  .coverImage {
+    width: 120px;
+    max-width: 60%;
+  }
+}
+
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 780px; /* increase available visual size (adjust) */
+  margin: 0 auto;
+  overflow: visible; /* allow scaled image to be visible */
+}
+
+.wreathImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transform: scale(1.3);           /* increase size ~30% */
+  transform-origin: center center;
+  z-index: 1;
+}
+
+.wreath-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  width: 60%;                      /* keep text inside the inner circle */
+  text-align: center;
+}
+
+
+
+/* line styles */
+.wreath-text span {
+  display: block;
+  line-height: 1;
+  color: #1f4d32;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.17rem, 2.6vw, 1.43rem);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.85);
+}
+
+.wreath-text span:nth-child(2),
+.wreath-text span:nth-child(4) {
+  font-size: clamp(1.56rem, 4.16vw, 2.47rem);
+  letter-spacing: 0.2px;
+  font-weight: 800;
+}
+
+/* slight spacing tweak between smaller and larger lines */
+.wreath-text span + span {
+  margin-top: 0.08rem;
+}
+
+/* responsive adjustment if needed */
+@media (max-width: 420px) {
+  .wreath-text span { font-size: clamp(0.8rem, 3.8vw, 1.0rem); }
+  .wreath-text span:nth-child(2),
+  .wreath-text span:nth-child(4) { font-size: clamp(1.0rem, 5.6vw, 1.4rem); }
+}
+
+/* responsive: reduce scaling on small screens so text still fits */
+@media (max-width: 767px) {
+  .image {
+    transform: scale(1);          /* no scaling on small screens */
+  }
+  .wreath-text {
+    width: 72%;
+  }
 }
