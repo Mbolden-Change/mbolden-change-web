@@ -9,10 +9,13 @@
   outline: 12px solid #a7a79f;
   outline-offset: -25px;
   --holiday-row-height: 320px;
+  overflow-x: hidden;
 }
 
-@media (min-width: 768px) { .holiday-card { --holiday-row-height: 420px; } }
-@media (min-width: 1200px) { .holiday-card { --holiday-row-height: 520px; } }
+@media (min-width: 768px) { .holiday-card { --holiday-row-height: 360px; } }
+@media (min-width: 1024px) { .holiday-card { --holiday-row-height: 420px; } }
+@media (min-width: 480px) { .holiday-card { --holiday-row-height: 220px; } }
+
 
 /* GRID ROWS */
 .holiday-card > div {
@@ -56,10 +59,28 @@
   color: #1f4d32 !important;
 }
 
-.green-playfair { padding: 1rem; }
+.green-playfair { padding: 1rem 1rem 0rem 1rem ; }
+
+.image-column .green-playfair {
+  padding: 0rem 1rem 2rem 1rem;  
+}
+
+
+.green-playfair p:empty {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+
+@media (max-width: 768px) {
+.text-column .green-playfair p {
+  margin-bottom: 0rem;  
+}
+}
 
 /* MOBILE STACKED */
-@media (max-width: 479px) {
+@media (max-width: 480px) {
   .holiday-card > div { flex-direction: column; min-height: auto; }
   .text-column .cover { height: auto; }
 }
@@ -84,10 +105,10 @@
   display: block;
   margin: 0 auto;
   margin-top: 50%;
-  margin-bottom: 20%;
+  margin-bottom: 0%;
 }
 
-@media (max-width: 767px) { .coverImage { width: auto; max-width: 80%} }
+@media (max-width: 768px) { .coverImage { width: auto; max-width: 80%} }
 @media (max-width: 480px) { .coverImage { width: auto; max-width: 80%; } }
 
 /* BUTTON STYLING */
@@ -97,9 +118,11 @@
   justify-content: center;
   max-width: 100%;
   box-sizing: border-box;
-  margin: 1rem auto 0.5rem;
-  padding: 0.7rem 2rem;
+  margin: 0rem auto 0.5rem;
+  padding: 0rem 2rem 0.7rem 2rem;
 }
+
+
 
 .text-column a > span {
   display: inline-flex;
@@ -112,7 +135,7 @@
   max-width: 100%;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .text-column a { padding: 0.6rem 1.5rem; }
   .text-column a > span { font-size: 14px; }
 }
@@ -125,11 +148,17 @@
 /* RIGHT COLUMN - WREATH IMAGE */
 .image-wrapper {
   position: relative;
-  padding: 1rem;
+  padding: 0px 9px 0px 0px;
   width: 100%;
   max-width: 780px;
   margin: 0 auto;
   overflow: visible;
+}
+
+@media (max-width: 480px) {
+  .image-wrapper {
+    padding: 0px 9px 0px 9px;
+  }
 }
 
 .wreathImage {
@@ -137,7 +166,7 @@
   height: auto;
   display: block;
   object-fit: contain;
-  transform: scale(1.5);
+  transform: scale(1.2);
   transform-origin: center center;
   z-index: 1;
 }
@@ -176,14 +205,15 @@
 
 .wreath-text span + span { margin-top: 0.08rem; }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .wreath-text span { font-size: clamp(0.8rem, 3.8vw, 1rem); }
   .wreath-text span:nth-child(2),
   .wreath-text span:nth-child(4) { font-size: clamp(1rem, 5.6vw, 1.4rem); }
 }
 
-@media (max-width: 767px) {
+
+@media (max-width: 768px) {
   .image { transform: scale(1); }
-  .wreathImage { transform: scale(1.6); }
+  .wreathImage { transform: scale(1.2); }
   .wreath-text { width: 72%; }
 }
