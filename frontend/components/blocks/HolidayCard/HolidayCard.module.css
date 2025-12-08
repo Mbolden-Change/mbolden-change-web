@@ -1,25 +1,45 @@
+/* MAIN CARD */
 .holiday-card {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 1rem 1rem;
+  padding: 1rem;
   text-align: center;
   background-color: #f5f5f0;
   outline: 12px solid #a7a79f;
   outline-offset: -25px;
+  --holiday-row-height: 320px;
 }
 
-.image {
-  max-width: 600px;
-  aspect-ratio: 16/9;
+@media (min-width: 768px) { .holiday-card { --holiday-row-height: 420px; } }
+@media (min-width: 1200px) { .holiday-card { --holiday-row-height: 520px; } }
+
+/* GRID ROWS */
+.holiday-card > div {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  align-items: stretch;
+  width: 100%;
+  min-height: var(--holiday-row-height);
+  box-sizing: border-box;
 }
 
-.green-playfair {
-  padding: 1rem;
-  font-family: 'Playfair Display', serif;
-  color: #1f4d32;
+/* COLUMNS */
+.text-column,
+.image-column {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
+.text-column .cover { height: 100%; }
+.image { width: 100%; height: 100%; object-fit: cover; max-width: 600px; }
+
+/* TEXT STYLING */
+.green-playfair,
 .greenPlayfair p,
 .greenPlayfair span,
 .greenPlayfair strong,
@@ -35,49 +55,16 @@
   font-family: 'Playfair Display', serif !important;
   color: #1f4d32 !important;
 }
-/* add near top or end of file */
 
-.holiday-card {
-  /* responsive default row height (component-scoped) */
-  --holiday-row-height: 320px;
-}
+.green-playfair { padding: 1rem; }
 
-/* larger breakpoints */
-@media (min-width: 768px) { .holiday-card { --holiday-row-height: 420px; } }
-@media (min-width: 1200px) { .holiday-card { --holiday-row-height: 520px; } }
-
-/* treat each direct child Grid as a row: force min-height and make it a two-column flex */
-.holiday-card > div {
-  display: flex;
-  gap: 1.5rem;
-  padding: 0;
-  align-items: stretch;         /* columns will match row height */
-  width: 100%;
-  min-height: var(--holiday-row-height);
-  box-sizing: border-box;
-}
-
-
-
-/* ensure columns fill the row height */
-.text-column,
-.image-column {
-  flex: 1 1 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-/* let the cover and image fill their columns */
-.text-column .cover { height: 100%; }
-.image { width:100%; height:100%; object-fit:cover; }
-
-/* stacked / relaxed behavior on small screens */
+/* MOBILE STACKED */
 @media (max-width: 479px) {
   .holiday-card > div { flex-direction: column; min-height: auto; }
   .text-column .cover { height: auto; }
 }
+
+/* LEFT COLUMN - GREEN COVER */
 .cover {
   background-color: #1f4d32;
   color: #ffffff;
@@ -88,27 +75,22 @@
   justify-content: center;
   padding: 1.25rem 1.5rem;
   box-sizing: border-box;
-  /* border-radius: 6px; */
 }
 
 .coverImage {
-  width: 360px;            /* desired size on desktop */
-  max-width: 60%;          /* won't exceed 40% of column */
+  width: 420px;
+  max-width: 60%;
   height: auto;
   display: block;
   margin: 0 auto;
-  margin-top: 40%;     
+  margin-top: 50%;
+  margin-bottom: 20%;
 }
 
-/* responsive smaller size on narrow screens */
-@media (max-width: 767px) {
-  .coverImage {
-    width: 120px;
-    max-width: 60%;
-  }
-}
+@media (max-width: 767px) { .coverImage { width: 180px; max-width: 80%} }
+@media (max-width: 480px) { .coverImage { width: 180px; max-width: 80%; } }
 
-/* FIX: constrain button link so text stays inside button on all resolutions */
+/* BUTTON STYLING */
 .text-column a {
   display: inline-flex !important;
   align-items: center;
@@ -116,7 +98,7 @@
   max-width: 100%;
   box-sizing: border-box;
   margin: 1rem auto 0.5rem;
-  padding: 0.7rem 2rem;  /* button padding */
+  padding: 0.7rem 2rem;
 }
 
 .text-column a > span {
@@ -131,33 +113,23 @@
 }
 
 @media (max-width: 767px) {
-  .text-column a {
-    padding: 0.6rem 1.5rem;  /* reduced for tablets */
-  }
-  .text-column a > span {
-    font-size: 14px;
-  }
+  .text-column a { padding: 0.6rem 1.5rem; }
+  .text-column a > span { font-size: 14px; }
 }
 
 @media (max-width: 480px) {
-  .text-column a {
-    margin: 1rem auto 0;
-    padding: 0.5rem 1rem;  /* smaller for mobile */
-  }
-  .text-column a > span {
-    font-size: clamp(0.85rem, 2.5vw, 1rem);
-    min-width: 80px;
-  }
+  .text-column a { padding: 0.5rem 1rem; }
+  .text-column a > span { font-size: clamp(0.85rem, 2.5vw, 1rem); min-width: 80px; }
 }
 
-
+/* RIGHT COLUMN - WREATH IMAGE */
 .image-wrapper {
   position: relative;
   padding: 1rem;
   width: 100%;
-  max-width: 780px; /* increase available visual size (adjust) */
+  max-width: 780px;
   margin: 0 auto;
-  overflow: visible; /* allow scaled image to be visible */
+  overflow: visible;
 }
 
 .wreathImage {
@@ -165,7 +137,7 @@
   height: auto;
   display: block;
   object-fit: contain;
-  transform: scale(1.3);           /* increase size ~30% */
+  transform: scale(1.5);
   transform-origin: center center;
   z-index: 1;
 }
@@ -181,13 +153,10 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  width: 60%;                      /* keep text inside the inner circle */
+  width: 60%;
   text-align: center;
 }
 
-
-
-/* line styles */
 .wreath-text span {
   display: block;
   line-height: 1;
@@ -205,24 +174,16 @@
   font-weight: 800;
 }
 
-/* slight spacing tweak between smaller and larger lines */
-.wreath-text span + span {
-  margin-top: 0.08rem;
-}
+.wreath-text span + span { margin-top: 0.08rem; }
 
-/* responsive adjustment if needed */
 @media (max-width: 420px) {
-  .wreath-text span { font-size: clamp(0.8rem, 3.8vw, 1.0rem); }
+  .wreath-text span { font-size: clamp(0.8rem, 3.8vw, 1rem); }
   .wreath-text span:nth-child(2),
-  .wreath-text span:nth-child(4) { font-size: clamp(1.0rem, 5.6vw, 1.4rem); }
+  .wreath-text span:nth-child(4) { font-size: clamp(1rem, 5.6vw, 1.4rem); }
 }
 
-/* responsive: reduce scaling on small screens so text still fits */
 @media (max-width: 767px) {
-  .image {
-    transform: scale(1);          /* no scaling on small screens */
-  }
-  .wreath-text {
-    width: 72%;
-  }
+  .image { transform: scale(1); }
+  .wreathImage { transform: scale(1.6); }
+  .wreath-text { width: 72%; }
 }
