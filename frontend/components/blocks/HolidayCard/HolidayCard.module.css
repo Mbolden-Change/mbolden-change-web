@@ -87,8 +87,8 @@
   margin-bottom: 20%;
 }
 
-@media (max-width: 767px) { .coverImage { width: 180px; max-width: 80%} }
-@media (max-width: 480px) { .coverImage { width: 180px; max-width: 80%; } }
+@media (max-width: 767px) { .coverImage { width: auto; max-width: 80%} }
+@media (max-width: 480px) { .coverImage { width: auto; max-width: 80%; } }
 
 /* BUTTON STYLING */
 .text-column a {
