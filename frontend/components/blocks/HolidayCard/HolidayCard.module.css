@@ -15,6 +15,7 @@
 }
 
 .green-playfair {
+  padding: 1rem;
   font-family: 'Playfair Display', serif;
   color: #1f4d32;
 }
@@ -107,9 +108,52 @@
   }
 }
 
+/* FIX: constrain button link so text stays inside button on all resolutions */
+.text-column a {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 1rem auto 0.5rem;
+  padding: 0.7rem 2rem;  /* button padding */
+}
+
+.text-column a > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .text-column a {
+    padding: 0.6rem 1.5rem;  /* reduced for tablets */
+  }
+  .text-column a > span {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-column a {
+    margin: 1rem auto 0;
+    padding: 0.5rem 1rem;  /* smaller for mobile */
+  }
+  .text-column a > span {
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    min-width: 80px;
+  }
+}
+
 
 .image-wrapper {
   position: relative;
+  padding: 1rem;
   width: 100%;
   max-width: 780px; /* increase available visual size (adjust) */
   margin: 0 auto;
