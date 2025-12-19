@@ -11,23 +11,40 @@ import ButtonComponent from '@/components/atoms/ButtonComponent';
 const HolidayCard = ({ image, text, imageText, link }) => {
   return (
     <section className={styles['holiday-card']}>
-      <Grid>
-        <GridItem desktopSpan={6} mobileSpan={12}>
-          <div className={styles['image-wrapper']}>
-            <SanityNextImage className={styles.image} image={image} />
+      <Grid className={styles['custom-grid']}>
+         <GridItem desktopSpan={6} mobileSpan={12} className={styles['text-column']}>
+          <div className={styles['cover']}>
+            <img src="/og-image.png" alt="logo" className={styles.coverImage} />
           </div>
-          <PortableTextComponent
-            className={styles['green-playfair']}
-            value={imageText}
-          />
         </GridItem>
-        <GridItem desktopSpan={6} mobileSpan={12}>
+        <GridItem desktopSpan={6} mobileSpan={12} className={styles['image-column']}>
+          <div className={styles['image-wrapper']}>
+             <img src="/wreath.png" alt="Holiday wreath" className={styles.wreathImage} />
+              <div className={styles['wreath-text']} aria-hidden>
+                <b>The</b><br/>Season<br/><b>of</b><br/>Believing
+            </div>  
+          </div>
+        </GridItem>
+       
+      </Grid  >
+      <Grid className={styles['custom-grid']}>
+         <GridItem desktopSpan={6} mobileSpan={12} className={styles['text-column']}>
           <PortableTextComponent
-            className={styles['green-playfair']}
+            className={`${styles.greenPlayfair} ${styles['donate-text']}`}
             value={text}
           />
           <ButtonComponent variant="primary" link={link} />
         </GridItem>
+        <GridItem desktopSpan={6} mobileSpan={12} className={styles['image-column']}>
+          <div className={styles['image-wrapper']}>
+            <SanityNextImage className={styles.image} image={image} />
+          </div>
+          <PortableTextComponent
+            className={styles['greenPlayfair']}
+            value={imageText}
+          />
+        </GridItem>
+       
       </Grid>
     </section>
   );

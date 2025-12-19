@@ -1,20 +1,51 @@
 .holiday-card {
   width: 100%;
+  height: auto;
   position: relative;
   box-sizing: border-box;
-  padding: 4rem 2rem;
+  padding: 1rem 1.5rem;
   text-align: center;
   background-color: #f5f5f0;
   outline: 12px solid #a7a79f;
   outline-offset: -25px;
 }
 
+
+
+.custom-grid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.text-column, .image-column, .cover {
+    height: auto;
+    min-height: 250px;
+}
+
+.cover{
+  background-color: #1f4d32;
+}
+.coverImage{
+  height: 200px;
+  margin-top: 50px;
+}
+.image-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+ .wreathImage{
+  height: 250px;
+  transform: scale(1.5);
+}
 .image {
-  max-width: 450px;
+  max-width: 250px;
   aspect-ratio: 16/9;
 }
 
-.green-playfair {
+.greenPlayfair {
   font-family: 'Playfair Display', serif;
   color: #1f4d32;
 }
@@ -34,3 +65,102 @@
   font-family: 'Playfair Display', serif !important;
   color: #1f4d32 !important;
 }
+
+.greenPlayfair p:nth-child(1) {
+  margin-bottom: 0px;
+}
+
+.greenPlayfair p:nth-child(2) {
+  margin-top: 0px;
+}
+
+.wreath-text{
+  position: absolute;
+  color:#1f4d32;
+  font-family: 'Playfair Display', serif !important;
+  inline-size: 80px;
+  overflow-wrap: break-word;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.donate-text{
+  margin-bottom: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .holiday-card{
+    min-height: auto;
+    overflow-x: hidden;
+  }
+  .text-column, .image-column {
+    min-height: auto;
+  }
+
+   .greenPlayfair {
+    font-size: clamp(11px, 1.8vw, 16px);
+  }
+
+  .greenPlayfair p,
+  .greenPlayfair span,
+  .greenPlayfair strong,
+  .greenPlayfair em,
+  .greenPlayfair h1,
+  .greenPlayfair h2,
+  .greenPlayfair h3,
+  .greenPlayfair h4,
+  .greenPlayfair h5,
+  .greenPlayfair h6,
+  .greenPlayfair li,
+  .greenPlayfair blockquote {
+    font-size: clamp(11px, 1.8vw, 16px);
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .text-column, .image-column {
+    min-height: auto;
+  }
+}
+
+
+@media (max-width: 865px) {
+ .holiday-card {
+    min-height: 450px;
+  }
+  .greenPlayfair {
+    font-size: clamp(12px, 2vw, 18px);
+  }
+
+  .greenPlayfair p,
+  .greenPlayfair span,
+  .greenPlayfair strong,
+  .greenPlayfair em,
+  .greenPlayfair h1,
+  .greenPlayfair h2,
+  .greenPlayfair h3,
+  .greenPlayfair h4,
+  .greenPlayfair h5,
+  .greenPlayfair h6,
+  .greenPlayfair li,
+  .greenPlayfair blockquote {
+    font-size: clamp(12px, 2vw, 18px);
+  }
+
+  .text-column, .image-column, .cover {
+    min-height: 200px;
+  }
+
+  .coverImage {
+    height: 150px;
+    margin-top: 30px;
+  }
+
+  .wreathImage {
+    height: 200px;
+    transform: scale(1.3);
+  }
+}
+
