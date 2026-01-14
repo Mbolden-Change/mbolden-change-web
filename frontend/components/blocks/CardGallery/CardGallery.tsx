@@ -5,6 +5,7 @@ import GridItem from '@/components/GridItem';
 import Card from './Card';
 import Headline from '@/components/atoms/Headline';
 import styles from './CardGallery.module.css';
+import { AnimationComponent } from '@/components/atoms/AnimationComponent';
 
 interface CardGalleryProps {
   title: string;
@@ -14,6 +15,12 @@ interface CardGalleryProps {
 
 const CardGallery = ({ title, text, cards }: CardGalleryProps) => {
   return (
+    // <AnimationComponent
+    //   animationClass="scroll"
+    //   componentName="cardGallery"
+    //   elementType= "box"
+    //   effectFrom="bottom"
+    // >
     <Grid className={styles.cardGallery}>
       {/* Header block */}
       <GridItem desktopSpan={12} mobileSpan={6}>
@@ -34,6 +41,7 @@ const CardGallery = ({ title, text, cards }: CardGalleryProps) => {
         </GridItem>
       ))}
     </Grid>
+    // </AnimationComponent>
   );
 };
 

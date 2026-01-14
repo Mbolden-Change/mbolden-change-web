@@ -1,0 +1,226 @@
+
+.modalWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+
+.modalContent {
+    position: fixed;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1000;
+    border: 2px solid var(--brand-fuchsia);
+    border-radius: 1%;
+    background-color: var(--brand-creamy-beige);
+    padding: 2rem;
+    width: 85%;
+    max-width: 600px;
+    color: var(--brand-black)
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--brand-fuchsia);
+  margin-bottom: 1rem;
+  color: var(--brand-fuchsia);
+}
+
+.formSection {
+    margin-bottom: 1.5rem;
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.inputRowBoxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 0rem;
+  font-weight: 800;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin: .75rem 0 .75rem 0;
+}
+
+.inputLabel {
+  position: absolute;
+  left: 0.75rem;
+  top: 1.5rem;
+  color: #666;
+  font-weight: 400;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  padding: 0 0.75rem;
+}
+
+.input:focus + .inputLabel {
+  top: -.5rem;
+  left: 0.75rem;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--brand-fuchsia)
+}
+
+.input:not(:placeholder-shown) + .inputLabel {
+  top: -0.5rem;
+  left: 0.75rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--brand-black)
+}
+
+.input::placeholder {
+  transition: opacity 0.2s ease;
+}
+
+.input:focus::placeholder {
+  opacity: 0;
+}
+
+.inputRowBoxes label {
+  padding: .25rem;
+  cursor: default;
+}
+
+.formSection h4 {
+  color: var(--brand-fuchsia);
+  font-weight: 800;
+  cursor: default;
+  user-select: none;
+}
+
+.inputRowBoxes input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.inputRowBoxes input[type="checkbox"]:checked { 
+  accent-color: var(--brand-fuchsia);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-black);
+}
+
+.closeButton:hover {
+  background-color: var(--brand-fuchsia);
+  color: var(--brand-white);
+}
+
+@media (max-width: 768px) {
+    .modalContent {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    
+    .inputRow {
+        grid-template-columns: 1fr;
+        gap: 0rem;
+    }
+
+    .inputRowBoxes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 1rem 0rem;
+        font-weight: 800;
+    }
+
+}
+
+.successMessage {
+  text-align: center;
+  padding: 2rem;
+  color: var(--brand-black);
+}
+
+.successMessage h3 {
+  color: var(--brand-fuchsia);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.successMessage p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.successBanner {
+  color: var(--brand-fuchsia);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+
+.headline {
+  user-select: none;
+  cursor: default;
+}
+
+.errorMessage {
+  text-align: center;
+  padding: 2rem;
+  color: var(--brand-black);
+  cursor: default;
+}
+
+.errorMessage h3 {
+  color: var(--brand-fuchsia);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  cursor: default;
+  user-select: none;
+}
+
+.errorMessage p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  cursor: default;
+  user-select: none;
+}

@@ -123,31 +123,28 @@ const Card = ({ card }: Props) => {
         card.link.reference && 'slug' in card.link.reference
           ? `${(refMap[refType])}/${(card.link.reference as ReferenceType).slug?.current}`
           : undefined;
-          console.log(card.link)
-
-
-  if (slug) {
-    return (
-      <Link
-        href={`/${slug}`}
-        className={styles.card}
-        aria-label={card.link.title || `${card.titleLine1} ${card.titleLine2 || ''}`.trim() || 'Card link'}
-      >
-        {cardContent}
-      </Link>
+      if (slug) {
+        return (
+          <Link
+            href={`/${slug}`}
+            className={styles.card}
+            aria-label={card.link.title || `${card.titleLine1} ${card.titleLine2 || ''}`.trim() || 'Card link'}
+          >
+            {cardContent}
+          </Link>
         );
       }
     }
   }
 
-    return (
-      (!card.link?.isExternalLink && !card.link?.reference && !card.videoURL) ? (
-        <div
+  return (
+    (!card.link?.isExternalLink && !card.link?.reference && !card.videoURL) ? (
+      <div
           className={styles.unstyledCard}
-        >
+          >
           {cardContent}
         </div>
-      ): (
+    ): (
         <div className={styles.card} onClick={handleToggle}>
           {cardContent}
           {isMountedModal && (
@@ -155,8 +152,8 @@ const Card = ({ card }: Props) => {
             <VideoModal url={card.videoURL} title={card.videoTitle || ""}/>
           )}
         </div>
-      )
-    );
+    )
+  );
 };
 
 
