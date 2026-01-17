@@ -113,7 +113,7 @@ export default function FiftyFifty({
                 <SanityNextImage image={rightImage} fit="cover" />
               </div>
             ) : null}
-            {rightTitle && <Headline tag="h2" text={rightTitle} />}
+            {rightTitle && <Headline tag="h2" text={rightTitle}  className={styles['right-title']}/>}
             {rightText && (
               <PortableTextComponent value={rightText as PortableTextBlock[]} />
             )}
