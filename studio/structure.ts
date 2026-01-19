@@ -29,8 +29,20 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       singletonListItem(S, 'popUpModal', 'Pop-Up Modal').icon(EarthGlobeIcon),
       S.divider(),
-      singletonListItem(S, 'statement', 'Statements').icon(BlockquoteIcon),
-      singletonListItem(S, 'caseStudy', 'Case Study').icon(BlockquoteIcon),
-      singletonListItem(S, 'report', 'Reports').icon(BlockquoteIcon),
+      S.listItem()
+        .title('Statements')
+        .schemaType('statement')
+        .icon(BlockquoteIcon)
+        .child(S.documentTypeList('statement')),
+      S.listItem()
+        .title('Case Studies')
+        .schemaType('caseStudy')
+        .icon(BlockquoteIcon)
+        .child(S.documentTypeList('caseStudy')),
+      S.listItem()
+        .title('Reports')
+        .schemaType('report')
+        .icon(BlockquoteIcon)
+        .child(S.documentTypeList('report')),
       S.divider(),
     ])
