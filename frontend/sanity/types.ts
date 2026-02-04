@@ -492,6 +492,7 @@ export type RichText = {
 export type Hero = {
   _type: "hero";
   title?: string;
+  subheading?: string;
   text?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -524,6 +525,21 @@ export type Hero = {
   }>;
   hasButton?: boolean;
   link?: InternalOrExternalLink;
+  leftBackgroundType?: "color" | "image";
+  backgroundColor?: "aqua-teal" | "warm-yellow" | "white" | "black";
+  leftBackgroundImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
   image: {
     asset?: {
       _ref: string;

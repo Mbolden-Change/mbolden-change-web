@@ -3,7 +3,7 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
-import Hero from './Hero';
+import CoryHeroSlide from './coryHeroSlide';
 import { Hero as HeroType } from '@/sanity/types';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -26,7 +26,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                 <div className={styles.emblaContainer}>
                     {slides.map((slide, index) => (
                         <div className={styles.emblaSlide} key={slide._key || index}>
-                            <Hero {...slide} />
+                            <CoryHeroSlide {...slide} />
                         </div>
                     ))}
                 </div>
