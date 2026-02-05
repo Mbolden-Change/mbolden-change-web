@@ -1,6 +1,6 @@
 .modalWrapper, .minimized {
     position: fixed;
-    bottom: 20px;
+    top: 100px;
     right: 20px;
     height: auto;
     transition: 300ms ease;

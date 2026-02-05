@@ -12,6 +12,12 @@ export const heroType = defineType({
       description: 'A headline is optional but recommended.',
     }),
     defineField({
+      name: 'subheading',
+      title: 'Subheading',
+      type: 'string',
+      description: 'Optional subheading below the main headline.',
+    }),
+    defineField({
       name: 'text',
       title: 'Body',
       type: 'array',
@@ -38,9 +44,48 @@ export const heroType = defineType({
         }).optional(),
     }),
     defineField({
-      name: 'image',
-      title: 'Main Image',
+      name: 'leftBackgroundType',
+      title: 'Left side background',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Solid color', value: 'color'},
+          {title: 'Image / pattern', value: 'image'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'color',
+    }),
+    defineField({
+      name: 'backgroundColor',
+      title: 'Background color (left side)',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Aqua teal', value: 'aqua-teal'},
+          {title: 'Warm yellow', value: 'warm-yellow'},
+          {title: 'White', value: 'white'},
+          {title: 'Black', value: 'black'},
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 'aqua-teal',
+      hidden: ({parent}) => parent?.leftBackgroundType !== 'color',
+    }),
+    defineField({
+      name: 'leftBackgroundImage',
+      title: 'Background image (left side)',
       type: 'image',
+      description: 'Image or pattern for the left 50%. Use for gradients, textures, or photos.',
+      fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
+      options: {hotspot: true},
+      hidden: ({parent}) => parent?.leftBackgroundType !== 'image',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Main Image (right side)',
+      type: 'image',
+      description: 'Photo for the right 50% of the slide.',
       fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
       options: {
         hotspot: true,
