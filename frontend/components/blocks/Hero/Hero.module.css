@@ -91,7 +91,7 @@
 /* Split slide: left 50% (color or image) + right 50% (photo) */
 .heroSlideSection {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(50%, 1fr) minmax(50%, 1fr);
   width: 100%;
   min-height: calc(100vh - 90px);
   margin: 0;
@@ -105,8 +105,8 @@
   justify-content: center;
   gap: 1.5rem;
   padding: 2rem 3rem;
-  position: relative;
-  overflow: hidden;
+  /* position: relative;
+  overflow: hidden; */
 }
 
 .heroSlideLeft--aqua-teal {
@@ -129,7 +129,12 @@
   color: var(--brand-white);
 }
 
-/* When left side uses an image, add overlay for text readability */
+/* When left side uses an image, constrain it to the left 50% only */
+.heroSlideLeftImageBg {
+  position: relative;
+  overflow: hidden;
+}
+
 .heroSlideLeftImageBg .heroSlideContent {
   color: var(--brand-white);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
@@ -193,10 +198,12 @@
 }
 
 .heroSlideRight {
+  min-width: 50%;
   position: relative;
   width: 100%;
   height: 100%;
   min-height: 400px;
+  background-color: #ffffff;
 }
 
 .heroSlideRightImage {

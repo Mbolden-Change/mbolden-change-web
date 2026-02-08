@@ -50,6 +50,7 @@ export default function CoryHeroSlide({
             <SanityNextImage
               image={leftBackgroundImage}
               fit="cover"
+              priority
             />
           </div>
         )}
@@ -88,6 +89,7 @@ export default function CoryHeroSlide({
             image={image}
             fit="cover"
             className={styles.heroSlideRightImage}
+            priority
           />
         )}
       </div>

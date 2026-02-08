@@ -41,6 +41,8 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       slides[]{
         ...,
+        image{ ..., asset },
+        leftBackgroundImage{ ..., asset },
         link{
           title,
           isExternalLink,
