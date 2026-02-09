@@ -21,6 +21,9 @@ type CoryHeroSlideProps = HeroType & {
   leftBackgroundImage?: HeroType['image'];
 };
 
+type CoryHeroFullSlideProps = HeroType
+
+
 
 export default function CoryHeroSlide({
   title,
@@ -54,32 +57,37 @@ export default function CoryHeroSlide({
             />
           </div>
         )}
-        <div className={styles.heroSlideContent}>
-          {title && (
-            <Headline
-              tag="h1"
-              text={title}
-              className={styles.heroSlideHeadline}
-            />
-          )}
-          {subheading && (
-            <p className={styles.heroSlideSubheading}>{subheading}</p>
-          )}
-          {text && (
-            <div className={styles.heroSlideText}>
-              <PortableTextComponent value={text as PortableTextBlock[]} />
-            </div>
-          )}
-          {hasButton && link && (
-            <ButtonComponent
-              className={styles.heroSlideButton}
-              variant="primary"
-              link={link}
-            >
-              Learn more
-            </ButtonComponent>
-          )}
+<div className={styles.heroSlideContent}>
+  {subheading && (
+    <p className={styles.heroSlideSubheading}>{subheading}</p>
+  )}
+  {title && (
+    <Headline
+      tag="h1"
+      text={title}
+      className={styles.heroSlideHeadline}
+    />
+  )}
+  {(text || (hasButton && link)) && (
+    <div className={styles.heroSlideBottomBlock}>
+      <hr className={styles.heroSlideSeparator} />
+      {text && (
+        <div className={styles.heroSlideText}>
+          <PortableTextComponent value={text as PortableTextBlock[]} />
         </div>
+      )}
+      {hasButton && link && (
+        <ButtonComponent
+          className={styles.heroSlideButton}
+          variant="primary"
+          link={link}
+        >
+          Learn more
+        </ButtonComponent>
+      )}
+    </div>
+  )}
+</div>
       </div>
 
       {/* Right 50%: main photo */}
@@ -96,3 +104,24 @@ export default function CoryHeroSlide({
     </section>
   );
 }
+
+export function CoryHeroFullSlide({
+  title,
+  subheading,
+  text,
+  image,
+  link,
+  hasButton,
+}: CoryHeroFullSlideProps) {
+  return (
+    <section className={styles.heroSlideSection} aria-label="Hero slide">
+      <div className={styles.heroSlideFull}>
+        <div className={styles.heroSlideFullContent}>
+          {subheading && (
+            <p className={styles.heroSlideSubheading}>{subheading}</p>
+          )}
+        </div>
+      </div>
+    </section>
+  }
+   

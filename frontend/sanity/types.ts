@@ -552,7 +552,13 @@ export type Hero = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    
   };
+  addVideoLink?: boolean;
+  videoTitle?: string;
+  videoURL?: string;
+  addLink?: boolean;
+
 };
 
 export type HeroCarousel = {
