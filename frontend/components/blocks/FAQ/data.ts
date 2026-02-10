@@ -1,5 +1,8 @@
-const  data = [
-    {question: "WILL CLAIMING TAX CREDITS AFFECT MY IMMIGRATION STATUS?  ", 
+const  data = {
+    heading : "Frequently Asked Questions",
+    subheading: "Here are some of the most common questions about tax credits and filing taxes. If you have more questions, please contact us.",
+    items: [
+            {question: "WILL CLAIMING TAX CREDITS AFFECT MY IMMIGRATION STATUS?  ", 
         answer: "No. Filing taxes and claiming credits does NOT affect immigration status or applications  for permanent residency or citizenship.  What matters is that you qualify for the tax credits you are claiming.  "},
     {question: "WHAT COUNTS AS INCOME FROM WORK OR EARNED INCOME?  ", 
         answer: "Income from work or earned income includes:  Wages from a job  Tips  Money earned from your own business or gig work (for example, driving for a delivery  or rideshare app)  "},
@@ -10,5 +13,6 @@ const  data = [
         {question: "WERE CAN I GET FREE, TRUSTED HELP?", 
         answer: "You do NOT have to pay to file your taxes.  "}
 ]
+}
 
 export default data;

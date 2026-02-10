@@ -4,22 +4,36 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import styles from './FAQ.module.css';
+
 type QuestionAnswer = {
   question: string;
   answer: string;
 };
 
 type AccordionProps = {
+  heading: string;
+  subheading: string;
   items: QuestionAnswer[];
 };
 
-export default function FAQAccordion({ items }: AccordionProps) {
+export default function ReusableAccordion({
+  heading,
+  subheading,
+  items,
+}: AccordionProps) {
   return (
     <div>
+      <h2 className={styles.heading}>{heading}</h2>
+
+      {subheading && (
+        <h4 className={styles.subheading}>{subheading}</h4>
+      )}
+
       {items.map((item, index) => (
         <Accordion
           key={index}
-          defaultExpanded={index === 0} 
+          defaultExpanded={index === 0}
           disableGutters
         >
           <AccordionSummary
@@ -42,3 +56,4 @@ export default function FAQAccordion({ items }: AccordionProps) {
     </div>
   );
 }
+
