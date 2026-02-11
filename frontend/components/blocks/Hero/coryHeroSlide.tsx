@@ -19,18 +19,20 @@ type CoryHeroSlideProps = HeroType & {
   leftBackgroundType?: 'color' | 'image';
   backgroundColor?: HeroSlideBackgroundColor;
   leftBackgroundImage?: HeroType['image'];
+  mediaType?: 'image' | 'video';
+  videoFile?: {
+    url?: string;
+  };
   isActive?: boolean;
 };
-
-type CoryHeroFullSlideProps = HeroType
-
-
 
 export default function CoryHeroSlide({
   title,
   subheading,
   text,
   image,
+  mediaType = 'image',
+  videoFile,
   link,
   hasButton,
   leftBackgroundType = 'color',
@@ -98,39 +100,27 @@ export default function CoryHeroSlide({
 
       {/* Right 50%: main photo */}
       <div className={styles.heroSlideRight}>
-        {image && (
-          <SanityNextImage
-            image={image}
-            fit="cover"
-            className={styles.heroSlideRightImage}
-            priority
-          />
+        {mediaType === 'video' && videoFile?.url ? (
+            <video
+              className={styles.heroSlideRightVideo}
+              src={videoFile.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+        ) : (
+          image && (
+            <SanityNextImage
+              image={image}
+              fit="cover"
+              className={styles.heroSlideRightImage}
+              priority
+            />
+          )
         )}
       </div>
     </section>
   );
 }
-
-// export function CoryHeroFullSlide({
-//   title,
-//   subheading,
-//   text,
-//   image,
-//   link,
-//   hasButton,
-// }: CoryHeroFullSlideProps) {
-  
-//   return (
-//     <section className={styles.heroSlideSection} aria-label="Hero slide">
-//       <div className={styles.heroSlideFull}>
-//         <div className={styles.heroSlideFullContent}>
-//           {subheading && (
-//             <p className={styles.heroSlideSubheading}>{subheading}</p>
-//           )}
-//         </div>
-        
-//       </div>
-//     </section>
-//   )
-//   }
    

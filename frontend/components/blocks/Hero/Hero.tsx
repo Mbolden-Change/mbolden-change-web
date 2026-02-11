@@ -9,6 +9,10 @@ import styles from './Hero.module.css';
 
 type HeroProps = HeroType & {
   isActive?: boolean;
+  mediaType?: 'image' | 'video';
+  videoFile?: {
+    url?: string;
+  };
 };
 
 export default function Hero({
@@ -16,6 +20,8 @@ export default function Hero({
   title,
   text,
   image,
+  mediaType = 'image',
+  videoFile,
   link,
   hasButton,
   isActive = false,
@@ -27,12 +33,23 @@ export default function Hero({
   return (
     <section className={styles.heroSection}>
       <div className={styles.imageWrapper}>
-        {image && (
+        {mediaType === 'video' && videoFile?.url ? (
+            <video
+              className={styles.heroVideo}
+              src={videoFile.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+        ) : (
+          image && (
           <SanityNextImage
             image={image}
             fit="cover"
             className={styles.heroImage}
           />
+          )
         )}
 
         <div className={classNames(styles.overlayContent, contentAnimationClass)}>

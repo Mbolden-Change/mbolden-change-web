@@ -57,6 +57,38 @@ export const heroType = defineType({
       initialValue: 'split',
     }),
     defineField({
+      name: 'mediaType',
+      title: 'Main media type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video file', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'image',
+    }),
+    defineField({
+      name: 'videoFile',
+      title: 'Main Video File',
+      type: 'file',
+      options: {
+        accept: 'video/*',
+      },
+      description:
+        'Upload a video file for the main media area. Used when "Main media type" is set to Video file.',
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { mediaType?: string };
+          if (parent?.mediaType === 'video' && !value) {
+            return 'Video file is required when "Main media type" is Video file.'
+          }
+          return true
+        }),
+    }),
+    defineField({
       name: 'leftBackgroundType',
       title: 'Left side background',
       type: 'string',
@@ -103,7 +135,15 @@ export const heroType = defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required().error('Hero image is required.'),
+      hidden: ({ parent }) => parent?.mediaType === 'video',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as { mediaType?: string };
+          if (parent?.mediaType !== 'video' && !value) {
+            return 'Hero image is required unless media type is Video URL.'
+          }
+          return true
+        }),
     }),
   ],
   preview: {

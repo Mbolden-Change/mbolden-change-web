@@ -526,6 +526,17 @@ export type Hero = {
   hasButton?: boolean;
   link?: InternalOrExternalLink;
   layout?: "full" | "split";
+  mediaType?: "image" | "video";
+  videoFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
   leftBackgroundType?: "color" | "image";
   backgroundColor?: "aqua-teal" | "warm-yellow" | "white" | "black";
   leftBackgroundImage?: {
@@ -541,7 +552,7 @@ export type Hero = {
     alt?: string;
     _type: "image";
   };
-  image: {
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";

@@ -41,6 +41,10 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       slides[]{
         ...,
+        videoFile{
+          ...,
+          "url": asset->url
+        },
         image{ ..., asset },
         leftBackgroundImage{ ..., asset },
         link{
