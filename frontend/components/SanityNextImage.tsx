@@ -59,6 +59,8 @@ const SanityNextImage: React.FC<SanityNextImageProps> = ({
       )}
       sizes={sizes}
     />
+
+    
   );
 };
 export default SanityNextImage;

@@ -54,6 +54,13 @@
   line-height: 1.6;
 }
 
+.heroSubheading {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.5rem 0;
+}
+
 .button {
   max-width: 200px;
   margin-top: 1rem;
@@ -106,6 +113,40 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+@keyframes heroSlideIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-34px, 8px, 0) rotate(-8deg);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(4px, -1px, 0) rotate(0.4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+.slideContentIdle .slideAnimSubheading,
+.slideContentIdle .slideAnimHeading,
+.slideContentIdle .slideAnimBody {
+  opacity: 0;
+  transform: translate3d(-28px, 12px, 0) rotate(-12deg);
+}
+
+.slideContentActive .slideAnimSubheading {
+  animation: heroSlideIn .75s ease-out 0.00s forwards;
+}
+
+.slideContentActive .slideAnimHeading {
+  animation: heroSlideIn 0.85s ease-out 0.00s forwards;
+}
+
+.slideContentActive .slideAnimBody {
+  animation: heroSlideIn .95s ease-out 0.0s forwards;
 }
 
 /* .heroSlideContent h1 {
@@ -237,6 +278,19 @@
 .heroSlideButton {
   margin-top: 0.5rem;
   align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slideContentIdle .slideAnimSubheading,
+  .slideContentIdle .slideAnimHeading,
+  .slideContentIdle .slideAnimBody,
+  .slideContentActive .slideAnimSubheading,
+  .slideContentActive .slideAnimHeading,
+  .slideContentActive .slideAnimBody {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .heroSlideRight {

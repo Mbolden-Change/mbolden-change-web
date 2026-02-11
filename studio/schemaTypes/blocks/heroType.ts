@@ -44,6 +44,19 @@ export const heroType = defineType({
         }).optional(),
     }),
     defineField({
+      name: 'layout',
+      title: 'Slide layout',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Full width (image + overlay)', value: 'full' },
+          { title: 'Split (left content, right image)', value: 'split' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'split',
+    }),
+    defineField({
       name: 'leftBackgroundType',
       title: 'Left side background',
       type: 'string',

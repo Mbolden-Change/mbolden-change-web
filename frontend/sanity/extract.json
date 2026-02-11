@@ -3969,6 +3969,23 @@
           },
           "optional": true
         },
+        "layout": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "full"
+              },
+              {
+                "type": "string",
+                "value": "split"
+              }
+            ]
+          },
+          "optional": true
+        },
         "leftBackgroundType": {
           "type": "objectAttribute",
           "value": {

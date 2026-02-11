@@ -525,6 +525,7 @@ export type Hero = {
   }>;
   hasButton?: boolean;
   link?: InternalOrExternalLink;
+  layout?: "full" | "split";
   leftBackgroundType?: "color" | "image";
   backgroundColor?: "aqua-teal" | "warm-yellow" | "white" | "black";
   leftBackgroundImage?: {
@@ -552,13 +553,7 @@ export type Hero = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
-    
   };
-  addVideoLink?: boolean;
-  videoTitle?: string;
-  videoURL?: string;
-  addLink?: boolean;
-
 };
 
 export type HeroCarousel = {

@@ -19,6 +19,7 @@ type CoryHeroSlideProps = HeroType & {
   leftBackgroundType?: 'color' | 'image';
   backgroundColor?: HeroSlideBackgroundColor;
   leftBackgroundImage?: HeroType['image'];
+  isActive?: boolean;
 };
 
 type CoryHeroFullSlideProps = HeroType
@@ -35,8 +36,13 @@ export default function CoryHeroSlide({
   leftBackgroundType = 'color',
   backgroundColor = 'aqua-teal',
   leftBackgroundImage,
+  isActive = false,
+  
 }: CoryHeroSlideProps) {
   const isColorBackground = leftBackgroundType === 'color';
+  const contentAnimationClass = isActive
+    ? styles.slideContentActive
+    : styles.slideContentIdle;
   const leftClass = isColorBackground
     ? classNames(
         styles.heroSlideLeft,
@@ -57,19 +63,19 @@ export default function CoryHeroSlide({
             />
           </div>
         )}
-<div className={styles.heroSlideContent}>
+<div className={classNames(styles.heroSlideContent, contentAnimationClass)}>
   {subheading && (
-    <p className={styles.heroSlideSubheading}>{subheading}</p>
+    <p className={classNames(styles.heroSlideSubheading, styles.slideAnimSubheading)}>{subheading}</p>
   )}
   {title && (
     <Headline
       tag="h1"
       text={title}
-      className={styles.heroSlideHeadline}
+      className={classNames(styles.heroSlideHeadline, styles.slideAnimHeading)}
     />
   )}
   {(text || (hasButton && link)) && (
-    <div className={styles.heroSlideBottomBlock}>
+    <div className={classNames(styles.heroSlideBottomBlock, styles.slideAnimBody)}>
       <hr className={styles.heroSlideSeparator} />
       {text && (
         <div className={styles.heroSlideText}>
@@ -105,23 +111,26 @@ export default function CoryHeroSlide({
   );
 }
 
-export function CoryHeroFullSlide({
-  title,
-  subheading,
-  text,
-  image,
-  link,
-  hasButton,
-}: CoryHeroFullSlideProps) {
-  return (
-    <section className={styles.heroSlideSection} aria-label="Hero slide">
-      <div className={styles.heroSlideFull}>
-        <div className={styles.heroSlideFullContent}>
-          {subheading && (
-            <p className={styles.heroSlideSubheading}>{subheading}</p>
-          )}
-        </div>
-      </div>
-    </section>
-  }
+// export function CoryHeroFullSlide({
+//   title,
+//   subheading,
+//   text,
+//   image,
+//   link,
+//   hasButton,
+// }: CoryHeroFullSlideProps) {
+  
+//   return (
+//     <section className={styles.heroSlideSection} aria-label="Hero slide">
+//       <div className={styles.heroSlideFull}>
+//         <div className={styles.heroSlideFullContent}>
+//           {subheading && (
+//             <p className={styles.heroSlideSubheading}>{subheading}</p>
+//           )}
+//         </div>
+        
+//       </div>
+//     </section>
+//   )
+//   }
    
