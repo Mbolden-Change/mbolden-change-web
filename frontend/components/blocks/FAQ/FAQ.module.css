@@ -1,0 +1,9 @@
+.heading {
+     color: var(--brand-aqua-teal) !important;
+}
+
+
+.subheading {
+  margin: 0.5rem 0rem;
+  font-size: 1rem;
+}
