@@ -45,7 +45,7 @@ export const heroType = defineType({
     }),
     defineField({
       name: 'layout',
-      title: 'Slide layout',
+      title: 'Slide Layout',
       type: 'string',
       options: {
         list: [
@@ -56,41 +56,49 @@ export const heroType = defineType({
       },
       initialValue: 'split',
     }),
+    // Full layout media controls.
     defineField({
-      name: 'mediaType',
-      title: 'Main media type',
+      name: 'fullMediaType',
+      title: 'Media Type',
       type: 'string',
       options: {
         list: [
           { title: 'Image', value: 'image' },
-          { title: 'Video file', value: 'video' },
+          { title: 'Video', value: 'video' },
         ],
         layout: 'radio',
       },
       initialValue: 'image',
+      hidden: ({ parent }) => parent?.layout !== 'full',
     }),
     defineField({
-      name: 'videoFile',
-      title: 'Main Video File',
+      name: 'fullVideoFile',
+      title: 'Upload Video File',
       type: 'file',
       options: {
         accept: 'video/*',
       },
-      description:
-        'Upload a video file for the main media area. Used when "Main media type" is set to Video file.',
-      hidden: ({ parent }) => parent?.mediaType !== 'video',
+      hidden: ({ parent }) =>
+        parent?.layout !== 'full' || parent?.fullMediaType !== 'video',
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          const parent = context.parent as { mediaType?: string };
-          if (parent?.mediaType === 'video' && !value) {
-            return 'Video file is required when "Main media type" is Video file.'
+          const parent = context.parent as {
+            layout?: string;
+            fullMediaType?: string;
+          };
+          if (
+            parent?.layout === 'full' &&
+            parent?.fullMediaType === 'video' &&
+            !value
+          ) {
+            return 'Video file is required when full layout media type is Video.'
           }
           return true
         }),
     }),
     defineField({
       name: 'leftBackgroundType',
-      title: 'Left side background',
+      title: 'Left Side (Color or Image)',
       type: 'string',
       options: {
         list: [
@@ -100,10 +108,12 @@ export const heroType = defineType({
         layout: 'radio',
       },
       initialValue: 'color',
+      // Left-side controls only apply to split layout.
+      hidden: ({ parent }) => parent?.layout !== 'split',
     }),
     defineField({
       name: 'backgroundColor',
-      title: 'Background color (left side)',
+      title: 'Left Side Color',
       type: 'string',
       options: {
         list: [
@@ -115,7 +125,9 @@ export const heroType = defineType({
         layout: 'dropdown',
       },
       initialValue: 'aqua-teal',
-      hidden: ({parent}) => parent?.leftBackgroundType !== 'color',
+      // For split layout only, and only when left side is color mode.
+      hidden: ({ parent }) =>
+        parent?.layout !== 'split' || parent?.leftBackgroundType !== 'color',
     }),
     defineField({
       name: 'leftBackgroundImage',
@@ -124,37 +136,147 @@ export const heroType = defineType({
       description: 'Image or pattern for the left 50%. Use for gradients, textures, or photos.',
       fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
       options: {hotspot: true},
-      hidden: ({parent}) => parent?.leftBackgroundType !== 'image',
+      // For split layout only, and only when left side is image mode.
+      hidden: ({ parent }) =>
+        parent?.layout !== 'split' || parent?.leftBackgroundType !== 'image',
     }),
+    // Full layout image upload.
     defineField({
-      name: 'image',
-      title: 'Main Image (right side)',
+      name: 'fullImage',
+      title: 'Main Image',
       type: 'image',
-      description: 'Photo for the right 50% of the slide.',
+      description: 'Upload image for full-width slides.',
       fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
       options: {
         hotspot: true,
       },
-      hidden: ({ parent }) => parent?.mediaType === 'video',
+      hidden: ({ parent }) =>
+        parent?.layout !== 'full' || parent?.fullMediaType === 'video',
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          const parent = context.parent as { mediaType?: string };
-          if (parent?.mediaType !== 'video' && !value) {
-            return 'Hero image is required unless media type is Video URL.'
+          const parent = context.parent as {
+            layout?: string;
+            fullMediaType?: string;
+          };
+          if (
+            parent?.layout === 'full' &&
+            parent?.fullMediaType !== 'video' &&
+            !value
+          ) {
+            return 'Main Image is required when full layout media type is Image.'
           }
           return true
         }),
+    }),
+    // Split layout controls:
+    // Left side can be color or image, and right side has its own media type.
+    defineField({
+      name: 'splitRightMediaType',
+      title: 'Right Side Media (Image or Video)',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'image',
+      hidden: ({ parent }) => parent?.layout !== 'split',
+    }),
+    defineField({
+      name: 'splitRightImage',
+      title: 'Main Image (right side)',
+      type: 'image',
+      description: 'Upload image for the right side of split slides.',
+      fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
+      options: {
+        hotspot: true,
+      },
+      hidden: ({ parent }) =>
+        parent?.layout !== 'split' || parent?.splitRightMediaType === 'video',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as {
+            layout?: string;
+            splitRightMediaType?: string;
+          };
+          if (
+            parent?.layout === 'split' &&
+            parent?.splitRightMediaType !== 'video' &&
+            !value
+          ) {
+            return 'Main Image (right side) is required when right side media type is Image.'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'splitRightVideoFile',
+      title: 'Right Side Video Upload',
+      type: 'file',
+      options: {
+        accept: 'video/*',
+      },
+      hidden: ({ parent }) =>
+        parent?.layout !== 'split' || parent?.splitRightMediaType !== 'video',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as {
+            layout?: string;
+            splitRightMediaType?: string;
+          };
+          if (
+            parent?.layout === 'split' &&
+            parent?.splitRightMediaType === 'video' &&
+            !value
+          ) {
+            return 'Right side video file is required when right side media type is Video.'
+          }
+          return true
+        }),
+    }),
+    // Legacy support: older hero docs used `image`.
+    // Keep this hidden so Studio no longer shows "Unknown field found",
+    // while frontend query still coalesces it as a fallback.
+    defineField({
+      name: 'image',
+      title: 'Legacy Image',
+      type: 'image',
+      hidden: true,
+      readOnly: true,
+      fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'mediaType',
+      title: 'Legacy mediaType',
+      type: 'string',
+      hidden: true,
+      readOnly: true,
+    }),
+    defineField({
+      name: 'videoFile',
+      title: 'Legacy videoFile',
+      type: 'file',
+      hidden: true,
+      readOnly: true,
     }),
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'image',
+      fullMedia: 'fullImage',
+      splitMedia: 'splitRightImage',
+      // Kept as fallback so older docs still preview with an image.
+      legacyMedia: 'image',
     },
-    prepare({ title, media }) {
+    prepare({ title, fullMedia, splitMedia, legacyMedia }) {
       return {
         title: `Slide — ${title || 'Untitled'}`,
-        media,
+        media: splitMedia || fullMedia || legacyMedia,
       };
     },
   },

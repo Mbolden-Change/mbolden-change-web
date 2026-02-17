@@ -41,11 +41,32 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       slides[]{
         ...,
-        videoFile{
+        "mediaType": coalesce(
+          select(
+            layout == "full" => fullMediaType,
+            layout == "split" => splitRightMediaType
+          ),
+          mediaType
+        ),
+        "videoFile": coalesce(
+          select(
+            layout == "full" => fullVideoFile,
+            layout == "split" => splitRightVideoFile
+          ),
+          videoFile
+        ){
           ...,
           "url": asset->url
         },
-        image{ ..., asset },
+        "image": coalesce(
+          select(
+            layout == "full" => fullImage,
+            layout == "split" => splitRightImage
+          ),
+          splitRightImage,
+          fullImage,
+          image
+        ){ ..., asset },
         leftBackgroundImage{ ..., asset },
         link{
           title,

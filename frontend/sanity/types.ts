@@ -526,8 +526,8 @@ export type Hero = {
   hasButton?: boolean;
   link?: InternalOrExternalLink;
   layout?: "full" | "split";
-  mediaType?: "image" | "video";
-  videoFile?: {
+  fullMediaType?: "image" | "video";
+  fullVideoFile?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -552,6 +552,43 @@ export type Hero = {
     alt?: string;
     _type: "image";
   };
+  fullImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  splitRightMediaType?: "image" | "video";
+  splitRightImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  splitRightVideoFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
   image?: {
     asset?: {
       _ref: string;
@@ -564,6 +601,17 @@ export type Hero = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+  };
+  mediaType?: string;
+  videoFile?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
   };
 };
 

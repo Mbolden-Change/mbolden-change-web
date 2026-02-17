@@ -52,7 +52,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                             <CoryHeroSlide {...slide} isActive={index === selectedIndex} />
                             )}
   
-                        </div>
+                         </div>
                     ))}
                 </div>
 
