@@ -4,75 +4,38 @@ import Headline from '../../atoms/Headline';
 import { PortableTextBlock } from 'next-sanity';
 import PortableTextComponent from '../../PortableTextComponent';
 import ButtonComponent from '../../atoms/ButtonComponent';
-import classNames from 'classnames';
 import styles from './Hero.module.css';
 
-type HeroProps = HeroType & {
-  isActive?: boolean;
-  mediaType?: 'image' | 'video';
-  videoFile?: {
-    url?: string;
-  };
-};
-
 export default function Hero({
-  subheading,
   title,
   text,
   image,
-  mediaType = 'image',
-  videoFile,
   link,
   hasButton,
-  isActive = false,
-}: HeroProps) {
-  const contentAnimationClass = isActive
-    ? styles.slideContentActive
-    : styles.slideContentIdle;
-
+}: HeroType) {
   return (
     <section className={styles.heroSection}>
       <div className={styles.imageWrapper}>
-        {mediaType === 'video' && videoFile?.url ? (
-            <video
-              className={styles.heroVideo}
-              src={videoFile.url}
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-        ) : (
-          image && (
+        {image && (
           <SanityNextImage
             image={image}
             fit="cover"
             className={styles.heroImage}
           />
-          )
         )}
 
-        <div className={classNames(styles.overlayContent, contentAnimationClass)}>
-          {subheading && (
-            <p className={classNames(styles.heroSubheading, styles.slideAnimSubheading)}>
-              {subheading}
-            </p>
-          )}
+        <div className={styles.overlayContent}>
           {title && (
-            <Headline
-              tag="h1"
-              text={title}
-              className={classNames(styles.headline, styles.slideAnimHeading)}
-            />
+            <Headline tag="h1" text={title} className={styles.headline} />
           )}
           {text && (
-            <div className={classNames(styles.pText, styles.slideAnimBody)}>
+            <div className={styles.pText}>
               <PortableTextComponent value={text as PortableTextBlock[]} />
             </div>
           )}
           {hasButton && link && (
             <ButtonComponent
-              className={classNames(styles.button, styles.slideAnimBody)}
+              className={styles.button}
               variant="primary"
               link={link}
             />
@@ -82,3 +45,4 @@ export default function Hero({
     </section>
   );
 }
+
