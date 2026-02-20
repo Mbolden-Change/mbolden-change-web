@@ -3,8 +3,8 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Hero from './Hero';
-import CoryHeroSlide from './coryHeroSlide';
+import CoryFullHeroSlide from './coryFullHeroSlide';
+import CorySplitHeroSlide from './corySplitHeroSlide';
 import { Hero as HeroType } from '@/sanity/types';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -47,9 +47,9 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                     {slides.map((slide, index) => (
                         <div className={styles.emblaSlide} key={slide._key || index}>
                           {slide.layout === 'full' ? (
-                            <Hero {...slide} isActive={index === selectedIndex} />
+                            <CoryFullHeroSlide {...slide} isActive={index === selectedIndex} />
                             ) : (
-                            <CoryHeroSlide {...slide} isActive={index === selectedIndex} />
+                            <CorySplitHeroSlide {...slide} isActive={index === selectedIndex} />
                             )}
   
                          </div>

@@ -13,20 +13,19 @@ type HeroSlideBackgroundColor =
   | 'white'
   | 'black';
 
-/** Props from Sanity hero schema - extends Hero with split-slide fields */
-type CoryHeroSlideProps = HeroType & {
+type CorySplitHeroSlideProps = HeroType & {
   subheading?: string;
   leftBackgroundType?: 'color' | 'image';
   backgroundColor?: HeroSlideBackgroundColor;
   leftBackgroundImage?: HeroType['image'];
-  mediaType?: 'image' | 'video';
+  mediaType?: string;
   videoFile?: {
     url?: string;
   };
   isActive?: boolean;
 };
 
-export default function CoryHeroSlide({
+export default function CorySplitHeroSlide({
   title,
   subheading,
   text,
@@ -39,8 +38,7 @@ export default function CoryHeroSlide({
   backgroundColor = 'aqua-teal',
   leftBackgroundImage,
   isActive = false,
-  
-}: CoryHeroSlideProps) {
+}: CorySplitHeroSlideProps) {
   const isColorBackground = leftBackgroundType === 'color';
   const contentAnimationClass = isActive
     ? styles.slideContentActive
@@ -54,7 +52,6 @@ export default function CoryHeroSlide({
 
   return (
     <section className={styles.heroSlideSection} aria-label="Hero slide">
-      {/* Left 50%: solid color or background image */}
       <div className={leftClass}>
         {!isColorBackground && leftBackgroundImage && (
           <div className={styles.heroSlideLeftImageWrap}>
@@ -65,50 +62,49 @@ export default function CoryHeroSlide({
             />
           </div>
         )}
-<div className={classNames(styles.heroSlideContent, contentAnimationClass)}>
-  {subheading && (
-    <p className={classNames(styles.heroSlideSubheading, styles.slideAnimSubheading)}>{subheading}</p>
-  )}
-  {title && (
-    <Headline
-      tag="h1"
-      text={title}
-      className={classNames(styles.heroSlideHeadline, styles.slideAnimHeading)}
-    />
-  )}
-  {(text || (hasButton && link)) && (
-    <div className={classNames(styles.heroSlideBottomBlock, styles.slideAnimBody)}>
-      <hr className={styles.heroSlideSeparator} />
-      {text && (
-        <div className={styles.heroSlideText}>
-          <PortableTextComponent value={text as PortableTextBlock[]} />
+        <div className={classNames(styles.heroSlideContent, contentAnimationClass)}>
+          {subheading && (
+            <p className={classNames(styles.heroSlideSubheading, styles.slideAnimSubheading)}>{subheading}</p>
+          )}
+          {title && (
+            <Headline
+              tag="h1"
+              text={title}
+              className={classNames(styles.heroSlideHeadline, styles.slideAnimHeading)}
+            />
+          )}
+          {(text || (hasButton && link)) && (
+            <div className={classNames(styles.heroSlideBottomBlock, styles.slideAnimBody)}>
+              <hr className={styles.heroSlideSeparator} />
+              {text && (
+                <div className={styles.heroSlideText}>
+                  <PortableTextComponent value={text as PortableTextBlock[]} />
+                </div>
+              )}
+              {hasButton && link && (
+                <ButtonComponent
+                  className={styles.heroSlideButton}
+                  variant="primary"
+                  link={link}
+                >
+                  Learn more
+                </ButtonComponent>
+              )}
+            </div>
+          )}
         </div>
-      )}
-      {hasButton && link && (
-        <ButtonComponent
-          className={styles.heroSlideButton}
-          variant="primary"
-          link={link}
-        >
-          Learn more
-        </ButtonComponent>
-      )}
-    </div>
-  )}
-</div>
       </div>
 
-      {/* Right 50%: main photo */}
       <div className={styles.heroSlideRight}>
         {mediaType === 'video' && videoFile?.url ? (
-            <video
-              className={styles.heroSlideRightVideo}
-              src={videoFile.url}
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
+          <video
+            className={styles.heroSlideRightVideo}
+            src={videoFile.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
         ) : (
           image && (
             <SanityNextImage
@@ -123,4 +119,3 @@ export default function CoryHeroSlide({
     </section>
   );
 }
-   
