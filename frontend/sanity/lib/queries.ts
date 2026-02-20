@@ -77,6 +77,46 @@ export const PAGE_QUERY = defineQuery(`
         }
       }
     },
+    _type == "coryHeroCarousel" => {
+      ...,
+      slides[]{
+        ...,
+        "mediaType": coalesce(
+          select(
+            layout == "full" => fullMediaType,
+            layout == "split" => splitRightMediaType
+          ),
+          mediaType
+        ),
+        "videoFile": coalesce(
+          select(
+            layout == "full" => fullVideoFile,
+            layout == "split" => splitRightVideoFile
+          ),
+          videoFile
+        ){
+          ...,
+          "url": asset->url
+        },
+        "image": coalesce(
+          select(
+            layout == "full" => fullImage,
+            layout == "split" => splitRightImage
+          ),
+          splitRightImage,
+          fullImage,
+          image
+        ){ ..., asset },
+        leftBackgroundImage{ ..., asset },
+        link{
+          title,
+          isExternalLink,
+          url,
+          target,
+          reference->{ _type, slug }
+        }
+      }
+    },
     _type == "testimonialsCarousel" => {
       ...,
       link{

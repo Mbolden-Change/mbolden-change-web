@@ -40,5 +40,8 @@ export const pageBuilderType = defineType({
     defineArrayMember({
       type: 'holidayCard',
     }),
+    defineArrayMember({
+      type: 'coryHeroCarousel',
+    }),
   ],
 })

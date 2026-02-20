@@ -12,6 +12,7 @@ const componentMap: ComponentsMap = {
   richText: dynamic(() => import('@/components/blocks/RichText')),
   statementBanner: dynamic(() => import('@/components/blocks/StatementBanner')),
   heroCarousel: dynamic(() => import('@/components/blocks/Hero/HeroCarousel')),
+  coryHeroCarousel: dynamic(() => import('@/components/blocks/Hero/coryHeroCarousel')),
   testimonialsCarousel: dynamic(
     () => import('@/components/blocks/Testimonials/TestimonialsCarousel')
   ),
