@@ -12,7 +12,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .textContent h2 {
@@ -23,19 +23,11 @@
   font-weight: 800;
 }
 
-.body {
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: var(--brand-black);
-  opacity: 0.8;
-}
-
 .ctaButtons {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
 }
 
 .infoTag {
