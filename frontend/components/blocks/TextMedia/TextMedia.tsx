@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './TextMedia.module.css';
 import { TextMedia as TextMediaType } from '@/sanity/types';
-import { PortableText } from '@portabletext/react';
+import { PortableTextBlock } from 'next-sanity';
 import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
+import PortableTextComponent from '@/components/PortableTextComponent';
 
 const getEmbedUrl = (url?: string) => {
   if (!url) return null;
@@ -23,9 +24,7 @@ const TextMedia = ({ headline, textBody, media, ctas }: TextMediaType) => {
       <div className={styles.textContent}>
         <h2>{headline}</h2>
 
-        <div className={styles.body}>
-          <PortableText value={textBody} />
-        </div>
+        <PortableTextComponent value={textBody as PortableTextBlock[]} />
 
         {ctas && ctas.length > 0 && (
           <div className={styles.ctaButtons}>
