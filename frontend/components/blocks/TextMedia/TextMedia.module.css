@@ -30,7 +30,6 @@
   opacity: 0.8;
 }
 
-/* CTA Layout */
 .ctaButtons {
   display: flex;
   flex-wrap: wrap;
@@ -39,7 +38,6 @@
   margin-top: 1.5rem;
 }
 
-/* Info Tag */
 .infoTag {
   display: inline-flex;
   align-items: center;
@@ -54,7 +52,6 @@
   letter-spacing: 0.05em;
 }
 
-/* Base Button Styles with Slide Effect Preparation */
 .ctaButton,
 .ctaButtonSecondary {
   position: relative;
@@ -66,14 +63,13 @@
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  overflow: hidden; /* Clips the sliding background */
+  overflow: hidden;
   z-index: 1;
   transition:
     color 0.4s ease-in-out,
     border-color 0.4s ease-in-out;
 }
 
-/* The Sliding Background Logic */
 .ctaButton::before,
 .ctaButtonSecondary::before {
   content: '';
@@ -90,7 +86,6 @@
   transform: scaleX(1);
 }
 
-/* Primary Button: Starts Black, slides Yellow */
 .ctaButton {
   background-color: var(--brand-black);
   color: var(--brand-white);
@@ -106,7 +101,6 @@
   border-color: var(--brand-warm-yellow);
 }
 
-/* Secondary Button: Starts Outlined Aqua, slides Aqua */
 .ctaButtonSecondary {
   background-color: transparent;
   color: var(--brand-aqua-teal);
