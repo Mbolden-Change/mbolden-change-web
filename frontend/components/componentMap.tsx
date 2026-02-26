@@ -27,6 +27,8 @@ const componentMap: ComponentsMap = {
   holidayCard: dynamic(
     () => import('@/components/blocks/HolidayCard/HolidayCard')
   ),
+  faq: dynamic(
+    () => import('@/components/blocks/FAQ/Accordian'))
   // Add more components as needed
 };
 

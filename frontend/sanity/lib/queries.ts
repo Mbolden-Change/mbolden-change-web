@@ -93,6 +93,16 @@ export const PAGE_QUERY = defineQuery(`
           reference->{ _type, slug }
         },
     },
+      _type == "faq" => {
+    ...,
+    heading,
+    subheading,
+    items[]{
+      _key,
+      question,
+      answer
+    }
+  },
   }
 }
 `);

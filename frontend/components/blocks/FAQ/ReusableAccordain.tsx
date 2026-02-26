@@ -41,7 +41,12 @@ export default function ReusableAccordion({
             aria-controls={`panel-${index}-content`}
             id={`panel-${index}-header`}
           >
-            <Typography component="span">
+            <Typography component="span" 
+            sx={{
+                fontWeight: '700 !important',
+                fontSize: '1.1rem !important',
+              }}
+            >
               {item.question}
             </Typography>
           </AccordionSummary>
