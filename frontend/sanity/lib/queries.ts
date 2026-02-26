@@ -10,6 +10,28 @@ export const PAGE_QUERY = defineQuery(`
   slug,
   content[]{
     ...,
+       _type == "textMedia" => {
+      ...,
+      "themeColour": coalesce(themeColour, "var(--brand-warm-yellow)"),
+
+      media{
+        videoUrl,
+        image{
+          ...,
+          asset->{
+            ...,
+            metadata{
+              lqip
+            }
+          }
+        }
+      },
+
+      ctas[]{
+        label,
+        link
+      }
+    },
    _type == "caseStudyHighlight" => {
     ...,
     cta{

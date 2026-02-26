@@ -40,6 +40,9 @@ export const pageBuilderType = defineType({
     defineArrayMember({
       type: 'holidayCard',
     }),
-    defineArrayMember({ type: 'faq' })
+    defineArrayMember({ type: 'faq' }),
+    defineArrayMember({
+      type: 'textMedia',
+    }),
   ],
 })

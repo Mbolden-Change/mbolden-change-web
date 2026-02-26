@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/simulator',
+        destination: 'https://safety-net-simulator.netlify.app',
+      },
+      {
+        source: '/simulator/:path*',
+        destination: 'https://safety-net-simulator.netlify.app/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -13,20 +13,21 @@ const componentMap: ComponentsMap = {
   statementBanner: dynamic(() => import('@/components/blocks/StatementBanner')),
   heroCarousel: dynamic(() => import('@/components/blocks/Hero/HeroCarousel')),
   testimonialsCarousel: dynamic(
-    () => import('@/components/blocks/Testimonials/TestimonialsCarousel')
+    () => import('@/components/blocks/Testimonials/TestimonialsCarousel'),
   ),
   tabsContainer: dynamic(
-    () => import('@/components/blocks/TabbedContent/TabbedContent')
+    () => import('@/components/blocks/TabbedContent/TabbedContent'),
   ),
   cardGallery: dynamic(
-    () => import('@/components/blocks/CardGallery/CardGallery')
+    () => import('@/components/blocks/CardGallery/CardGallery'),
   ),
   caseStudyHighlight: dynamic(
-    () => import('@/components/blocks/CaseStudyHighlight/CaseStudyHighlight')
+    () => import('@/components/blocks/CaseStudyHighlight/CaseStudyHighlight'),
   ),
   holidayCard: dynamic(
-    () => import('@/components/blocks/HolidayCard/HolidayCard')
+    () => import('@/components/blocks/HolidayCard/HolidayCard'),
   ),
+  textMedia: dynamic(() => import('@/components/blocks/TextMedia/TextMedia')),
   faq: dynamic(
     () => import('@/components/blocks/FAQ/Accordian'))
   // Add more components as needed
