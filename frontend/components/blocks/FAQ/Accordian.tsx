@@ -10,7 +10,7 @@ type FAQItem = {
 
 type AccordianProps = {
   heading: string;
-  subheading?: string;
+  subheading: string;
   items: FAQItem[];
 };
 
