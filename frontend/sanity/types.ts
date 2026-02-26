@@ -99,7 +99,9 @@ export type PageBuilder = Array<{
   _key: string;
 } & HolidayCard | {
   _key: string;
-} & TextMedia>;
+} & TextMedia | {
+  _key: string;
+} & Faq>;
 
 export type TextMedia = {
   _type: "textMedia";
