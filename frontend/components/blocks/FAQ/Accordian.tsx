@@ -17,8 +17,6 @@ type AccordianProps = {
 
 export default function Accordian({ heading, subheading, items }: AccordianProps) {
   
-  console.log('FAQ Data:', { heading, subheading, items });
-  
   return (
     <div>
       <Grid>
