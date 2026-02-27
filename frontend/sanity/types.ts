@@ -99,9 +99,21 @@ export type PageBuilder = Array<{
   _key: string;
 } & HolidayCard | {
   _key: string;
-} & TextMedia | {
+} & Faq | {
   _key: string;
-} & Faq>;
+} & TextMedia>;
+
+export type Faq = {
+  _type: "faq";
+  heading?: string;
+  subheading?: string;
+  items?: Array<{
+    question?: string;
+    answer?: string;
+    _type: "faqItem";
+    _key: string;
+  }>;
+};
 
 export type TextMedia = {
   _type: "textMedia";
@@ -143,21 +155,6 @@ export type TextMedia = {
     label: string;
     link?: string;
     _type: "cta";
-    _key: string;
-  }>;
-};
-} & HolidayCard | {
-  _key: string;
-} & Faq>;
-
-export type Faq = {
-  _type: "faq";
-  heading?: string;
-  subheading?: string;
-  items?: Array<{
-    question?: string;
-    answer?: string;
-    _type: "faqItem";
     _key: string;
   }>;
 };
@@ -1059,5 +1056,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | TextMedia | Faq | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
