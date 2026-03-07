@@ -69,17 +69,22 @@ export default function CoryFullHeroSlide({
               className={classNames(styles.headline, styles.slideAnimHeading)}
             />
           )}
-          {text && (
-            <div className={classNames(styles.pText, styles.slideAnimBody)}>
-              <PortableTextComponent value={text as PortableTextBlock[]} />
-            </div>
-          )}
-          {hasButton && link && (
-            <ButtonComponent
-              className={classNames(styles.button, styles.slideAnimBody)}
-              variant="primary"
-              link={link}
-            />
+          {(text || (hasButton && link)) && (
+            <>
+              <hr className={styles.heroSlideSeparator} />
+              {text && (
+                <div className={classNames(styles.pText, styles.slideAnimBody)}>
+                  <PortableTextComponent value={text as PortableTextBlock[]} />
+                </div>
+              )}
+              {hasButton && link && (
+                <ButtonComponent
+                  className={classNames(styles.button, styles.slideAnimBody)}
+                  variant="primary"
+                  link={link}
+                />
+              )}
+            </>
           )}
         </div>
       </div>
