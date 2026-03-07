@@ -1,19 +1,30 @@
-import data from './data';
 import Grid from '@/components/Grid';
 import GridItem from '@/components/GridItem';
 import ReusableAccordion from './ReusableAccordain';
 
+type FAQItem = {
+  _key?: string;
+  question: string;
+  answer: string;
+};
+
+type AccordianProps = {
+  heading: string;
+  subheading: string;
+  items: FAQItem[];
+};
 
 
-export default function Accordian() {
+export default function Accordian({ heading, subheading, items }: AccordianProps) {
+  
   return (
     <div>
       <Grid>
         <GridItem desktopSpan={12} mobileSpan={12}>
           <ReusableAccordion
-            heading={data.heading}
-            subheading={data.subheading}
-            items={data.items}
+            heading={heading}
+            subheading={subheading}
+            items={items}
           />
         </GridItem>
       </Grid>
