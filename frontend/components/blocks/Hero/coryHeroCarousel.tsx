@@ -21,6 +21,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
     const autoplay = useRef(Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true  }));
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay.current]);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [navigationDirection, setNavigationDirection] = useState<'prev' | 'next'>('next');
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -40,6 +41,16 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
         };
     }, [emblaApi, onSelect]);
 
+    const handlePrevClick = useCallback(() => {
+        setNavigationDirection('prev');
+        emblaApi?.scrollPrev();
+    }, [emblaApi]);
+
+    const handleNextClick = useCallback(() => {
+        setNavigationDirection('next');
+        emblaApi?.scrollNext();
+    }, [emblaApi]);
+
     return (
         <section className={styles.carouselWrapper}>
             <div className={styles.embla} ref={emblaRef}>
@@ -47,9 +58,17 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                     {slides.map((slide, index) => (
                         <div className={styles.emblaSlide} key={slide._key || index}>
                           {slide.layout === 'full' ? (
-                            <CoryFullHeroSlide {...slide} isActive={index === selectedIndex} />
+                            <CoryFullHeroSlide
+                                {...slide}
+                                isActive={index === selectedIndex}
+                                animationDirection={navigationDirection}
+                            />
                             ) : (
-                            <CorySplitHeroSlide {...slide} isActive={index === selectedIndex} />
+                            <CorySplitHeroSlide
+                                {...slide}
+                                isActive={index === selectedIndex}
+                                animationDirection={navigationDirection}
+                            />
                             )}
   
                          </div>
@@ -61,7 +80,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                     <ButtonComponent
                         variant='icon'
                         className={styles.arrowButtons}
-                        onClick={() => emblaApi?.scrollPrev()}
+                        onClick={handlePrevClick}
                         aria-label="Previous slide"
                         >
                         <IoIosArrowBack />
@@ -69,7 +88,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                     <ButtonComponent
                         variant='icon'
                         className={styles.arrowButtons}
-                        onClick={() => emblaApi?.scrollNext()}
+                        onClick={handleNextClick}
                         aria-label="Next slide"
                         >
                         <IoIosArrowForward />

@@ -128,14 +128,29 @@
   height: 100%;
 }
 
-@keyframes heroSlideIn {
+@keyframes heroSlideInFromLeft {
   from {
     opacity: 0;
     transform: translate3d(-700px, 0px, 0) rotate(0deg);
   }
   72% {
     opacity: 1;
-    transform: translate3d(100px, 0px, 0) rotate(0.0deg);
+    transform: translate3d(100px, 0px, 0) rotate(-10.0deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0px, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes heroSlideInFromRight {
+  from {
+    opacity: 0;
+    transform: translate3d(700px, 0px, 0) rotate(0deg);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(-100px, 0px, 0) rotate(-10.0deg);
   }
   to {
     opacity: 1;
@@ -144,7 +159,7 @@
 }
 
 
-@keyframes heroSlideOut {
+/* @keyframes heroSlideOut {
   from {
     opacity: 0;
     transform: translate3d(700px, 0px, 0) rotate(0deg);
@@ -164,20 +179,33 @@
 .slideContentIdle .slideAnimBody {
   opacity: 0;
   transform: translate3d(-28px, 12px, 0) rotate(-12deg);
+} */
+
+
+/* Right arrow (next) => text enters from right to left */
+.slideContentActiveFromRight .slideAnimSubheading {
+  animation: heroSlideInFromRight .65s ease-out 0.00s forwards;
 }
 
-
-/* clide comes from right to left when right button is click (like the next button) */
-.slideContentActive .slideAnimSubheading {
-  animation: heroSlideIn .65s ease-out 0.00s forwards;
+.slideContentActiveFromRight .slideAnimHeading {
+  animation: heroSlideInFromRight .55s ease-out 0.00s forwards;
 }
 
-.slideContentActive .slideAnimHeading {
-  animation: heroSlideIn .55s ease-out 0.00s forwards;
+.slideContentActiveFromRight .slideAnimBody {
+  animation: heroSlideInFromRight .45s ease-out 0.0s forwards;
 }
 
-.slideContentActive .slideAnimBody {
-  animation: heroSlideIn .95s ease-out 0.0s forwards;
+/* Left arrow (previous) => text enters from left to right */
+.slideContentActiveFromLeft .slideAnimSubheading {
+  animation: heroSlideInFromLeft .65s ease-out 0.00s forwards;
+}
+
+.slideContentActiveFromLeft .slideAnimHeading {
+  animation: heroSlideInFromLeft .55s ease-out 0.00s forwards;
+}
+
+.slideContentActiveFromLeft .slideAnimBody {
+  animation: heroSlideInFromLeft .45s ease-out 0.0s forwards;
 }
 
 /* .heroSlideContent h1 {
@@ -319,9 +347,12 @@
   .slideContentIdle .slideAnimSubheading,
   .slideContentIdle .slideAnimHeading,
   .slideContentIdle .slideAnimBody,
-  .slideContentActive .slideAnimSubheading,
-  .slideContentActive .slideAnimHeading,
-  .slideContentActive .slideAnimBody {
+  .slideContentActiveFromRight .slideAnimSubheading,
+  .slideContentActiveFromRight .slideAnimHeading,
+  .slideContentActiveFromRight .slideAnimBody,
+  .slideContentActiveFromLeft .slideAnimSubheading,
+  .slideContentActiveFromLeft .slideAnimHeading,
+  .slideContentActiveFromLeft .slideAnimBody {
     animation: none;
     opacity: 1;
     transform: none;

@@ -23,6 +23,7 @@ type CorySplitHeroSlideProps = HeroType & {
     url?: string;
   };
   isActive?: boolean;
+  animationDirection?: 'prev' | 'next';
 };
 
 export default function CorySplitHeroSlide({
@@ -38,10 +39,13 @@ export default function CorySplitHeroSlide({
   backgroundColor = 'aqua-teal',
   leftBackgroundImage,
   isActive = false,
+  animationDirection = 'next',
 }: CorySplitHeroSlideProps) {
   const isColorBackground = leftBackgroundType === 'color';
   const contentAnimationClass = isActive
-    ? styles.slideContentActive
+    ? animationDirection === 'prev'
+      ? styles.slideContentActiveFromLeft
+      : styles.slideContentActiveFromRight
     : styles.slideContentIdle;
   const leftClass = isColorBackground
     ? classNames(

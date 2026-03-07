@@ -9,6 +9,7 @@ import styles from './Hero.module.css';
 
 type CoryFullHeroSlideProps = HeroType & {
   isActive?: boolean;
+  animationDirection?: 'prev' | 'next';
   mediaType?: string;
   videoFile?: {
     url?: string;
@@ -25,9 +26,12 @@ export default function CoryFullHeroSlide({
   link,
   hasButton,
   isActive = false,
+  animationDirection = 'next',
 }: CoryFullHeroSlideProps) {
   const contentAnimationClass = isActive
-    ? styles.slideContentActive
+    ? animationDirection === 'prev'
+      ? styles.slideContentActiveFromLeft
+      : styles.slideContentActiveFromRight
     : styles.slideContentIdle;
 
   return (
