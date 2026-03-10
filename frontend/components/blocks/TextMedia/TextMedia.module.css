@@ -126,11 +126,24 @@
 
 .videoWrapper {
   position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
+  width: 100%;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  aspect-ratio: 16 / 9;
+}
+
+.videoWrapper:has(iframe[src*='shorts']) {
+  aspect-ratio: 9 / 16;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@supports (aspect-ratio: 1) {
+  .videoWrapper {
+    padding-bottom: 0;
+    height: auto;
+  }
 }
 
 .videoWrapper iframe {
