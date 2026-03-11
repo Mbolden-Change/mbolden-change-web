@@ -23,26 +23,28 @@ export const parseVideoUrl = (input?: string): VideoEmbed | null => {
     ) {
       let videoId = '';
       let isShort = false;
+
       if (url.hostname === 'youtu.be') {
         videoId = url.pathname.slice(1);
-      }
-      if (url.pathname.startsWith('/watch')) {
+      } else if (url.pathname.startsWith('/embed/')) {
+        videoId = url.pathname.split('/embed/')[1];
+      } else if (url.pathname.startsWith('/watch')) {
         videoId = url.searchParams.get('v') || '';
-      }
-      if (url.pathname.startsWith('/shorts/')) {
+      } else if (url.pathname.startsWith('/shorts/')) {
         videoId = url.pathname.split('/shorts/')[1];
         isShort = true;
-      }
-      if (url.pathname.startsWith('/live/')) {
+      } else if (url.pathname.startsWith('/live/')) {
         videoId = url.pathname.split('/live/')[1];
       }
       if (!videoId) return null;
+      const cleanId = videoId.split(/[?&]/)[0];
       return {
-        embedUrl: `https://www.youtube.com/embed/${videoId}`,
+        embedUrl: `https://www.youtube.com/embed/${cleanId}`,
         platform: 'youtube',
         isShort,
       };
     }
+
     if (url.hostname.includes('vimeo.com')) {
       const id = url.pathname.split('/').filter(Boolean)[0];
       if (!id) return null;
