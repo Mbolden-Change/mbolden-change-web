@@ -28,6 +28,8 @@ const componentMap: ComponentsMap = {
     () => import('@/components/blocks/HolidayCard/HolidayCard'),
   ),
   textMedia: dynamic(() => import('@/components/blocks/TextMedia/TextMedia')),
+  faq: dynamic(
+    () => import('@/components/blocks/FAQ/Accordian'))
   // Add more components as needed
 };
 
