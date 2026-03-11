@@ -6,36 +6,62 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 import PortableTextComponent from '@/components/PortableTextComponent';
 
-const getEmbedUrl = (url?: string) => {
-  if (!url) return null;
+type VideoEmbed = {
+  embedUrl: string;
+  platform: 'youtube' | 'vimeo';
+  isShort: boolean;
+};
 
-  if (url.includes('/embed/') || url.includes('player.vimeo.com')) {
-    return url;
-  }
+export const parseVideoUrl = (input?: string): VideoEmbed | null => {
+  if (!input) return null;
 
-  if (url.includes('youtube.com') || url.includes('youtu.be')) {
-    let videoId = '';
-    if (url.includes('watch?v=')) {
-      videoId = url.split('watch?v=')[1]?.split('&')[0];
-    } else if (url.includes('/shorts/')) {
-      videoId = url.split('/shorts/')[1]?.split('?')[0];
-    } else if (url.includes('youtu.be/')) {
-      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+  try {
+    const url = new URL(input);
+    if (
+      url.hostname.includes('youtube.com') ||
+      url.hostname.includes('youtu.be')
+    ) {
+      let videoId = '';
+      let isShort = false;
+      if (url.hostname === 'youtu.be') {
+        videoId = url.pathname.slice(1);
+      }
+      if (url.pathname.startsWith('/watch')) {
+        videoId = url.searchParams.get('v') || '';
+      }
+      if (url.pathname.startsWith('/shorts/')) {
+        videoId = url.pathname.split('/shorts/')[1];
+        isShort = true;
+      }
+      if (url.pathname.startsWith('/live/')) {
+        videoId = url.pathname.split('/live/')[1];
+      }
+      if (!videoId) return null;
+      return {
+        embedUrl: `https://www.youtube.com/embed/${videoId}`,
+        platform: 'youtube',
+        isShort,
+      };
     }
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-  }
+    if (url.hostname.includes('vimeo.com')) {
+      const id = url.pathname.split('/').filter(Boolean)[0];
+      if (!id) return null;
+      return {
+        embedUrl: `https://player.vimeo.com/video/${id}`,
+        platform: 'vimeo',
+        isShort: false,
+      };
+    }
 
-  if (url.includes('vimeo.com')) {
-    const vimeoId = url.split('/').pop()?.split('?')[0];
-    return vimeoId ? `https://player.vimeo.com/video/${vimeoId}` : null;
+    return null;
+  } catch {
+    return null;
   }
-
-  return null;
 };
 
 const TextMedia = ({ headline, textBody, media, ctas }: TextMediaType) => {
-  const videoUrl = getEmbedUrl(media?.videoUrl);
-  const isVimeo = videoUrl?.includes('vimeo');
+  const videoUrl = parseVideoUrl(media?.videoUrl);
+  const isVimeo = videoUrl?.platform === 'vimeo';
   const videoTitle = isVimeo ? 'Vimeo video player' : 'YouTube video player';
 
   return (
@@ -87,9 +113,12 @@ const TextMedia = ({ headline, textBody, media, ctas }: TextMediaType) => {
         )}
 
         {videoUrl && (
-          <div className={styles.videoWrapper}>
+          <div
+            className={styles.videoWrapper}
+            data-type={videoUrl.isShort ? 'short' : 'video'}
+          >
             <iframe
-              src={videoUrl}
+              src={videoUrl.embedUrl}
               title={videoTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
