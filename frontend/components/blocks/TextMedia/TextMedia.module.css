@@ -114,6 +114,9 @@
 .mediaContent {
   flex: 1;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .mediaContent img {
@@ -123,19 +126,30 @@
   object-fit: cover;
   border: 1px solid var(--brand-light-gray);
 }
-
 .videoWrapper {
   position: relative;
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  background: #000;
+
   aspect-ratio: 16 / 9;
 }
 
-.videoWrapper:has(iframe[src*='shorts']) {
-  aspect-ratio: 9 / 16;
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.videoWrapper[data-type='short'] {
+  aspect-ratio: 10 / 16;
   max-width: 400px;
+  max-height: 70vh;
   margin: 0 auto;
 }
 
@@ -146,13 +160,14 @@
   }
 }
 
-.videoWrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
+@supports not (aspect-ratio: 1) {
+  .videoWrapper {
+    padding-bottom: 56.25%;
+    height: 0;
+  }
+  .videoWrapper[data-type='short'] {
+    padding-bottom: 177.78%;
+  }
 }
 
 @media (min-width: 900px) {
