@@ -1,0 +1,126 @@
+@use '../../../../styles/tokens' as ds;
+
+.wrapper {
+  padding: ds.$section-padding-y 0;
+  background: var(--ds-gradient-hero-bg);
+}
+
+/* Media on the left: swap column order on large screens only; mobile stays text-first */
+.layoutMediaLeft {
+  @media (min-width: 768px) {
+    .leftColumn {
+      order: 2;
+    }
+
+    .mediaColumn {
+      order: 1;
+    }
+  }
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(ds.$space-lg, 3vw, 2.25rem);
+  min-height: min(60vh, 520px);
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-md;
+  max-width: 36rem;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: ds.$text-eyebrow-size;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  color: var(--ds-color-accent);
+}
+
+.heading {
+  margin: 0;
+  font-size: ds.$text-hero-xl;
+  font-weight: 800;
+  line-height: 1.12;
+  color: var(--ds-color-text);
+  letter-spacing: -0.02em;
+}
+
+.subheading {
+  margin: 0;
+  font-size: ds.$text-lead;
+  line-height: 1.6;
+  color: var(--ds-color-text-muted);
+}
+
+.ctaWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: ds.$space-sm ds.$space-md;
+  align-items: center;
+}
+
+.mediaColumn {
+  display: flex;
+  align-items: stretch;
+  min-height: min(50vh, 440px);
+}
+
+.mediaFrame {
+  position: relative;
+  width: 100%;
+  border-radius: ds.$radius-md;
+  overflow: hidden;
+  background: var(--ds-color-surface-muted);
+  box-shadow: var(--ds-shadow-raised);
+  aspect-ratio: 16 / 10;
+}
+
+.mediaFrameShort {
+  aspect-ratio: 9 / 16;
+  max-width: min(100%, 320px);
+  margin-inline: auto;
+}
+
+.imageInner {
+  position: absolute;
+  inset: 0;
+}
+
+.mediaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoInner {
+  position: absolute;
+  inset: 0;
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .leftColumn {
+    min-height: 0;
+    padding-bottom: ds.$space-sm;
+  }
+
+  .mediaColumn {
+    min-height: 0;
+  }
+
+  .mediaFrame {
+    aspect-ratio: 16 / 11;
+  }
+}

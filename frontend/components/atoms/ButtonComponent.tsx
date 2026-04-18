@@ -1,7 +1,8 @@
 import React, { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
 import styles from './ButtonComponent.module.css';
-import { LinkAtom, ReferenceType } from './Link';
+import { LinkAtom } from './Link';
 import type { InternalOrExternalLink } from '@/sanity/types';
+import { getReferenceWithSlug } from '@/utils/internalOrExternalLink';
 
 type BaseButtonAttributes = ComponentPropsWithoutRef<'button'>;
 type RefType = HTMLButtonElement;
@@ -30,10 +31,7 @@ const ButtonComponent = forwardRef<RefType, ButtonProps>((props, ref) => {
         isDisabled ? styles.disabled : ''
     }`.trim();
 
-    const referenceWithSlug =
-        link?.reference && 'slug' in link.reference
-        ? (link.reference as ReferenceType)
-        : undefined;
+    const referenceWithSlug = getReferenceWithSlug(link);
 
     if (link?.title && (link.isExternalLink ? link.url : referenceWithSlug)) {
         return (
