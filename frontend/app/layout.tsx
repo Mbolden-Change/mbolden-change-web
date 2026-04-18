@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import './design-tokens.scss';
 import { Archivo_Narrow, Roboto } from 'next/font/google';
 import { Footer as FooterType } from '@/sanity/types';
 import { getFooter } from '@/lib/getFooter';

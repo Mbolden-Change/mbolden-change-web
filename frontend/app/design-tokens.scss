@@ -1,0 +1,40 @@
+// Emits CSS custom properties for runtime / non-SCSS consumers.
+// SCSS modules should prefer @use '../styles/tokens' (see _tokens.scss).
+@use '../styles/tokens' as *;
+
+:root {
+  --ds-space-xs: #{$space-xs};
+  --ds-space-sm: #{$space-sm};
+  --ds-space-md: #{$space-md};
+  --ds-space-lg: #{$space-lg};
+  --ds-space-xl: #{$space-xl};
+  --ds-space-2xl: #{$space-2xl};
+  --ds-space-3xl: #{$space-3xl};
+
+  --ds-radius-sm: #{$radius-sm};
+  --ds-radius-md: #{$radius-md};
+  --ds-radius-lg: #{$radius-lg};
+
+  --ds-color-text: var(--brand-black);
+  --ds-color-text-muted: rgb(0 0 0 / 0.85);
+  --ds-color-accent: var(--brand-aqua-teal);
+  --ds-color-surface: var(--brand-white);
+  --ds-color-surface-muted: var(--brand-light-gray);
+
+  --ds-gradient-hero-bg: linear-gradient(
+    180deg,
+    rgb(var(--brand-creamy-beige-rgb) / 0.35) 0%,
+    var(--brand-white) 55%
+  );
+
+  --ds-shadow-raised:
+    0 4px 24px rgb(0 0 0 / 0.08),
+    0 0 0 1px rgb(0 0 0 / 0.04);
+
+  --ds-text-eyebrow-size: #{$text-eyebrow-size};
+  --ds-text-eyebrow-track: #{$text-eyebrow-track};
+  --ds-text-hero-xl: #{$text-hero-xl};
+  --ds-text-lead: #{$text-lead};
+
+  --ds-section-padding-y: #{$section-padding-y};
+}

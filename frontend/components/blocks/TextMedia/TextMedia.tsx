@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 import PortableTextComponent from '@/components/PortableTextComponent';
 
-type VideoEmbed = {
+export type VideoEmbed = {
   embedUrl: string;
   platform: 'youtube' | 'vimeo';
   isShort: boolean;

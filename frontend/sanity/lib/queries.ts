@@ -1,5 +1,14 @@
 import { defineQuery } from 'next-sanity';
 
+/** Project internal links so reference is dereferenced with slug (required by LinkAtom). */
+const INTERNAL_OR_EXTERNAL_LINK = `{
+  title,
+  isExternalLink,
+  url,
+  target,
+  reference->{ _type, slug }
+}`;
+
 export const PAGE_QUERY = defineQuery(`
 *[_type == "page" && slug.current == $slug][0]{
   _id,
@@ -32,18 +41,9 @@ export const PAGE_QUERY = defineQuery(`
         link
       }
     },
-   _type == "caseStudyHighlight" => {
+    _type == "caseStudyHighlight" => {
     ...,
-    cta{
-      isExternalLink,
-      url,
-      target,
-      title,
-      reference->{
-        _type,
-        slug
-      }
-    },
+    cta${INTERNAL_OR_EXTERNAL_LINK},
     "themeColour": coalesce(themeColour, "var(--brand-warm-yellow)"),
     image{
       ...,
@@ -114,6 +114,15 @@ export const PAGE_QUERY = defineQuery(`
           target,
           reference->{ _type, slug }
         },
+    },
+    _type == "hero" => {
+      ...,
+      link${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    _type == "impactHero" => {
+      ...,
+      cta1${INTERNAL_OR_EXTERNAL_LINK},
+      cta2${INTERNAL_OR_EXTERNAL_LINK}
     },
       _type == "faq" => {
     ...,
