@@ -16,14 +16,21 @@ export type ReferenceType = {
   };
 };
 
-interface RefMapType {
-  caseStudy: string;
-  page: string;
-  statement: string;
-  report: string;
-  [key: string]: string;
-}
+/** Maps Sanity document _type (after reference->) to the first segment of the site path. */
+const INTERNAL_ROUTE_PREFIX: Record<string, string> = {
+  page: '',
+  caseStudy: 'case-study',
+  statement: 'statement',
+  report: 'report',
+};
 
+function hrefForInternalReference(reference: ReferenceType): string | null {
+  const slug = reference.slug?.current;
+  if (!slug) return null;
+  const prefix = INTERNAL_ROUTE_PREFIX[reference._type];
+  if (prefix === undefined) return null;
+  return prefix ? `/${prefix}/${slug}` : `/${slug}`;
+}
 
 export const LinkAtom = ({
   isExternalLink,
@@ -34,9 +41,10 @@ export const LinkAtom = ({
   className,
   ariaLabel,
   onClick,
+  children,
 }: LinkAtomProps) => {
-  const linkContent = <span className={className}>{title}</span>;
-
+  const label = children ?? title;
+  const linkContent = <span className={className}>{label}</span>;
 
   if (isExternalLink && url) {
     return (
@@ -53,18 +61,15 @@ export const LinkAtom = ({
   }
 
   if (reference) {
-    const refType = reference._type;
-    const refMap: RefMapType = {
-      caseStudy: "case-study",
-      page: "",
-      statement: "statement",
-      report: "report"
-    }
+    const href = hrefForInternalReference(reference);
+    if (!href) return null;
 
     return (
-      <Link href={`${refMap[refType]}/${reference?.slug.current}`} aria-label={ariaLabel} onClick={onClick}>
+      <Link href={href} aria-label={ariaLabel} onClick={onClick}>
         {linkContent}
       </Link>
-    )
+    );
   }
+
+  return null;
 };
