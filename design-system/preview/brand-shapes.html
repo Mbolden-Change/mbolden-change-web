@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:var(--font-body);}
+  .wrap{padding:22px 24px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:14px;}
+  .shapes{display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .shape{width:150px;height:70px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-headline);font-weight:700;font-size:16px;letter-spacing:0.5px;}
+  .s1{background:#000;clip-path:polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);}
+  .s2{background:var(--brand-fuchsia);clip-path:polygon(0 10%, 100% 0, 100% 90%, 0 100%);}
+  .s3{background:var(--brand-aqua-teal);transform:skew(-10.25deg);}
+  .s4{background:var(--brand-warm-yellow);color:#000;transform:rotate(-6.5deg);}
+  .lbl{font-size:10px;color:var(--fg-muted);font-family:ui-monospace,Menlo,monospace;margin-top:8px;text-align:center;max-width:150px;}
+  .stack{display:flex;flex-direction:column;align-items:center;}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Signature shapes · tilted parallelograms, the DNA of the brand</div>
+  <div class="shapes">
+    <div class="stack"><div class="shape s1">CLIP-PATH</div><div class="lbl">polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%)</div></div>
+    <div class="stack"><div class="shape s2">HIGHLIGHT</div><div class="lbl">case-study image shape</div></div>
+    <div class="stack"><div class="shape s3">SKEW</div><div class="lbl">skew(-10.25deg)</div></div>
+    <div class="stack"><div class="shape s4">TILT</div><div class="lbl">rotate(-6.5deg) · logo</div></div>
+  </div>
+</div></body></html>

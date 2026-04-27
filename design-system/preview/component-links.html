@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:var(--font-body);}
+  .wrap{padding:22px 24px;display:flex;flex-direction:column;gap:10px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:4px;}
+  .link-row{display:flex;gap:32px;align-items:center;flex-wrap:wrap;}
+  .nav-link{position:relative;font-size:20px;font-weight:600;color:#000;cursor:pointer;padding-bottom:.3em;}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--brand-aqua-teal);transform:scaleX(0);transition:transform 300ms var(--ease-brand);}
+  .nav-link.hover::after{transform:scaleX(1);}
+  .nav-link.active{color:var(--brand-aqua-teal);}
+  /* Read-more pill */
+  .pill{display:inline-block;padding:8px 20px;border:2px solid var(--brand-aqua-teal);border-radius:50px;color:#000;font-size:14px;font-weight:500;background:transparent;cursor:pointer;transition:all .3s ease;}
+  .pill.hover{background:#000;color:#fff;border-color:var(--brand-warm-yellow);}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Nav links · underline sweep on hover</div>
+  <div class="link-row">
+    <span class="nav-link">Our Work</span>
+    <span class="nav-link hover">Impact</span>
+    <span class="nav-link active">Partners</span>
+    <span class="nav-link">About</span>
+  </div>
+  <div class="meta" style="margin-top:12px;">"Read more" pill · aqua outline → black fill + yellow border on hover</div>
+  <div class="link-row">
+    <a class="pill">Read the full report</a>
+    <a class="pill hover">Read the full report</a>
+  </div>
+</div></body></html>

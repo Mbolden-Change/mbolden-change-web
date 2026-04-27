@@ -1,0 +1,159 @@
+/* ============================================================
+   mBOLDen Change — Colors & Type
+   ------------------------------------------------------------
+   Source of truth: frontend/app/globals.css + design-tokens.scss
+   from Mbolden-Change/mbolden-change-web@main
+   ============================================================ */
+
+/* Archivo Narrow comes from Google Fonts (no local file supplied).
+   Roboto is served from the uploaded brand variable font. */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('fonts/Roboto-VariableFont_wdth_wght.ttf') format('truetype-variations'),
+       url('fonts/Roboto-VariableFont_wdth_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- BRAND COLORS (exact values from codebase) ---------- */
+  --brand-white:        #ffffff;
+  --brand-light-gray:   #e2e2e2;
+  --brand-black:        #000000;
+  --brand-warm-yellow:  #fad826;
+  --brand-aqua-teal:    #0091ad;
+  --brand-fuchsia:      #b22f93;
+  --brand-creamy-beige: #f8efe0;
+
+  --brand-creamy-beige-rgb: 248 239 224;   /* for rgb(var(--x) / a) */
+
+  /* Secondary neutral shades (derived, used in footer) */
+  --brand-ink-muted:    #888888;           /* copyright text */
+  --brand-ink-soft:     #cccccc;           /* address lines  */
+  --brand-yellow-deep:  #f3c919;           /* newsletter hover */
+  --brand-yellow-hover: #e1c71f;           /* download btn hover */
+
+  /* ---------- SEMANTIC COLOR ALIASES ---------- */
+  --fg-1: var(--brand-black);
+  --fg-2: rgb(0 0 0 / 0.85);
+  --fg-inverse: var(--brand-white);
+  --fg-muted: var(--brand-ink-muted);
+
+  --bg-page: rgb(var(--brand-creamy-beige-rgb) / 0.2);  /* actual body bg */
+  --bg-surface: var(--brand-white);
+  --bg-surface-muted: var(--brand-light-gray);
+  --bg-warm: var(--brand-creamy-beige);
+  --bg-inverse: var(--brand-black);
+
+  --accent: var(--brand-aqua-teal);
+  --accent-alt: var(--brand-fuchsia);
+  --accent-warn: var(--brand-warm-yellow);
+
+  --border: var(--brand-light-gray);
+  --border-strong: var(--brand-black);
+  --focus-ring: var(--brand-aqua-teal);
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-headline: 'Archivo Narrow', Arial, Helvetica, sans-serif;
+  --font-body:     'Roboto', Arial, Helvetica, sans-serif;
+
+  /* ---------- TYPE SCALE (globals.css) ---------- */
+  --text-h1: 48px;   --text-h1-lh: 120%;
+  --text-h2: 36px;   --text-h2-lh: 120%;
+  --text-h3: 24px;   --text-h3-lh: 120%;
+  --text-h4: 20px;   --text-h4-lh: 120%;
+  --text-h5: 18px;   --text-h5-lh: 120%;
+  --text-h6: 16px;   --text-h6-lh: 120%;
+  --text-body: 16px; --text-body-lh: 1.6;
+  --text-lead: clamp(1rem, 2vw, 1.125rem);
+  --text-hero-xl: clamp(2rem, 5vw, 3.5rem);
+  --text-eyebrow-size: 0.75rem;
+  --text-eyebrow-track: 0.12em;
+  --letter-tight: -0.4px;
+
+  /* ---------- SPACING (design-tokens.scss) ---------- */
+  --space-xs: 0.25rem;  /*  4px */
+  --space-sm: 0.5rem;   /*  8px */
+  --space-md: 1rem;     /* 16px */
+  --space-lg: 1.5rem;   /* 24px */
+  --space-xl: 2rem;     /* 32px */
+  --space-2xl: 3rem;    /* 48px */
+  --space-3xl: 5rem;    /* 80px */
+  --section-pad-y: clamp(2.5rem, 6vw, 5rem);
+
+  /* ---------- RADII ---------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 50px;
+
+  /* ---------- SHADOWS ---------- */
+  --shadow-header: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-card:   0 2px 6px rgba(0,0,0,0.04);
+  --shadow-btn:    0 4px 5px rgba(0,0,0,0.4);
+  --shadow-raised: 0 4px 24px rgb(0 0 0 / 0.08), 0 0 0 1px rgb(0 0 0 / 0.04);
+  --shadow-hover-aqua: 0 0 16px 8px rgba(0, 145, 173, 0.3);
+
+  /* ---------- SIGNATURE BRAND SHAPES ----------
+     The mBOLDen Change identity is built on angled parallelograms.
+     The logo tilts ~-7°; buttons + banners use a shared skew/clip-path.
+  */
+  --brand-skew: -10.25deg;
+  --brand-tilt: -6.5deg;  /* the logo's natural rotation angle */
+  --clip-parallelogram: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
+
+  /* ---------- MOTION ---------- */
+  --ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  --dur-fast: 200ms;
+  --dur-base: 300ms;
+  --dur-slow: 450ms;
+
+  /* ---------- GRADIENT ---------- */
+  --gradient-hero-bg: linear-gradient(
+    180deg,
+    rgb(var(--brand-creamy-beige-rgb) / 0.35) 0%,
+    var(--brand-white) 55%
+  );
+}
+
+/* =============================================================
+   SEMANTIC TYPOGRAPHY — apply these via class or tag
+   Matches globals.css cascade (headlines = Archivo Narrow 700)
+   ============================================================= */
+
+body, .p {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--text-body-lh);
+  color: var(--fg-1);
+}
+
+h1, .h1 { font-family: var(--font-headline); font-weight: 700; font-size: var(--text-h1); line-height: var(--text-h1-lh); letter-spacing: var(--letter-tight); margin: 0; }
+h2, .h2 { font-family: var(--font-headline); font-weight: 700; font-size: var(--text-h2); line-height: var(--text-h2-lh); letter-spacing: var(--letter-tight); margin: 0; }
+h3, .h3 { font-family: var(--font-headline); font-weight: 700; font-size: var(--text-h3); line-height: var(--text-h3-lh); letter-spacing: var(--letter-tight); margin: 0; }
+h4, .h4 { font-family: var(--font-headline); font-weight: 700; font-size: var(--text-h4); line-height: var(--text-h4-lh); letter-spacing: var(--letter-tight); margin: 0; }
+h5, .h5 { font-family: var(--font-headline); font-weight: 700; font-size: var(--text-h5); line-height: var(--text-h5-lh); letter-spacing: var(--letter-tight); margin: 0; }
+h6, .h6 { font-family: var(--font-headline); font-weight: 700; font-size: var(--text-h6); line-height: var(--text-h6-lh); letter-spacing: var(--letter-tight); margin: 0; }
+
+.hero-xl {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: clamp(2rem, 8vw, 5rem);
+  line-height: 1.2;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-eyebrow-size);
+  letter-spacing: var(--text-eyebrow-track);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.lead { font-size: var(--text-lead); line-height: 1.6; }
+.caption { font-size: 14px; line-height: 1.5; color: var(--fg-2); }
+.micro { font-size: 11px; color: var(--fg-muted); }

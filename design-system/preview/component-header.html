@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:var(--font-body);}
+  .wrap{padding:0;}
+  /* Mini header recreation */
+  .header{height:72px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 28px;box-shadow:var(--shadow-header);}
+  .logo{max-width:130px;}
+  .logo img{width:100%;display:block;}
+  .nav{display:flex;gap:28px;align-items:center;}
+  .nl{font-size:16px;font-weight:600;color:#000;cursor:pointer;position:relative;padding-bottom:3px;}
+  .nl.active{color:var(--brand-aqua-teal);}
+  .nl.active::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--brand-aqua-teal);}
+  .donate{background:#000;color:#fff;padding:8px 18px;font-weight:600;font-size:16px;transform:skew(-10.25deg);clip-path:polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);text-decoration:none;}
+</style></head>
+<body><div class="wrap">
+  <div class="header">
+    <div class="logo"><img src="../assets/logo-black.png" alt="mBOLDen Change"/></div>
+    <nav class="nav">
+      <span class="nl">Our Work</span>
+      <span class="nl active">Impact</span>
+      <span class="nl">Partners</span>
+      <span class="nl">About</span>
+      <a class="donate">Donate</a>
+    </nav>
+  </div>
+</div></body></html>

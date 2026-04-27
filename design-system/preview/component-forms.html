@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:var(--font-body);}
+  .wrap{padding:22px 24px;display:flex;flex-direction:column;gap:14px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#000;}
+  input, textarea, select{
+    width:100%;box-sizing:border-box;font-family:var(--font-body);font-size:14px;
+    padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;
+    outline:none;transition:border-color 200ms var(--ease-brand), box-shadow 200ms var(--ease-brand);
+  }
+  input:focus, textarea:focus, select:focus{border-color:var(--brand-aqua-teal);box-shadow:0 0 0 3px rgba(0,145,173,.15);}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .check{display:flex;gap:8px;align-items:flex-start;font-size:13px;}
+  .check input{width:auto;margin-top:2px;}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Form inputs · Action Network modal style</div>
+  <div class="row">
+    <div><label>First name</label><input placeholder="Alex"/></div>
+    <div><label>Last name</label><input placeholder="Chen"/></div>
+  </div>
+  <div><label>Email</label><input placeholder="alex@example.org" style="border-color:var(--brand-aqua-teal);box-shadow:0 0 0 3px rgba(0,145,173,.15);" value="alex@mboldenchange.org"/></div>
+  <label class="check"><input type="checkbox" checked/> Keep me updated on mBOLDen Change campaigns and reports.</label>
+</div></body></html>

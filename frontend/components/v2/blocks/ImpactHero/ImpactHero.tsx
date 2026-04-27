@@ -37,8 +37,20 @@ function HeroCopy({
       </div>
       {showCtas && (
         <div className={styles.ctaWrapper}>
-          {showCta1 && <ButtonComponent variant="primary" link={cta1} />}
-          {showCta2 && <ButtonComponent variant="secondary" link={cta2} />}
+          {showCta1 && (
+            <ButtonComponent
+              variant="primary"
+              link={cta1}
+              className={styles.primaryCta}
+            />
+          )}
+          {showCta2 && (
+            <ButtonComponent
+              variant="secondary"
+              link={cta2}
+              className={styles.secondaryCta}
+            />
+          )}
         </div>
       )}
     </>
