@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:rgb(var(--brand-creamy-beige-rgb) / 0.2);font-family:var(--font-body);}
+  .wrap{padding:22px 24px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:14px;}
+  .tabs{display:inline-flex;border-bottom:2px solid var(--border);position:relative;padding:0 4px;}
+  .tab{font-family:var(--font-body);padding:10px 22px;font-size:15px;font-weight:600;color:#000;background:transparent;border:none;cursor:pointer;transition:color 200ms;}
+  .tab.active{color:var(--brand-aqua-teal);}
+  .tabs::after{content:'';position:absolute;left:184px;bottom:-2px;height:3px;width:110px;background:var(--brand-aqua-teal);border-radius:4px;transition:all .4s var(--ease-brand);}
+  .panel{margin-top:18px;font-size:14px;color:rgba(0,0,0,.85);max-width:480px;line-height:1.6;}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Tabbed content · underline tracks the active tab</div>
+  <div class="tabs">
+    <button class="tab">Our Approach</button>
+    <button class="tab active">Impact</button>
+    <button class="tab">Partners</button>
+  </div>
+  <div class="panel">Since 2006 we've distributed $2.5M+ in direct economic assistance and reached 250,000+ individuals through partner-led initiatives.</div>
+</div></body></html>

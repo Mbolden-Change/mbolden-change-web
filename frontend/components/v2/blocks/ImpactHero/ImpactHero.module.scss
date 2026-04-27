@@ -1,7 +1,7 @@
 @use '../../../../styles/tokens' as ds;
 
 .wrapper {
-  padding: ds.$section-padding-y 0;
+  padding: clamp(2rem, 4.5vw, 4rem) 0;
   background: var(--ds-gradient-hero-bg);
 }
 
@@ -23,7 +23,7 @@
   flex-direction: column;
   justify-content: center;
   gap: clamp(ds.$space-lg, 3vw, 2.25rem);
-  min-height: min(60vh, 520px);
+  min-height: min(62vh, 560px);
 }
 
 .textWrapper {
@@ -44,25 +44,73 @@
 
 .heading {
   margin: 0;
-  font-size: ds.$text-hero-xl;
-  font-weight: 800;
-  line-height: 1.12;
+  font-family: var(--font-headline);
+  font-size: clamp(2.25rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.08;
   color: var(--ds-color-text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
 }
 
 .subheading {
   margin: 0;
-  font-size: ds.$text-lead;
-  line-height: 1.6;
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.65;
   color: var(--ds-color-text-muted);
+  max-width: 34rem;
 }
 
 .ctaWrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: ds.$space-sm ds.$space-md;
+  gap: ds.$space-sm ds.$space-lg;
   align-items: center;
+}
+
+.primaryCta {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  z-index: 1;
+  background-color: var(--brand-black) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transform: skew(-10.25deg);
+  clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
+  transition:
+    color 300ms cubic-bezier(0.45, 0.05, 0.55, 0.95),
+    box-shadow 300ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--brand-warm-yellow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease-in-out;
+    z-index: -1;
+  }
+
+  &:hover {
+    background-color: var(--brand-black) !important;
+    color: var(--brand-black);
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
+
+  &:active {
+    background-color: var(--brand-black) !important;
+    box-shadow: none;
+  }
+}
+
+.secondaryCta {
+  border-width: 2px;
+  padding-inline: 1.35rem;
 }
 
 .mediaColumn {
@@ -74,7 +122,7 @@
 .mediaFrame {
   position: relative;
   width: 100%;
-  border-radius: ds.$radius-md;
+  border-radius: ds.$radius-lg;
   overflow: hidden;
   background: var(--ds-color-surface-muted);
   box-shadow: var(--ds-shadow-raised);
@@ -113,7 +161,8 @@
 @media (max-width: 767px) {
   .leftColumn {
     min-height: 0;
-    padding-bottom: ds.$space-sm;
+    gap: ds.$space-lg;
+    padding-bottom: ds.$space-md;
   }
 
   .mediaColumn {

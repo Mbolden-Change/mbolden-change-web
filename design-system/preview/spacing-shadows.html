@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:rgb(var(--brand-creamy-beige-rgb) / 0.2);font-family:var(--font-body);}
+  .wrap{padding:22px 24px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:16px;}
+  .row{display:flex;gap:22px;flex-wrap:wrap;}
+  .item{display:flex;flex-direction:column;gap:6px;}
+  .tile{width:140px;height:80px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--fg-muted);font-size:11px;font-family:ui-monospace,Menlo,monospace;}
+  .t1{box-shadow:var(--shadow-header);}
+  .t2{box-shadow:var(--shadow-card);}
+  .t3{box-shadow:var(--shadow-btn);background:#000;color:#fff;}
+  .t4{box-shadow:var(--shadow-raised);}
+  .t5{box-shadow:var(--shadow-hover-aqua);}
+  .tag{font-size:10px;font-family:ui-monospace,Menlo,monospace;color:var(--fg-1);font-weight:700;}
+  .val{font-size:10px;color:var(--fg-muted);}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Shadow system</div>
+  <div class="row">
+    <div class="item"><div class="tile t1">header</div><div class="tag">--shadow-header</div><div class="val">0 1 3 / 4%</div></div>
+    <div class="item"><div class="tile t2">card</div><div class="tag">--shadow-card</div><div class="val">0 2 6 / 4%</div></div>
+    <div class="item"><div class="tile t3">btn</div><div class="tag">--shadow-btn</div><div class="val">0 4 5 / 40%</div></div>
+    <div class="item"><div class="tile t4">raised</div><div class="tag">--shadow-raised</div><div class="val">24 + hairline</div></div>
+    <div class="item"><div class="tile t5">aqua glow</div><div class="tag">--shadow-hover-aqua</div><div class="val">video hover</div></div>
+  </div>
+</div></body></html>

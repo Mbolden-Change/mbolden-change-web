@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--brand-white);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:14px;}
+  .row{display:flex;align-items:center;gap:20px;}
+  .item{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .tile{width:76px;height:76px;background:var(--brand-aqua-teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;}
+  .tag{font-size:10px;font-family:ui-monospace,Menlo,monospace;color:var(--fg-1);font-weight:700;}
+  .val{font-size:10px;color:var(--fg-muted);}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Radii · sm / md / lg / pill</div>
+  <div class="row">
+    <div class="item"><div class="tile" style="border-radius:0;">0</div><div class="tag">--none</div><div class="val">btns, banners</div></div>
+    <div class="item"><div class="tile" style="border-radius:8px;">8</div><div class="tag">--radius-sm</div><div class="val">tags, small</div></div>
+    <div class="item"><div class="tile" style="border-radius:12px;">12</div><div class="tag">--radius-md</div><div class="val">image wraps</div></div>
+    <div class="item"><div class="tile" style="border-radius:16px;">16</div><div class="tag">--radius-lg</div><div class="val">cards, default</div></div>
+    <div class="item"><div class="tile" style="border-radius:50px;width:120px;">pill</div><div class="tag">--radius-pill</div><div class="val">"read more"</div></div>
+  </div>
+</div></body></html>

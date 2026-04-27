@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Preview base</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--brand-white);
+    color: var(--fg-1);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .card-frame {
+    padding: 20px 24px;
+    box-sizing: border-box;
+    min-height: 100%;
+  }
+  .row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .meta {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 600;
+  }
+  .swatch {
+    width: 84px; height: 84px;
+    border-radius: var(--radius-sm);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    position: relative;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .swatch .hex { opacity: 0.75; font-weight: 500; }
+</style>
+</head>
+<body><div class="card-frame"></div></body></html>
