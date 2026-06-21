@@ -44,18 +44,18 @@ export const LinkAtom = ({
   children,
 }: LinkAtomProps) => {
   const label = children ?? title;
-  const linkContent = <span className={className}>{label}</span>;
 
   if (isExternalLink && url) {
     return (
       <a
         href={url}
+        className={className}
         target={target}
         rel="noopener noreferrer"
         aria-label={ariaLabel}
         onClick={onClick}
       >
-        {linkContent}
+        {label}
       </a>
     );
   }
@@ -65,8 +65,13 @@ export const LinkAtom = ({
     if (!href) return null;
 
     return (
-      <Link href={href} aria-label={ariaLabel} onClick={onClick}>
-        {linkContent}
+      <Link
+        href={href}
+        className={className}
+        aria-label={ariaLabel}
+        onClick={onClick}
+      >
+        {label}
       </Link>
     );
   }

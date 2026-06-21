@@ -2,8 +2,9 @@ import {defineField, defineType} from 'sanity'
 
 export const statementBannerType = defineType({
   name: 'statementBanner',
-  title: 'Statement Banner',
+  title: 'Statement Banner (Deprecated)',
   type: 'object',
+  description: 'Legacy block retained for existing pages. Use Resource Banner for new content.',
   fields: [
     defineField({
       name: 'title',

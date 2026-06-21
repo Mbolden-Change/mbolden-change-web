@@ -7,10 +7,16 @@ type ComponentsMap = {
 
 const componentMap: ComponentsMap = {
   hero: dynamic(() => import('@/components/blocks/Hero/Hero')),
-  pillarContainer: dynamic(() => import('@/components/Pillars')),
+  pillarContainer: dynamic(() => import('@/components/v2/blocks/Pillars/Pillars')),
+  pillars: dynamic(() => import('@/components/v2/blocks/Pillars/Pillars')),
   fiftyFifty: dynamic(() => import('@/components/blocks/FiftyFifty')),
   richText: dynamic(() => import('@/components/blocks/RichText')),
-  statementBanner: dynamic(() => import('@/components/blocks/StatementBanner')),
+  statementBanner: dynamic(
+    () => import('@/components/blocks/StatementBanner'),
+  ),
+  resourceBanner: dynamic(
+    () => import('@/components/v2/blocks/ResourceBanner/ResourceBanner'),
+  ),
   heroCarousel: dynamic(() => import('@/components/blocks/Hero/HeroCarousel')),
   testimonialsCarousel: dynamic(
     () => import('@/components/blocks/Testimonials/TestimonialsCarousel'),

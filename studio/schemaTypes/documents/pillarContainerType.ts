@@ -7,6 +7,12 @@ export const pillarsContainerType = defineType({
     title: "Pillar Container",
     fields: [
         defineField({
+            name: "eyebrow",
+            type: "string",
+            title: "Eyebrow",
+            description: "Optional label above the section title.",
+        }),
+        defineField({
             name: "title",
             type: "string",
             title: "Title",

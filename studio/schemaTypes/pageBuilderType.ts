@@ -17,10 +17,13 @@ export const pageBuilderType = defineType({
       type: 'statementBanner',
     }),
     defineArrayMember({
+      type: 'resourceBanner',
+    }),
+    defineArrayMember({
       type: 'heroCarousel',
     }),
     defineArrayMember({
-      type: 'pillarContainer',
+      type: 'pillars',
     }),
     defineArrayMember({
       type: 'testimonialsCarousel',
