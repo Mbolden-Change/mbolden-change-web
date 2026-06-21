@@ -48,37 +48,37 @@ export type Geopoint = {
 
 export type PageBuilder = Array<{
   _key: string;
-} & Hero | {
-  _key: string;
-} & RichText | {
-  _key: string;
-} & FiftyFifty | {
-  _key: string;
-} & StatementBanner | {
-  _key: string;
-} & ResourceBanner | {
+} & ImpactHero | {
   _key: string;
 } & HeroCarousel | {
   _key: string;
+} & Hero | {
+  _key: string;
 } & Pillars | {
   _key: string;
+} & ResourceBanner | {
+  _key: string;
+} & StatementBanner | {
+  _key: string;
+} & FiftyFifty | {
+  _key: string;
+} & TextMedia | {
+  _key: string;
+} & CaseStudyHighlight | {
+  _key: string;
 } & TestimonialsCarousel | {
+  _key: string;
+} & CardGallery | {
+  _key: string;
+} & RichText | {
   _key: string;
 } & TabsContainer | {
   _key: string;
 } & Tab | {
   _key: string;
-} & CardGallery | {
-  _key: string;
-} & CaseStudyHighlight | {
-  _key: string;
-} & HolidayCard | {
-  _key: string;
 } & Faq | {
   _key: string;
-} & TextMedia | {
-  _key: string;
-} & ImpactHero>;
+} & HolidayCard>;
 
 export type Pillars = {
   _type: "pillars";
