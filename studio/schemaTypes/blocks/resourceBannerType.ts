@@ -4,6 +4,8 @@ export const resourceBannerType = defineType({
   name: 'resourceBanner',
   title: 'Resource Banner',
   type: 'object',
+  description:
+    'Full-width banner that spotlights a statement, report, case study, or other resource with a headline, optional body copy, and call-to-action link.',
   fields: [
     defineField({
       name: 'resourceTypeLabel',
@@ -35,6 +37,7 @@ export const resourceBannerType = defineType({
       name: 'backgroundColor',
       title: 'Background Color',
       type: 'string',
+      description: 'Banner background. Warm Yellow is the default brand accent for resource callouts.',
       options: {
         list: [
           {title: 'Warm Yellow', value: 'var(--brand-warm-yellow)'},
@@ -53,6 +56,7 @@ export const resourceBannerType = defineType({
       name: 'textColor',
       title: 'Text Color',
       type: 'string',
+      description: 'Use White text on dark backgrounds (Black, Aqua Teal, Fuchsia). Use Black on light backgrounds.',
       options: {
         list: [
           {title: 'White', value: 'var(--brand-white)'},
@@ -65,13 +69,16 @@ export const resourceBannerType = defineType({
   ],
   preview: {
     select: {
-      title: 'headline',
-      subtitle: 'resourceTypeLabel',
+      headline: 'headline',
+      resourceTypeLabel: 'resourceTypeLabel',
+      ctaTitle: 'cta.title',
     },
-    prepare({title, subtitle}) {
+    prepare({headline, resourceTypeLabel, ctaTitle}) {
       return {
-        title: `Resource Banner${title ? ` — ${title}` : ''}`,
-        subtitle,
+        title: headline ? `Resource Banner — ${headline}` : 'Resource Banner',
+        subtitle: [resourceTypeLabel, ctaTitle ? `CTA: ${ctaTitle}` : null]
+          .filter(Boolean)
+          .join(' · '),
       }
     },
   },

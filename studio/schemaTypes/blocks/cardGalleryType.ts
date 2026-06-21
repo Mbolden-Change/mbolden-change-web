@@ -28,11 +28,18 @@ export const cardGalleryType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title'},
-    prepare({ title}) {
-        return {
-        title: `Card Gallery — ${title || 'Card Gallery'}`,
-        };
-    }
-  }
+    select: {
+      title: 'title',
+      cards: 'cards',
+    },
+    prepare({title, cards}) {
+      const count = cards?.length ?? 0
+      return {
+        title: title ? `Card Gallery — ${title}` : 'Card Gallery',
+        subtitle: count
+          ? `${count} card${count === 1 ? '' : 's'}`
+          : 'No cards',
+      }
+    },
+  },
 })

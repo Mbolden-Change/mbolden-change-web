@@ -68,12 +68,14 @@ export const textMedia = defineType({
   ],
   preview: {
     select: {
-      title: 'headline',
+      headline: 'headline',
       mediaImage: 'media.image',
+      videoUrl: 'media.videoUrl',
     },
-    prepare({title, mediaImage}) {
+    prepare({headline, mediaImage, videoUrl}) {
       return {
-        title: title || 'Text & Media',
+        title: headline ? `Text & Media — ${headline}` : 'Text & Media',
+        subtitle: videoUrl ? 'Video' : 'Image',
         media: mediaImage,
       }
     },

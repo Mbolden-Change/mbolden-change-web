@@ -5,50 +5,68 @@ export const pageBuilderType = defineType({
   type: 'array',
   of: [
     defineArrayMember({
-      type: 'hero',
-    }),
-    defineArrayMember({
-      type: 'richText',
-    }),
-    defineArrayMember({
-      type: 'fiftyFifty',
-    }),
-    defineArrayMember({
-      type: 'statementBanner',
-    }),
-    defineArrayMember({
-      type: 'resourceBanner',
+      type: 'impactHero',
+      title: 'Impact Hero',
     }),
     defineArrayMember({
       type: 'heroCarousel',
+      title: 'Hero Carousel (Legacy)',
+    }),
+    defineArrayMember({
+      type: 'hero',
+      title: 'Hero Slide (Legacy)',
     }),
     defineArrayMember({
       type: 'pillars',
+      title: 'Pillars',
     }),
     defineArrayMember({
-      type: 'testimonialsCarousel',
+      type: 'resourceBanner',
+      title: 'Resource Banner',
     }),
     defineArrayMember({
-      type: 'tabsContainer',
+      type: 'statementBanner',
+      title: 'Statement Banner (Legacy)',
     }),
     defineArrayMember({
-      type: 'tab',
+      type: 'fiftyFifty',
+      title: '50/50 Section',
     }),
     defineArrayMember({
-      type: 'cardGallery',
+      type: 'textMedia',
+      title: 'Text & Media',
     }),
     defineArrayMember({
       type: 'caseStudyHighlight',
+      title: 'Case Study Highlight',
+    }),
+    defineArrayMember({
+      type: 'testimonialsCarousel',
+      title: 'Testimonials Carousel',
+    }),
+    defineArrayMember({
+      type: 'cardGallery',
+      title: 'Card Gallery',
+    }),
+    defineArrayMember({
+      type: 'richText',
+      title: 'Rich Text',
+    }),
+    defineArrayMember({
+      type: 'tabsContainer',
+      title: 'Tabbed Content',
+    }),
+    defineArrayMember({
+      type: 'tab',
+      title: 'Tab',
+    }),
+    defineArrayMember({
+      type: 'faq',
+      title: 'FAQ',
     }),
     defineArrayMember({
       type: 'holidayCard',
-    }),
-    defineArrayMember({type: 'faq'}),
-    defineArrayMember({
-      type: 'textMedia',
-    }),
-    defineArrayMember({
-      type: 'impactHero',
+      title: 'Holiday Card',
     }),
   ],
 })

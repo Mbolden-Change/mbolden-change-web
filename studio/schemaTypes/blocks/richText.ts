@@ -29,11 +29,15 @@ export const richText = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title'},
-    prepare({ title}) {
-        return {
+    select: {
+      title: 'title',
+      email: 'email',
+    },
+    prepare({title, email}) {
+      return {
         title: title ? `Rich Text — ${title}` : 'Rich Text',
-        };
-    }
-  }
+        subtitle: email ? `Contact: ${email}` : undefined,
+      }
+    },
+  },
 })

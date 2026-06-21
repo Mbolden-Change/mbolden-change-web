@@ -15,11 +15,20 @@ export const heroCarouselType = defineType({
         }),
     ],
     preview: {
-        select: { title: 'Hero Carousel'},
-        prepare({ title}) {
+        select: {
+            slides: 'slides',
+        },
+        prepare({slides}) {
+            const count = slides?.length ?? 0
+            const firstTitle = slides?.[0]?.title
             return {
-            title: title || 'Hero Carousel',
-            };
-        }
-    }
+                title: firstTitle
+                    ? `Hero Carousel (Legacy) — ${firstTitle}`
+                    : 'Hero Carousel (Legacy)',
+                subtitle: count
+                    ? `${count} slide${count === 1 ? '' : 's'}`
+                    : 'No slides',
+            }
+        },
+    },
 });

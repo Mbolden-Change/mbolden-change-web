@@ -2,8 +2,8 @@ import {defineField, defineType} from 'sanity'
 
 export const testimonialsCarouselType = defineType({
   name: 'testimonialsCarousel',
+  title: 'Testimonials Carousel',
   type: 'object',
-  // title: 'Testimonials Carousel',
   fields: [
     defineField({
       name: 'title',
@@ -47,11 +47,18 @@ export const testimonialsCarouselType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline'},
-    prepare({ title}) {
-        return {
-        title: title ? `Testimonials Carousel — ${title}` : 'Testimonials Carousel',
-        };
-    }
-  }
+    select: {
+      title: 'title',
+      slides: 'slides',
+    },
+    prepare({title, slides}) {
+      const count = slides?.length ?? 0
+      return {
+        title: title ? `Testimonials — ${title}` : 'Testimonials Carousel',
+        subtitle: count
+          ? `${count} testimonial${count === 1 ? '' : 's'}`
+          : 'No testimonials',
+      }
+    },
+  },
 })

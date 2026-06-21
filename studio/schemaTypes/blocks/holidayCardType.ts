@@ -32,4 +32,17 @@ export const holidayCardType = defineType({
       type: 'internalOrExternalLink',
     }),
   ],
+  preview: {
+    select: {
+      image: 'image',
+      linkTitle: 'link.title',
+    },
+    prepare({image, linkTitle}) {
+      return {
+        title: 'Holiday Card',
+        subtitle: linkTitle ? `Link: ${linkTitle}` : 'Seasonal content block',
+        media: image,
+      }
+    },
+  },
 })
