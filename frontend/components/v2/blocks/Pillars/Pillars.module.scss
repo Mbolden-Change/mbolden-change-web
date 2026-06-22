@@ -1,0 +1,230 @@
+@use '../../../../styles/tokens' as ds;
+
+$ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+$breakpoint: 768px;
+
+.wrapper {
+  padding: ds.$section-padding-y clamp(1rem, 4vw, 2.5rem);
+  background: rgb(var(--brand-creamy-beige-rgb) / 0.2);
+}
+
+.header {
+  max-width: 42rem;
+  margin: 0 auto ds.$space-xl;
+  text-align: center;
+
+  @media (min-width: $breakpoint) {
+    margin-bottom: ds.$space-2xl;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-sm;
+  font-size: ds.$text-eyebrow-size;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  color: var(--brand-aqua-teal);
+}
+
+.title {
+  margin: 0 0 ds.$space-md;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  color: var(--brand-black);
+}
+
+.description {
+  color: rgb(0 0 0 / 0.85);
+  line-height: 1.65;
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+}
+
+.track {
+  position: relative;
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 7vw, 7rem);
+  padding-left: 0;
+
+  @media (min-width: $breakpoint) {
+    gap: clamp(4rem, 10vw, 7rem);
+    padding-left: 3rem;
+  }
+}
+
+.progressRail {
+  display: none;
+
+  @media (min-width: $breakpoint) {
+    display: block;
+    position: absolute;
+    left: 0.75rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: var(--brand-light-gray);
+  }
+}
+
+.progressFill {
+  width: 100%;
+  height: 100%;
+  background: var(--brand-fuchsia);
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+.row {
+  --pillar-accent: var(--brand-fuchsia);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ds.$space-md;
+  align-items: start;
+
+  @media (min-width: $breakpoint) {
+    grid-template-columns: 4rem 1fr 1fr;
+    gap: ds.$space-xl clamp(2rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+}
+
+.index {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 6vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--brand-light-gray);
+  transition: color 400ms $ease-brand;
+  user-select: none;
+}
+
+.inView .index {
+  color: var(--pillar-accent);
+}
+
+.accent {
+  display: none;
+
+  @media (min-width: $breakpoint) {
+    display: block;
+    position: absolute;
+    left: 3.25rem;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 3px;
+    background: var(--pillar-accent);
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+}
+
+.media {
+  grid-column: 1;
+  grid-row: 2;
+
+  @media (min-width: $breakpoint) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+.reverse .media {
+  @media (min-width: $breakpoint) {
+    grid-column: 3;
+  }
+}
+
+.mediaFrame {
+  clip-path: polygon(0% 8%, 100% 0%, 100% 92%, 0% 100%);
+  overflow: hidden;
+  box-shadow: var(--shadow-raised);
+  background: var(--brand-white);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.copy {
+  grid-column: 1;
+  grid-row: 3;
+
+  @media (min-width: $breakpoint) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+.reverse .copy {
+  @media (min-width: $breakpoint) {
+    grid-column: 2;
+  }
+}
+
+.headline {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: clamp(1.25rem, 3.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: var(--brand-black);
+
+  @media (min-width: $breakpoint) {
+    margin-bottom: ds.$space-md;
+  }
+}
+
+.body {
+  color: rgb(0 0 0 / 0.85);
+  line-height: 1.6;
+  font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+
+  p {
+    margin: 0 0 ds.$space-sm;
+
+    @media (min-width: $breakpoint) {
+      margin-bottom: ds.$space-md;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index,
+  .media,
+  .copy,
+  .progressFill,
+  .accent {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .inView .index {
+    color: var(--pillar-accent);
+  }
+
+  .accent {
+    transform: scaleY(1);
+  }
+
+  .progressFill {
+    transform: scaleY(1);
+  }
+}

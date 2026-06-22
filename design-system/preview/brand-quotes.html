@@ -1,0 +1,25 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:rgb(var(--brand-creamy-beige-rgb) / 0.2);font-family:var(--font-body);}
+  .wrap{padding:22px 24px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:14px;}
+  .row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .qbox{width:84px;height:84px;display:flex;align-items:center;justify-content:center;padding:10px;border-radius:8px;}
+  .qbox.dark{background:#000;}
+  .qbox.aqua{background:var(--brand-aqua-teal);}
+  .qbox.white{background:#fff;border:1px solid var(--border);}
+  .qbox img{width:100%;height:auto;max-height:60px;}
+  .lbl{font-size:10px;color:var(--fg-muted);font-family:ui-monospace,Menlo,monospace;margin-top:6px;text-align:center;}
+  .stack{display:flex;flex-direction:column;align-items:center;}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Quote marks · angled parallelogram pair · PNG assets</div>
+  <div class="row">
+    <div class="stack"><div class="qbox white"><img src="../assets/quote-black.png"/></div><div class="lbl">quote-black</div></div>
+    <div class="stack"><div class="qbox white"><img src="../assets/quote-fuchsia.png"/></div><div class="lbl">quote-fuchsia</div></div>
+    <div class="stack"><div class="qbox white"><img src="../assets/quote-aqua.png"/></div><div class="lbl">quote-aqua</div></div>
+    <div class="stack"><div class="qbox dark"><img src="../assets/quote-yellow.png"/></div><div class="lbl">quote-yellow</div></div>
+    <div class="stack"><div class="qbox aqua"><img src="../assets/quote-white.png"/></div><div class="lbl">quote-white</div></div>
+  </div>
+</div></body></html>

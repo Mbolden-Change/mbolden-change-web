@@ -48,15 +48,41 @@ export type Geopoint = {
 
 export type PageBuilder = Array<{
   _key: string;
+} & ImpactHero | {
+  _key: string;
+} & HeroCarousel | {
+  _key: string;
 } & Hero | {
   _key: string;
-} & RichText | {
+} & Pillars | {
   _key: string;
-} & FiftyFifty | {
+} & ResourceBanner | {
   _key: string;
 } & StatementBanner | {
   _key: string;
-} & HeroCarousel | {
+} & FiftyFifty | {
+  _key: string;
+} & TextMedia | {
+  _key: string;
+} & CaseStudyHighlight | {
+  _key: string;
+} & TestimonialsCarousel | {
+  _key: string;
+} & CardGallery | {
+  _key: string;
+} & RichText | {
+  _key: string;
+} & TabsContainer | {
+  _key: string;
+} & Tab | {
+  _key: string;
+} & Faq | {
+  _key: string;
+} & HolidayCard>;
+
+export type Pillars = {
+  _type: "pillars";
+  eyebrow?: string;
   title?: string;
   description?: Array<{
     children?: Array<{
@@ -76,34 +102,14 @@ export type PageBuilder = Array<{
     _type: "block";
     _key: string;
   }>;
-  pillars?: Array<{
+  pillars: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     _key: string;
     [internalGroqTypeReferenceTo]?: "pillarCard";
   }>;
-  _type: "pillarContainer";
-  _key: string;
-} | {
-  _key: string;
-} & TestimonialsCarousel | {
-  _key: string;
-} & TabsContainer | {
-  _key: string;
-} & Tab | {
-  _key: string;
-} & CardGallery | {
-  _key: string;
-} & CaseStudyHighlight | {
-  _key: string;
-} & HolidayCard | {
-  _key: string;
-} & Faq | {
-  _key: string;
-} & TextMedia | {
-  _key: string;
-} & ImpactHero>;
+};
 
 export type ImpactHero = {
   _type: "impactHero";
@@ -163,6 +169,8 @@ export type TextMedia = {
     _type: "block";
     _key: string;
   }>;
+  mediaPosition?: "left" | "right";
+  mobileLayout?: "imageTop" | "textTop";
   media: {
     image?: {
       asset?: {
@@ -174,6 +182,7 @@ export type TextMedia = {
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt?: string;
       _type: "image";
     };
     videoUrl?: string;
@@ -442,6 +451,16 @@ export type TestimonialsCarousel = {
   slides?: Array<{
     _key: string;
   } & TestimonialCard>;
+};
+
+export type ResourceBanner = {
+  _type: "resourceBanner";
+  resourceTypeLabel?: string;
+  headline: string;
+  body?: string;
+  cta?: InternalOrExternalLink;
+  backgroundColor?: "var(--brand-warm-yellow)" | "var(--brand-aqua-teal)" | "var(--brand-fuchsia)" | "var(--brand-black)" | "var(--brand-white)" | "var(--brand-light-gray)" | "var(--brand-creamy-beige)";
+  textColor?: "var(--brand-white)" | "var(--brand-black)";
 };
 
 export type StatementBanner = {
@@ -836,6 +855,7 @@ export type PillarContainer = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  eyebrow?: string;
   title?: string;
   description?: Array<{
     children?: Array<{
@@ -1083,5 +1103,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

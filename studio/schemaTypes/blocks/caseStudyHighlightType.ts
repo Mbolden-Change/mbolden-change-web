@@ -39,11 +39,19 @@ export const caseStudyHighlight = defineType({
     }),
   ],
   preview: {
-    select: { title: 'headline'},
-    prepare({ title }) {
-        return {
-        title: `Case-Study Highlight — ${title}`,
-        };
-    }
-}
+    select: {
+      headline: 'headline',
+      label: 'label',
+      media: 'image',
+    },
+    prepare({headline, label, media}) {
+      return {
+        title: headline
+          ? `Case Study Highlight — ${headline}`
+          : 'Case Study Highlight',
+        subtitle: label || undefined,
+        media,
+      }
+    },
+  },
 })

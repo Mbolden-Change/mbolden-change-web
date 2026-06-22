@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--brand-white);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;}
+  .row{display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;}
+  .tok{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);}
+  .chip{width:28px;height:28px;border-radius:6px;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
+  .tok-name{font-weight:700;font-size:13px;color:var(--fg-1);}
+  .tok-val{font-size:11px;color:var(--fg-muted);font-family:ui-monospace, Menlo, monospace;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;margin-bottom:10px;}
+</style></head>
+<body><div class="wrap">
+  <div class="meta">Semantic roles</div>
+  <div class="row">
+    <div class="tok"><div class="chip" style="background:var(--accent);"></div><div><div class="tok-name">accent</div><div class="tok-val">aqua-teal · links, focus</div></div></div>
+    <div class="tok"><div class="chip" style="background:var(--accent-alt);"></div><div><div class="tok-name">accent-alt</div><div class="tok-val">fuchsia · quotes, tertiary</div></div></div>
+    <div class="tok"><div class="chip" style="background:var(--accent-warn);"></div><div><div class="tok-name">accent-warn</div><div class="tok-val">warm-yellow · energy</div></div></div>
+    <div class="tok"><div class="chip" style="background:var(--bg-inverse);"></div><div><div class="tok-name">bg-inverse</div><div class="tok-val">black · primary btn, footer</div></div></div>
+    <div class="tok"><div class="chip" style="background:var(--bg-warm);"></div><div><div class="tok-name">bg-warm</div><div class="tok-val">beige · tags, warm surface</div></div></div>
+    <div class="tok"><div class="chip" style="background:var(--border);"></div><div><div class="tok-name">border</div><div class="tok-val">light-gray · card edge</div></div></div>
+  </div>
+</div></body></html>

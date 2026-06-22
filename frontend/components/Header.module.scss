@@ -67,38 +67,8 @@
 }
 
 .donateButton {
-  position: relative;
-  display: inline-block;
-  background: var(--brand-black);
-  color: var(--brand-white);
-  padding: 8px 16px;
-  font-size: 22px;
-  font-weight: 600;
-  transform: skew(-10.25deg);
-  clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
-  overflow: hidden;
-  z-index: 1;
-  text-decoration: none;
-}
-
-.donateButton:hover {
-  color: var(--brand-black);
-}
-
-.donateButton::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--brand-warm-yellow);
-
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease-in-out;
-  z-index: -1;
-}
-
-.donateButton:hover::before {
-  transform: scaleX(1);
+  padding: 12px 24px;
+  font-size: 16px;
 }
 
 .hamburger {

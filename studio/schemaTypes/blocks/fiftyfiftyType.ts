@@ -2,8 +2,9 @@ import { defineField, defineType } from 'sanity'
 
 export const fiftyfiftyType = defineType({
     name: 'fiftyFifty',
-    title: 'Fifty-Fifty Section',
+    title: 'Fifty-Fifty Section (Legacy)',
     type: 'object',
+    description: 'Legacy 50/50 block. Use Text & Media for new pages.',
     fields: [
         defineField({
             name: 'mediaType',
@@ -208,22 +209,24 @@ export const fiftyfiftyType = defineType({
     ],
     preview: {
         select: {
-            leftText: 'leftText',
-            rightText: 'rightText',
             leftTitle: 'leftTitle',
             rightTitle: 'rightTitle',
+            leftText: 'leftText',
+            rightText: 'rightText',
+            mediaType: 'mediaType',
+            leftOrRightImage: 'leftOrRightImage',
+            leftImage: 'leftImage',
+            rightImage: 'rightImage',
         },
-        prepare({ leftText, rightText, leftTitle, rightTitle }) {
-            let title;
-            if (leftText) {
-                leftTitle ? title = `50/50 — Text Left, Media Right — ${leftTitle}` : title = '50/50 — Text Left, Media Right';
-            } else if (rightText) {
-                rightTitle ? title = `50/50 — Media Left, Text Right — ${rightTitle}` : title = '50/50 — Media Left, Text Right';
-            } else {
-                title = '50/50 Section';
+        prepare({leftTitle, rightTitle, leftText, rightText, mediaType, leftOrRightImage, leftImage, rightImage}) {
+            const headline = leftText ? leftTitle : rightText ? rightTitle : null
+            const layout = leftOrRightImage === 'left' ? 'Media left' : 'Media right'
+            const media = mediaType === 'video' ? 'Video' : 'Image'
+            return {
+                title: headline ? `50/50 — ${headline}` : '50/50 Section',
+                subtitle: [layout, media].filter(Boolean).join(' · '),
+                media: leftImage || rightImage,
             }
-
-            return { title };
         },
     },
 })

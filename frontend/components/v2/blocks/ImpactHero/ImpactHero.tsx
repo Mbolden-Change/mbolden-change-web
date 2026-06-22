@@ -4,7 +4,8 @@ import styles from './ImpactHero.module.scss';
 import Grid from '@/components/Grid';
 import GridItem from '@/components/GridItem';
 import type { ImpactHero as ImpactHeroType } from '@/sanity/types';
-import type { VideoEmbed } from '@/components/blocks/TextMedia/TextMedia';
+import type { VideoEmbed } from '@/lib/parseVideoUrl';
+import SkewButton from '@/components/atoms/SkewButton';
 import ButtonComponent from '@/components/atoms/ButtonComponent';
 import SanityNextImage from '@/components/SanityNextImage';
 import { deriveImpactHero } from './deriveImpactHero';
@@ -37,8 +38,18 @@ function HeroCopy({
       </div>
       {showCtas && (
         <div className={styles.ctaWrapper}>
-          {showCta1 && <ButtonComponent variant="primary" link={cta1} />}
-          {showCta2 && <ButtonComponent variant="secondary" link={cta2} />}
+          {showCta1 && cta1?.title && (
+            <SkewButton variant="black" link={cta1} className={styles.primaryCta}>
+              {cta1.title}
+            </SkewButton>
+          )}
+          {showCta2 && (
+            <ButtonComponent
+              variant="secondary"
+              link={cta2}
+              className={styles.secondaryCta}
+            />
+          )}
         </div>
       )}
     </>

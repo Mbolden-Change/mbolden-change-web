@@ -8,7 +8,8 @@ import GridItem from './GridItem';
 import SanityNextImage from './SanityNextImage';
 import { Header as HeaderType } from '@/sanity/types';
 import { LinkAtom, ReferenceType } from './atoms/Link';
-import styles from './Header.module.css';
+import SkewButton from './atoms/SkewButton';
+import styles from './Header.module.scss';
 
 type HeaderProps = { headerData: HeaderType };
 
@@ -82,7 +83,8 @@ export default function Header({ headerData }: HeaderProps) {
 
               {headerData.donateCTA && (
                 <li>
-                  <LinkAtom
+                  <SkewButton
+                    variant="black"
                     isExternalLink={
                       headerData.donateCTA.buttonLink?.isExternalLink
                     }
@@ -95,11 +97,12 @@ export default function Header({ headerData }: HeaderProps) {
                     }
                     target={headerData.donateCTA.buttonLink?.target}
                     url={headerData.donateCTA.buttonLink?.url}
-                    title={headerData.donateCTA.text}
                     ariaLabel={headerData.donateCTA.buttonLink?.title}
                     className={styles.donateButton}
                     onClick={handleLinkClick}
-                  />
+                  >
+                    {headerData.donateCTA.text}
+                  </SkewButton>
                 </li>
               )}
             </ul>

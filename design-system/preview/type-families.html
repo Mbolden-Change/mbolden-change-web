@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--brand-white);font-family:var(--font-body);}
+  .wrap{padding:20px 24px;display:flex;flex-direction:column;gap:16px;}
+  .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;}
+  .row{display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
+  .face{font-size:32px;line-height:1;letter-spacing:-0.5px;}
+  .face.hd{font-family:var(--font-headline);font-weight:700;}
+  .face.bd{font-family:var(--font-body);font-weight:400;}
+  .label{font-size:11px;color:var(--fg-muted);font-family:ui-monospace,Menlo,monospace;margin-top:6px;letter-spacing:0;text-transform:none;}
+  .weights{display:flex;gap:18px;font-family:var(--font-body);font-size:18px;}
+  .weights span{display:inline-block;}
+</style></head>
+<body><div class="wrap">
+  <div>
+    <div class="face hd">Archivo Narrow</div>
+    <div class="label">var(--font-headline) · headlines, logo, buttons</div>
+  </div>
+  <div>
+    <div class="face bd">Roboto</div>
+    <div class="label">var(--font-body) · paragraphs, nav, UI</div>
+  </div>
+  <div>
+    <div class="meta">Weights in use</div>
+    <div class="weights">
+      <span style="font-weight:300;">Roboto 300</span>
+      <span style="font-weight:400;">Roboto 400</span>
+      <span style="font-weight:500;">Roboto 500</span>
+      <span style="font-weight:700;">Roboto 700</span>
+      <span style="font-weight:700;font-family:var(--font-headline);">Archivo 700</span>
+    </div>
+  </div>
+</div></body></html>

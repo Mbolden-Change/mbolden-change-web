@@ -7,13 +7,19 @@ type ComponentsMap = {
 
 const componentMap: ComponentsMap = {
   hero: dynamic(() => import('@/components/blocks/Hero/Hero')),
-  pillarContainer: dynamic(() => import('@/components/Pillars')),
+  pillarContainer: dynamic(() => import('@/components/v2/blocks/Pillars/Pillars')),
+  pillars: dynamic(() => import('@/components/v2/blocks/Pillars/Pillars')),
   fiftyFifty: dynamic(() => import('@/components/blocks/FiftyFifty')),
   richText: dynamic(() => import('@/components/blocks/RichText')),
-  statementBanner: dynamic(() => import('@/components/blocks/StatementBanner')),
+  statementBanner: dynamic(
+    () => import('@/components/blocks/StatementBanner'),
+  ),
+  resourceBanner: dynamic(
+    () => import('@/components/v2/blocks/ResourceBanner/ResourceBanner'),
+  ),
   heroCarousel: dynamic(() => import('@/components/blocks/Hero/HeroCarousel')),
   testimonialsCarousel: dynamic(
-    () => import('@/components/blocks/Testimonials/TestimonialsCarousel'),
+    () => import('@/components/v2/blocks/Testimonials/Testimonials'),
   ),
   tabsContainer: dynamic(
     () => import('@/components/blocks/TabbedContent/TabbedContent'),
@@ -27,7 +33,7 @@ const componentMap: ComponentsMap = {
   holidayCard: dynamic(
     () => import('@/components/blocks/HolidayCard/HolidayCard'),
   ),
-  textMedia: dynamic(() => import('@/components/blocks/TextMedia/TextMedia')),
+  textMedia: dynamic(() => import('@/components/v2/blocks/TextMedia/TextMedia')),
   faq: dynamic(() => import('@/components/blocks/FAQ/Accordian')),
   impactHero: dynamic(
     () => import('@/components/v2/blocks/ImpactHero/ImpactHero'),

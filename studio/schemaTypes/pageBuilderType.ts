@@ -5,44 +5,68 @@ export const pageBuilderType = defineType({
   type: 'array',
   of: [
     defineArrayMember({
-      type: 'hero',
-    }),
-    defineArrayMember({
-      type: 'richText',
-    }),
-    defineArrayMember({
-      type: 'fiftyFifty',
-    }),
-    defineArrayMember({
-      type: 'statementBanner',
+      type: 'impactHero',
+      title: 'Impact Hero',
     }),
     defineArrayMember({
       type: 'heroCarousel',
+      title: 'Hero Carousel (Legacy)',
     }),
     defineArrayMember({
-      type: 'pillarContainer',
+      type: 'hero',
+      title: 'Hero Slide (Legacy)',
     }),
     defineArrayMember({
-      type: 'testimonialsCarousel',
+      type: 'pillars',
+      title: 'Pillars',
     }),
     defineArrayMember({
-      type: 'tabsContainer',
+      type: 'resourceBanner',
+      title: 'Resource Banner',
     }),
     defineArrayMember({
-      type: 'tab',
+      type: 'statementBanner',
+      title: 'Statement Banner (Legacy)',
     }),
     defineArrayMember({
-      type: 'cardGallery',
+      type: 'fiftyFifty',
+      title: '50/50 Section',
+    }),
+    defineArrayMember({
+      type: 'textMedia',
+      title: 'Text & Media (50/50)',
     }),
     defineArrayMember({
       type: 'caseStudyHighlight',
+      title: 'Case Study Highlight',
+    }),
+    defineArrayMember({
+      type: 'testimonialsCarousel',
+      title: 'Testimonials Carousel',
+    }),
+    defineArrayMember({
+      type: 'cardGallery',
+      title: 'Card Gallery',
+    }),
+    defineArrayMember({
+      type: 'richText',
+      title: 'Rich Text',
+    }),
+    defineArrayMember({
+      type: 'tabsContainer',
+      title: 'Tabbed Content',
+    }),
+    defineArrayMember({
+      type: 'tab',
+      title: 'Tab',
+    }),
+    defineArrayMember({
+      type: 'faq',
+      title: 'FAQ',
     }),
     defineArrayMember({
       type: 'holidayCard',
-    }),
-    defineArrayMember({ type: 'faq' }),
-    defineArrayMember({
-      type: 'textMedia',
+      title: 'Holiday Card',
     }),
   ],
 })

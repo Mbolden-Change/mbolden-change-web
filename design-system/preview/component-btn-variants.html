@@ -1,0 +1,247 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:var(--font-body);color:var(--fg-1);}
+  .wrap{padding:22px 26px;display:flex;flex-direction:column;gap:22px;}
+  .meta{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;}
+  .sec{display:flex;flex-direction:column;gap:10px;}
+  .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .lbl{font-size:11px;color:var(--fg-muted);min-width:90px;}
+
+  /* ===== Signature parallelogram base =====
+     clip-path carves the tilt; child span holds the label so text stays level. */
+  .btn{
+    --btn-bg: var(--brand-black);
+    --btn-fg: #fff;
+    --btn-accent: var(--brand-warm-yellow);
+    position:relative;
+    display:inline-block;
+    padding:13px 30px 13px 30px;
+    background:var(--btn-bg);
+    color:var(--btn-fg);
+    font-family:var(--font-headline);
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    border:none;
+    clip-path: polygon(4% 8%, 100% 0%, 96% 92%, 0% 100%);
+    transition: transform .25s var(--ease-brand), filter .25s var(--ease-brand);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .btn::before{
+    content:'';
+    position:absolute;inset:0;
+    background:var(--btn-accent);
+    transform:translateX(-101%);
+    transition:transform .4s var(--ease-brand);
+    z-index:-1;
+  }
+  .btn:hover{ color: var(--hover-fg, #000); }
+  .btn:hover::before{ transform:translateX(0); }
+  .btn:active{ transform: translateY(1px); filter: brightness(.92); }
+
+  /* ----- Primary (black → yellow sweep) ----- */
+  .btn.primary{ --btn-bg:#000; --btn-fg:#fff; --btn-accent:var(--brand-warm-yellow); --hover-fg:#000;}
+
+  /* ----- Primary fuchsia ----- */
+  .btn.fuchsia{ --btn-bg:var(--brand-fuchsia); --btn-fg:#fff; --btn-accent:#000; --hover-fg:#fff;}
+
+  /* ----- Primary aqua ----- */
+  .btn.aqua{ --btn-bg:var(--brand-aqua-teal); --btn-fg:#fff; --btn-accent:var(--brand-warm-yellow); --hover-fg:#000;}
+
+  /* ----- Secondary (outlined parallelogram via double clip-path) ----- */
+  .btn.outline{
+    background:transparent;
+    color:#000;
+    padding:12px 30px;
+    box-shadow:inset 0 0 0 2px #000;
+    /* give the outline the same parallelogram clip */
+    clip-path: polygon(4% 8%, 100% 0%, 96% 92%, 0% 100%);
+  }
+  .btn.outline::before{ background:#000; }
+  .btn.outline:hover{ color:#fff; }
+
+  /* ----- Tertiary (text link with angled underline) ----- */
+  .btn.text{
+    background:transparent;
+    color:var(--brand-fuchsia);
+    padding:8px 4px;
+    clip-path:none;
+    overflow:visible;
+    text-transform:none;
+    letter-spacing:.02em;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:15px;
+  }
+  .btn.text::before{ display:none; }
+  .btn.text::after{
+    content:'';
+    position:absolute; left:4px; right:4px; bottom:2px;
+    height:2px; background:currentColor;
+    transform:skewX(-16deg) scaleX(.2);
+    transform-origin:left center;
+    transition:transform .3s var(--ease-brand);
+  }
+  .btn.text:hover::after{ transform:skewX(-16deg) scaleX(1); }
+
+  /* ----- Destructive (fuchsia warn) ----- */
+  .btn.warn{ --btn-bg:#b2233a; --btn-fg:#fff; --btn-accent:#fad826; --hover-fg:#000;}
+
+  /* ----- Icon button (square parallelogram) ----- */
+  .btn.icon{
+    padding:12px 14px;
+    width:48px;height:44px;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .btn.icon svg{stroke:currentColor;width:18px;height:18px;}
+
+  /* ----- Pill / read-more (hybrid: rounded pill with skewed arrow) ----- */
+  .pill{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:9px 22px 9px 22px;
+    border:2px solid var(--brand-aqua-teal);
+    border-radius:50px;
+    color:#000;background:transparent;
+    font-family:var(--font-body);font-weight:600;font-size:14px;
+    text-decoration:none;cursor:pointer;
+    transition: background .25s var(--ease-brand), color .25s var(--ease-brand), border-color .25s var(--ease-brand), gap .25s var(--ease-brand);
+  }
+  .pill::after{content:'→';display:inline-block;transform:skewX(-12deg);}
+  .pill:hover{ background:#000; color:#fff; border-color:var(--brand-warm-yellow); gap:14px;}
+
+  /* ----- Split button ----- */
+  .split{display:inline-flex;}
+  .split .btn{padding-right:22px;}
+  .split .btn.menu{
+    padding:13px 14px;
+    margin-left:-12px;
+    clip-path: polygon(6% 8%, 100% 0%, 94% 92%, 0% 100%);
+    background:#fad826;color:#000;
+  }
+  .split .btn.menu::before{background:#000;}
+  .split .btn.menu:hover{color:#fff;}
+
+  /* ----- Loading ----- */
+  .loading{position:relative;pointer-events:none;}
+  .loading .label{opacity:0;}
+  .loading::after{
+    content:'';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background-image:radial-gradient(circle 3px at 50% 50%, #fff 99%, transparent 100%);
+    animation: dot 1s infinite;
+  }
+  .loading .dots{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .loading .dots i{
+    width:6px;height:6px;border-radius:50%;background:currentColor;
+    animation: bounce 1s infinite;
+  }
+  .loading .dots i:nth-child(2){ animation-delay:.15s;}
+  .loading .dots i:nth-child(3){ animation-delay:.3s;}
+  @keyframes bounce { 0%,80%,100%{transform:translateY(0);opacity:.35;} 40%{transform:translateY(-4px);opacity:1;} }
+  .loading::after{display:none;}
+
+  /* ----- Disabled ----- */
+  .btn[disabled], .btn.disabled{ opacity:.4; cursor:not-allowed; filter:grayscale(.3); }
+  .btn[disabled]::before, .btn.disabled::before{ display:none; }
+
+  /* ----- Sizes ----- */
+  .btn.sm{ padding:9px 22px; font-size:12px; }
+  .btn.lg{ padding:17px 38px; font-size:16px; }
+
+  /* ----- Tag under each group ----- */
+  .kv{display:flex;gap:10px;flex-direction:column;}
+  .kv small{font-size:10px;color:var(--fg-muted);font-family:ui-monospace,Menlo,monospace;}
+</style></head>
+<body><div class="wrap">
+
+  <div class="sec">
+    <div class="meta">Primary · signature parallelogram · color sweeps from left on hover</div>
+    <div class="row">
+      <a class="btn primary"><span>Donate</span></a>
+      <a class="btn fuchsia"><span>Sign up</span></a>
+      <a class="btn aqua"><span>Read report</span></a>
+      <a class="btn primary disabled"><span>Disabled</span></a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Sizes · same primary, three scales</div>
+    <div class="row">
+      <a class="btn primary sm"><span>Small</span></a>
+      <a class="btn primary"><span>Default</span></a>
+      <a class="btn primary lg"><span>Large</span></a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Secondary · outlined parallelogram · fills on hover</div>
+    <div class="row">
+      <a class="btn outline"><span>Secondary</span></a>
+      <a class="btn outline" style="color:var(--brand-aqua-teal);box-shadow:inset 0 0 0 2px var(--brand-aqua-teal);"><span>Aqua outline</span></a>
+      <a class="btn outline disabled"><span>Disabled</span></a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Tertiary · fuchsia text with skewed underline sweep</div>
+    <div class="row">
+      <a class="btn text"><span>Learn about our theory of change</span></a>
+      <a class="btn text" style="color:var(--brand-aqua-teal);"><span>Read the annual letter →</span></a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Destructive · deep red warn with yellow sweep</div>
+    <div class="row">
+      <a class="btn warn"><span>Withdraw application</span></a>
+      <a class="btn warn sm"><span>Delete draft</span></a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Icon · parallelogram tile · for nav arrows, closes, shares</div>
+    <div class="row">
+      <a class="btn icon primary" title="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
+      <a class="btn icon fuchsia" title="Share"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4"/><path d="M15.4 6.5l-6.8 4"/></svg></a>
+      <a class="btn icon outline" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+      <a class="btn icon aqua" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6 12l6 6 6-6"/><path d="M5 21h14"/></svg></a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Pill / read-more · aqua outline → black fill with yellow edge</div>
+    <div class="row">
+      <a class="pill">Read the full report</a>
+      <a class="pill" style="border-color:var(--brand-fuchsia);">Meet the cohort</a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Split · primary action + yellow menu flap</div>
+    <div class="row">
+      <div class="split">
+        <a class="btn primary"><span>Give now</span></a>
+        <a class="btn menu" title="Giving options"><span>▾</span></a>
+      </div>
+      <div class="split">
+        <a class="btn fuchsia"><span>Subscribe</span></a>
+        <a class="btn menu" title="More"><span>▾</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="meta">Loading · spinner bounces inside the skewed frame</div>
+    <div class="row">
+      <a class="btn primary loading"><span class="label">Submit</span><span class="dots"><i></i><i></i><i></i></span></a>
+      <a class="btn fuchsia loading"><span class="label">Sending</span><span class="dots"><i></i><i></i><i></i></span></a>
+    </div>
+  </div>
+
+</div></body></html>

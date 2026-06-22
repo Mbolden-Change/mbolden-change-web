@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Marketing Website — mBOLDen Change</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-page);}
+  header.mc-header{position:sticky;top:0;z-index:900;}
+  .mc-sticky-header{
+    background:#fff;
+    padding:14px 40px;
+    display:flex;align-items:center;justify-content:space-between;
+    box-shadow: var(--shadow-header);
+  }
+  .mc-nav{display:flex;align-items:center;gap:28px;}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+// shared style tokens (avoid name collision across files)
+const mcStyles = {
+  header: {
+    background: '#fff',
+    padding: '14px 40px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    boxShadow: 'var(--shadow-header)',
+    position: 'sticky',
+    top: 0,
+    zIndex: 900,
+  },
+  nav: { display: 'flex', alignItems: 'center', gap: 28 },
+  hero: {
+    minHeight: 560,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    display: 'flex',
+    alignItems: 'flex-end',
+    padding: '80px 40px 60px',
+    position: 'relative',
+  },
+  // Solid black card anchored bottom-left so text sits on 21:1 contrast.
+  // The brand stays recognizable via the tilted parallelogram cut on the top-right edge.
+  heroOverlay: {
+    maxWidth: 760,
+    position: 'relative',
+    zIndex: 1,
+    background: '#000',
+    color: '#fff',
+    padding: '40px 48px 44px',
+    clipPath: 'polygon(0 0, 100% 0, 96% 100%, 0% 100%)',
+  },
+  heroHeadline: {
+    fontFamily: 'var(--font-headline)',
+    fontWeight: 700,
+    fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+    lineHeight: 1.05,
+    color: '#fff',
+    margin: '0 0 16px',
+  },
+  heroBody: {
+    fontSize: 18,
+    lineHeight: 1.55,
+    color: '#fff',
+    margin: '0 0 28px',
+    maxWidth: 560,
+  },
+};
+</script>
+
+<script type="text/babel" src="./Components.jsx"></script>
+
+<script type="text/babel">
+const { useState } = React;
+
+// Placeholder hero image (SVG data URL — solid gradient)
+const heroImg = `data:image/svg+xml;utf8,${encodeURIComponent(`
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'>
+  <defs>
+    <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#b22f93'/>
+      <stop offset='60%' stop-color='#0091ad'/>
+      <stop offset='100%' stop-color='#000'/>
+    </linearGradient>
+  </defs>
+  <rect width='1600' height='900' fill='url(%23g)'/>
+  <rect x='0' y='0' width='1600' height='900' fill='rgba(0,0,0,0.35)'/>
+  <text x='80' y='460' font-family='Archivo Narrow, sans-serif' font-weight='700' fill='rgba(255,255,255,0.07)' font-size='320'>mBC</text>
+</svg>`)}`;
+
+function App() {
+  const [newsletterOpen, setNewsletterOpen] = useState(false);
+  const [active, setActive] = useState('Our Work');
+
+  return (
+    <div>
+      <Header active={active} onNav={setActive} />
+
+      <Hero
+        eyebrow="Unrestricted funding for Black women leaders"
+        title="Partner-led. Cash-first. Community-accountable."
+        body="We move unrestricted dollars to Black women and non-binary organizers building power in their own communities — on their timeline, in their vocabulary."
+        cta="See our 2026 cohort"
+        image={heroImg}
+      />
+
+      <StatementBanner
+        bg="var(--brand-warm-yellow)"
+        headline="On the DOJ's consent decree rollback."
+        body={"Cuts to federal oversight don't erase the harm — they make it easier to repeat.\nWe stand with the families, organizers, and lawyers who refuse to let this moment pass quietly."}
+      />
+
+      <Pillars
+        title="Four commitments. One theory of change."
+        description="We don't run programs for our partners. We fund the ones they're already running — at the scale they actually need."
+        items={[
+          { headline: 'Direct cash', body: 'Multi-year, unrestricted grants paid out on the partner\'s schedule — not ours.', tint: 'var(--brand-fuchsia)' },
+          { headline: 'Peer learning', body: 'A cohort model where funded leaders set the agenda and the curriculum.', tint: 'var(--brand-aqua-teal)' },
+          { headline: 'Policy advocacy', body: 'We bring partner stories to federal and state tables that shape the field.', tint: '#c43a9d' },
+          { headline: 'Field research', body: 'Open-access reports on what cash-first philanthropy actually produces.', tint: 'var(--brand-aqua-teal)' },
+        ]}
+      />
+
+      <CaseStudyHighlight
+        label="Highlighted case study · Detroit, 2024"
+        quote="mBC was the first funder that didn't ask us to translate our work into their language."
+        headline="How $2.4M in unrestricted funding reshaped three Detroit housing coalitions."
+        body={"Over 18 months, three organizer-led housing coalitions in Detroit received multi-year general operating support, no deliverables attached. Here's what changed — and what it taught us about the limits of 'capacity building' as a grantmaking theory."}
+        ctaLabel="Read the case study"
+      />
+
+      <TestimonialSection
+        headline="The field we're building with our partners."
+        quote="The fastest thing we did with the grant was pay our organizers what we'd been underpaying them for three years. That changed everything else."
+        credit="— Maya Ellison"
+        credentials="Executive Director, Detroit Tenant Power · mBC Partner 2023"
+      />
+
+      <Footer onNewsletterClick={() => setNewsletterOpen(true)} />
+      <NewsletterModal open={newsletterOpen} onClose={() => setNewsletterOpen(false)} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

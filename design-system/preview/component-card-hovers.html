@@ -1,0 +1,186 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:rgb(248 239 224 / 0.2);font-family:var(--font-body);color:var(--fg-1);}
+  .wrap{padding:24px 26px;display:grid;grid-template-columns:repeat(3, 1fr);gap:18px;}
+  .frame{display:flex;flex-direction:column;gap:8px;}
+  .tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);font-weight:700;}
+  .hint{font-size:11px;color:var(--fg-muted);font-family:ui-monospace,Menlo,monospace;}
+
+  /* Shared card skeleton */
+  .card{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:20px 22px;
+    overflow:hidden;
+    cursor:pointer;
+    isolation:isolate;
+  }
+  .card .img{
+    background:linear-gradient(135deg,#f8efe0,#e2e2e2);
+    border-radius:12px;height:70px;margin-bottom:14px;
+  }
+  .card h3{font-family:var(--font-headline);font-size:17px;font-weight:700;color:#000;margin:0 0 6px;letter-spacing:-0.3px;}
+  .card p{font-size:12.5px;line-height:1.5;color:rgba(0,0,0,.8);margin:0 0 14px;}
+  .card a{display:inline-block;font-size:11px;font-weight:600;color:var(--brand-fuchsia);text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:1px;}
+
+  /* ============================================================
+     A — Accent bar fills from left
+     The fuchsia underline grows across the bottom on hover.
+     Clean, editorial, no motion on the card itself.
+     ============================================================ */
+  .card.A::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:4px;
+    background:var(--brand-fuchsia);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .45s var(--ease-brand);
+  }
+  .card.A:hover::after{transform:scaleX(1);}
+  .card.A:hover{border-color:#000;}
+
+  /* ============================================================
+     B — Corner tilt (brand signature)
+     Top-right corner peels at -6.5° — the logo's tilt angle.
+     Heading subtly shifts from black to fuchsia.
+     ============================================================ */
+  .card.B{transition:clip-path .4s var(--ease-brand);}
+  .card.B:hover{
+    clip-path:polygon(0 0, 100% 3%, 100% 100%, 0 100%);
+  }
+  .card.B:hover h3{color:var(--brand-fuchsia);}
+  .card.B::before{
+    content:'';position:absolute;top:0;right:0;width:40px;height:40px;
+    background:var(--brand-warm-yellow);
+    clip-path:polygon(100% 0, 100% 100%, 0 0);
+    transform:scale(0);transform-origin:top right;
+    transition:transform .35s var(--ease-brand);
+  }
+  .card.B:hover::before{transform:scale(1);}
+
+  /* ============================================================
+     C — Image saturates, card stays put
+     Grayscale → color on the media only. No card movement.
+     Restrained, very editorial / magazine-cover.
+     ============================================================ */
+  .card.C .img{filter:grayscale(1) contrast(.95);transition:filter .5s var(--ease-brand);}
+  .card.C:hover .img{filter:grayscale(0) contrast(1);}
+  .card.C:hover{border-color:var(--brand-aqua-teal);}
+
+  /* ============================================================
+     D — Read-more CTA slides in
+     Card itself doesn't move. The arrow/link extends its underline
+     and an inline arrow slides 6px right. Keyboard-like feedback.
+     ============================================================ */
+  .card.D a{position:relative;padding-right:18px;border-bottom:none;display:inline-flex;align-items:center;gap:4px;}
+  .card.D a::after{content:'→';transition:transform .3s var(--ease-brand);display:inline-block;}
+  .card.D a::before{
+    content:'';position:absolute;left:0;right:16px;bottom:-2px;height:1.5px;background:currentColor;
+    transform:scaleX(.25);transform-origin:left;
+    transition:transform .35s var(--ease-brand);
+  }
+  .card.D:hover a::before{transform:scaleX(1);}
+  .card.D:hover a::after{transform:translateX(6px);}
+
+  /* ============================================================
+     E — Skewed fuchsia tab emerges from left edge
+     A parallelogram accent slides out of the left border.
+     Ties directly to button DNA (-10.25deg skew).
+     ============================================================ */
+  .card.E::before{
+    content:'';position:absolute;left:0;top:24px;bottom:24px;width:6px;
+    background:var(--brand-fuchsia);
+    transform:translateX(-100%) skewY(-6deg);
+    transition:transform .4s var(--ease-brand);
+  }
+  .card.E:hover::before{transform:translateX(0) skewY(-6deg);}
+  .card.E:hover{padding-left:28px;transition:padding-left .4s var(--ease-brand);}
+
+  /* ============================================================
+     F — Number/index counter reveal
+     A quiet numeric marker fades in top-right. Works well for
+     pillar cards and ordered content. No geometry changes.
+     ============================================================ */
+  .card.F{padding-top:24px;}
+  .card.F .num{
+    position:absolute;top:16px;right:20px;
+    font-family:var(--font-headline);font-weight:700;font-size:30px;
+    color:var(--brand-aqua-teal);
+    opacity:0;transform:translateY(-4px);
+    transition:opacity .3s var(--ease-brand), transform .3s var(--ease-brand);
+    letter-spacing:-0.02em;
+  }
+  .card.F:hover .num{opacity:1;transform:translateY(0);}
+  .card.F:hover{background:#fafafa;}
+</style></head>
+<body><div class="wrap">
+
+  <div class="frame">
+    <div class="tag">A · Accent bar sweep</div>
+    <div class="card A">
+      <div class="img"></div>
+      <h3>Direct cash support</h3>
+      <p>Flexible, unrestricted funding in the hands of organizers on their own timeline.</p>
+      <a>Read more</a>
+    </div>
+    <div class="hint">::after scaleX · fuchsia underline · border darkens</div>
+  </div>
+
+  <div class="frame">
+    <div class="tag">B · Corner tilt reveal</div>
+    <div class="card B">
+      <div class="img"></div>
+      <h3>Partner-led change</h3>
+      <p>Co-created solutions launched by community leaders we trust with multi-year support.</p>
+      <a>Read more</a>
+    </div>
+    <div class="hint">clip-path peel · yellow corner wedge · brand tilt</div>
+  </div>
+
+  <div class="frame">
+    <div class="tag">C · Media color wakes</div>
+    <div class="card C">
+      <div class="img"></div>
+      <h3>Field research</h3>
+      <p>Open-access reports on what cash-first philanthropy actually produces downstream.</p>
+      <a>Read more</a>
+    </div>
+    <div class="hint">grayscale(1) → 0 on image · aqua border</div>
+  </div>
+
+  <div class="frame">
+    <div class="tag">D · CTA takes the lead</div>
+    <div class="card D">
+      <div class="img"></div>
+      <h3>Policy advocacy</h3>
+      <p>Partner stories at the federal and state tables shaping the field.</p>
+      <a>Read more</a>
+    </div>
+    <div class="hint">arrow translateX · underline extends · card still</div>
+  </div>
+
+  <div class="frame">
+    <div class="tag">E · Skewed side-tab</div>
+    <div class="card E">
+      <div class="img"></div>
+      <h3>Peer learning</h3>
+      <p>A cohort model where funded leaders set the agenda and the curriculum.</p>
+      <a>Read more</a>
+    </div>
+    <div class="hint">fuchsia tab slides from left · -10° skew DNA</div>
+  </div>
+
+  <div class="frame">
+    <div class="tag">F · Index numeral</div>
+    <div class="card F">
+      <span class="num">04</span>
+      <div class="img"></div>
+      <h3>Annual letter</h3>
+      <p>A yearly accounting of what worked, what didn't, and what we're carrying forward.</p>
+      <a>Read more</a>
+    </div>
+    <div class="hint">aqua counter fade · soft bg tint · pillar-ready</div>
+  </div>
+
+</div></body></html>

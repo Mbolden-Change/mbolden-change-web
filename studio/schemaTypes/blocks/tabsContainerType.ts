@@ -23,11 +23,20 @@ export const tabsContainerType = defineType({
         }),
     ],
         preview: {
-        select: { title: 'title'},
-        prepare({ title}) {
+        select: {
+            tabs: 'tabs',
+        },
+        prepare({tabs}) {
+            const count = tabs?.length ?? 0
+            const firstLabel = tabs?.[0]?.label
             return {
-            title: title || 'Tabbed Content',
-            };
-        }
-    }
+                title: firstLabel
+                    ? `Tabbed Content — ${firstLabel}`
+                    : 'Tabbed Content',
+                subtitle: count
+                    ? `${count} tab${count === 1 ? '' : 's'}`
+                    : 'No tabs',
+            }
+        },
+    },
 });

@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+
+# New blocks and authorable patterns
+
+When adding a new **page-builder block** or other **Sanity-authorable** pattern:
+
+1. **Studio first** — Define the schema (`studio/schemaTypes/…`), register the type (e.g. `pageBuilderType`, `blocks/index.ts`), and confirm editors can author realistic content in the Studio dev server (`cd studio && npm run dev`).
+
+2. **Query before UI** — Extend `frontend/sanity/lib/queries.ts` (and any other fetchers) so GROQ returns everything the front end needs. For `internalOrExternalLink` fields, always project `reference->{ _type, slug }` (not only the default `…` spread). For images/assets, dereference as needed.
+
+3. **Types** — Run Sanity **typegen** (`studio` npm script) so `frontend/sanity/types.ts` and `extract.json` stay aligned with the schema.
+
+4. **Component last** — Implement the React component, map it in `componentMap`, and wire styles (e.g. v2 blocks under `frontend/components/v2/blocks/`).
+
+Skipping schema/query steps first leads to missing fields, broken internal links, and type drift.

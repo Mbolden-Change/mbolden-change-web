@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;}
+  body{font-family:var(--font-body);color:var(--fg-1);}
+  .wrap{padding:24px 28px;display:flex;align-items:center;gap:32px;}
+  .logo-wrap{max-width:300px;flex-shrink:0;}
+  .logo-wrap img{width:100%;display:block;}
+  .notes{flex:1;}
+  /* Headings — Archivo Narrow */
+  .notes h3{
+    font-family:var(--font-headline);
+    font-weight:700;
+    font-size:22px;
+    line-height:1.15;
+    letter-spacing:-0.3px;
+    margin:0 0 10px;
+    color:var(--brand-black);
+  }
+  /* Body copy — Roboto */
+  .notes p{
+    font-family:var(--font-body);
+    font-weight:400;
+    font-size:14px;
+    line-height:1.6;
+    margin:0 0 10px;
+    color:var(--fg-1);
+  }
+  .code{
+    font-family:ui-monospace,Menlo,monospace;
+    font-size:11px;
+    color:var(--fg-muted);
+    margin-top:6px !important;
+  }
+  .fontmeta{
+    display:flex;gap:14px;flex-wrap:wrap;
+    margin-top:14px;padding-top:12px;
+    border-top:1px solid var(--border);
+    font-size:11px;color:var(--fg-muted);
+  }
+  .fontmeta span strong{color:var(--fg-1);font-weight:600;}
+</style></head>
+<body><div class="wrap">
+  <div class="logo-wrap"><img src="../assets/logo-black.png" alt="mBOLDen Change"/></div>
+  <div class="notes">
+    <h3>Primary wordmark</h3>
+    <p>Tilted parallelogram. The tilt is part of the identity — never level it out, never set on a straight baseline.</p>
+    <p class="code">assets/logo-black.png · natural tilt ≈ -6.5°</p>
+    <div class="fontmeta">
+      <span>Heading set in <strong style="font-family:var(--font-headline);">Archivo Narrow 700</strong></span>
+      <span>Body set in <strong style="font-family:var(--font-body);">Roboto 400</strong></span>
+    </div>
+  </div>
+</div></body></html>

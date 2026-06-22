@@ -8,6 +8,11 @@
   --brand-creamy-beige: #f8efe0;
 
   --brand-creamy-beige-rgb: 248 239 224; /*  (f8 ef e0) in decimal  */
+
+  /* Signature parallelogram — skew + clip-path together (see design-system/README.md) */
+  --brand-skew: -10.25deg;
+  --brand-tilt: -6.5deg;
+  --clip-parallelogram: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%);
 }
 
 html,

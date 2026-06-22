@@ -59,6 +59,10 @@ export const PAGE_QUERY = defineQuery(`
       link,
       linkLabel
     },
+    _type == "resourceBanner" => {
+      ...,
+      cta${INTERNAL_OR_EXTERNAL_LINK}
+    },
     _type == "heroCarousel" => {
       ...,
       slides[]{
@@ -103,6 +107,15 @@ export const PAGE_QUERY = defineQuery(`
           target,
           reference->{ _type, slug }
         }
+      }
+    },
+    _type == "pillars" => {
+      ...,
+      pillars[]->{
+        _id,
+        image,
+        headline,
+        description
       }
     },
     _type == "holidayCard" => {
@@ -172,6 +185,7 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
 
 export const PillarContainer_Query =
   defineQuery(`*[_type == "pillarContainer"][0]{
+  eyebrow,
   title,
   description,
   pillars[]->{

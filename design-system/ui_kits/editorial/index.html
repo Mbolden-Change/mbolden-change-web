@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Editorial / Article — mBOLDen Change</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-page);color:var(--ink);font-family:var(--font-body);}
+  .ed-top{background:#fff;padding:16px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .ed-top img{max-width:130px;display:block;}
+  .ed-top nav{display:flex;gap:24px;font-size:14px;}
+  .ed-top nav a{color:var(--ink);text-decoration:none;font-weight:500;}
+  .ed-top nav a.active{color:var(--brand-fuchsia);}
+
+  .ed-hero{
+    background: var(--brand-creamy-beige);
+    padding: 56px 40px 64px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ed-hero-inner{max-width:780px;margin:0 auto;}
+  .ed-tag{
+    display:inline-block;
+    background:#fff;
+    border:1.5px solid var(--ink);
+    font-family:var(--font-headline);
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-weight:700;
+    padding:6px 12px;
+    margin-bottom:24px;
+  }
+  .ed-hl{
+    font-family:var(--font-headline);
+    font-weight:700;
+    font-size:clamp(2rem, 4.2vw, 3.25rem);
+    line-height:1.1;
+    letter-spacing:-0.01em;
+    margin:0 0 20px;
+    color:var(--ink);
+    text-wrap:pretty;
+  }
+  .ed-deck{
+    font-family:var(--font-body);
+    font-size:19px;
+    line-height:1.55;
+    color:var(--fg-1);
+    margin:0 0 28px;
+    max-width:640px;
+  }
+  .ed-byline{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--fg-muted);}
+  .ed-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--brand-fuchsia),var(--brand-aqua-teal));}
+  .ed-byline strong{color:var(--ink);font-weight:600;}
+
+  .ed-body{max-width:680px;margin:0 auto;padding:56px 40px 40px;}
+  .ed-body p{font-size:18px;line-height:1.7;margin:0 0 1.3em;color:var(--fg-1);}
+  .ed-body h2{
+    font-family:var(--font-headline);
+    font-weight:700;
+    font-size:30px;
+    line-height:1.2;
+    margin:56px 0 16px;
+    letter-spacing:-0.01em;
+  }
+  .ed-body h3{
+    font-family:var(--font-headline);
+    font-weight:700;
+    font-size:22px;
+    margin:40px 0 12px;
+  }
+  .ed-body a{color:var(--brand-fuchsia);text-decoration:underline;text-underline-offset:3px;}
+  .ed-body blockquote{
+    margin: 36px 0;
+    padding: 0 0 0 60px;
+    position: relative;
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.35;
+    color: var(--brand-fuchsia);
+  }
+  .ed-body blockquote::before{
+    content:'';
+    position:absolute;
+    left:0; top:6px;
+    width:38px;height:38px;
+    background-image:url('../../assets/quote-fuchsia.png');
+    background-size:contain;
+    background-repeat:no-repeat;
+  }
+  .ed-body blockquote cite{
+    display:block;
+    margin-top:14px;
+    font-family:var(--font-body);
+    font-style:normal;
+    font-weight:500;
+    font-size:14px;
+    color:var(--fg-muted);
+    letter-spacing:.02em;
+  }
+  .ed-body ul{padding-left:22px;margin:0 0 1.5em;}
+  .ed-body li{font-size:18px;line-height:1.65;margin-bottom:8px;color:var(--fg-1);}
+
+  .ed-pull{
+    background: var(--brand-warm-yellow);
+    padding: 32px 40px;
+    margin: 48px -60px;
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.3;
+    letter-spacing:-0.01em;
+  }
+  .ed-figure{margin: 40px -60px; }
+  .ed-figure-img{
+    width:100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--brand-aqua-teal), var(--brand-fuchsia));
+    clip-path: polygon(0 6%, 100% 0, 100% 94%, 0 100%);
+  }
+  .ed-figure figcaption{font-size:13px;color:var(--fg-muted);margin-top:12px;padding:0 60px;}
+
+  .ed-related{
+    background:#fff;
+    border-top:1px solid var(--border);
+    padding:64px 40px;
+  }
+  .ed-related-inner{max-width:1100px;margin:0 auto;}
+  .ed-related h4{
+    font-family:var(--font-headline);
+    font-size:13px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    margin:0 0 24px;
+    color:var(--fg-muted);
+  }
+  .ed-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .ed-rel-card{background:#fff;border:1px solid var(--border);padding:24px;transition:transform .2s, box-shadow .2s;cursor:pointer;}
+  .ed-rel-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-card);}
+  .ed-rel-card .tag{font-family:var(--font-headline);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand-fuchsia);margin-bottom:12px;font-weight:700;}
+  .ed-rel-card h5{font-family:var(--font-headline);font-weight:700;font-size:19px;line-height:1.25;margin:0 0 10px;}
+  .ed-rel-card p{font-size:14px;line-height:1.5;color:var(--fg-1);margin:0;}
+
+  @media (max-width: 820px){
+    .ed-pull, .ed-figure { margin-left: 0; margin-right: 0; }
+    .ed-related-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="ed-top">
+  <img src="../../assets/logo-black.png" alt="mBOLDen Change"/>
+  <nav>
+    <a href="#">Our Work</a>
+    <a href="#" class="active">Insights</a>
+    <a href="#">Partners</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+
+<section class="ed-hero">
+  <div class="ed-hero-inner">
+    <div class="ed-tag">Field Report · March 2026</div>
+    <h1 class="ed-hl">What we learned when we stopped writing the grant agreement.</h1>
+    <p class="ed-deck">For 18 months we replaced our standard contract with a one-page letter of trust. The legal team panicked. The partners got faster. Here's what the data actually shows.</p>
+    <div class="ed-byline">
+      <div class="ed-avatar"></div>
+      <div>
+        <div><strong>Dr. Rhea Holloway</strong> · Head of Learning</div>
+        <div>March 14, 2026 · 9 min read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<article class="ed-body">
+  <p>The average federal grant agreement runs 38 pages. The average mBC agreement, as of last quarter, runs <a href="#">one</a>. We didn't set out to prove a point about paperwork. We set out to see what would happen if we treated trust as a starting condition instead of a reward.</p>
+
+  <p>What follows is an honest accounting of that pilot — including the parts our board of directors did not, at first, love.</p>
+
+  <h2>The theory, briefly</h2>
+
+  <p>Traditional grant agreements assume that the relationship between funder and grantee is adversarial by default. Deliverables, reporting schedules, clawback clauses — these exist because we've decided, collectively as a field, that the risk of a grantee absconding with the money outweighs the cost of making them perform accountability to us for the duration of the grant.</p>
+
+  <blockquote>
+    The question we kept asking each other was: who is actually protected by a 38-page contract? Whose risk is it managing?
+    <cite>— Internal pilot memo, January 2024</cite>
+  </blockquote>
+
+  <p>Our pilot replaced the standard agreement with a letter of trust: one page, four paragraphs, signed by the partner and our executive director. No deliverables. No interim reports. One end-of-grant conversation.</p>
+
+  <aside class="ed-pull">In 18 months, across 14 partners and $6.2M in unrestricted funding, we had zero compliance issues — and twelve partners finished a full quarter ahead of their stated timeline.</aside>
+
+  <h3>What the partners told us</h3>
+
+  <p>In the exit interviews, three patterns emerged:</p>
+  <ul>
+    <li>The time saved on reporting was spent on the work. Most partners estimated 40–60 hours of staff time freed per quarter.</li>
+    <li>The letter changed the internal conversation about the funder. Staff stopped referring to us as "the grant" and started referring to us by name.</li>
+    <li>Nobody asked for the old agreement back.</li>
+  </ul>
+
+  <figure class="ed-figure">
+    <div class="ed-figure-img" role="img" aria-label="Photo placeholder"></div>
+    <figcaption>Pilot cohort convening — Atlanta, October 2024. Photo by Jasmine Cole.</figcaption>
+  </figure>
+
+  <h2>What didn't work</h2>
+  <p>Two partners requested more structure, not less. For one, the open-ended relationship made it harder to justify the grant internally to their own board. For the other, the absence of milestones made it harder to pace the work. Both of these are real critiques, and we are building an opt-in structured track for 2026 to address them.</p>
+
+  <h2>What we're doing next</h2>
+  <p>Starting April 2026, the letter of trust will become the default for all new mBC partnerships. We'll publish the full pilot evaluation, including the financial reconciliation and the legal review, at the end of Q2.</p>
+
+  <p>If you work in a foundation and want the template, the legal memo, or the exit interview protocol — <a href="#">we'll send you everything</a>, free. We didn't invent any of this. We just finally got our own house in order.</p>
+</article>
+
+<section class="ed-related">
+  <div class="ed-related-inner">
+    <h4>Continue reading</h4>
+    <div class="ed-related-grid">
+      <div class="ed-rel-card">
+        <div class="tag">Annual Letter</div>
+        <h5>Six things we got wrong in 2025.</h5>
+        <p>Our executive director on the year's hardest lessons — and the open questions we're carrying into 2026.</p>
+      </div>
+      <div class="ed-rel-card">
+        <div class="tag">Case Study</div>
+        <h5>How one Detroit coalition paid organizers first.</h5>
+        <p>Before the strategic plan, before the retreat, before anything else. What that choice changed downstream.</p>
+      </div>
+      <div class="ed-rel-card">
+        <div class="tag">Statement</div>
+        <h5>On the DOJ consent decree rollback.</h5>
+        <p>Where we stand, what we're funding in response, and how to join the partners already in motion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

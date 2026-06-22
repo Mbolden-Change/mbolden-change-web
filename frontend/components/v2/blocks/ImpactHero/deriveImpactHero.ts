@@ -1,5 +1,5 @@
 import type { ImpactHero } from '@/sanity/types';
-import { parseVideoUrl } from '@/components/blocks/TextMedia/TextMedia';
+import { parseVideoUrl } from '@/lib/parseVideoUrl';
 import { isRenderableInternalOrExternalLink } from '@/utils/internalOrExternalLink';
 
 /**

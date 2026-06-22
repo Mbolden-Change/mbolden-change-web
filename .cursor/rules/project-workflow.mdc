@@ -1,0 +1,63 @@
+---
+alwaysApply: true
+---
+
+# mBOLDen Change codebase rules for Cursor
+
+This repo ships the production mboldenchange.org site. Paired with the
+`design-system/` folder, which is the canonical reference for brand
+voice and visual language.
+
+## Before you write UI code
+
+Read:
+
+- `design-system/README.md` — voice, tone, visual foundations, iconography
+- `design-system/SKILL.md` — how to apply the system
+- `design-system/colors_and_type.css` — canonical token values (auto-synced)
+
+## Non-negotiables
+
+- Use tokens from `frontend/app/globals.css` and
+  `frontend/app/design-tokens.scss`. Never hard-code hex values when a
+  `--brand-*` token exists.
+- Keep the **tilted-parallelogram identity**: logo tilts `-6.5°`,
+  primary buttons skew `-10.25deg` with a clip-path polygon.
+- **Archivo Narrow 700** for headlines, **Roboto 400/500/700** for body.
+  Loaded via `next/font/google` in `app/layout.tsx`.
+- Brand palette only: `#000000`, `#fad826`, `#0091ad`, `#b22f93`,
+  `#f8efe0`, `#e2e2e2`, `#ffffff`. No off-brand colors without approval.
+- **No emoji.** The single exception is `📄` prefixing PDF download
+  links on statement pages.
+- **No SVG illustrations of people.** Use real photography from Sanity or
+  solid-color placeholders — never illustrate human subjects.
+
+## Voice
+
+- First-person plural: "we / our". Partners, not beneficiaries.
+  Communities, not clients.
+- Sentence-case headlines (all-caps lives in the logo and eyebrows only).
+- Active verbs. "Incubate," "dismantle," "close," "drive" — not "help"
+  or "support."
+- Em-dashes welcome. Exclamation points are rare.
+
+## When adding a component
+
+1. Check `frontend/components/blocks/` first — an equivalent block may
+   already exist (FiftyFifty, CardGallery, CaseStudyHighlight, etc.).
+2. Look at `design-system/ui_kits/marketing-web/Components.jsx` for
+   reference implementations of the major blocks.
+3. Match the CSS-module convention used throughout `frontend/components/`.
+   Don't introduce styled-components or Tailwind.
+4. New Sanity block types go in `studio/schemaTypes/blocks/`.
+
+## After changing brand tokens
+
+If you edit `frontend/app/globals.css`, `frontend/app/design-tokens.scss`,
+or `frontend/styles/_variables.scss`, run:
+
+```
+npm run tokens:sync
+```
+
+to regenerate `design-system/colors_and_type.css`. CI will fail on drift.

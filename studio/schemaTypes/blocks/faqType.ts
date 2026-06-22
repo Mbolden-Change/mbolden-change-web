@@ -41,4 +41,19 @@ export const faqType = defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      heading: 'heading',
+      items: 'items',
+    },
+    prepare({heading, items}) {
+      const count = items?.length ?? 0
+      return {
+        title: heading ? `FAQ — ${heading}` : 'FAQ',
+        subtitle: count
+          ? `${count} question${count === 1 ? '' : 's'}`
+          : 'No questions',
+      }
+    },
+  },
 })

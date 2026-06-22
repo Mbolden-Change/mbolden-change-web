@@ -1,0 +1,42 @@
+@use '../../styles/skew-button' as skew;
+
+.wrapper {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.wrapperBlack {
+  @include skew.wrapper-shadow-black;
+}
+
+.wrapperYellow {
+  @include skew.wrapper-shadow-yellow;
+}
+
+.wrapper:has(.inner:active) {
+  filter: none;
+}
+
+.inner {
+  @include skew.shell;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.innerBlack {
+  @include skew.variant-black;
+  @include skew.hover-sweep;
+}
+
+.innerYellow {
+  @include skew.variant-yellow;
+  @include skew.hover-sweep(#f3c919);
+}
+
+.label {
+  @include skew.label;
+}
