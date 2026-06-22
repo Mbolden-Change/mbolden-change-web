@@ -7,6 +7,7 @@ type LinkAtomProps = Omit<InternalOrExternalLinkType, 'reference' | '_type'> & {
   reference?: ReferenceType;
   children?: React.ReactNode;
   onClick?: () => void;
+  onPointerDown?: (event: React.PointerEvent<HTMLAnchorElement>) => void;
 };
 
 export type ReferenceType = {
@@ -24,7 +25,7 @@ const INTERNAL_ROUTE_PREFIX: Record<string, string> = {
   report: 'report',
 };
 
-function hrefForInternalReference(reference: ReferenceType): string | null {
+export function hrefForInternalReference(reference: ReferenceType): string | null {
   const slug = reference.slug?.current;
   if (!slug) return null;
   const prefix = INTERNAL_ROUTE_PREFIX[reference._type];
@@ -41,6 +42,7 @@ export const LinkAtom = ({
   className,
   ariaLabel,
   onClick,
+  onPointerDown,
   children,
 }: LinkAtomProps) => {
   const label = children ?? title;
@@ -54,6 +56,7 @@ export const LinkAtom = ({
         rel="noopener noreferrer"
         aria-label={ariaLabel}
         onClick={onClick}
+        onPointerDown={onPointerDown}
       >
         {label}
       </a>
@@ -70,6 +73,7 @@ export const LinkAtom = ({
         className={className}
         aria-label={ariaLabel}
         onClick={onClick}
+        onPointerDown={onPointerDown}
       >
         {label}
       </Link>

@@ -2,6 +2,7 @@
 
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
+import classNames from 'classnames'
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {PortableText} from '@portabletext/react'
 import type {PortableTextBlock} from 'sanity'
@@ -9,13 +10,18 @@ import type {
   InternalOrExternalLink,
   TestimonialCard as TestimonialCardType,
 } from '@/sanity/types'
+import type {PageBuilderBlockLayoutProps} from '@/lib/pageBuilderLayout'
+import {
+  shouldTestimonialsFlushBottom,
+  shouldTestimonialsFlushTop,
+} from '@/lib/pageBuilderLayout'
 import ButtonComponent from '@/components/atoms/ButtonComponent'
 import TestimonialSlide from './TestimonialSlide'
 import styles from './Testimonials.module.scss'
 
 type SlideWithKey = TestimonialCardType & {_key?: string}
 
-export type TestimonialsClientProps = {
+export type TestimonialsClientProps = PageBuilderBlockLayoutProps & {
   title?: string
   text?: PortableTextBlock[]
   link?: InternalOrExternalLink
@@ -29,6 +35,9 @@ export default function TestimonialsClient({
   link,
   hasButton,
   slides,
+  prevBlockType,
+  nextBlockType,
+  isLastBlock,
 }: TestimonialsClientProps) {
   const autoplay = useRef(
     Autoplay({delay: 7000, stopOnInteraction: false, stopOnMouseEnter: true}),
@@ -80,8 +89,20 @@ export default function TestimonialsClient({
 
   if (!slides.length) return null
 
+  const hasIntro = Boolean(title || text || (hasButton && link))
+  const flushTop = shouldTestimonialsFlushTop(prevBlockType)
+  const flushBottom = shouldTestimonialsFlushBottom(nextBlockType, isLastBlock)
+
   return (
-    <section className={styles.wrapper} aria-label="Testimonials">
+    <section
+      className={classNames(
+        styles.wrapper,
+        flushTop && styles.flushTop,
+        flushBottom && styles.flushBottom,
+        !hasIntro && flushTop && styles.flushTopNoIntro,
+      )}
+      aria-label="Testimonials"
+    >
       {(title || text || (hasButton && link)) && (
         <div className={styles.intro}>
           {title && <h2 className={styles.introTitle}>{title}</h2>}

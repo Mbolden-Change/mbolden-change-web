@@ -1,6 +1,11 @@
 import classNames from 'classnames'
 import {PortableTextBlock} from 'next-sanity'
 import type {TextMedia as TextMediaType} from '@/sanity/types'
+import type {PageBuilderBlockLayoutProps} from '@/lib/pageBuilderLayout'
+import {
+  shouldSectionFlushBottom,
+  shouldTextMediaFlushTop,
+} from '@/lib/pageBuilderLayout'
 import Headline from '@/components/atoms/Headline'
 import SanityNextImage from '@/components/SanityNextImage'
 import PortableTextComponent from '@/components/PortableTextComponent'
@@ -8,8 +13,17 @@ import {deriveTextMedia} from './deriveTextMedia'
 import SkewButton from '@/components/atoms/SkewButton'
 import styles from './TextMedia.module.scss'
 
-const TextMedia = ({headline, textBody, ctas, ...rest}: TextMediaType) => {
+const TextMedia = ({
+  headline,
+  textBody,
+  ctas,
+  isLastBlock,
+  prevBlockType,
+  ...rest
+}: TextMediaType & PageBuilderBlockLayoutProps) => {
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
+  const flushBottom = shouldSectionFlushBottom(isLastBlock)
+  const flushTop = shouldTextMediaFlushTop(prevBlockType)
 
   return (
     <section
@@ -17,6 +31,8 @@ const TextMedia = ({headline, textBody, ctas, ...rest}: TextMediaType) => {
         styles.wrapper,
         derived.isMediaLeft && styles.mediaLeft,
         derived.mobileMediaFirst ? styles.mobileMediaFirst : styles.mobileTextFirst,
+        flushBottom && styles.flushBottom,
+        flushTop && styles.flushTop,
       )}
       aria-label={headline}
     >
