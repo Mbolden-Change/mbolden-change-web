@@ -1277,6 +1277,40 @@
           },
           "optional": false
         },
+        "mediaPosition": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "left"
+              },
+              {
+                "type": "string",
+                "value": "right"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "mobileLayout": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "imageTop"
+              },
+              {
+                "type": "string",
+                "value": "textTop"
+              }
+            ]
+          },
+          "optional": true
+        },
         "media": {
           "type": "objectAttribute",
           "value": {
@@ -1337,6 +1371,13 @@
                       "value": {
                         "type": "inline",
                         "name": "sanity.imageCrop"
+                      },
+                      "optional": true
+                    },
+                    "alt": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
                       },
                       "optional": true
                     },

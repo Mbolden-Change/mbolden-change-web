@@ -34,7 +34,7 @@ export const pageBuilderType = defineType({
     }),
     defineArrayMember({
       type: 'textMedia',
-      title: 'Text & Media',
+      title: 'Text & Media (50/50)',
     }),
     defineArrayMember({
       type: 'caseStudyHighlight',

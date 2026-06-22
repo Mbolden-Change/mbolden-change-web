@@ -10,11 +10,11 @@ $breakpoint: 768px;
 
 .header {
   max-width: 42rem;
-  margin: 0 auto ds.$space-2xl;
+  margin: 0 auto ds.$space-xl;
   text-align: center;
 
   @media (min-width: $breakpoint) {
-    margin-bottom: ds.$space-3xl;
+    margin-bottom: ds.$space-2xl;
   }
 }
 

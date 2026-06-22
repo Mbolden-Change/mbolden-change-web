@@ -2,8 +2,9 @@ import { defineField, defineType } from 'sanity'
 
 export const fiftyfiftyType = defineType({
     name: 'fiftyFifty',
-    title: 'Fifty-Fifty Section',
+    title: 'Fifty-Fifty Section (Legacy)',
     type: 'object',
+    description: 'Legacy 50/50 block. Use Text & Media for new pages.',
     fields: [
         defineField({
             name: 'mediaType',

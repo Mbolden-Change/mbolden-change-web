@@ -1,0 +1,264 @@
+@use '../../../../styles/tokens' as ds;
+
+$breakpoint: 768px;
+
+.wrapper {
+  padding-block: ds.$section-padding-y-compact;
+}
+
+.intro {
+  max-width: 42rem;
+  margin: 0 auto ds.$space-xl;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+  text-align: center;
+}
+
+.introTitle {
+  margin: 0 0 ds.$space-md;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  color: var(--brand-black);
+}
+
+.introBody {
+  color: rgb(0 0 0 / 0.85);
+  line-height: 1.65;
+
+  p {
+    margin: 0 0 ds.$space-md;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.introCta {
+  margin-top: ds.$space-lg;
+}
+
+.carousel {
+  position: relative;
+}
+
+.viewport {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+.slideShell {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--brand-aqua-teal);
+}
+
+.slide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.slideGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  flex: 1;
+  max-width: 68rem;
+  width: 100%;
+  margin: 0 auto;
+  align-items: stretch;
+
+  @media (min-width: $breakpoint) {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+}
+
+.polaroidWrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.polaroid {
+  width: min(100%, 22rem);
+  margin: 0;
+  padding: ds.$space-md;
+  background: var(--brand-white);
+  border-radius: ds.$radius-lg;
+  box-shadow: var(--shadow-raised);
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-md;
+}
+
+.polaroidMedia {
+  width: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.polaroidImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.polaroidCaption {
+  margin: 0;
+  padding: 0 ds.$space-xs ds.$space-xs;
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+  color: rgb(0 0 0 / 0.8);
+  overflow-wrap: anywhere;
+}
+
+.quotePanel {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-md;
+  height: 100%;
+  min-height: 0;
+}
+
+.slideTitle {
+  margin: 0;
+  padding-inline: clamp(0rem, 2vw, ds.$space-md);
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  line-height: 1.2;
+  color: var(--brand-white);
+  flex-shrink: 0;
+}
+
+.quoteCard {
+  position: relative;
+  margin: 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  padding-left: clamp(2.5rem, 5vw, 3.5rem);
+  background: var(--brand-white);
+  border-radius: ds.$radius-lg;
+  flex-shrink: 0;
+}
+
+.quoteMark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: auto;
+  transform: translate(-25%, -25%) rotate(-12deg);
+  pointer-events: none;
+}
+
+.quoteBody {
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.65;
+  color: rgb(0 0 0 / 0.9);
+
+  p {
+    margin: 0 0 ds.$space-md;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.slideMeta {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-md;
+  margin-top: auto;
+  padding-top: ds.$space-xs;
+  flex-shrink: 0;
+}
+
+.credit {
+  padding-inline: clamp(0rem, 2vw, ds.$space-lg);
+  color: var(--brand-white);
+}
+
+.author {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.credentials {
+  margin: ds.$space-xs 0 0;
+  font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+  line-height: 1.4;
+  opacity: 0.92;
+}
+
+.cta {
+  align-self: flex-start;
+  margin-inline: clamp(0rem, 2vw, ds.$space-lg);
+  margin-top: 0;
+  --btn-secondary-border: var(--brand-white);
+  --btn-secondary-color: var(--brand-white);
+  --btn-secondary-fill: var(--brand-white);
+  --btn-secondary-hover-color: var(--brand-black);
+}
+
+.controls {
+  position: absolute;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  gap: ds.$space-xs;
+  padding: ds.$space-xs;
+  background: rgb(255 255 255 / 0.55);
+  border-radius: ds.$radius-sm;
+  z-index: 2;
+}
+
+.controlButton {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: ds.$space-sm ds.$space-md;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+@media (max-width: #{$breakpoint - 1px}) {
+  .quotePanel {
+    order: 1;
+  }
+
+  .polaroidWrap {
+    order: 2;
+  }
+}

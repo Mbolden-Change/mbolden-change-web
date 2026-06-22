@@ -49,21 +49,41 @@
 
 .secondary {
     position: relative;
-    border: 2px solid var(--brand-black);
-    color: var(--brand-black);
+    border: 2px solid var(--btn-secondary-border, var(--brand-black));
+    color: var(--btn-secondary-color, var(--brand-black));
+    background: transparent;
     font-size: 14px;
     font-weight: 600;
     padding: 0.5rem 1rem;
     text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 400ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--btn-secondary-fill, var(--brand-aqua-teal));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 400ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        z-index: -1;
+    }
 
     &:not(.disabled):hover {
-        background-color: var(--brand-aqua-teal);
-        border: 2px solid var(--brand-aqua-teal);
-        color: var(--brand-white);
+        color: var(--btn-secondary-hover-color, var(--brand-white));
+        border-color: var(--btn-secondary-fill, var(--brand-aqua-teal));
+        background: transparent;
     }
+
+    &:not(.disabled):hover::before {
+        transform: scaleX(1);
+    }
+
     &.disabled {
         opacity: 0.50;
-        cursor:default;
+        cursor: default;
     }
 }
 

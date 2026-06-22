@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { Footer as FooterType } from '@/sanity/types';
-import styles from './Footer.module.css';
+import styles from './Footer.module.scss';
 import Grid from './Grid';
 import GridItem from './GridItem';
 import Headline from './atoms/Headline';
@@ -122,7 +122,7 @@ const Footer = ({ footerData }: FooterProps) => {
                 <div className={styles['footer-newsletter-container']}>
                   {footerData.newsletterButton && (
                     <ButtonComponent
-                      variant="unstyled"
+                      variant="secondary"
                       onClick={() => setIsActionNetworkModalOpen(true)}
                       className={styles.newsletterButton}
                     >

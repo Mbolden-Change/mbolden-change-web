@@ -19,7 +19,7 @@ const componentMap: ComponentsMap = {
   ),
   heroCarousel: dynamic(() => import('@/components/blocks/Hero/HeroCarousel')),
   testimonialsCarousel: dynamic(
-    () => import('@/components/blocks/Testimonials/TestimonialsCarousel'),
+    () => import('@/components/v2/blocks/Testimonials/Testimonials'),
   ),
   tabsContainer: dynamic(
     () => import('@/components/blocks/TabbedContent/TabbedContent'),
@@ -33,7 +33,7 @@ const componentMap: ComponentsMap = {
   holidayCard: dynamic(
     () => import('@/components/blocks/HolidayCard/HolidayCard'),
   ),
-  textMedia: dynamic(() => import('@/components/blocks/TextMedia/TextMedia')),
+  textMedia: dynamic(() => import('@/components/v2/blocks/TextMedia/TextMedia')),
   faq: dynamic(() => import('@/components/blocks/FAQ/Accordian')),
   impactHero: dynamic(
     () => import('@/components/v2/blocks/ImpactHero/ImpactHero'),

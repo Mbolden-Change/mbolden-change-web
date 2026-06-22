@@ -169,6 +169,8 @@ export type TextMedia = {
     _type: "block";
     _key: string;
   }>;
+  mediaPosition?: "left" | "right";
+  mobileLayout?: "imageTop" | "textTop";
   media: {
     image?: {
       asset?: {
@@ -180,6 +182,7 @@ export type TextMedia = {
       media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
+      alt?: string;
       _type: "image";
     };
     videoUrl?: string;

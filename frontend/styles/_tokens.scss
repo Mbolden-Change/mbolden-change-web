@@ -19,4 +19,7 @@ $text-eyebrow-track: 0.12em;
 $text-hero-xl: clamp(2rem, 5vw, 3.5rem);
 $text-lead: clamp(1rem, 2vw, 1.125rem);
 
-$section-padding-y: clamp(2.5rem, 6vw, $space-3xl);
+// Section vertical rhythm — max ~56px desktop (was 5rem / 80px) so stacked blocks don’t double up to 160px gaps.
+$section-padding-y: clamp(2rem, 4vw, 3.5rem);
+// Full-bleed color blocks (resource banner, testimonial flood) — tighter shell padding.
+$section-padding-y-compact: clamp(1.5rem, 3vw, 2.5rem);

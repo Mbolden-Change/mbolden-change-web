@@ -1,0 +1,96 @@
+// Canonical mBOLDen parallelogram CTA:
+//   transform: skew(-10.25deg) + clip-path parallelogram + counter-skew label.
+// Shadow lives on .wrapper (see SkewButton) so the inner shape renders sharply.
+// Tokens: --brand-skew, --clip-parallelogram (globals.css)
+
+@mixin shell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transform: skew(var(--brand-skew));
+  clip-path: var(--clip-parallelogram);
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@mixin label {
+  display: inline-block;
+  transform: skew(calc(var(--brand-skew) * -1));
+}
+
+@mixin wrapper-shadow-black {
+  filter: drop-shadow(var(--shadow-btn, 0 4px 5px rgb(0 0 0 / 0.4)));
+}
+
+@mixin wrapper-shadow-yellow {
+  filter: drop-shadow(0 4px 5px rgb(0 0 0 / 0.2));
+}
+
+@mixin hover-sweep($fill: var(--brand-warm-yellow)) {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: $fill;
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    z-index: -1;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
+  }
+}
+
+@mixin variant-black {
+  background: var(--brand-black);
+  color: var(--brand-white);
+  transition: color 300ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
+
+  &:hover {
+    color: var(--brand-black);
+  }
+}
+
+@mixin variant-yellow {
+  background: var(--brand-warm-yellow);
+  color: var(--brand-black);
+  transition: color 300ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
+
+  &:hover {
+    color: var(--brand-black);
+  }
+}
+
+// Legacy single-element buttons (no wrapper) — kept for easy revert comparison.
+@mixin btn-shadow {
+  filter: drop-shadow(var(--shadow-btn, 0 4px 5px rgb(0 0 0 / 0.4)));
+}
+
+@mixin variant-black-legacy {
+  @include variant-black;
+  @include btn-shadow;
+
+  &:active {
+    filter: none;
+  }
+}
+
+@mixin variant-yellow-legacy {
+  @include variant-yellow;
+  filter: drop-shadow(0 4px 5px rgb(0 0 0 / 0.2));
+
+  &:active {
+    filter: none;
+  }
+}
