@@ -4,6 +4,22 @@ $breakpoint: 768px;
 
 .wrapper {
   padding-block: ds.$section-padding-y-compact;
+
+  &.flushTop {
+    padding-top: 0;
+
+    .intro {
+      padding-top: ds.$section-padding-y-compact;
+    }
+  }
+
+  &.flushTopNoIntro .slide {
+    padding-top: ds.$section-padding-y-compact;
+  }
+
+  &.flushBottom {
+    padding-bottom: 0;
+  }
 }
 
 .intro {

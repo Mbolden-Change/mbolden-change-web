@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState, type PointerEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import classNames from 'classnames';
 import Grid from './Grid';
 import GridItem from './GridItem';
 import SanityNextImage from './SanityNextImage';
 import { Header as HeaderType } from '@/sanity/types';
-import { LinkAtom, ReferenceType } from './atoms/Link';
+import { LinkAtom, ReferenceType, hrefForInternalReference } from './atoms/Link';
 import SkewButton from './atoms/SkewButton';
 import styles from './Header.module.scss';
 
@@ -15,13 +17,44 @@ type HeaderProps = { headerData: HeaderType };
 
 export default function Header({ headerData }: HeaderProps) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
   const pathname = usePathname();
-  const handleLinkClick = () => {
-    setOpen(false)
-  }
+
+  const selectNavLink = (href: string | null) => {
+    if (!href) return;
+    flushSync(() => {
+      setPendingHref(href);
+    });
+  };
+
+  const handleNavPointerDown = (
+    event: PointerEvent<HTMLAnchorElement>,
+    href: string | null,
+  ) => {
+    if (event.button !== 0) return;
+    selectNavLink(href);
+  };
+
+  const handleNavClick = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    setPendingHref(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
+    >
       <Grid>
         <GridItem desktopSpan={12} mobileSpan={12}>
           <nav
@@ -40,7 +73,7 @@ export default function Header({ headerData }: HeaderProps) {
             </Link>
 
             <button
-              className={styles.hamburger}
+              className={`${styles.hamburger} ${open ? styles.hamburgerOpen : ''}`}
               aria-label="Toggle menu"
               aria-expanded={open}
               onClick={() => setOpen(!open)}
@@ -56,10 +89,21 @@ export default function Header({ headerData }: HeaderProps) {
                   link.reference && 'slug' in link.reference
                     ? (link.reference as ReferenceType).slug?.current
                     : undefined;
+                const href =
+                  !link.isExternalLink &&
+                  link.reference &&
+                  'slug' in link.reference
+                    ? hrefForInternalReference(link.reference as ReferenceType)
+                    : link.isExternalLink
+                      ? link.url ?? null
+                      : null;
                 const isActive =
                   !link.isExternalLink &&
                   slug &&
                   pathname.startsWith(`/${slug}`);
+                const isSelected = Boolean(
+                  href && (isActive || pendingHref === href),
+                );
 
                 return (
                   <li key={i}>
@@ -74,8 +118,12 @@ export default function Header({ headerData }: HeaderProps) {
                       url={link.url}
                       title={link.title}
                       ariaLabel={link.title}
-                      className={`${styles.headerLink} ${isActive ? styles.active : ''}`}
-                      onClick={handleLinkClick}
+                      className={classNames(
+                        styles.headerLink,
+                        isSelected && styles.headerLinkActive,
+                      )}
+                      onPointerDown={(event) => handleNavPointerDown(event, href)}
+                      onClick={handleNavClick}
                     />
                   </li>
                 );
@@ -99,7 +147,7 @@ export default function Header({ headerData }: HeaderProps) {
                     url={headerData.donateCTA.buttonLink?.url}
                     ariaLabel={headerData.donateCTA.buttonLink?.title}
                     className={styles.donateButton}
-                    onClick={handleLinkClick}
+                    onClick={handleNavClick}
                   >
                     {headerData.donateCTA.text}
                   </SkewButton>

@@ -5,7 +5,22 @@ $breakpoint: 768px;
 
 .wrapper {
   padding: ds.$section-padding-y clamp(1rem, 4vw, 2.5rem);
-  background: rgb(var(--brand-creamy-beige-rgb) / 0.2);
+
+  &.flushTop {
+    padding-top: 0;
+
+    .inner {
+      padding-top: ds.$section-padding-y;
+    }
+  }
+
+  &.flushBottom {
+    padding-bottom: 0;
+
+    .inner {
+      padding-bottom: ds.$section-padding-y;
+    }
+  }
 }
 
 .inner {

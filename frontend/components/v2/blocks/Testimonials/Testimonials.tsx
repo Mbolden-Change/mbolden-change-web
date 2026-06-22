@@ -3,11 +3,12 @@ import type {
   InternalOrExternalLink,
   TestimonialCard as TestimonialCardType,
 } from '@/sanity/types'
+import type {PageBuilderBlockLayoutProps} from '@/lib/pageBuilderLayout'
 import TestimonialsClient from './TestimonialsClient'
 
 type SlideWithKey = TestimonialCardType & {_key?: string}
 
-type TestimonialsProps = {
+type TestimonialsProps = PageBuilderBlockLayoutProps & {
   title?: string
   text?: PortableTextBlock[]
   link?: InternalOrExternalLink
