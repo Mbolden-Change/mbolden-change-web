@@ -195,6 +195,16 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
     }
   }
 
+  .linkList.open li {
+    animation: navReveal 0.45s $ease-brand both;
+  }
+
+  @for $i from 1 through 8 {
+    .linkList.open li:nth-child(#{$i}) {
+      animation-delay: #{0.045 * $i}s;
+    }
+  }
+
   .headerLink {
     font-size: 1.125rem;
     padding-bottom: 0.35em;
