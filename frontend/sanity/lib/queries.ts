@@ -147,6 +147,34 @@ export const PAGE_QUERY = defineQuery(`
       answer
     }
   },
+    _type == "tabsContainer" => {
+      ...,
+      tabs[]{
+        ...,
+        content[]{
+          ...,
+          _type == "textMedia" => {
+            ...,
+            media{
+              videoUrl,
+              image{
+                ...,
+                asset->{
+                  ...,
+                  metadata{
+                    lqip
+                  }
+                }
+              }
+            },
+            ctas[]{
+              label,
+              link
+            }
+          }
+        }
+      }
+    },
   }
 }
 `);

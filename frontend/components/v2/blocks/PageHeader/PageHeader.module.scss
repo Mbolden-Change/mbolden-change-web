@@ -1,0 +1,55 @@
+@use '../../../../styles/tokens' as ds;
+
+.wrapper {
+  padding: ds.$section-padding-y clamp(1rem, 4vw, 2.5rem);
+}
+
+// Extra breathing room when it opens the page.
+.first {
+  padding-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.center {
+  text-align: center;
+
+  .inner {
+    max-width: 52rem;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-md;
+  font-size: ds.$text-eyebrow-size;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  color: var(--brand-aqua-teal);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.4px;
+  color: var(--brand-black);
+  text-wrap: balance;
+}
+
+.dek {
+  margin: ds.$space-lg 0 0;
+  max-width: 44rem;
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  color: rgb(0 0 0 / 0.82);
+}
+
+.center .dek {
+  margin-inline: auto;
+}

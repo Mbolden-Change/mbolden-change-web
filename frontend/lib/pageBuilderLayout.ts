@@ -7,6 +7,7 @@ export type PageBuilderBlockLayoutProps = {
 }
 
 const SECTION_PADDED_BLOCKS = new Set([
+  'pageHeader',
   'impactHero',
   'hero',
   'heroCarousel',
@@ -17,6 +18,7 @@ const SECTION_PADDED_BLOCKS = new Set([
   'textMedia',
   'fiftyFifty',
   'testimonialsCarousel',
+  'leadership',
 ])
 
 export function shouldTestimonialsFlushTop(prevBlockType?: string): boolean {
@@ -33,6 +35,11 @@ export function shouldTestimonialsFlushBottom(
 
 export function shouldTextMediaFlushTop(prevBlockType?: string): boolean {
   return prevBlockType === 'testimonialsCarousel'
+}
+
+/** Collapse the tabs' top padding when following another padded section. */
+export function shouldTabsFlushTop(prevBlockType?: string): boolean {
+  return Boolean(prevBlockType && SECTION_PADDED_BLOCKS.has(prevBlockType))
 }
 
 /** Last page-builder block before the site footer — drop outer bottom padding. */

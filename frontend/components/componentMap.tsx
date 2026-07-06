@@ -22,7 +22,7 @@ const componentMap: ComponentsMap = {
     () => import('@/components/v2/blocks/Testimonials/Testimonials'),
   ),
   tabsContainer: dynamic(
-    () => import('@/components/blocks/TabbedContent/TabbedContent'),
+    () => import('@/components/v2/blocks/TabbedContent/TabbedContent'),
   ),
   cardGallery: dynamic(
     () => import('@/components/blocks/CardGallery/CardGallery'),
@@ -37,6 +37,12 @@ const componentMap: ComponentsMap = {
   faq: dynamic(() => import('@/components/blocks/FAQ/Accordian')),
   impactHero: dynamic(
     () => import('@/components/v2/blocks/ImpactHero/ImpactHero'),
+  ),
+  pageHeader: dynamic(
+    () => import('@/components/v2/blocks/PageHeader/PageHeader'),
+  ),
+  leadership: dynamic(
+    () => import('@/components/v2/blocks/Leadership/Leadership'),
   ),
 
   // Add more components as needed

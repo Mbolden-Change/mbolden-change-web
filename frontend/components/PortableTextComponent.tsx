@@ -8,7 +8,7 @@ type PortableTextComponentProps = {
   className?: string;
 };
 
-const myPortableTextComponents: PortableTextComponents = {
+export const basePortableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       if (!value || !value.asset?._ref) {
@@ -92,7 +92,7 @@ const PortableTextComponent: React.FC<PortableTextComponentProps> = ({
 }) => {
   return (
     <div className={className}>
-      <PortableText value={value} components={myPortableTextComponents} />
+      <PortableText value={value} components={basePortableTextComponents} />
     </div>
   );
 };

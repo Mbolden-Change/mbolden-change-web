@@ -37,6 +37,26 @@ $breakpoint: 768px;
   }
 }
 
+// Embedded inside another block (e.g. a tab) — drop the section shell and
+// inherit the host column width instead of re-centering at 72rem.
+.nested {
+  padding: 0;
+  margin: ds.$space-xl 0;
+
+  .inner {
+    max-width: none;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .headline {
+    font-size: clamp(1.375rem, 3vw, 1.875rem);
+  }
+
+  .copy {
+    max-width: none;
+  }
+}
+
 .copy {
   display: flex;
   flex-direction: column;
