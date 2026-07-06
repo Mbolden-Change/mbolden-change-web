@@ -5,6 +5,10 @@ export const pageBuilderType = defineType({
   type: 'array',
   of: [
     defineArrayMember({
+      type: 'pageHeader',
+      title: 'Page Header',
+    }),
+    defineArrayMember({
       type: 'impactHero',
       title: 'Impact Hero',
     }),
@@ -51,6 +55,10 @@ export const pageBuilderType = defineType({
     defineArrayMember({
       type: 'richText',
       title: 'Rich Text',
+    }),
+    defineArrayMember({
+      type: 'leadership',
+      title: 'Leadership',
     }),
     defineArrayMember({
       type: 'tabsContainer',

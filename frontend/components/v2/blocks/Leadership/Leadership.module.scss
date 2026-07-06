@@ -1,0 +1,152 @@
+@use '../../../../styles/tokens' as ds;
+
+$ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+$breakpoint: 768px;
+
+.wrapper {
+  padding: ds.$section-padding-y clamp(1rem, 4vw, 2.5rem);
+
+  &.flushBottom {
+    padding-bottom: 0;
+
+    .inner {
+      padding-bottom: ds.$section-padding-y;
+    }
+  }
+}
+
+// Embedded inside another block (e.g. a tab) — drop the section shell.
+.nested {
+  padding: 0;
+  margin: ds.$space-xl 0;
+
+  .inner {
+    max-width: none;
+  }
+}
+
+.inner {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0 0 ds.$space-xl;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.4px;
+  color: var(--brand-black);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-xl;
+}
+
+.card {
+  // Reserve the image gutter for every card so the body text lines up whether
+  // or not a headshot is present.
+  display: grid;
+  grid-template-columns: clamp(96px, 22vw, 160px) 1fr;
+  gap: clamp(ds.$space-md, 3vw, ds.$space-xl);
+  align-items: start;
+}
+
+.media {
+  position: relative;
+  grid-column: 1;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: ds.$radius-md;
+  overflow: hidden;
+  background: var(--brand-light-gray);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.body {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  color: var(--brand-black);
+}
+
+.role {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--brand-aqua-teal);
+}
+
+.bio {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgb(0 0 0 / 0.82);
+}
+
+// Signature nav-link treatment — matches the header/footer: aqua underline that
+// grows out from the center on hover/focus.
+.link {
+  position: relative;
+  align-self: flex-start;
+  margin-top: 0.6rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: var(--brand-aqua-teal);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 400ms $ease-brand;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link::after {
+    transition: none;
+  }
+}
+
+@media (max-width: #{$breakpoint - 1px}) {
+  .card {
+    gap: ds.$space-md;
+  }
+}

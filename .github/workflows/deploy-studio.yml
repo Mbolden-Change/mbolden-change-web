@@ -1,0 +1,45 @@
+name: Deploy Sanity Studio
+
+# Redeploys the hosted Studio so schema/structure changes go live automatically.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'studio/**'
+      - '.github/workflows/deploy-studio.yml'
+  # Allows a manual run from the Actions tab.
+  workflow_dispatch:
+
+# Never run two Studio deploys at once; newer pushes supersede in-flight runs.
+concurrency:
+  group: deploy-studio
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy Studio
+        run: npm run deploy
+        env:
+          # Robot token with permission to deploy the Studio.
+          # Add it in GitHub → Settings → Secrets and variables → Actions.
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}
+          # The hosted Studio (deployed from main) targets the production dataset.
+          SANITY_STUDIO_DATASET: production

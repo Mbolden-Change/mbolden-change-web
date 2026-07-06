@@ -48,6 +48,8 @@ export type Geopoint = {
 
 export type PageBuilder = Array<{
   _key: string;
+} & PageHeader | {
+  _key: string;
 } & ImpactHero | {
   _key: string;
 } & HeroCarousel | {
@@ -72,6 +74,8 @@ export type PageBuilder = Array<{
   _key: string;
 } & RichText | {
   _key: string;
+} & Leadership | {
+  _key: string;
 } & TabsContainer | {
   _key: string;
 } & Tab | {
@@ -79,6 +83,44 @@ export type PageBuilder = Array<{
 } & Faq | {
   _key: string;
 } & HolidayCard>;
+
+export type Leadership = {
+  _type: "leadership";
+  title?: string;
+  people: Array<{
+    _key: string;
+  } & Person>;
+};
+
+export type Person = {
+  _type: "person";
+  name: string;
+  role?: string;
+  bio?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  link?: string;
+  linkLabel?: string;
+};
+
+export type PageHeader = {
+  _type: "pageHeader";
+  eyebrow?: string;
+  heading: string;
+  dek?: string;
+  align?: "left" | "center";
+};
 
 export type Pillars = {
   _type: "pillars";
@@ -349,7 +391,11 @@ export type Tab = {
     level?: number;
     _type: "block";
     _key: string;
-  }>;
+  } | {
+    _key: string;
+  } & TextMedia | {
+    _key: string;
+  } & Leadership>;
 };
 
 export type TabsContainer = {
@@ -1103,5 +1149,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

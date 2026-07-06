@@ -13,22 +13,33 @@ import {deriveTextMedia} from './deriveTextMedia'
 import SkewButton from '@/components/atoms/SkewButton'
 import styles from './TextMedia.module.scss'
 
+type TextMediaProps = TextMediaType &
+  PageBuilderBlockLayoutProps & {
+    /** Render without the outer section shell — e.g. embedded inside a tab. */
+    nested?: boolean
+    /** Heading level, so nested usage keeps a valid document outline. */
+    headingTag?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  }
+
 const TextMedia = ({
   headline,
   textBody,
   ctas,
   isLastBlock,
   prevBlockType,
+  nested = false,
+  headingTag = 'h2',
   ...rest
-}: TextMediaType & PageBuilderBlockLayoutProps) => {
+}: TextMediaProps) => {
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
-  const flushBottom = shouldSectionFlushBottom(isLastBlock)
-  const flushTop = shouldTextMediaFlushTop(prevBlockType)
+  const flushBottom = !nested && shouldSectionFlushBottom(isLastBlock)
+  const flushTop = !nested && shouldTextMediaFlushTop(prevBlockType)
 
   return (
     <section
       className={classNames(
         styles.wrapper,
+        nested && styles.nested,
         derived.isMediaLeft && styles.mediaLeft,
         derived.mobileMediaFirst ? styles.mobileMediaFirst : styles.mobileTextFirst,
         flushBottom && styles.flushBottom,
@@ -38,7 +49,7 @@ const TextMedia = ({
     >
       <div className={styles.inner}>
         <div className={styles.copy}>
-          <Headline tag="h2" text={headline} className={styles.headline} />
+          <Headline tag={headingTag} text={headline} className={styles.headline} />
           <PortableTextComponent value={textBody as PortableTextBlock[]} />
 
           {ctas && ctas.length > 0 && (

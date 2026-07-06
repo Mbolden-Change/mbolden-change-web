@@ -20,7 +20,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: rgb(var(--brand-creamy-beige-rgb) / 0.2);
+  background-color: var(--brand-white);
 }
 *,
 *::before,

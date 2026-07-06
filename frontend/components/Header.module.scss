@@ -155,7 +155,7 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
 
   .linkList {
     position: absolute;
-    top: 80px;
+    top: 90px;
     left: 0;
     right: 0;
     flex-direction: column;
@@ -164,12 +164,35 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
     padding: 1.5rem 1rem 2rem;
     gap: 1.25rem;
     transform: translateY(-120%);
+    // Guarantee the closed panel (and its shadow) is fully gone — the transform
+    // alone is relative to the menu's height, which isn't reliable across link
+    // counts. visibility flips after the slide-up so the animation still plays.
+    visibility: hidden;
+    pointer-events: none;
     z-index: 998;
     box-shadow: 0 12px 24px rgb(0 0 0 / 0.06);
+    transition:
+      transform 0.35s $ease-brand,
+      visibility 0s linear 0.35s;
   }
 
   .linkList.open {
     transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      transform 0.35s $ease-brand,
+      visibility 0s;
+  }
+
+  .linkList.open li {
+    animation: navReveal 0.45s $ease-brand both;
+  }
+
+  @for $i from 1 through 8 {
+    .linkList.open li:nth-child(#{$i}) {
+      animation-delay: #{0.045 * $i}s;
+    }
   }
 
   .linkList.open li {
