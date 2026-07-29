@@ -4,6 +4,7 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
 $breakpoint: 768px;
 
 .wrapper {
+  overflow-x: clip;
   padding: ds.$section-padding-y clamp(1rem, 4vw, 2.5rem);
 }
 
