@@ -73,6 +73,7 @@ function HeroMedia({
     <div
       className={classNames(
         styles.mediaFrame,
+        showImage && styles.mediaFrameImage,
         videoEmbed?.isShort && styles.mediaFrameShort,
       )}
     >
@@ -90,7 +91,6 @@ function HeroMedia({
         <div className={styles.imageInner}>
           <SanityNextImage
             image={image}
-            fit="cover"
             className={styles.mediaImage}
             sizes="(min-width: 768px) 50vw, 100vw"
             priority

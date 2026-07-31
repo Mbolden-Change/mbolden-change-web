@@ -52,8 +52,18 @@ export const impactHeroType = defineType({
           title: 'Image',
           type: 'image',
           options: {hotspot: true},
-          description: 'Hero image. Use real photography; avoid illustrations of people.',
+          description: 'Hero image.',
           hidden: ({parent}) => !!parent?.videoUrl,
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Describe the image for screen readers and SEO.',
+              validation: (Rule) =>
+                Rule.required().error('Alt text is required for hero images.'),
+            }),
+          ],
         }),
         defineField({
           name: 'videoUrl',
