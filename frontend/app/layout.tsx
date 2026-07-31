@@ -11,6 +11,11 @@ import Header from '@/components/Header';
 import { PopUpModal as PopUpModalType } from '@/sanity/types';
 import { getPopUpModal } from '@/lib/getPopUpModal';
 import PopUpModal from '@/components/PopUpModal';
+import JsonLd from '@/components/JsonLd';
+import {
+  buildOrganizationJsonLd,
+  SITE_DESCRIPTION,
+} from '@/lib/organizationJsonLd';
 
 
 const archivoNarrow = Archivo_Narrow({
@@ -29,8 +34,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: 'mBOLDen CHANGE',
-  description:
-    'mBOLDen CHANGE is a national nonprofit that incubates bold, community-led solutions to dismantle barriers, close equity gaps, and drive lasting, stystems-level change.',
+  description: SITE_DESCRIPTION,
   keywords: [
     'mBOLDen Change',
     'Bay Area nonprofit',
@@ -49,8 +53,7 @@ export const metadata: Metadata = {
   },
   openGraph: { // card preview when sharing social media link
     title: 'mBOLDen CHANGE',
-    description:
-      'Bold, community-led solutions for a more equitable world.',
+    description: SITE_DESCRIPTION,
     url: 'https://www.mboldenchange.org',
     siteName: 'mBOLDen CHANGE',
     images: [
@@ -66,8 +69,7 @@ export const metadata: Metadata = {
   twitter: { // card preview when sharing social media link
     card: 'summary_large_image',
     title: 'mBOLDen CHANGE',
-    description:
-      'Bold, community-led solutions for a more equitable world.',
+    description: SITE_DESCRIPTION,
     images: ['/og-image.png'],
   },
 };
@@ -80,10 +82,12 @@ export default async function RootLayout({
   const footerData = (await getFooter()) as FooterType;
   const headerData = (await getHeader()) as HeaderType;
   const popUpModalData = (await getPopUpModal()) as PopUpModalType;
+  const organizationJsonLd = buildOrganizationJsonLd(footerData);
 
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${archivoNarrow.variable}`} >
+        <JsonLd data={organizationJsonLd} />
         <Header headerData={headerData} />
         {children}
         <PopUpModal popUpModalData={popUpModalData}/>

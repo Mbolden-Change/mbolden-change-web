@@ -1,7 +1,14 @@
+import classNames from 'classnames'
 import {LinkAtom} from '@/components/atoms/Link'
 import styles from './ResourceBanner.module.scss'
 import type {ResourceBanner as ResourceBannerType} from '@/sanity/types'
 import {getReferenceWithSlug, isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
+
+/** Mid-luminance brand fills where black/white text both struggle without a scrim. */
+const MID_TONE_BACKGROUNDS = new Set([
+  'var(--brand-aqua-teal)',
+  'var(--brand-fuchsia)',
+])
 
 function toRenderableLink(props: ResourceBannerType) {
   const cta = props.cta
@@ -22,10 +29,17 @@ const ResourceBanner = (props: ResourceBannerType) => {
   const backgroundColor = props.backgroundColor ?? 'var(--brand-warm-yellow)'
   const textColor = props.textColor ?? 'var(--brand-black)'
   const resourceTypeLabel = props.resourceTypeLabel
+  const needsReadabilityScrim = MID_TONE_BACKGROUNDS.has(backgroundColor)
+  const isLightText = textColor === 'var(--brand-white)'
 
   return (
     <section
-      className={styles.banner}
+      className={classNames(
+        styles.banner,
+        needsReadabilityScrim && styles.bannerScrim,
+        needsReadabilityScrim &&
+          (isLightText ? styles.bannerScrimDark : styles.bannerScrimLight),
+      )}
       style={{backgroundColor, color: textColor}}
       aria-label="Resource banner"
     >

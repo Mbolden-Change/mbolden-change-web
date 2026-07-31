@@ -8,18 +8,44 @@
   text-align: center;
 }
 
+/* Full-bleed scrim over mid-tone brand fills. Section bg stays the brand hex.
+   Flat tint only (no backdrop-filter) so surrounding page content can't shift
+   how the wash looks. */
+.bannerScrim {
+  isolation: isolate;
+}
+
+.bannerScrim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bannerScrimLight::before {
+  background: rgb(255 255 255 / 0.14);
+}
+
+.bannerScrimDark::before {
+  background: rgb(0 0 0 / 0.18);
+}
+
 .content {
+  position: relative;
+  z-index: 1;
   max-width: 60rem;
   margin-inline: auto;
 }
 
 .resourceType {
   margin: 0 auto ds.$space-sm;
-  color: var(--ds-color-accent);
+  color: inherit;
   font-size: ds.$text-eyebrow-size;
   font-weight: 700;
   letter-spacing: ds.$text-eyebrow-track;
   text-transform: uppercase;
+  opacity: 0.9;
 }
 
 .headline {

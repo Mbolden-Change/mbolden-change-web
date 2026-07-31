@@ -56,7 +56,8 @@ export const resourceBannerType = defineType({
       name: 'textColor',
       title: 'Text Color',
       type: 'string',
-      description: 'Use White text on dark backgrounds (Black, Aqua Teal, Fuchsia). Use Black on light backgrounds.',
+      description:
+        'Use White text on Black (and usually Fuchsia/Aqua). Use Black on Yellow, White, Gray, and Beige. Aqua and Fuchsia get a light full-bleed tint overlay in the front end so either text color stays readable.',
       options: {
         list: [
           {title: 'White', value: 'var(--brand-white)'},
