@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import {PortableText} from '@portabletext/react'
 import type {PortableTextBlock} from 'sanity'
 import type {TestimonialCard as TestimonialCardType} from '@/sanity/types'
@@ -21,24 +22,28 @@ export default function TestimonialSlide({
       ? QUOTE_MARKS[quoteMarksColor]
       : QUOTE_MARKS.fuchsia
 
+  const hasImage = Boolean(image?.asset?._ref)
+
   return (
-    <div className={styles.slide} data-testimonial-slide>
-      <div className={styles.slideGrid}>
-        {image && (
-          <div className={styles.polaroidWrap}>
-            <figure className={styles.polaroid}>
-              <div className={styles.polaroidMedia}>
-                <SanityNextImage
-                  image={image}
-                  fit="cover"
-                  className={styles.polaroidImage}
-                  sizes="(min-width: 768px) 40vw, 90vw"
-                />
-              </div>
-              {image.alt && (
-                <figcaption className={styles.polaroidCaption}>{image.alt}</figcaption>
-              )}
-            </figure>
+    <div
+      className={classNames(styles.slide, !hasImage && styles.slideNoMedia)}
+      data-testimonial-slide
+    >
+      <div
+        className={classNames(
+          styles.slideGrid,
+          !hasImage && styles.slideGridQuoteOnly,
+        )}
+      >
+        {hasImage && image && (
+          <div className={styles.media}>
+            <div className={styles.mediaFrame}>
+              <SanityNextImage
+                image={image}
+                className={styles.mediaImage}
+                sizes="(min-width: 768px) 40vw, 90vw"
+              />
+            </div>
           </div>
         )}
 

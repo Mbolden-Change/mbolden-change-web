@@ -96,56 +96,42 @@ $breakpoint: 768px;
   max-width: 68rem;
   width: 100%;
   margin: 0 auto;
-  align-items: stretch;
+  align-items: center;
 
   @media (min-width: $breakpoint) {
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: 1fr 1fr;
     gap: clamp(2rem, 4vw, 3rem);
   }
 }
 
-.polaroidWrap {
+.slideGridQuoteOnly {
+  @media (min-width: $breakpoint) {
+    grid-template-columns: 1fr;
+    max-width: 44rem;
+  }
+}
+
+/* Image: full photo, fills column — no polaroid mat, no crop */
+.media {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
   height: 100%;
 }
 
-.polaroid {
-  width: min(100%, 22rem);
-  margin: 0;
-  padding: ds.$space-md;
-  background: var(--brand-white);
-  border-radius: ds.$radius-lg;
-  box-shadow: var(--shadow-raised);
-  overflow: visible;
-  display: flex;
-  flex-direction: column;
-  gap: ds.$space-md;
-}
-
-.polaroidMedia {
+.mediaFrame {
   width: 100%;
+  border-radius: ds.$radius-lg;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
-.polaroidImage {
+.mediaImage {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-}
-
-.polaroidCaption {
-  margin: 0;
-  padding: 0 ds.$space-xs ds.$space-xs;
-  font-size: 0.8125rem;
-  font-style: italic;
-  line-height: 1.5;
-  text-align: center;
-  color: rgb(0 0 0 / 0.8);
-  overflow-wrap: anywhere;
+  height: auto;
+  max-height: min(32rem, 70vh);
+  object-fit: contain;
 }
 
 .quotePanel {
@@ -272,9 +258,11 @@ $breakpoint: 768px;
 @media (max-width: #{$breakpoint - 1px}) {
   .quotePanel {
     order: 1;
+    /* Room for quote marks that hang above the card */
+    padding-top: ds.$space-lg;
   }
 
-  .polaroidWrap {
+  .media {
     order: 2;
   }
 }

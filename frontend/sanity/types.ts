@@ -445,7 +445,7 @@ export type TestimonialCard = {
   credentials?: string;
   hasButton?: boolean;
   link?: InternalOrExternalLink;
-  image: {
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";

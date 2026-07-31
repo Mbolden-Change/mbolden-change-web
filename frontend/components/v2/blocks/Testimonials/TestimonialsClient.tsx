@@ -29,6 +29,8 @@ export type TestimonialsClientProps = PageBuilderBlockLayoutProps & {
   slides: SlideWithKey[]
 }
 
+const DESKTOP_MQ = '(min-width: 768px)'
+
 export default function TestimonialsClient({
   title,
   text,
@@ -47,6 +49,7 @@ export default function TestimonialsClient({
   ])
 
   const [carouselHeight, setCarouselHeight] = useState<number | null>(null)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
@@ -54,17 +57,33 @@ export default function TestimonialsClient({
   const syncCarouselHeight = useCallback(() => {
     if (!emblaApi) return
 
+    // Mobile stacks quote + image — let the section size naturally so it
+    // doesn't get locked short and sit under the footer.
+    if (!window.matchMedia(DESKTOP_MQ).matches) {
+      setCarouselHeight(null)
+      return
+    }
+
     const shells = emblaApi.slideNodes()
     if (!shells.length) return
 
+    const viewport = emblaApi.rootNode()
+    const previousViewportHeight = viewport.style.height
+    viewport.style.height = 'auto'
+
     let maxHeight = 0
+    const previousMinHeights = shells.map((shell) => shell.style.minHeight)
 
     shells.forEach((shell) => {
-      const previousMinHeight = shell.style.minHeight
       shell.style.minHeight = 'auto'
-      maxHeight = Math.max(maxHeight, shell.offsetHeight)
-      shell.style.minHeight = previousMinHeight
+      maxHeight = Math.max(maxHeight, shell.scrollHeight)
     })
+
+    shells.forEach((shell, index) => {
+      shell.style.minHeight = previousMinHeights[index] ?? ''
+    })
+
+    viewport.style.height = previousViewportHeight
 
     if (maxHeight > 0) {
       setCarouselHeight(maxHeight)
@@ -72,17 +91,42 @@ export default function TestimonialsClient({
   }, [emblaApi])
 
   useEffect(() => {
+    const media = window.matchMedia(DESKTOP_MQ)
+    const onChange = () => {
+      setIsDesktop(media.matches)
+      syncCarouselHeight()
+    }
+
+    setIsDesktop(media.matches)
+    onChange()
+
+    media.addEventListener('change', onChange)
+    return () => media.removeEventListener('change', onChange)
+  }, [syncCarouselHeight])
+
+  useEffect(() => {
     if (!emblaApi) return
 
     syncCarouselHeight()
 
+    const shells = emblaApi.slideNodes()
     const resizeObserver = new ResizeObserver(syncCarouselHeight)
-    emblaApi.slideNodes().forEach((shell) => resizeObserver.observe(shell))
+    shells.forEach((shell) => resizeObserver.observe(shell))
+
+    const images = shells.flatMap((shell) =>
+      Array.from(shell.querySelectorAll('img')),
+    )
+    images.forEach((img) => {
+      img.addEventListener('load', syncCarouselHeight)
+    })
 
     emblaApi.on('reInit', syncCarouselHeight)
 
     return () => {
       resizeObserver.disconnect()
+      images.forEach((img) => {
+        img.removeEventListener('load', syncCarouselHeight)
+      })
       emblaApi.off('reInit', syncCarouselHeight)
     }
   }, [emblaApi, slides.length, syncCarouselHeight])
@@ -92,6 +136,7 @@ export default function TestimonialsClient({
   const hasIntro = Boolean(title || text || (hasButton && link))
   const flushTop = shouldTestimonialsFlushTop(prevBlockType)
   const flushBottom = shouldTestimonialsFlushBottom(nextBlockType, isLastBlock)
+  const equalizedHeight = isDesktop ? carouselHeight : null
 
   return (
     <section
@@ -119,19 +164,19 @@ export default function TestimonialsClient({
 
       <div
         className={styles.carousel}
-        style={carouselHeight ? {minHeight: carouselHeight} : undefined}
+        style={equalizedHeight ? {minHeight: equalizedHeight} : undefined}
       >
         <div
           className={styles.viewport}
           ref={emblaRef}
-          style={carouselHeight ? {height: carouselHeight} : undefined}
+          style={equalizedHeight ? {height: equalizedHeight} : undefined}
         >
           <div className={styles.track}>
             {slides.map((slide, index) => (
               <div
                 className={styles.slideShell}
                 key={slide._key ?? index}
-                style={carouselHeight ? {minHeight: carouselHeight} : undefined}
+                style={equalizedHeight ? {minHeight: equalizedHeight} : undefined}
               >
                 <TestimonialSlide {...slide} />
               </div>

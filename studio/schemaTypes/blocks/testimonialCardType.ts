@@ -68,13 +68,29 @@ export const testimonialCardType = defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Main Image',
+      title: 'Image',
       type: 'image',
-      fields: [{title: 'Alt Text', name: 'alt', type: 'string'}],
+      description:
+        'Optional. When set, shows as a full-bleed photo beside the quote. Leave empty for a quote-only layout.',
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required().error('Testimonial image is required.'),
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          description: 'Describe the image for screen readers.',
+          validation: (Rule) =>
+            Rule.custom((alt, context) => {
+              const parent = context.parent as {asset?: unknown} | undefined
+              if (parent?.asset && !alt) {
+                return 'Alt text is required when an image is set.'
+              }
+              return true
+            }),
+        }),
+      ],
     }),
   ],
   preview: {
