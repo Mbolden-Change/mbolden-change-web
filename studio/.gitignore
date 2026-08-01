@@ -28,3 +28,7 @@
 # Dotenv and similar local-only files
 *.local
 .env
+
+# Local dataset backups from migrations
+/prod-backup*.tar.gz
+*.tar.gz

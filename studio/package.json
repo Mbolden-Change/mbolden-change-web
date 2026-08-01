@@ -12,7 +12,9 @@
     "prebuild": "npm run typegen",
     "typegen": "sanity schema extract --path=../frontend/sanity/extract.json --enforce-required-fields && sanity typegen generate",
     "deploy": "sanity deploy --yes --url mboldenchange",
-    "deploy-graphql": "sanity graphql deploy"
+    "deploy-graphql": "sanity graphql deploy",
+    "migrate:homepage": "npx --yes tsx scripts/copyPageToProductionHomepage.ts",
+    "migrate:homepage:dry": "DRY_RUN=1 npx --yes tsx scripts/copyPageToProductionHomepage.ts"
   },
   "keywords": [
     "sanity"
