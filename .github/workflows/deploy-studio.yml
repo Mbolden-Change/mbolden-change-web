@@ -36,6 +36,7 @@ jobs:
         run: npm ci
 
       - name: Deploy Studio
+        # package.json deploy script uses --yes --url so CI is non-interactive.
         run: npm run deploy
         env:
           # Robot token with permission to deploy the Studio.

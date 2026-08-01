@@ -11,7 +11,7 @@
     "predev": "npm run typegen",
     "prebuild": "npm run typegen",
     "typegen": "sanity schema extract --path=../frontend/sanity/extract.json --enforce-required-fields && sanity typegen generate",
-    "deploy": "sanity deploy",
+    "deploy": "sanity deploy --yes --url mboldenchange",
     "deploy-graphql": "sanity graphql deploy"
   },
   "keywords": [

@@ -7,6 +7,12 @@ export default defineCliConfig({
     dataset: process.env.SANITY_STUDIO_DATASET || 'development',
   },
   /**
+   * Pin hostname so `sanity deploy` is non-interactive in CI.
+   * Without this, deploy prompts "Select existing studio hostname" and exits
+   * without uploading — hosted Studio never receives schema updates.
+   */
+  studioHost: 'mboldenchange',
+  /**
    * Enable auto-updates for studios.
    * Learn more at https://www.sanity.io/docs/cli#auto-updates
    */
