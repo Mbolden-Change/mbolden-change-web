@@ -10,7 +10,7 @@ import Headline from '@/components/atoms/Headline'
 import SanityNextImage from '@/components/SanityNextImage'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia} from './deriveTextMedia'
-import SkewButton from '@/components/atoms/SkewButton'
+import TextMediaCtas from './TextMediaCtas'
 import styles from './TextMedia.module.scss'
 
 type TextMediaProps = TextMediaType &
@@ -52,45 +52,7 @@ const TextMedia = ({
           <Headline tag={headingTag} text={headline} className={styles.headline} />
           <PortableTextComponent value={textBody as PortableTextBlock[]} />
 
-          {ctas && ctas.length > 0 && (
-            <div className={styles.ctas}>
-              {(() => {
-                let linkIndex = 0
-                return ctas.map((cta, index) => {
-                  if (!cta.link) {
-                    return (
-                      <span key={cta._key ?? index} className={styles.infoTag}>
-                        {cta.label}
-                      </span>
-                    )
-                  }
-                  const isSecondary = linkIndex > 0
-                  linkIndex += 1
-                  if (isSecondary) {
-                    return (
-                      <a
-                        key={cta._key ?? index}
-                        href={cta.link}
-                        className={styles.ctaSecondary}
-                      >
-                        {cta.label}
-                      </a>
-                    )
-                  }
-                  return (
-                    <SkewButton
-                      key={cta._key ?? index}
-                      variant="black"
-                      href={cta.link}
-                      className={styles.ctaPrimary}
-                    >
-                      {cta.label}
-                    </SkewButton>
-                  )
-                })
-              })()}
-            </div>
-          )}
+          {ctas && ctas.length > 0 && <TextMediaCtas ctas={ctas} />}
         </div>
 
         {derived.hasMedia && (

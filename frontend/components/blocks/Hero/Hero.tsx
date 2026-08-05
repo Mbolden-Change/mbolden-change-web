@@ -1,9 +1,12 @@
+'use client';
+
 import { Hero as HeroType } from '@/sanity/types';
 import SanityNextImage from '../../SanityNextImage';
 import Headline from '../../atoms/Headline';
 import { PortableTextBlock } from 'next-sanity';
 import PortableTextComponent from '../../PortableTextComponent';
 import ButtonComponent from '../../atoms/ButtonComponent';
+import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 import styles from './Hero.module.css';
 
 export default function Hero({
@@ -38,6 +41,9 @@ export default function Hero({
               className={styles.button}
               variant="primary"
               link={link}
+              onClick={() => {
+                if (isDonateCta(link)) trackDonateClick('hero');
+              }}
             />
           )}
         </div>

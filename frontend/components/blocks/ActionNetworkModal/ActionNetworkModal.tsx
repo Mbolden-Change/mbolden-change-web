@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import ButtonComponent from '../../atoms/ButtonComponent';
 import Headline from '../../atoms/Headline'
 import { IoMdClose } from 'react-icons/io';
+import { trackNewsletterSignup } from '@/lib/analytics';
 import styles from "./ActionNetworkModal.module.css"
 
 
@@ -11,9 +12,16 @@ interface ActionNetworkModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
+  /** Where the signup flow was opened from (footer, popup, etc.). */
+  location?: string;
 }
 
-const ActionNetworkModal = ({ isOpen, onClose, title = "Sign Up for Updates" }: ActionNetworkModalProps) => {
+const ActionNetworkModal = ({
+  isOpen,
+  onClose,
+  title = "Sign Up for Updates",
+  location = 'unknown',
+}: ActionNetworkModalProps) => {
   const [formData, setFormData] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = sessionStorage.getItem('actionNetworkFormData');
@@ -104,6 +112,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       if(response.ok && result.success) {
         setSubmitStatus('success');
+        trackNewsletterSignup(location);
           const emptyFormData ={
             firstName: '',
             lastName: '',

@@ -40,6 +40,7 @@ const ButtonComponent = forwardRef<RefType, ButtonProps>((props, ref) => {
                 reference={referenceWithSlug}
                 className={buttonClass}
                 ariaLabel={link.title}
+                onClick={onClick as (() => void) | undefined}
             >
                 {children || link.title}
             </LinkAtom>

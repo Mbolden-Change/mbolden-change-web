@@ -13,6 +13,7 @@ import { SocialIcon } from 'react-social-icons';
 import ButtonComponent from './atoms/ButtonComponent';
 import { useState } from 'react';
 import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
+import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 
 type FooterProps = {
   footerData: FooterType;
@@ -92,6 +93,9 @@ const Footer = ({ footerData }: FooterProps) => {
                     className={styles['footer-link']}
                     ariaLabel={link.title || 'Untitled'}
                     title={link.title}
+                    onClick={() => {
+                      if (isDonateCta(link)) trackDonateClick('footer');
+                    }}
                   />
                 ))}
               </div>
@@ -151,6 +155,7 @@ const Footer = ({ footerData }: FooterProps) => {
       <ActionNetworkModal
         isOpen={isActionNetworkModalOpen}
         onClose={() => setIsActionNetworkModalOpen(false)}
+        location="footer"
       />
     </footer>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import classNames from 'classnames';
 import styles from './ImpactHero.module.scss';
@@ -9,6 +11,7 @@ import SkewButton from '@/components/atoms/SkewButton';
 import ButtonComponent from '@/components/atoms/ButtonComponent';
 import SanityNextImage from '@/components/SanityNextImage';
 import { deriveImpactHero } from './deriveImpactHero';
+import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 
 type HeroCopyProps = Pick<
   ImpactHeroType,
@@ -39,7 +42,14 @@ function HeroCopy({
       {showCtas && (
         <div className={styles.ctaWrapper}>
           {showCta1 && cta1?.title && (
-            <SkewButton variant="black" link={cta1} className={styles.primaryCta}>
+            <SkewButton
+              variant="black"
+              link={cta1}
+              className={styles.primaryCta}
+              onClick={() => {
+                if (isDonateCta(cta1)) trackDonateClick('impact-hero');
+              }}
+            >
               {cta1.title}
             </SkewButton>
           )}
@@ -48,6 +58,9 @@ function HeroCopy({
               variant="secondary"
               link={cta2}
               className={styles.secondaryCta}
+              onClick={() => {
+                if (isDonateCta(cta2)) trackDonateClick('impact-hero');
+              }}
             />
           )}
         </div>

@@ -3,6 +3,10 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ActionNetworkModal from '../ActionNetworkModal';
 
+jest.mock('@/lib/analytics', () => ({
+  trackNewsletterSignup: jest.fn(),
+}));
+
 jest.mock('../../../atoms/ButtonComponent', () => {
     return function MockButton({ children, onClick, type, disabled }: any) {
         return (

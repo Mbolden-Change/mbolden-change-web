@@ -11,6 +11,7 @@ import SanityNextImage from './SanityNextImage';
 import { Header as HeaderType } from '@/sanity/types';
 import { LinkAtom, ReferenceType, hrefForInternalReference } from './atoms/Link';
 import SkewButton from './atoms/SkewButton';
+import { trackDonateClick } from '@/lib/analytics';
 import styles from './Header.module.scss';
 
 type HeaderProps = { headerData: HeaderType };
@@ -147,7 +148,10 @@ export default function Header({ headerData }: HeaderProps) {
                     url={headerData.donateCTA.buttonLink?.url}
                     ariaLabel={headerData.donateCTA.buttonLink?.title}
                     className={styles.donateButton}
-                    onClick={handleNavClick}
+                    onClick={() => {
+                      trackDonateClick('header');
+                      handleNavClick();
+                    }}
                   >
                     {headerData.donateCTA.text}
                   </SkewButton>

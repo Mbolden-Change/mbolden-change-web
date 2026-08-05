@@ -12,6 +12,7 @@ import { FaWindowMinimize } from 'react-icons/fa';
 import { PiArrowSquareUpLeftBold } from 'react-icons/pi';
 import ButtonComponent from './atoms/ButtonComponent';
 import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
+import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 
 type PopUpModalProps = {
   popUpModalData: PopUpModalType;
@@ -59,6 +60,9 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
       e.preventDefault();
       setIsActionNetworkModalOpen(true);
     } else {
+      if (isDonateCta(popUpModalData.CTA)) {
+        trackDonateClick('popup');
+      }
       handleToggle();
     }
   };
@@ -166,6 +170,7 @@ const PopUpModal = ({ popUpModalData }: PopUpModalProps) => {
                 setIsActionNetworkModalOpen(false);
                 setModalState('collapsed');
               }}
+              location="popup"
             />
           </>
         )}
