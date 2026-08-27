@@ -1,0 +1,13 @@
+/* Match app font CSS variables from next/font in layout.tsx */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@700&family=Roboto:wght@400;700&display=swap');
+
+:root {
+  --font-body: 'Roboto', Arial, Helvetica, sans-serif;
+  --font-headline: 'Archivo Narrow', Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--brand-white);
+  color: var(--brand-black);
+}
