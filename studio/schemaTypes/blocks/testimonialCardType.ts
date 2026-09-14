@@ -24,13 +24,14 @@ export const testimonialCardType = defineType({
       name: 'quoteMarksColor',
       title: 'Quote-marks Color',
       type: 'string',
+      description:
+        'Avoid Aqua — the testimonials section background is aqua teal, so aqua marks disappear against it.',
       options: {
         list: [
           { title: 'Yellow', value: 'yellow' },
           { title: 'White', value: 'white' },
           { title: 'Fuchsia', value: 'fuchsia' },
           { title: 'Black', value: 'black' },
-          { title: 'Aqua', value: 'aqua' },
         ],
         layout: 'radio',
       },

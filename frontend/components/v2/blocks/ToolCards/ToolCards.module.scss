@@ -1,0 +1,221 @@
+@use '../../../../styles/tokens' as ds;
+
+$ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+
+.wrapper {
+  padding: ds.$section-padding-y clamp(1rem, 4vw, 2.5rem);
+  background: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.intro {
+  max-width: 44rem;
+  margin: 0 0 ds.$space-2xl;
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-md;
+  font-size: ds.$text-eyebrow-size;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  color: var(--brand-warm-yellow);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  color: var(--brand-white);
+  text-wrap: balance;
+}
+
+.description {
+  margin: ds.$space-lg 0 0;
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  line-height: 1.65;
+  color: rgb(255 255 255 / 0.82);
+  white-space: pre-line;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ds.$space-lg;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: ds.$space-xl;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: ds.$radius-lg;
+  padding: ds.$space-lg;
+  color: var(--brand-white);
+}
+
+.media,
+.mediaFallback {
+  margin: 0 0 ds.$space-lg;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  /* Product/tool feel — parallelogram crop */
+  clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+}
+
+.media {
+  background: rgb(255 255 255 / 0.08);
+}
+
+.mediaFallback {
+  background: linear-gradient(
+    135deg,
+    var(--brand-fuchsia),
+    var(--brand-aqua-teal)
+  );
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.label {
+  margin: 0 0 ds.$space-sm;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-warm-yellow);
+}
+
+.cardTitle {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: var(--brand-white);
+}
+
+.body {
+  margin: 0;
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.82);
+  white-space: pre-line;
+}
+
+.cardLinked {
+  position: relative;
+  cursor: pointer;
+  transition:
+    border-color 0.3s $ease-brand,
+    background-color 0.3s $ease-brand;
+
+  &:hover,
+  &:focus-within {
+    border-color: var(--brand-warm-yellow);
+    background: rgb(255 255 255 / 0.1);
+  }
+}
+
+.cardLinked .cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: ds.$space-lg;
+  align-self: flex-start;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--brand-warm-yellow);
+  text-decoration: none;
+}
+
+.cardLinked .cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: ds.$radius-lg;
+}
+
+.ctaLabel {
+  position: relative;
+  z-index: 2;
+  padding-right: 2px;
+  padding-bottom: 2px;
+}
+
+.ctaLabel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0.25);
+  transform-origin: left;
+  transition: transform 0.35s $ease-brand;
+}
+
+.ctaArrow {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  transition: transform 0.3s $ease-brand;
+}
+
+.cardLinked:hover .ctaLabel::after,
+.cardLinked:focus-within .ctaLabel::after,
+.cta:focus-visible .ctaLabel::after {
+  transform: scaleX(1);
+}
+
+.cardLinked:hover .ctaArrow,
+.cardLinked:focus-within .ctaArrow,
+.cta:focus-visible .ctaArrow {
+  transform: translateX(6px);
+}
+
+.cta:focus-visible {
+  outline: none;
+}
+
+.cta:focus-visible::after {
+  outline: 3px solid var(--brand-warm-yellow);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardLinked {
+    transition: none;
+  }
+
+  .ctaLabel::after,
+  .ctaArrow {
+    transition: none;
+  }
+}

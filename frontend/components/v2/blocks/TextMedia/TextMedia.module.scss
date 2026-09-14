@@ -68,35 +68,29 @@ $breakpoint: 768px;
   width: 100%;
 }
 
-.mobileMediaFirst {
-  .media {
-    order: 1;
+@media (max-width: #{$breakpoint - 1px}) {
+  .mobileMediaFirst {
+    .media {
+      order: 1;
+    }
+
+    .copy {
+      order: 2;
+    }
   }
 
-  .copy {
-    order: 2;
-  }
-}
+  .mobileTextFirst {
+    .copy {
+      order: 1;
+    }
 
-.mobileTextFirst {
-  .copy {
-    order: 1;
-  }
-
-  .media {
-    order: 2;
+    .media {
+      order: 2;
+    }
   }
 }
 
 .mediaLeft {
-  .media {
-    order: 1;
-  }
-
-  .copy {
-    order: 2;
-  }
-
   @media (min-width: $breakpoint) {
     .media {
       grid-column: 1;

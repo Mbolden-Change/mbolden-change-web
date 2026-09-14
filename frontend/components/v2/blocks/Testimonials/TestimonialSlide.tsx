@@ -4,7 +4,7 @@ import type {PortableTextBlock} from 'sanity'
 import type {TestimonialCard as TestimonialCardType} from '@/sanity/types'
 import SanityNextImage from '@/components/SanityNextImage'
 import ButtonComponent from '@/components/atoms/ButtonComponent'
-import {QUOTE_MARKS} from './quoteMarks'
+import {resolveQuoteMarkSrc} from './quoteMarks'
 import styles from './Testimonials.module.scss'
 
 export default function TestimonialSlide({
@@ -17,10 +17,7 @@ export default function TestimonialSlide({
   link,
   hasButton,
 }: TestimonialCardType) {
-  const quoteSrc =
-    quoteMarksColor && QUOTE_MARKS[quoteMarksColor]
-      ? QUOTE_MARKS[quoteMarksColor]
-      : QUOTE_MARKS.fuchsia
+  const quoteSrc = resolveQuoteMarkSrc(quoteMarksColor)
 
   const hasImage = Boolean(image?.asset?._ref)
 
