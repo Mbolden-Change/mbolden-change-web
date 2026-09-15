@@ -17,6 +17,7 @@ import {
   buildOrganizationJsonLd,
   SITE_DESCRIPTION,
 } from '@/lib/organizationJsonLd';
+import {guardWebSite, pickGuardedSchemas} from '@/lib/jsonld';
 
 
 const archivoNarrow = Archivo_Narrow({
@@ -84,11 +85,14 @@ export default async function RootLayout({
   const headerData = (await getHeader()) as HeaderType;
   const popUpModalData = (await getPopUpModal()) as PopUpModalType;
   const organizationJsonLd = buildOrganizationJsonLd(footerData);
+  const siteJsonLd = pickGuardedSchemas([
+    guardWebSite(SITE_DESCRIPTION),
+  ]);
 
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${archivoNarrow.variable}`} >
-        <JsonLd data={organizationJsonLd} />
+        <JsonLd data={[organizationJsonLd, ...siteJsonLd]} />
         <Header headerData={headerData} />
         {children}
         <PopUpModal popUpModalData={popUpModalData}/>
