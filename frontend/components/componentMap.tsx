@@ -44,6 +44,15 @@ const componentMap: ComponentsMap = {
   leadership: dynamic(
     () => import('@/components/v2/blocks/Leadership/Leadership'),
   ),
+  topicList: dynamic(
+    () => import('@/components/v2/blocks/TopicList/TopicList'),
+  ),
+  storyHighlight: dynamic(
+    () => import('@/components/v2/blocks/StoryHighlight/StoryHighlight'),
+  ),
+  toolCards: dynamic(
+    () => import('@/components/v2/blocks/ToolCards/ToolCards'),
+  ),
 
   // Add more components as needed
 };

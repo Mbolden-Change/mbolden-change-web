@@ -4,39 +4,17 @@ import {useRef} from 'react'
 import {gsap} from 'gsap'
 import {ScrollTrigger} from 'gsap/ScrollTrigger'
 import {useGSAP} from '@gsap/react'
+import {LinkAtom} from '@/components/atoms/Link'
+import type {TopicList as TopicListType} from '@/sanity/types'
+import {
+  getReferenceWithSlug,
+  isRenderableInternalOrExternalLink,
+} from '@/utils/internalOrExternalLink'
 import styles from './TopicList.module.scss'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-/** Frontend-only props for Storybook / design review. Sanity schema comes later. */
-export type TopicListLink = {
-  title: string
-  url: string
-  isExternalLink?: boolean
-  target?: '_self' | '_blank'
-}
-
-export type TopicListItem = {
-  _key?: string
-  title: string
-  body: string
-  link?: TopicListLink | null
-}
-
-export type TopicListProps = {
-  eyebrow?: string
-  title: string
-  description?: string
-  items: TopicListItem[]
-  /** Optional label above the closing note (e.g. "Across our work"). */
-  closingEyebrow?: string
-  /** Optional note after the list (e.g. a thread that spans all topics). */
-  closingNote?: string
-}
-
-function hasRenderableLink(link?: TopicListLink | null): link is TopicListLink {
-  return Boolean(link?.title && link?.url)
-}
+export type TopicListProps = TopicListType
 
 export default function TopicList({
   eyebrow,
@@ -123,7 +101,7 @@ export default function TopicList({
 
         <ul ref={listRef} className={styles.list}>
           {items.map((item, index) => {
-            const link = hasRenderableLink(item.link) ? item.link : null
+            const showLink = isRenderableInternalOrExternalLink(item.link)
             return (
               <li
                 key={item._key || index}
@@ -132,22 +110,20 @@ export default function TopicList({
               >
                 <h3 className={styles.itemTitle}>{item.title}</h3>
                 {item.body && <p className={styles.body}>{item.body}</p>}
-                {link && (
-                  <a
+                {showLink && item.link && (
+                  <LinkAtom
                     className={styles.link}
-                    href={link.url}
-                    target={
-                      link.isExternalLink ? link.target || '_blank' : undefined
-                    }
-                    rel={
-                      link.isExternalLink ? 'noopener noreferrer' : undefined
-                    }
+                    title={item.link.title}
+                    isExternalLink={item.link.isExternalLink}
+                    url={item.link.url}
+                    target={item.link.target}
+                    reference={getReferenceWithSlug(item.link)}
                   >
-                    <span className={styles.linkLabel}>{link.title}</span>
+                    <span className={styles.linkLabel}>{item.link.title}</span>
                     <span className={styles.linkArrow} aria-hidden="true">
                       →
                     </span>
-                  </a>
+                  </LinkAtom>
                 )}
               </li>
             )

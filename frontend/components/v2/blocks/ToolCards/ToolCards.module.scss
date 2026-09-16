@@ -62,6 +62,7 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
 .card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   background: rgb(255 255 255 / 0.06);
   border: 1px solid rgb(255 255 255 / 0.14);
   border-radius: ds.$radius-lg;
@@ -69,25 +70,13 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   color: var(--brand-white);
 }
 
-.media,
-.mediaFallback {
+.media {
   margin: 0 0 ds.$space-lg;
   overflow: hidden;
   aspect-ratio: 16 / 10;
+  background: rgb(255 255 255 / 0.08);
   /* Product/tool feel — parallelogram crop */
   clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
-}
-
-.media {
-  background: rgb(255 255 255 / 0.08);
-}
-
-.mediaFallback {
-  background: linear-gradient(
-    135deg,
-    var(--brand-fuchsia),
-    var(--brand-aqua-teal)
-  );
 }
 
 .image {
@@ -118,7 +107,7 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
 
 .body {
   margin: 0;
-  flex: 1;
+  flex: 1 1 auto;
   font-size: 1rem;
   line-height: 1.6;
   color: rgb(255 255 255 / 0.82);
@@ -143,7 +132,8 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  margin-top: ds.$space-lg;
+  margin-top: auto;
+  padding-top: ds.$space-lg;
   align-self: flex-start;
   font-size: 0.875rem;
   font-weight: 700;

@@ -25,6 +25,18 @@ export const pageBuilderType = defineType({
       title: 'Pillars',
     }),
     defineArrayMember({
+      type: 'topicList',
+      title: 'Topic List',
+    }),
+    defineArrayMember({
+      type: 'storyHighlight',
+      title: 'Story Highlight',
+    }),
+    defineArrayMember({
+      type: 'toolCards',
+      title: 'Tool Cards',
+    }),
+    defineArrayMember({
       type: 'resourceBanner',
       title: 'Resource Banner',
     }),

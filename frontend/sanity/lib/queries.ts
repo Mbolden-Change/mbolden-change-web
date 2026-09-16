@@ -118,6 +118,32 @@ export const PAGE_QUERY = defineQuery(`
         description
       }
     },
+    _type == "topicList" => {
+      ...,
+      items[]{
+        ...,
+        link${INTERNAL_OR_EXTERNAL_LINK}
+      }
+    },
+    _type == "storyHighlight" => {
+      ...,
+      cta${INTERNAL_OR_EXTERNAL_LINK},
+      image{
+        ...,
+        "lqip": asset->metadata.lqip
+      }
+    },
+    _type == "toolCards" => {
+      ...,
+      cards[]{
+        ...,
+        link${INTERNAL_OR_EXTERNAL_LINK},
+        image{
+          ...,
+          "lqip": asset->metadata.lqip
+        }
+      }
+    },
     _type == "holidayCard" => {
       ...,
        link{

@@ -6,53 +6,27 @@ import {gsap} from 'gsap'
 import {ScrollTrigger} from 'gsap/ScrollTrigger'
 import {useGSAP} from '@gsap/react'
 import SanityNextImage from '@/components/SanityNextImage'
+import {LinkAtom} from '@/components/atoms/Link'
+import type {ToolCard as ToolCardType, ToolCards as ToolCardsType} from '@/sanity/types'
+import {
+  getReferenceWithSlug,
+  isRenderableInternalOrExternalLink,
+} from '@/utils/internalOrExternalLink'
 import styles from './ToolCards.module.scss'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-/** Frontend-only props for Storybook / design review. Sanity schema comes later. */
-export type ToolCardLink = {
-  title: string
-  url: string
-  isExternalLink?: boolean
-  target?: '_self' | '_blank'
-}
+export type ToolCardsProps = ToolCardsType
 
-export type ToolCardItem = {
-  _key?: string
-  /** Optional short label (e.g. Tool, Interactive, Campaign) */
-  label?: string
-  title: string
-  body: string
-  image?: {
-    _type: 'image'
-    alt?: string
-    asset?: {_ref?: string; _type?: string}
-  }
-  link?: ToolCardLink | null
-}
+type LinkedToolCard = {_key: string} & ToolCardType
 
-export type ToolCardsProps = {
-  eyebrow?: string
-  title: string
-  description?: string
-  cards: ToolCardItem[]
-}
-
-function hasRenderableLink(link?: ToolCardLink | null): link is ToolCardLink {
-  return Boolean(link?.title && link?.url)
-}
-
-function ToolCard({card}: {card: ToolCardItem}) {
+function ToolCard({card}: {card: LinkedToolCard}) {
   const hasImage = Boolean(card.image?.asset?._ref)
-  const link = hasRenderableLink(card.link) ? card.link : null
+  const link = card.link
 
   return (
-    <article
-      className={classNames(styles.card, link && styles.cardLinked)}
-      data-tool-card
-    >
-      {hasImage && card.image ? (
+    <article className={classNames(styles.card, styles.cardLinked)} data-tool-card>
+      {hasImage && card.image && (
         <div className={styles.media}>
           <SanityNextImage
             image={card.image}
@@ -61,26 +35,24 @@ function ToolCard({card}: {card: ToolCardItem}) {
             sizes="(min-width: 768px) 33vw, 100vw"
           />
         </div>
-      ) : (
-        <div className={styles.mediaFallback} aria-hidden="true" />
       )}
 
       {card.label && <p className={styles.label}>{card.label}</p>}
       <h3 className={styles.cardTitle}>{card.title}</h3>
       {card.body && <p className={styles.body}>{card.body}</p>}
-      {link && (
-        <a
-          className={styles.cta}
-          href={link.url}
-          target={link.isExternalLink ? link.target || '_blank' : undefined}
-          rel={link.isExternalLink ? 'noopener noreferrer' : undefined}
-        >
-          <span className={styles.ctaLabel}>{link.title}</span>
-          <span className={styles.ctaArrow} aria-hidden="true">
-            →
-          </span>
-        </a>
-      )}
+      <LinkAtom
+        className={styles.cta}
+        title={link.title}
+        isExternalLink={link.isExternalLink}
+        url={link.url}
+        target={link.target}
+        reference={getReferenceWithSlug(link)}
+      >
+        <span className={styles.ctaLabel}>{link.title}</span>
+        <span className={styles.ctaArrow} aria-hidden="true">
+          →
+        </span>
+      </LinkAtom>
     </article>
   )
 }
@@ -95,12 +67,16 @@ export default function ToolCards({
   const introRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
 
+  const linkedCards = (cards ?? []).filter((card) =>
+    isRenderableInternalOrExternalLink(card.link),
+  )
+
   useGSAP(
     () => {
       const section = sectionRef.current
       const intro = introRef.current
       const grid = gridRef.current
-      if (!section || !cards?.length) return
+      if (!section || !linkedCards.length) return
 
       const reduced = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
@@ -137,10 +113,10 @@ export default function ToolCards({
         })
       }
     },
-    {scope: sectionRef, dependencies: [cards]},
+    {scope: sectionRef, dependencies: [linkedCards]},
   )
 
-  if (!title || !cards?.length) return null
+  if (!title || !linkedCards.length) return null
 
   return (
     <section ref={sectionRef} className={styles.wrapper} aria-label={title}>
@@ -151,7 +127,7 @@ export default function ToolCards({
           {description && <p className={styles.description}>{description}</p>}
         </div>
         <div ref={gridRef} className={styles.grid}>
-          {cards.map((card, index) => (
+          {linkedCards.map((card, index) => (
             <ToolCard key={card._key || index} card={card} />
           ))}
         </div>

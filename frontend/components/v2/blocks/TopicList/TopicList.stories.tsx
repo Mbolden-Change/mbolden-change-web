@@ -1,19 +1,23 @@
 import type {Meta, StoryObj} from '@storybook/nextjs-vite'
 import TopicList from './TopicList'
+import {externalLink} from '../../_storybook/fixtures'
 
 const focusAreaItems = [
   {
     _key: 't1',
+    _type: 'topicListItem' as const,
     title: 'Economic Security',
     body: 'Income, benefits, and what daily life costs. Cash that empowers households to meet basic needs, tools that show how the safety net actually works, and the advocacy that follows from both.',
   },
   {
     _key: 't2',
+    _type: 'topicListItem' as const,
     title: 'Health Access',
     body: 'Getting care, and paying for it. Funds that cover what public insurance leaves out, and the case for closing those gaps.',
   },
   {
     _key: 't3',
+    _type: 'topicListItem' as const,
     title: 'Rapid Response',
     body: 'Acute need that appears between planning cycles. Resources that move fast, wherever the need shows up.',
   },
@@ -66,6 +70,7 @@ export const FocusAreas: Story = {
     },
   },
   args: {
+    _type: 'topicList',
     eyebrow: 'Our focus',
     title: 'Our focus areas',
     items: focusAreaItems,
@@ -85,6 +90,7 @@ export const WithIntroDescription: Story = {
     },
   },
   args: {
+    _type: 'topicList',
     eyebrow: 'Priorities',
     title: 'Where the work concentrates',
     description:
@@ -107,12 +113,7 @@ export const WithLinks: Story = {
     ...FocusAreas.args,
     items: focusAreaItems.map((item, i) => ({
       ...item,
-      link: {
-        title: 'Learn more',
-        url: `https://www.mboldenchange.org/focus-${i + 1}`,
-        isExternalLink: true,
-        target: '_blank' as const,
-      },
+      link: externalLink('Learn more', `https://www.mboldenchange.org/focus-${i + 1}`),
     })),
   },
 }

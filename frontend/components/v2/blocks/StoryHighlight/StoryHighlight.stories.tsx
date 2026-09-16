@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import StoryHighlight from './StoryHighlight';
-import { sanityImage } from '../../_storybook/fixtures';
+import type {Meta, StoryObj} from '@storybook/nextjs-vite'
+import StoryHighlight from './StoryHighlight'
+import {externalLink, sanityImage} from '../../_storybook/fixtures'
 
 const meta = {
   title: 'Components/StoryHighlight',
@@ -30,41 +30,25 @@ The stakeholder note for the partner feature asked: *carousel or stand alone?*
 1. **Near term:** Move the current live partner quote (e.g. City Peace Project) into **Story Highlight** — stand-alone story + voice, no carousel chrome.
 2. **Later:** Rebuild **Testimonials** as a true looping multi-quote carousel for pages that need several short voices.
 
-That avoids forcing a redesign of the live carousel props now, while putting the strongest quote in the pattern that fits it.
-
 ### Story Highlight vs Resource Banner
-A case study can be either a *story on the page* or a *link out*:
-
 | | **Story Highlight** | **Resource Banner** |
 | --- | --- | --- |
 | **Job** | Tell the story in place | Point to the resource |
 | **Layout** | Two-column narrative | Full-bleed color strip |
 
-### What it looks like
-- Optional **Eyebrow**
-- Optional **Quote** + attribution (stand-alone testimonial *inside* this section)
-- Optional **Image** (brand parallelogram crop)
-- **Headline** + **Body**
-- Optional **CTA**
-
-### When to use it
-- Partner / case-study features on any page
-- Field stories where one voice belongs with the narrative
-- Anytime one quote + one story should share a section
-
 ### When to use something else
 - Multiple rotating quotes → **Testimonials**
 - Quick “go read this” strip → **Resource Banner**
-- Equal topic cards → **Topic Cards**
-- Simple text + media without a quote → **Text & Media**
+- Focus themes → **Topic List**
+- Tools people open → **Tool Cards**
         `,
       },
     },
   },
-} satisfies Meta<typeof StoryHighlight>;
+} satisfies Meta<typeof StoryHighlight>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const WithQuoteAndMedia: Story = {
   name: 'With quote and media',
@@ -77,6 +61,7 @@ export const WithQuoteAndMedia: Story = {
     },
   },
   args: {
+    _type: 'storyHighlight',
     eyebrow: 'Partner story · The City Peace Project',
     quote:
       'Throughout our partnership, mBOLDen Change was collaborative, thoughtful, and committed to accountability. They have been an outstanding partner to work alongside.',
@@ -85,15 +70,10 @@ export const WithQuoteAndMedia: Story = {
     headline: 'A partnership built on clarity, accountability, and families first.',
     body: 'Their team communicated clearly, provided practical guidance, and established reporting processes that balanced responsible stewardship with a genuine focus on serving families.',
     image: sanityImage('The City Peace Project', 1200, 900),
-    cta: {
-      title: 'Read the story',
-      url: 'https://www.mboldenchange.org',
-      isExternalLink: true,
-      target: '_blank',
-    },
+    cta: externalLink('Read the story'),
     mediaPosition: 'left',
   },
-};
+}
 
 export const MediaOnRight: Story = {
   name: 'Media on the right',
@@ -108,7 +88,7 @@ export const MediaOnRight: Story = {
     ...WithQuoteAndMedia.args,
     mediaPosition: 'right',
   },
-};
+}
 
 export const WithoutLink: Story = {
   name: 'Without link',
@@ -116,7 +96,7 @@ export const WithoutLink: Story = {
     docs: {
       description: {
         story:
-          'Complete section with no CTA. Use when the story lives entirely on this page and there’s nowhere else to send people.',
+          'Complete section with no CTA. Use when the story lives entirely on this page.',
       },
     },
   },
@@ -124,7 +104,7 @@ export const WithoutLink: Story = {
     ...WithQuoteAndMedia.args,
     cta: undefined,
   },
-};
+}
 
 export const WithoutQuote: Story = {
   name: 'Without quote',
@@ -137,18 +117,14 @@ export const WithoutQuote: Story = {
     },
   },
   args: {
+    _type: 'storyHighlight',
     eyebrow: 'Field story',
     headline: 'What shifted when cash moved on the partner’s timeline.',
     body: 'Multi-year, unrestricted support let organizers pace the work themselves — without translating every outcome into a funder’s reporting calendar.',
     image: sanityImage('Community workshop', 1200, 900),
-    cta: {
-      title: 'Learn more',
-      url: 'https://www.mboldenchange.org',
-      isExternalLink: true,
-      target: '_blank',
-    },
+    cta: externalLink('Learn more'),
   },
-};
+}
 
 export const QuoteOnly: Story = {
   name: 'Quote without image',
@@ -156,11 +132,12 @@ export const QuoteOnly: Story = {
     docs: {
       description: {
         story:
-          'Stand-alone voice + story copy when photography isn’t ready. Still reads as a complete section.',
+          'Stand-alone voice + story copy when photography isn’t ready.',
       },
     },
   },
   args: {
+    _type: 'storyHighlight',
     eyebrow: 'Partner voice · The City Peace Project',
     quote:
       'Throughout our partnership, mBOLDen Change was collaborative, thoughtful, and committed to accountability. Their team communicated clearly, provided practical guidance, and established reporting processes that balanced responsible stewardship with a genuine focus on serving families. They have been an outstanding partner to work alongside.',
@@ -168,11 +145,6 @@ export const QuoteOnly: Story = {
     quoteCredentials: 'General Manager, The City Peace Project',
     headline: 'A partnership built on clarity, accountability, and families first.',
     body: 'When reporting and stewardship stay practical, partners can stay focused on the work that matters — serving families with care and consistency.',
-    cta: {
-      title: 'See how we partner',
-      url: 'https://www.mboldenchange.org',
-      isExternalLink: true,
-      target: '_blank',
-    },
+    cta: externalLink('See how we partner'),
   },
-};
+}

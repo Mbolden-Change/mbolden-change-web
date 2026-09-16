@@ -6,44 +6,17 @@ import {gsap} from 'gsap'
 import {ScrollTrigger} from 'gsap/ScrollTrigger'
 import {useGSAP} from '@gsap/react'
 import SanityNextImage from '@/components/SanityNextImage'
+import {LinkAtom} from '@/components/atoms/Link'
+import type {StoryHighlight as StoryHighlightType} from '@/sanity/types'
+import {
+  getReferenceWithSlug,
+  isRenderableInternalOrExternalLink,
+} from '@/utils/internalOrExternalLink'
 import styles from './StoryHighlight.module.scss'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-/** Frontend-only props for Storybook / design review. Sanity schema comes later. */
-export type StoryHighlightLink = {
-  title: string
-  url: string
-  isExternalLink?: boolean
-  target?: '_self' | '_blank'
-}
-
-export type StoryHighlightImage = {
-  _type: 'image'
-  alt?: string
-  asset?: {_ref?: string; _type?: string}
-}
-
-export type StoryHighlightProps = {
-  /** Short label above the quote / media column (e.g. Partner story) */
-  eyebrow?: string
-  /** Optional embedded partner voice */
-  quote?: string
-  quoteAttribution?: string
-  quoteCredentials?: string
-  headline: string
-  body: string
-  image?: StoryHighlightImage
-  cta?: StoryHighlightLink | null
-  /** Swap columns on desktop — media/quote on the right */
-  mediaPosition?: 'left' | 'right'
-}
-
-function hasRenderableLink(
-  link?: StoryHighlightLink | null,
-): link is StoryHighlightLink {
-  return Boolean(link?.title && link?.url)
-}
+export type StoryHighlightProps = StoryHighlightType
 
 export default function StoryHighlight({
   eyebrow,
@@ -62,7 +35,7 @@ export default function StoryHighlight({
 
   const hasImage = Boolean(image?.asset?._ref)
   const hasQuote = Boolean(quote?.trim())
-  const link = hasRenderableLink(cta) ? cta : null
+  const showCta = isRenderableInternalOrExternalLink(cta)
   const mediaOnRight = mediaPosition === 'right'
 
   useGSAP(
@@ -168,15 +141,15 @@ export default function StoryHighlight({
         <div ref={copyColRef} className={styles.copyCol}>
           <h2 className={styles.headline}>{headline}</h2>
           {body && <p className={styles.body}>{body}</p>}
-          {link && (
-            <a
+          {showCta && cta && (
+            <LinkAtom
               className={styles.cta}
-              href={link.url}
-              target={link.isExternalLink ? link.target || '_blank' : undefined}
-              rel={link.isExternalLink ? 'noopener noreferrer' : undefined}
-            >
-              {link.title}
-            </a>
+              title={cta.title}
+              isExternalLink={cta.isExternalLink}
+              url={cta.url}
+              target={cta.target}
+              reference={getReferenceWithSlug(cta)}
+            />
           )}
         </div>
       </div>
