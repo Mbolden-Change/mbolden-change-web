@@ -74,13 +74,18 @@ export default function StackedEntries({
     const section = sectionRef.current
     if (!section) return
 
-    // The active entry is the last one whose top has crossed the line just
-    // under the menu. On a phone that menu is a sticky row, so the line has
-    // to sit below it — a fixed offset leaves the previous name selected.
+    // The active entry is the last one whose top has crossed the reading
+    // line. On the side menu that line is the top of the menu: the menu is
+    // taller than a short entry, so a line at its bottom already sits inside
+    // the next entry and the first name never stays selected. The phone menu
+    // is a short sticky row, so the line sits just under that row instead.
     const markerFor = () => {
       const nav = section.querySelector('nav')
-      const navBottom = nav?.getBoundingClientRect().bottom ?? 90
-      return Math.max(120, Math.ceil(navBottom) + 16)
+      if (!nav) return 120
+      const box = nav.getBoundingClientRect()
+      const beside = window.getComputedStyle(nav).flexDirection === 'column'
+      if (beside) return Math.ceil(box.top) + 24
+      return Math.ceil(box.bottom) + 16
     }
     let frame = 0
 
