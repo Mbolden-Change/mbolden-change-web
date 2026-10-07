@@ -29,6 +29,14 @@ export const pageBuilderType = defineType({
       title: 'Topic List',
     }),
     defineArrayMember({
+      type: 'stackedEntries',
+      title: 'Stacked Entries',
+    }),
+    defineArrayMember({
+      type: 'resourceList',
+      title: 'Resource List',
+    }),
+    defineArrayMember({
       type: 'storyHighlight',
       title: 'Story Highlight',
     }),

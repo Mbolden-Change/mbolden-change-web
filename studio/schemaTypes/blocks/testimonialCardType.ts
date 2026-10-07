@@ -16,7 +16,7 @@ export const testimonialCardType = defineType({
       name: 'text',
       title: 'Body',
       type: 'array',
-      description: 'Add the testimonial text here.',
+      description: 'The quote. Keep it to one or two sentences. Required.',
       of: [{type: 'block'}, {type: 'image'}],
       validation: (Rule) => Rule.required().error('A testimonial is required.'),
     }),
@@ -41,22 +41,26 @@ export const testimonialCardType = defineType({
       name: 'author',
       title: 'Author',
       type: 'string',
+      description: 'Who said it. Include a name.',
     }),
     defineField({
       name: 'credentials',
       title: 'Author Credentials',
       type: 'string',
+      description: 'Role or organization, under the name.',
     }),
     defineField({
       name: 'hasButton',
       title: 'Add Button?',
       type: 'boolean',
+      description: 'Optional button on this quote.',
       initialValue: false,
     }),
     defineField({
       name: 'link',
       title: 'Button Link',
       type: 'internalOrExternalLink',
+      description: 'Where the button on this quote goes. Required when the button is on.',
       hidden: ({parent}) => !parent?.hasButton,
       validation: (Rule) =>
         Rule.custom((value, context) => {

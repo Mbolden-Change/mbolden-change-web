@@ -47,6 +47,12 @@ const componentMap: ComponentsMap = {
   topicList: dynamic(
     () => import('@/components/v2/blocks/TopicList/TopicList'),
   ),
+  stackedEntries: dynamic(
+    () => import('@/components/v2/blocks/StackedEntries/StackedEntries'),
+  ),
+  resourceList: dynamic(
+    () => import('@/components/v2/blocks/ResourceList/ResourceList'),
+  ),
   storyHighlight: dynamic(
     () => import('@/components/v2/blocks/StoryHighlight/StoryHighlight'),
   ),

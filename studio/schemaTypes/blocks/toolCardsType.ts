@@ -15,6 +15,7 @@ export const toolCardType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'The name of the tool. Required.',
       validation: (Rule) => Rule.required().error('Title is required.'),
     }),
     defineField({
@@ -22,6 +23,7 @@ export const toolCardType = defineType({
       title: 'Body',
       type: 'text',
       rows: 4,
+      description: 'What the tool does, in a sentence or two. Required.',
       validation: (Rule) => Rule.required().error('Body is required.'),
     }),
     defineField({
@@ -35,6 +37,7 @@ export const toolCardType = defineType({
           name: 'alt',
           title: 'Alt text',
           type: 'string',
+          description: 'Describe the image for screen readers. Required when an image is set.',
           validation: (Rule) =>
             Rule.custom((alt, context) => {
               const parent = context.parent as {asset?: unknown} | undefined
@@ -91,6 +94,7 @@ export const toolCardsType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'Section headline. Required.',
       validation: (Rule) => Rule.required().error('Title is required.'),
     }),
     defineField({
@@ -104,6 +108,7 @@ export const toolCardsType = defineType({
       name: 'cards',
       title: 'Cards',
       type: 'array',
+      description: '2–4 cards. Every card needs a link. The whole card is clickable.',
       of: [defineArrayMember({type: 'toolCard'})],
       validation: (Rule) =>
         Rule.required().min(2).max(4).error('Add 2–4 tool cards.'),

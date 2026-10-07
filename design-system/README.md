@@ -157,12 +157,13 @@ The mBOLDen Change visual system is built on one idea: **a bold, tilted rectangl
 - **Easing:** `cubic-bezier(0.45, 0.05, 0.55, 0.95)` is the house curve — used on every link underline and hover fill. (Custom-S, slightly rigid, feels confident.)
 - **Underline sweeps** (left→right or center-out) on link hover via `transform: scaleX` — the primary hover affordance, brand-wide.
 - **Button fill sweeps** horizontally via `::before` scaleX. Not fades. Not color transitions. Sweeps.
-- **Card lift:** `translateY(-4px)` + shadow bump on pillar cards.
+- **Card lift:** `translateY(-4px)` + shadow bump, only on pillar cards, and only because the card itself is the control.
 - **Scroll-reveal:** GSAP ScrollTrigger is imported (`AnimationComponent.tsx`). FiftyFifty boxes slide in from the side; card galleries slide up. Durations 0.05–3s with snapping.
 - **Social icon hover:** yellow ring scales from 0→1 around the icon.
 - Durations: `200ms` (fast), `300ms` (base for underlines), `400–450ms` (button fills).
 
 ### Hover & press states
+Hover and press motion belong on controls: links, buttons, and cards that are the thing a person activates. Photographs, color blocks, and other static pieces stay still — no lift, float, scale, or shadow bump on hover. The pillar-card lift is the one card treatment, and it applies only when the card itself is the control.
 - **Text links:** underline sweep in brand-aqua (or brand-yellow in footer).
 - **Primary buttons:** background sweep to yellow (or fuchsia); text flips to black. No shrink, no opacity change.
 - **Outline buttons:** fill becomes aqua, border matches fill, text flips to white.

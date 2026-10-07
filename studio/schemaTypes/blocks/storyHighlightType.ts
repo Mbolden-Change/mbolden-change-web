@@ -38,6 +38,7 @@ export const storyHighlightType = defineType({
       name: 'headline',
       title: 'Headline',
       type: 'string',
+      description: 'The story title beside the quote and photo. Required.',
       validation: (Rule) => Rule.required().error('Headline is required.'),
     }),
     defineField({
@@ -45,18 +46,21 @@ export const storyHighlightType = defineType({
       title: 'Body',
       type: 'text',
       rows: 6,
+      description: 'The narrative under the headline. Required. Use this when the story lives on the page.',
       validation: (Rule) => Rule.required().error('Body is required.'),
     }),
     defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
+      description: 'Optional tilted photo. Leave empty when photography is not ready.',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
           title: 'Alt text',
           type: 'string',
+          description: 'Describe the photo for screen readers. Required when an image is set.',
           validation: (Rule) =>
             Rule.custom((alt, context) => {
               const parent = context.parent as {asset?: unknown} | undefined
@@ -86,7 +90,7 @@ export const storyHighlightType = defineType({
       name: 'cta',
       title: 'Call to action',
       type: 'internalOrExternalLink',
-      description: 'Optional link under the body.',
+      description: 'Optional link under the body. Leave empty when the story lives entirely on this page.',
     }),
   ],
   preview: {

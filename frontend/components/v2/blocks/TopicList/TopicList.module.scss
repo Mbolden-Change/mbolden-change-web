@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use '../../../../styles/tokens' as ds;
 
 $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
@@ -71,7 +72,7 @@ $accents: var(--brand-fuchsia), var(--brand-aqua-teal), var(--brand-warm-yellow)
 
 @for $i from 1 through 3 {
   .item:nth-child(#{$i}) {
-    border-top-color: nth($accents, $i);
+    border-top-color: list.nth($accents, $i);
   }
 }
 

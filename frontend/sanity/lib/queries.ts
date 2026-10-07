@@ -125,6 +125,27 @@ export const PAGE_QUERY = defineQuery(`
         link${INTERNAL_OR_EXTERNAL_LINK}
       }
     },
+    _type == "resourceList" => {
+      ...,
+      items[]{
+        ...,
+        link${INTERNAL_OR_EXTERNAL_LINK}
+      }
+    },
+    _type == "stackedEntries" => {
+      ...,
+      entries[]{
+        ...,
+        feature{
+          ...,
+          link${INTERNAL_OR_EXTERNAL_LINK},
+          image{
+            ...,
+            "lqip": asset->metadata.lqip
+          }
+        }
+      }
+    },
     _type == "storyHighlight" => {
       ...,
       cta${INTERNAL_OR_EXTERNAL_LINK},

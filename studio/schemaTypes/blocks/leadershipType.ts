@@ -17,6 +17,8 @@ export const leadershipType = defineType({
       name: 'people',
       title: 'People',
       type: 'array',
+      description:
+        'One card per person, in the order they should appear. A photo is optional. Name, role, and bio are enough.',
       of: [{type: 'person'}],
       validation: (Rule) => Rule.required().min(1).error('Add at least one person.'),
     }),

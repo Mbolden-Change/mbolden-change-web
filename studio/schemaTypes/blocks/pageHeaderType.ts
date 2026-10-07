@@ -11,13 +11,15 @@ export const pageHeaderType = defineType({
       name: 'eyebrow',
       title: 'Eyebrow',
       type: 'string',
-      description: 'Short label above the heading (optional). Use sentence case.',
+      description:
+        'Optional short label above the heading. A category, not a second headline. Example: “Our work”.',
     }),
     defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
-      description: 'The page headline. Renders as the page h1. Keep to one strong line.',
+      description:
+        'The main page title. Required. This is the only page title. Clear and specific, such as “What we\'re tackling”.',
       validation: (Rule) => Rule.required().max(120).error('Heading is required.'),
     }),
     defineField({
@@ -25,13 +27,14 @@ export const pageHeaderType = defineType({
       title: 'Supporting line',
       type: 'text',
       rows: 3,
-      description: 'One or two sentences below the heading (optional).',
+      description:
+        'Optional one or two sentences under the heading. Add context. Do not repeat the heading.',
     }),
     defineField({
       name: 'align',
       title: 'Alignment',
       type: 'string',
-      description: 'Left-aligned or centered.',
+      description: 'Left for most pages. Center for a short, statement-style page.',
       options: {
         list: [
           {title: 'Left', value: 'left'},

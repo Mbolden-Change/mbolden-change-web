@@ -61,8 +61,16 @@ export const textMedia = defineType({
           name: 'image',
           title: 'Image',
           type: 'image',
+          description: 'A photo. Use this or a video URL, not both.',
           options: {hotspot: true},
-          fields: [{name: 'alt', title: 'Alt text', type: 'string'}],
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Describe the photo for screen readers. Required when an image is set.',
+            }),
+          ],
           hidden: ({parent}) => !!parent?.videoUrl,
         }),
         defineField({
@@ -88,6 +96,8 @@ export const textMedia = defineType({
               name: 'label',
               title: 'Button Text',
               type: 'string',
+              description:
+                'Short, action-oriented label. Required. The first button is the primary skewed button. The second is an outline.',
               validation: (Rule) => Rule.required().max(50),
             }),
             defineField({

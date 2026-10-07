@@ -31,6 +31,10 @@ Read:
   links on statement pages.
 - **No SVG illustrations of people.** Use real photography from Sanity or
   solid-color placeholders — never illustrate human subjects.
+- **Hover motion only on controls** (links, buttons, cards that are the
+  control). Photographs and other static pieces stay still. No lift, float,
+  or shadow bump on something a person cannot activate. Pillar-card lift is
+  the exception, and only when the card itself is the control.
 
 ## Voice
 

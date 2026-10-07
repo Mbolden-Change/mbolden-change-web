@@ -9,6 +9,7 @@ export const topicListItemType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'The theme name. Required.',
       validation: (Rule) => Rule.required().error('Topic title is required.'),
     }),
     defineField({
@@ -16,6 +17,7 @@ export const topicListItemType = defineType({
       title: 'Body',
       type: 'text',
       rows: 4,
+      description: 'A short definition. People read this band. It is not a card they open.',
       validation: (Rule) => Rule.required().error('Topic body is required.'),
     }),
     defineField({
@@ -56,6 +58,7 @@ export const topicListType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      description: 'Section headline. Smaller than a Pillars title. Required.',
       validation: (Rule) => Rule.required().error('Title is required.'),
     }),
     defineField({
@@ -69,6 +72,7 @@ export const topicListType = defineType({
       name: 'items',
       title: 'Topics',
       type: 'array',
+      description: '2–4 topics. Three columns on a wide screen. They stack on a phone.',
       of: [defineArrayMember({type: 'topicListItem'})],
       validation: (Rule) =>
         Rule.required().min(2).max(4).error('Add 2–4 topics.'),

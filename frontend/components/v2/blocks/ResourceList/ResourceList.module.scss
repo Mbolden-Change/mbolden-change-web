@@ -1,0 +1,156 @@
+@use '../../../../styles/tokens' as ds;
+
+$ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+$breakpoint: 768px;
+
+.wrapper {
+  padding: ds.$section-padding-y-compact clamp(1rem, 4vw, 2.5rem);
+  background: var(--brand-white);
+
+  &.flushTop {
+    padding-top: 0;
+  }
+
+  &.flushBottom {
+    padding-bottom: 0;
+  }
+
+  // Room after a stacked-entries menu, which ends with the last entry.
+  &.afterStack {
+    padding-top: clamp(4rem, 8vw, 6rem);
+  }
+}
+
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.intro {
+  max-width: 40rem;
+  margin: 0 0 1.15rem;
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-sm;
+  font-size: ds.$text-eyebrow-size;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  color: var(--brand-aqua-teal);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.85rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  color: var(--brand-black);
+  text-wrap: balance;
+}
+
+.introText {
+  margin: 0.65rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: rgb(0 0 0 / 0.85);
+  white-space: pre-line;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.2rem 1.75rem;
+  align-items: baseline;
+  padding: 0.85rem 0 1rem;
+  border-top: 1px solid var(--brand-light-gray);
+  color: inherit;
+  text-decoration: none;
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    padding: 1rem 0 1.1rem;
+  }
+}
+
+.date {
+  font-family: var(--font-headline);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brand-black);
+
+  &:empty {
+    @media (max-width: #{$breakpoint - 1px}) {
+      display: none;
+    }
+  }
+}
+
+.kicker {
+  margin: 0 0 0.3rem;
+  font-size: ds.$text-eyebrow-size;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-aqua-teal);
+}
+
+.title {
+  position: relative;
+  display: inline;
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--brand-black);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.rowLink .title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0.25);
+  transform-origin: left;
+  transition: transform 0.35s $ease-brand;
+}
+
+.rowLink:hover .title::after,
+.rowLink:focus-visible .title::after {
+  transform: scaleX(1);
+}
+
+.rowLink:focus-visible {
+  outline: 3px solid var(--brand-aqua-teal);
+  outline-offset: 4px;
+}
+
+.summary {
+  margin: 0.4rem 0 0;
+  max-width: 40rem;
+  line-height: 1.6;
+  color: rgb(0 0 0 / 0.85);
+  white-space: pre-line;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rowLink .title::after {
+    transition: none;
+  }
+}

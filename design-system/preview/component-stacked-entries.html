@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stacked entries — two uses</title>
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    html, body { margin: 0; background: var(--bg-page); color: var(--fg-1); }
+    .wrap { max-width: 72rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+    .note {
+      padding: 0.85rem 0 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--brand-aqua-teal);
+    }
+    .page-header { padding: clamp(1.5rem, 4vw, 2.25rem) 0 0.25rem; max-width: 40rem; }
+    .page-header .eyebrow { color: var(--brand-aqua-teal); margin: 0 0 0.4rem; }
+    .page-header h1 { font-size: clamp(2.2rem, 4.5vw, 2.75rem); line-height: 1.1; }
+    .page-header p { margin: 0.65rem 0 0; font-size: 1.0625rem; line-height: 1.55; max-width: 38rem; }
+
+    .set { padding: clamp(1.5rem, 3vw, 2rem) 0 1.25rem; }
+    .set-intro { max-width: 40rem; margin: 0 0 1.15rem; }
+    .set-body {
+      display: grid;
+      grid-template-columns: minmax(9.75rem, 12.5rem) minmax(0, 1fr);
+      gap: 0.35rem 2.25rem;
+      align-items: start;
+    }
+    .set-intro .eyebrow { color: var(--brand-aqua-teal); margin: 0 0 0.4rem; }
+    .set-intro h2 { font-size: clamp(1.85rem, 3.5vw, 2.25rem); line-height: 1.15; }
+    .set-intro p { margin: 0.65rem 0 0; font-size: 1.0625rem; line-height: 1.6; }
+
+    .index {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      position: sticky;
+      top: 1.25rem;
+      z-index: 3;
+      margin: 0.15rem 0 0;
+      padding: 0.15rem 0;
+    }
+    .index a {
+      position: relative;
+      color: var(--brand-black);
+      font-family: var(--font-headline);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-decoration: none;
+      padding: 0.1rem 0 0.1rem 0.75rem;
+    }
+    .index a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.15rem;
+      bottom: 0.15rem;
+      width: 3px;
+      background: var(--brand-light-gray);
+      transform: scaleY(0.28);
+      transform-origin: top;
+      transition: transform 0.35s var(--ease-brand);
+    }
+    .index a:hover::after,
+    .index a:focus-visible::after,
+    .index a.is-active::after {
+      background: var(--accent, var(--brand-fuchsia));
+      transform: scaleY(1);
+    }
+    .index a:focus-visible {
+      outline: 3px solid var(--brand-aqua-teal);
+      outline-offset: 3px;
+    }
+
+    .entry {
+      scroll-margin-top: 1.25rem;
+      padding: 0.85rem 0 1.15rem;
+      border-top: 1px solid var(--brand-light-gray);
+    }
+    @media (max-width: 680px) {
+      .set-body { grid-template-columns: 1fr; gap: 0.5rem; }
+      .index {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.45rem 1.1rem;
+        top: 0;
+        padding: 0.55rem 0;
+        background: var(--bg-page);
+      }
+      .index a { padding: 0 0 0.2rem; }
+      .index a::after {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: 3px;
+        transform: scaleX(0.2);
+        transform-origin: left;
+      }
+      .index a:hover::after,
+      .index a:focus-visible::after,
+      .index a.is-active::after { transform: scaleX(1); }
+      .entry { scroll-margin-top: 3.25rem; }
+    }
+    .entry h2, .entry h3.way {
+      font-size: clamp(1.55rem, 2.6vw, 1.9rem);
+      line-height: 1.15;
+      margin: 0 0 0.45rem;
+    }
+    .entry .challenge {
+      margin: 0;
+      max-width: 40rem;
+      font-size: 1.0625rem;
+      line-height: 1.65;
+    }
+    .entry .challenge + .challenge { margin-top: 0.85rem; }
+
+    .feature {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.9rem;
+      padding: 1rem 1.1rem;
+      background: var(--bg-warm);
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .feature { grid-template-columns: 1fr 0.8fr; gap: 2rem; }
+      .feature.flip { grid-template-columns: 0.8fr 1fr; }
+      .feature.flip .feature-copy { order: 2; }
+    }
+    .feature .kicker {
+      margin: 0 0 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-fuchsia);
+    }
+    .feature h3 { font-size: clamp(1.35rem, 2vw, 1.6rem); margin: 0 0 0.5rem; }
+    .feature p { margin: 0; line-height: 1.6; }
+    .feature a {
+      position: relative;
+      display: inline-block;
+      margin-top: 0.65rem;
+      color: var(--brand-aqua-teal);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .feature a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background: currentColor;
+      transform: scaleX(0.25);
+      transform-origin: left;
+      transition: transform 0.35s var(--ease-brand);
+    }
+    .feature a:hover::after,
+    .feature a:focus-visible::after { transform: scaleX(1); }
+    .photo {
+      aspect-ratio: 16 / 10;
+      background: var(--brand-aqua-teal);
+      clip-path: var(--clip-parallelogram);
+    }
+    .feature.no-photo { grid-template-columns: 1fr; }
+
+    .way-list .entry h3.way { margin-bottom: 0.4rem; }
+
+    .resource-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .resource-list a {
+      display: grid;
+      grid-template-columns: 5.5rem minmax(0, 1fr);
+      gap: 0.2rem 1.75rem;
+      align-items: baseline;
+      padding: 0.85rem 0 1rem;
+      border-top: 1px solid var(--brand-light-gray);
+      color: inherit;
+      text-decoration: none;
+    }
+    #resources { padding-top: clamp(4rem, 8vw, 6rem); }
+    .resource-date {
+      font-family: var(--font-headline);
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--brand-black);
+    }
+    .resource-kicker {
+      margin: 0 0 0.3rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-aqua-teal);
+    }
+    .resource-title {
+      position: relative;
+      display: inline;
+      font-family: var(--font-headline);
+      font-size: clamp(1.35rem, 2vw, 1.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--brand-black);
+    }
+    .resource-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background: currentColor;
+      transform: scaleX(0.25);
+      transform-origin: left;
+      transition: transform 0.35s var(--ease-brand);
+    }
+    .resource-list a:hover .resource-title::after,
+    .resource-list a:focus-visible .resource-title::after { transform: scaleX(1); }
+    .resource-list a:focus-visible {
+      outline: 3px solid var(--brand-aqua-teal);
+      outline-offset: 4px;
+    }
+    .resource-summary {
+      margin: 0.4rem 0 0;
+      max-width: 40rem;
+      line-height: 1.6;
+    }
+    @media (max-width: 680px) {
+      .resource-list a { grid-template-columns: 1fr; gap: 0.35rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .index a::after, .feature a::after, .resource-title::after { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="note">Same component, shown twice</p>
+
+    <header class="page-header">
+      <p class="eyebrow">Our work</p>
+      <h1>What we're tackling</h1>
+      <p>Social and economic systems put the steepest barriers in front of immigrant families, working-class households, and communities of color. Our funds, pilots, and initiatives live here.</p>
+    </header>
+
+    <section class="set" aria-label="Focus areas">
+      <div class="set-body">
+      <nav class="index" aria-label="Focus areas">
+        <a href="#economic-security" style="--accent: var(--brand-fuchsia)">Economic security</a>
+        <a href="#health-access" style="--accent: var(--brand-aqua-teal)">Health access</a>
+        <a href="#rapid-response" style="--accent: var(--brand-warm-yellow)">Rapid response</a>
+      </nav>
+      <div class="entries">
+      <article class="entry" id="economic-security" style="--accent: var(--brand-fuchsia)">
+        <h2>Economic security</h2>
+        <p class="challenge">Social equity starts with everyday stability. When families can reliably afford food, rent, and daily expenses, they can plan for what comes next.</p>
+        <div class="feature">
+          <div class="feature-copy">
+            <p class="kicker">Initiative</p>
+            <h3>Cash Plus Care</h3>
+            <p>A guaranteed-income pilot with high school students and their families in East Palo Alto — regular cash, plus academic support, mentorship, and case management.</p>
+            <a href="#case-study">Read the case study</a>
+          </div>
+          <div class="photo" role="img" aria-label="Photo of the Cash Plus Care pilot"></div>
+        </div>
+      </article>
+
+      <article class="entry" id="health-access" style="--accent: var(--brand-aqua-teal)">
+        <h2>Health access</h2>
+        <p class="challenge">Health is a fundamental human right, not a privilege reserved for those who can afford it. We work to remove the cost barriers to treatment, and to put care within reach.</p>
+        <div class="feature no-photo">
+          <div class="feature-copy">
+            <p class="kicker">Initiative</p>
+            <h3>Current health initiative</h3>
+            <p>One short paragraph on what is live in health access, and who we run it with.</p>
+            <a href="#health">See the initiative</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry" id="rapid-response" style="--accent: var(--brand-warm-yellow)">
+        <h2>Rapid response</h2>
+        <p class="challenge">We hold our mission tightly and our methods loosely. When partners or a changing rule need something new, we shift resources and meet the moment.</p>
+        <div class="feature flip">
+          <div class="feature-copy">
+            <p class="kicker">Initiative</p>
+            <h3>The Gateway Fund</h3>
+            <p>We cover filing fees with nonprofit and pro bono attorneys, so an administrative fee never stands between a young person and legal protection.</p>
+            <a href="#gateway">For legal providers</a>
+          </div>
+          <div class="photo" style="background: var(--brand-fuchsia)" role="img" aria-label="Photo of The Gateway Fund"></div>
+        </div>
+      </article>
+      </div>
+      </div>
+    </section>
+
+    <section class="set way-list" aria-label="Our model">
+      <div class="set-intro">
+        <p class="eyebrow">Our model</p>
+        <h2>How we partner</h2>
+        <p>We treat communities as co-creators, and bold change as a mandate. We co-create solutions with trusted partners and movement builders, and we resource them.</p>
+      </div>
+      <div class="set-body">
+      <nav class="index" aria-label="How we work">
+        <a href="#listen" style="--accent: var(--brand-fuchsia)">Listen</a>
+        <a href="#build" style="--accent: var(--brand-aqua-teal)">Build and strengthen</a>
+        <a href="#advocate" style="--accent: var(--brand-warm-yellow)">Advocate</a>
+      </nav>
+      <div class="entries">
+
+      <article class="entry" id="listen" style="--accent: var(--brand-fuchsia)">
+        <h3 class="way">Listen</h3>
+        <p class="challenge">Community partners and the families they serve set the agenda. We co-design the work with the people who live it.</p>
+      </article>
+      <article class="entry" id="build" style="--accent: var(--brand-aqua-teal)">
+        <h3 class="way">Build and strengthen</h3>
+        <p class="challenge">Alongside local partners, we meet urgent needs, strengthen the organizations doing the work, and grow what works.</p>
+      </article>
+      <article class="entry" id="advocate" style="--accent: var(--brand-warm-yellow)">
+        <h3 class="way">Advocate</h3>
+        <p class="challenge">We fight for the policies and practices that let families thrive — defending essential safety nets and opening new doors.</p>
+      </article>
+      </div>
+      </div>
+    </section>
+
+    <section class="set" id="resources" aria-label="Toolkits and resources">
+      <div class="set-intro">
+        <p class="eyebrow">Resources</p>
+        <h2>Toolkits and briefings</h2>
+        <p>The toolkit, the tax briefing, and the evaluation.</p>
+      </div>
+      <ol class="resource-list">
+        <li>
+          <a href="#toolkit">
+            <span class="resource-date"></span>
+            <span>
+              <p class="resource-kicker">Toolkit</p>
+              <span class="resource-title">Beyond Compliance</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#briefing">
+            <span class="resource-date"></span>
+            <span>
+              <p class="resource-kicker">Briefing</p>
+              <span class="resource-title">Tax briefing</span>
+              <p class="resource-summary">Title and date still to come.</p>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#evaluation">
+            <span class="resource-date">2022</span>
+            <span>
+              <p class="resource-kicker">Evaluation</p>
+              <span class="resource-title">What we learned about cash, care, and community trust</span>
+              <p class="resource-summary">The Cash Plus Care evaluation, East Palo Alto.</p>
+            </span>
+          </a>
+        </li>
+      </ol>
+    </section>
+  </div>
+  <script>
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    document.querySelectorAll('.index a').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const target = document.querySelector(link.getAttribute('href'))
+        if (!target) return
+        event.preventDefault()
+        target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+      })
+    })
+    const observer = new IntersectionObserver((records) => {
+      records.forEach((record) => {
+        const link = document.querySelector('.index a[href="#' + record.target.id + '"]')
+        if (!link) return
+        if (record.isIntersecting) {
+          link.closest('.index').querySelectorAll('a').forEach((item) => item.classList.remove('is-active'))
+          link.classList.add('is-active')
+        }
+      })
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 })
+    document.querySelectorAll('.entry').forEach((entry) => observer.observe(entry))
+  </script>
+</body>
+</html>

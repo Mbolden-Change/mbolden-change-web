@@ -4,9 +4,10 @@ import { InternalOrExternalLink as InternalOrExternalLinkType } from '@/sanity/t
 type LinkAtomProps = Omit<InternalOrExternalLinkType, 'reference' | '_type'> & {
   className?: string;
   ariaLabel?: string;
+  ariaCurrent?: React.AriaAttributes['aria-current'];
   reference?: ReferenceType;
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   onPointerDown?: (event: React.PointerEvent<HTMLAnchorElement>) => void;
 };
 
@@ -41,11 +42,27 @@ export const LinkAtom = ({
   title,
   className,
   ariaLabel,
+  ariaCurrent,
   onClick,
   onPointerDown,
   children,
 }: LinkAtomProps) => {
   const label = children ?? title;
+
+  if (url?.startsWith('#')) {
+    return (
+      <a
+        href={url}
+        className={className}
+        aria-label={ariaLabel}
+        aria-current={ariaCurrent}
+        onClick={onClick}
+        onPointerDown={onPointerDown}
+      >
+        {label}
+      </a>
+    );
+  }
 
   if (isExternalLink && url) {
     return (

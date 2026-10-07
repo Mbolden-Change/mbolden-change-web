@@ -9,6 +9,7 @@ export const personType = defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+      description: 'The name on the card. Required.',
       validation: (Rule) => Rule.required().error('Name is required.'),
     }),
     defineField({
@@ -22,6 +23,7 @@ export const personType = defineType({
       title: 'Bio',
       type: 'text',
       rows: 4,
+      description: 'A few sentences under the name. Optional.',
     }),
     defineField({
       name: 'image',
@@ -29,7 +31,14 @@ export const personType = defineType({
       type: 'image',
       description: 'Optional. Leave empty for a text-only card — no placeholder is shown.',
       options: {hotspot: true},
-      fields: [{name: 'alt', title: 'Alt text', type: 'string'}],
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          description: 'Describe the headshot for screen readers. Required when a photo is set.',
+        }),
+      ],
     }),
     defineField({
       name: 'link',

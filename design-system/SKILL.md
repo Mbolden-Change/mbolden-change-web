@@ -77,6 +77,10 @@ the brand (skunkworks concepts, unbranded internal tools).
 - **"We / our" voice.** Partners not beneficiaries; communities not clients.
 - **Photography, not illustration, for human subjects.** Use placeholders
   when real photos aren't available — never illustrate people.
+- **Hover motion only on controls.** Links, buttons, and cards that are
+  the thing you activate can move (underline sweep, button fill, pillar-card
+  lift). Photographs and other static pieces stay still. No floating hover
+  on something that is not a control.
 
 ## Quick reference — most-used tokens
 

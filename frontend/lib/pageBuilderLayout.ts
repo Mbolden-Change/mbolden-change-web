@@ -14,6 +14,8 @@ const SECTION_PADDED_BLOCKS = new Set([
   'pillars',
   'pillarContainer',
   'topicList',
+  'stackedEntries',
+  'resourceList',
   'storyHighlight',
   'toolCards',
   'resourceBanner',
@@ -43,6 +45,11 @@ export function shouldTextMediaFlushTop(prevBlockType?: string): boolean {
 /** Collapse the tabs' top padding when following another padded section. */
 export function shouldTabsFlushTop(prevBlockType?: string): boolean {
   return Boolean(prevBlockType && SECTION_PADDED_BLOCKS.has(prevBlockType))
+}
+
+/** Drop a section's top padding when the block above already has its own. */
+export function shouldSectionFlushTop(prevBlockType?: string): boolean {
+  return shouldTabsFlushTop(prevBlockType)
 }
 
 /** Last page-builder block before the site footer — drop outer bottom padding. */
