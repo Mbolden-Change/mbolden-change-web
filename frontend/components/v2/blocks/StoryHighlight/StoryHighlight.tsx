@@ -103,8 +103,8 @@ export default function StoryHighlight({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/bold-quote-marks/quote-fuchsia.png"
-                width={50}
-                height={56}
+                width={22}
+                height={45}
                 alt=""
                 className={styles.quoteMark}
               />

@@ -61,24 +61,27 @@ $breakpoint: 900px;
 .quote {
   position: relative;
   margin: 0;
-  padding-left: calc(50px + 1rem);
+  padding-left: 2.35rem;
 }
 
 .quoteMark {
   position: absolute;
   left: 0;
-  top: -6px;
-  width: 50px;
+  top: 0.2em;
+  width: 1.35rem;
   height: auto;
   display: block;
 }
 
 .quoteText {
   margin: 0;
-  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
-  line-height: 1.4;
-  font-weight: 600;
+  font-family: var(--font-headline);
+  font-size: clamp(1.3rem, 2.2vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: -0.2px;
   color: var(--brand-fuchsia);
+  text-wrap: balance;
 }
 
 .quoteFooter {
