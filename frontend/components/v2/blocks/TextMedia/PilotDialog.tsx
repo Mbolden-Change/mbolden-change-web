@@ -62,6 +62,9 @@ export default function PilotDialog({
   const lineEnd = words.length ? WORDS_START + (words.length - 1) * wordStep + 200 : 0
   const attribution = words.length ? displayAttribution?.trim() : undefined
   const attributionDelay = lineEnd
+  // With an attribution the line is a quote: the brand mark opens it and a
+  // closing quote mark ends it.
+  const quoted = Boolean(attribution)
   const paragraphsStart = words.length
     ? lineEnd + (attribution ? ATTRIBUTION_GAP : 0)
     : WORDS_START
@@ -80,6 +83,7 @@ export default function PilotDialog({
             }
           >
             {word}
+            {quoted && index === words.length - 1 && '”'}
           </span>
           {index < words.length - 1 && ' '}
         </span>
@@ -268,6 +272,7 @@ export default function PilotDialog({
               className={classNames(
                 styles.display,
                 words.length > LONG_LINE_WORDS && styles.displayLong,
+                quoted && styles.hasMark,
               )}
             >
               {attribution ? (

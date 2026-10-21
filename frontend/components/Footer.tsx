@@ -89,6 +89,7 @@ const Footer = ({ footerData }: FooterProps) => {
                     key={link._key}
                     isExternalLink={link.isExternalLink}
                     url={link.url}
+                    target={link.target}
                     reference={link.reference as ReferenceType}
                     className={styles['footer-link']}
                     ariaLabel={link.title || 'Untitled'}

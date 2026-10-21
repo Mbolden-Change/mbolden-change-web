@@ -33,7 +33,7 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
 .teal {
   --pilot-accent: var(--brand-aqua-teal);
-  --pilot-accent-contrast: var(--brand-white);
+  --pilot-accent-contrast: var(--brand-black);
 }
 
 .fuchsia {
@@ -239,14 +239,32 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .display {
+  --display-size: clamp(1.875rem, 3.4vw, 2.5rem);
+  --display-leading: 1.1;
   margin: ds.$space-xl 0 0;
 }
 
+.displayLong {
+  --display-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  --display-leading: 1.15;
+}
+
+// Quote: the brand mark hangs to the left, about two lines tall, starting a
+// little above the first line. Quote and attribution share the edge beside it.
+// Sizes follow the quote's font size, so the mark scales down on phones.
+.hasMark {
+  --mark-height: calc(var(--display-size) * (var(--display-leading) * 2 + 0.15));
+  --mark-width: calc(var(--mark-height) * 707 / 1437);
+  position: relative;
+  padding-left: calc(var(--mark-width) + clamp(0.75rem, 1.6vw, 1.25rem));
+}
+
 .quoteMark {
-  display: block;
-  width: auto;
-  height: 2.25rem;
-  margin-bottom: ds.$space-md;
+  position: absolute;
+  top: calc(var(--display-size) * -0.12);
+  left: 0;
+  width: var(--mark-width);
+  height: var(--mark-height);
 }
 
 .displayQuote {
@@ -256,16 +274,14 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 .displayLine {
   margin: 0;
   font-family: var(--font-headline);
-  font-size: clamp(1.875rem, 3.4vw, 2.5rem);
+  font-size: var(--display-size);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: var(--display-leading);
   letter-spacing: -0.4px;
   text-wrap: balance;
 }
 
 .displayLong .displayLine {
-  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
-  line-height: 1.15;
   letter-spacing: -0.3px;
 }
 
