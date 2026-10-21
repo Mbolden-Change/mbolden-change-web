@@ -7,7 +7,8 @@ import type {TextMedia as TextMediaType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
-import {getPilotImage} from './pilotImage'
+import {getLogoImage, getPilotImage, getYouTubeId} from './pilotImage'
+import PilotVideo from './PilotVideo'
 import styles from './PilotDialog.module.scss'
 
 type PilotDialogProps = TextMediaType
@@ -52,13 +53,21 @@ export default function PilotDialog({
   const openerRef = useRef<HTMLElement | null>(null)
   const closeTimer = useRef<number | undefined>(undefined)
   const [phase, setPhase] = useState<'closed' | 'open' | 'closing'>('closed')
+  const [playing, setPlaying] = useState(false)
 
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
   const linkedCtas = pilotCtas(
     ctas,
     (rest as {documentFile?: PilotDocumentFile}).documentFile,
   )
-  const image = getPilotImage(derived.showImage ? derived.image : undefined)
+  // A video replaces the image; a logo is shown whole instead of as a photo.
+  const videoId = getYouTubeId(rest.video?.url)
+  const videoTitle = rest.video?.title?.trim() || headline
+  const isLogo = !videoId && rest.imageStyle === 'logo'
+  const logo = isLogo ? getLogoImage(derived.showImage ? derived.image : undefined) : null
+  const image =
+    videoId || isLogo ? null : getPilotImage(derived.showImage ? derived.image : undefined)
+  const hasMedia = Boolean(videoId || logo || image)
   const words = displayLine?.trim().split(/\s+/) ?? []
   const wordStep =
     words.length > 1 ? Math.min(WORD_STEP_MAX, WORDS_SPAN / (words.length - 1)) : 0
@@ -156,6 +165,8 @@ export default function PilotDialog({
       window.clearTimeout(closeTimer.current)
       document.documentElement.style.overflow = ''
       setPhase('closed')
+      // Unmounting the player stops the video.
+      setPlaying(false)
       if (window.location.hash === hash) {
         window.history.replaceState(
           window.history.state,
@@ -228,10 +239,38 @@ export default function PilotDialog({
       <div
         className={classNames(
           styles.layout,
-          !image && styles.noImage,
-          image?.orientation === 'landscape' && styles.landscape,
+          !hasMedia && styles.noImage,
+          (videoId || image?.orientation === 'landscape') && styles.landscape,
+          videoId && styles.hasVideo,
         )}
       >
+        {videoId && (
+          <div className={styles.media}>
+            <PilotVideo
+              videoId={videoId}
+              title={videoTitle}
+              cover={getPilotImage(rest.video?.cover)}
+              playing={playing}
+              onPlay={() => setPlaying(true)}
+            />
+          </div>
+        )}
+
+        {logo && (
+          <div className={styles.media}>
+            <div className={styles.logoFrame}>
+              <div className={styles.logoPanel}>
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  loading="lazy"
+                  className={styles.logo}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {image && (
           <div className={styles.media}>
             <div

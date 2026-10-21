@@ -413,6 +413,24 @@ export type TextMedia = {
     };
     videoUrl?: string;
   };
+  imageStyle?: "photo" | "logo";
+  video?: {
+    url?: string;
+    title?: string;
+    cover?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+  };
   documentButton?: {
     label?: string;
     document?: {

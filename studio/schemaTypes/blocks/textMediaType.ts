@@ -158,6 +158,68 @@ export const textMedia = defineType({
       ],
     }),
     defineField({
+      name: 'imageStyle',
+      title: 'Image type',
+      type: 'string',
+      description:
+        'Photo fills the angled frame (crop, hotspot, gentle zoom). Logo is shown whole on a white panel inside the angled frame, with no zoom, cropping or color change.',
+      options: {
+        list: [
+          {title: 'Photo', value: 'photo'},
+          {title: 'Logo', value: 'logo'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'photo',
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
+      name: 'video',
+      title: 'Pop-up video',
+      type: 'object',
+      description:
+        'Optional YouTube video for the pop-up. It replaces the image as a wide banner. Nothing loads from YouTube until someone presses play.',
+      hidden: ({parent}) => parent?.appearance !== 'pilotDialog',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'url',
+          title: 'YouTube URL',
+          type: 'url',
+          description: 'For example https://www.youtube.com/watch?v=… or https://youtu.be/…',
+          validation: (Rule) =>
+            Rule.custom((value?: string) =>
+              !value || /(^https?:\/\/)(www\.)?(youtube\.com|youtu\.be)\//.test(value)
+                ? true
+                : 'Use a YouTube link.',
+            ),
+        }),
+        defineField({
+          name: 'title',
+          title: 'Video title',
+          type: 'string',
+          description:
+            'Used for the play button label and the player, such as “The Gateway Fund video”. Defaults to the headline.',
+        }),
+        defineField({
+          name: 'cover',
+          title: 'Cover image',
+          type: 'image',
+          description:
+            'Shown with the play button before the video loads. Without one, a black panel with the title is shown.',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Optional. The play button already says what it does.',
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'documentButton',
       title: 'File button',
       type: 'object',

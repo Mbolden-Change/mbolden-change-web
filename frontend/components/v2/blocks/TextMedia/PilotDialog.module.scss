@@ -208,6 +208,145 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   animation: drift 14s ease-in-out 1600ms infinite alternate;
 }
 
+// Video: a 16:9 banner. The cover can use the slanted frame; the player
+// itself is never clipped, so YouTube's controls stay visible.
+.hasVideo .frame {
+  aspect-ratio: 16 / 9;
+  max-height: none;
+}
+
+.videoCover {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+
+  // Spans inside the button (buttons may only hold phrasing content).
+  .frame {
+    display: block;
+  }
+}
+
+// Without a cover image: a black brand panel with the title.
+.videoPanel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: ds.$space-sm;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 5vw, 3rem) clamp(2rem, 6vw, 3.5rem);
+  background: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.videoPanelLabel {
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+}
+
+.videoPanelTitle {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+// Brand play button: an angled block in the pilot's accent color.
+.playBadge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(4.5rem, 9vw, 6rem);
+  height: clamp(3rem, 6vw, 4rem);
+  background: var(--pilot-accent);
+  box-shadow: var(--shadow-btn, 0 4px 5px rgb(0 0 0 / 0.4));
+  transform: translate(-50%, -50%) skew(var(--brand-skew));
+  transition: background-color 200ms ease;
+}
+
+.playIcon {
+  width: 1.25rem;
+  height: 1.5rem;
+  margin-left: 0.25rem;
+  background: var(--pilot-accent-contrast, var(--brand-black));
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform: skew(calc(var(--brand-skew) * -1));
+  transition: background-color 200ms ease;
+}
+
+.videoCover:hover .playBadge,
+.videoCover:focus-visible .playBadge {
+  background: var(--brand-white);
+}
+
+.videoCover:hover .playIcon,
+.videoCover:focus-visible .playIcon {
+  background: var(--brand-black);
+}
+
+.videoFrame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--brand-black);
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+// Logo: shown whole on a white panel inside the slanted frame, with a hairline
+// edge so the panel reads against the white pop-up. No zoom, crop or filter.
+.logoFrame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-light-gray);
+}
+
+.logoPanel {
+  position: absolute;
+  inset: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16% 14%;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-white);
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
 .copy {
   min-width: 0;
 }

@@ -56,3 +56,33 @@ export function getPilotImage(image?: PilotImageSource) {
     focus: `${(focusX * 100).toFixed(1)}% ${(focusY * 100).toFixed(1)}%`,
   }
 }
+
+/**
+ * A logo is shown whole: the original file, ignoring the editor's crop and
+ * hotspot, and never scaled up past its own size (which would blur it).
+ */
+export function getLogoImage(image?: PilotImageSource) {
+  const ref = image?.asset?._ref
+  if (!image || !ref) return null
+  const {imageWidth} = getDimensionsFromRef(ref)
+  const width = Math.min(imageWidth || 960, 960)
+  return {
+    src: urlFor({asset: {_ref: ref}}).width(width).fit('max').auto('format').url(),
+    alt: image.alt || '',
+  }
+}
+
+/** The YouTube video id from a watch, short, embed or youtu.be link. */
+export function getYouTubeId(input?: string | null) {
+  if (!input) return null
+  try {
+    const url = new URL(input)
+    if (url.hostname === 'youtu.be') return url.pathname.slice(1).split('/')[0] || null
+    if (!/(^|\.)youtube\.com$/.test(url.hostname)) return null
+    if (url.pathname === '/watch') return url.searchParams.get('v')
+    const match = url.pathname.match(/^\/(?:embed|shorts|live)\/([^/?]+)/)
+    return match ? match[1] : null
+  } catch {
+    return null
+  }
+}
