@@ -68,10 +68,11 @@ export const internalOrExternalLinkType = defineType({
       name: 'url',
       title: 'URL',
       type: 'url',
-      description: 'The address. Required when this is an external link.',
+      description:
+        'The address. Required when this is an external link. A path on this site, such as /simulator, also works.',
       hidden: ({parent}) => typeof parent?.anchor === 'string' || parent?.isExternalLink !== true,
       validation: (Rule) =>
-        Rule.custom((value, context) => {
+        Rule.uri({allowRelative: true, scheme: ['http', 'https', 'mailto', 'tel']}).custom((value, context) => {
           const parent = context.parent as any
           if (parent && parent.isExternalLink === true && !parent.anchor && !value) {
             return 'Url is required for external links'

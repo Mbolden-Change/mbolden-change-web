@@ -363,7 +363,3 @@ export const REPORT_QUERY = defineQuery(`
     }
   }
 `);
-
-export const PDF_FILE_URL_QUERY = defineQuery(
-  `*[_type == "pdfDocument" && slug.current == $slug][0].file.asset->url`,
-);

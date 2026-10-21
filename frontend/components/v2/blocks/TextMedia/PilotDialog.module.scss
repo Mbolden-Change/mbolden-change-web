@@ -120,9 +120,10 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
 .layout {
   display: grid;
-  grid-template-columns: 40% minmax(0, 1fr);
-  gap: clamp(2rem, 4vw, 3rem);
-  padding: 3rem 3.75rem 3rem 3rem;
+  // Image about 40%; a little less so the give and file buttons fit side by side.
+  grid-template-columns: 37% minmax(0, 1fr);
+  gap: clamp(2rem, 3vw, 2.25rem);
+  padding: 3rem 3.25rem 3rem 3rem;
 
   @media (max-width: #{$breakpoint - 1px}) {
     grid-template-columns: minmax(0, 1fr);
@@ -330,6 +331,15 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
 .ctas {
   margin-top: ds.$space-xl;
+
+  // Same text size; slightly tighter padding and gap so two buttons share a row.
+  > div {
+    gap: 0.75rem;
+  }
+
+  a {
+    padding-inline: 1.25rem;
+  }
 }
 
 .isOpen .ctas {
