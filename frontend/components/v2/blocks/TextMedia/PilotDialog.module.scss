@@ -33,14 +33,17 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
 .teal {
   --pilot-accent: var(--brand-aqua-teal);
+  --pilot-accent-contrast: var(--brand-white);
 }
 
 .fuchsia {
   --pilot-accent: var(--brand-fuchsia);
+  --pilot-accent-contrast: var(--brand-white);
 }
 
 .yellow {
   --pilot-accent: var(--brand-warm-yellow);
+  --pilot-accent-contrast: var(--brand-black);
 }
 
 // Hidden for the one frame between showModal() and the open class.

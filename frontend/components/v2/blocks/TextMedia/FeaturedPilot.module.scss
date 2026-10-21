@@ -12,14 +12,17 @@ $breakpoint: 768px;
 
 .teal {
   --pilot-accent: var(--brand-aqua-teal);
+  --pilot-accent-contrast: var(--brand-white);
 }
 
 .fuchsia {
   --pilot-accent: var(--brand-fuchsia);
+  --pilot-accent-contrast: var(--brand-white);
 }
 
 .yellow {
   --pilot-accent: var(--brand-warm-yellow);
+  --pilot-accent-contrast: var(--brand-black);
 }
 
 .band {

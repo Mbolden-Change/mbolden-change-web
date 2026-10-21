@@ -240,6 +240,7 @@ export type TopicListItem = {
   _type: "topicListItem";
   title: string;
   body: string;
+  accent?: "teal" | "fuchsia" | "yellow";
   link?: InternalOrExternalLink;
   initiative?: {
     label?: string;

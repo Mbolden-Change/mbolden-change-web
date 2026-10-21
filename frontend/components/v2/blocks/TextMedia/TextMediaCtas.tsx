@@ -5,6 +5,19 @@ import SkewButton from '@/components/atoms/SkewButton';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 import styles from './TextMedia.module.scss';
 
+// Giving links (Zeffy, or a "give" / "donate" label) open in a new tab on
+// featured pilots so the story stays open behind the form.
+const isGiveLink = (cta: Cta) =>
+  /(^|\.)zeffy\.com/i.test(safeHost(cta.link)) || /\b(give|donate)\b/i.test(cta.label ?? '');
+
+const safeHost = (link?: string | null) => {
+  try {
+    return link ? new URL(link).hostname : '';
+  } catch {
+    return '';
+  }
+};
+
 type Cta = {
   _key?: string;
   label?: string | null;
@@ -16,7 +29,7 @@ export default function TextMediaCtas({
   variant = 'standard',
 }: {
   ctas: Cta[];
-  /** Featured pilots use a black outline: teal text is too light at button size. */
+  /** Featured pilots: black outline, accent-colored hover, giving links in a new tab. */
   variant?: 'standard' | 'featured';
 }) {
   let linkIndex = 0;
@@ -34,6 +47,7 @@ export default function TextMediaCtas({
 
         const isSecondary = linkIndex > 0;
         linkIndex += 1;
+        const newTab = variant === 'featured' && isGiveLink(cta);
         const trackIfDonate = () => {
           if (isDonateCta({ title: cta.label, url: cta.link })) {
             trackDonateClick('text-media');
@@ -50,6 +64,8 @@ export default function TextMediaCtas({
                 variant === 'featured' && styles.ctaSecondaryDark,
               )}
               onClick={trackIfDonate}
+              target={newTab ? '_blank' : undefined}
+              rel={newTab ? 'noopener noreferrer' : undefined}
             >
               {cta.label}
             </a>
@@ -61,8 +77,12 @@ export default function TextMediaCtas({
             key={cta._key ?? index}
             variant="black"
             href={cta.link}
-            className={styles.ctaPrimary}
+            className={classNames(
+              styles.ctaPrimary,
+              variant === 'featured' && styles.ctaPrimaryAccent,
+            )}
             onClick={trackIfDonate}
+            target={newTab ? '_blank' : undefined}
           >
             {cta.label}
           </SkewButton>

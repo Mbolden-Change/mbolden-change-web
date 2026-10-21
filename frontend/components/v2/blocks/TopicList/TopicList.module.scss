@@ -240,11 +240,14 @@ $accents:
   }
 
   // The bar is positioned so it never becomes a grid row of its own.
+  // Yellow is too faint for a thin line on white: thicker underline, black arrow.
   .item {
     border-top: none;
     padding-top: 1.625rem;
     position: relative;
     --topic-accent: var(--brand-aqua-teal);
+    --topic-arrow: var(--brand-aqua-teal);
+    --topic-underline: 2px;
 
     &::before {
       content: "";
@@ -260,10 +263,13 @@ $accents:
 
   .item:nth-child(3n + 2) {
     --topic-accent: var(--brand-fuchsia);
+    --topic-arrow: var(--brand-fuchsia);
   }
 
   .item:nth-child(3n) {
     --topic-accent: var(--brand-warm-yellow);
+    --topic-arrow: var(--brand-black);
+    --topic-underline: 4px;
   }
 
   .itemTitle {
@@ -314,5 +320,67 @@ $accents:
     font-size: 1.0625rem;
     font-weight: 700;
     letter-spacing: 0.01em;
+  }
+}
+
+/* "See it in action ↓": black text, underline and arrow in the card's accent. */
+.accentLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: ds.$space-sm;
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+}
+
+.accentLinkLabel {
+  position: relative;
+  padding-bottom: 0.25rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--topic-underline, 2px);
+    background: var(--topic-accent, currentColor);
+    transform: scaleX(0.25);
+    transform-origin: left;
+    transition: transform 0.35s $ease-brand;
+  }
+}
+
+.accentLinkArrow {
+  color: var(--topic-arrow, currentColor);
+  transition: transform 0.3s $ease-brand;
+}
+
+.accentLink:hover,
+.accentLink:focus-visible {
+  .accentLinkLabel::after {
+    transform: scaleX(1);
+  }
+
+  .accentLinkArrow {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accentLinkLabel::after,
+  .accentLinkArrow {
+    transition: none;
   }
 }

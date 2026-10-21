@@ -22,6 +22,26 @@ export const topicListItemType = defineType({
       validation: (Rule) => Rule.required().error('Topic body is required.'),
     }),
     defineField({
+      name: 'accent',
+      title: 'Accent color',
+      type: 'string',
+      description:
+        'Focus area color for the bar, card and link underline, matching the pilot’s accent: teal for Economic Security, fuchsia for Health Access, yellow for Rapid Response. Leave empty to follow the order: teal, fuchsia, yellow.',
+      options: {
+        list: [
+          {title: 'Teal', value: 'teal'},
+          {title: 'Fuchsia', value: 'fuchsia'},
+          {title: 'Yellow', value: 'yellow'},
+        ],
+        layout: 'radio',
+      },
+      hidden: ({parent, document}) => {
+        const blocks = document?.content as Array<{appearance?: string; items?: Array<{_key?: string}>}> | undefined
+        const block = blocks?.find((item) => item.items?.some((topic) => topic._key === parent?._key))
+        return block?.appearance !== 'focusIndex'
+      },
+    }),
+    defineField({
       name: 'link',
       title: 'Link',
       type: 'internalOrExternalLink',

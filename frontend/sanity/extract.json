@@ -1452,6 +1452,27 @@
           },
           "optional": false
         },
+        "accent": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "teal"
+              },
+              {
+                "type": "string",
+                "value": "fuchsia"
+              },
+              {
+                "type": "string",
+                "value": "yellow"
+              }
+            ]
+          },
+          "optional": true
+        },
         "link": {
           "type": "objectAttribute",
           "value": {

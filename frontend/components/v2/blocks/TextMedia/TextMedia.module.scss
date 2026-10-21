@@ -190,17 +190,30 @@ $breakpoint: 768px;
   }
 }
 
-// Featured pilot outline: black on white, yellow sweep with black text.
+// Featured pilot buttons sweep to the pilot's accent color on hover, with
+// text that stays readable on it (set by the pilot as --pilot-accent-contrast).
 .ctaSecondaryDark {
   color: var(--brand-black);
   border-color: var(--brand-black);
 
   &::before {
-    background: var(--brand-warm-yellow);
+    background: var(--pilot-accent, var(--brand-warm-yellow));
   }
 
   &:hover {
-    color: var(--brand-black);
+    color: var(--pilot-accent-contrast, var(--brand-black));
+    border-color: var(--pilot-accent, var(--brand-black));
+  }
+}
+
+// Doubled class to outrank SkewButton's own hover rules.
+.ctaPrimaryAccent.ctaPrimaryAccent {
+  &::before {
+    background: var(--pilot-accent, var(--brand-warm-yellow));
+  }
+
+  &:hover {
+    color: var(--pilot-accent-contrast, var(--brand-black));
   }
 }
 

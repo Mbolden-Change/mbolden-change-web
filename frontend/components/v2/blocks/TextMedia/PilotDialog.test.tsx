@@ -44,8 +44,8 @@ const pilot: TextMediaType = {
   displayAttribution: 'A Partner, Title, Organization',
   textBody: [],
   ctas: [
-    {_key: 'a', label: 'Give now', link: 'https://example.org/give'},
-    {_key: 'b', label: 'No link yet'},
+    {_type: 'cta', _key: 'a', label: 'Give now', link: 'https://example.org/give'},
+    {_type: 'cta', _key: 'b', label: 'No link yet'},
   ],
 }
 

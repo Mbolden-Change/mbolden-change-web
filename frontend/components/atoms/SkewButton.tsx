@@ -77,6 +77,8 @@ export default function SkewButton(props: SkewButtonProps) {
         className={innerClassName}
         aria-label={ariaLabel}
         onClick={onClick}
+        target={target}
+        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       >
         {label}
       </a>
