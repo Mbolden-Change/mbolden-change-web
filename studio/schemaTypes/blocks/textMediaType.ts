@@ -269,6 +269,14 @@ export const textMedia = defineType({
               description:
                 'Leave blank to show a non-clickable info tag instead. In a featured pilot or pop-up, a button without a link is hidden until a link is added.',
             }),
+            defineField({
+              name: 'newTab',
+              title: 'Open in a new tab',
+              type: 'boolean',
+              description:
+                'Optional. Giving links (Zeffy) on pilot sections already open in a new tab.',
+              initialValue: false,
+            }),
           ],
         },
       ],

@@ -35,7 +35,8 @@ export const PAGE_QUERY = defineQuery(`
 
       ctas[]{
         label,
-        link
+        link,
+        newTab
       },
 
       "documentFile": documentButton{label, "slug": document->slug.current}
@@ -225,7 +226,8 @@ export const PAGE_QUERY = defineQuery(`
             },
             ctas[]{
               label,
-              link
+              link,
+              newTab
             }
           }
         }

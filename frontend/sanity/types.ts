@@ -443,6 +443,7 @@ export type TextMedia = {
   ctas?: Array<{
     label: string;
     link?: string;
+    newTab?: boolean;
     _type: "cta";
     _key: string;
   }>;
