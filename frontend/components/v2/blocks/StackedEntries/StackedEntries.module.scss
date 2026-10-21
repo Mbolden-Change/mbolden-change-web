@@ -174,10 +174,6 @@ $breakpoint: 768px;
     outline: none;
   }
 
-  &:focus-visible {
-    outline: 3px solid var(--brand-aqua-teal);
-    outline-offset: 3px;
-  }
 }
 
 .challenge {
