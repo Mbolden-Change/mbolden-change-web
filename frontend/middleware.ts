@@ -1,5 +1,10 @@
 import {NextResponse, type NextRequest} from 'next/server'
-import {apiVersion, dataset, projectId} from '@/sanity/env'
+
+// Read directly rather than importing '@/sanity/env': Vercel also bundles this
+// file for the Storybook project, whose bundler doesn't resolve the '@/' alias.
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-03-04'
 
 /**
  * Serves PDF File documents from our own address, /reports/<address-name>.pdf.
@@ -8,7 +13,7 @@ import {apiVersion, dataset, projectId} from '@/sanity/env'
  */
 export async function middleware(request: NextRequest) {
   const match = request.nextUrl.pathname.match(/^\/reports\/([a-z0-9]+(?:-[a-z0-9]+)*)\.pdf$/)
-  if (!match) return NextResponse.next()
+  if (!match || !projectId || !dataset) return NextResponse.next()
 
   const query = encodeURIComponent(
     '*[_type == "pdfDocument" && slug.current == $slug][0].file.asset->url',
