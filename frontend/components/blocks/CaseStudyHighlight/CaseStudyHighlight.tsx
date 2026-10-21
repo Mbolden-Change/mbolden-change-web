@@ -54,6 +54,7 @@ export default function CaseStudyHighlight({
 
           {cta && (
             <LinkAtom
+              anchor={cta.anchor}
               className={styles.cta}
               title={cta.title}
               ariaLabel={cta.title}

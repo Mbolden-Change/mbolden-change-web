@@ -174,6 +174,19 @@ export type StackedEntry = {
   title: string;
   body: string;
   anchor?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
   feature?: StackedEntryFeature;
 };
 
@@ -211,8 +224,9 @@ export type StackedEntries = {
 
 export type TopicList = {
   _type: "topicList";
+  appearance?: "plain" | "initiatives";
   eyebrow?: string;
-  title: string;
+  title?: string;
   description?: string;
   items: Array<{
     _key: string;
@@ -226,6 +240,12 @@ export type TopicListItem = {
   title: string;
   body: string;
   link?: InternalOrExternalLink;
+  initiative?: {
+    label?: string;
+    title: string;
+    summary: string;
+    link?: InternalOrExternalLink;
+  };
 };
 
 export type Leadership = {
@@ -337,6 +357,9 @@ export type Faq = {
 
 export type TextMedia = {
   _type: "textMedia";
+  eyebrow?: string;
+  subtitle?: string;
+  sectionId?: string;
   headline: string;
   textBody: Array<{
     children?: Array<{
@@ -1117,36 +1140,6 @@ export type Footer = {
   };
 };
 
-export type InternalOrExternalLink = {
-  _type: "internalOrExternalLink";
-  title?: string;
-  isActive?: boolean;
-  isExternalLink?: boolean;
-  url?: string;
-  target?: "_self" | "_blank";
-  reference?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "page";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "statement";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "caseStudy";
-  } | {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "report";
-  };
-};
-
 export type Page = {
   _id: string;
   _type: "page";
@@ -1231,6 +1224,37 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData;
 };
 
+export type InternalOrExternalLink = {
+  _type: "internalOrExternalLink";
+  title?: string;
+  anchor?: string;
+  isActive?: boolean;
+  isExternalLink?: boolean;
+  url?: string;
+  target?: "_self" | "_blank";
+  reference?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "statement";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "caseStudy";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "report";
+  };
+};
+
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
   top?: number;
@@ -1294,5 +1318,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | InternalOrExternalLink | Page | Statement | SanityFileAsset | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | SanityFileAsset | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

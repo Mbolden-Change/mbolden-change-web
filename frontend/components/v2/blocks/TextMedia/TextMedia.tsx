@@ -23,6 +23,9 @@ type TextMediaProps = TextMediaType &
 
 const TextMedia = ({
   headline,
+  eyebrow,
+  subtitle,
+  sectionId,
   textBody,
   ctas,
   isLastBlock,
@@ -37,6 +40,7 @@ const TextMedia = ({
 
   return (
     <section
+      id={sectionId || undefined}
       className={classNames(
         styles.wrapper,
         nested && styles.nested,
@@ -49,7 +53,9 @@ const TextMedia = ({
     >
       <div className={styles.inner}>
         <div className={styles.copy}>
+          {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
           <Headline tag={headingTag} text={headline} className={styles.headline} />
+          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
           <PortableTextComponent value={textBody as PortableTextBlock[]} />
 
           {ctas && ctas.length > 0 && <TextMediaCtas ctas={ctas} />}
@@ -61,6 +67,7 @@ const TextMedia = ({
               <div
                 className={classNames(
                   styles.mediaFrame,
+                  styles.videoFrame,
                   derived.videoEmbed.isShort && styles.mediaFrameShort,
                 )}
               >
@@ -73,7 +80,7 @@ const TextMedia = ({
               </div>
             )}
             {derived.showImage && derived.image && (
-              <div className={styles.mediaFrame}>
+              <div className={classNames(styles.mediaFrame, styles.imageFrame)}>
                 <div className={styles.imageInner}>
                   <SanityNextImage
                     image={derived.image}

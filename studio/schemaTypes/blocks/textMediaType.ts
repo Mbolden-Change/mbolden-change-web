@@ -7,6 +7,19 @@ export const textMedia = defineType({
   description:
     'Primary 50/50 content block — headline, body copy, optional CTAs, and an image or video. Use this instead of the legacy Fifty-Fifty block for new pages.',
   fields: [
+    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'Optional focus-area label above the headline.'}),
+    defineField({name: 'subtitle', title: 'Subtitle', type: 'string', description: 'Optional supporting line beneath the headline.'}),
+    defineField({
+      name: 'sectionId',
+      title: 'Section ID',
+      type: 'string',
+      description:
+        'Optional unique name for links to this section. Use lowercase words separated by hyphens, such as meeting-basic-needs. Choose this section in a link’s “Section on this page” destination.',
+      validation: (Rule) =>
+        Rule.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).error(
+          'Use lowercase letters, numbers, and hyphens.',
+        ),
+    }),
     defineField({
       name: 'headline',
       title: 'Headline',
@@ -61,7 +74,7 @@ export const textMedia = defineType({
           name: 'image',
           title: 'Image',
           type: 'image',
-          description: 'A photo. Use this or a video URL, not both.',
+          description: 'A photo with an angled brand crop. Use this or a video URL, not both.',
           options: {hotspot: true},
           fields: [
             defineField({
@@ -77,7 +90,7 @@ export const textMedia = defineType({
           name: 'videoUrl',
           title: 'Video URL',
           type: 'url',
-          description: 'YouTube or Vimeo URL. Supports standard videos and YouTube Shorts.',
+          description: 'YouTube or Vimeo URL. Videos use a rectangular player with sharp corners. Supports standard videos and YouTube Shorts.',
           hidden: ({parent}) => !!parent?.image,
         }),
       ],
@@ -86,7 +99,8 @@ export const textMedia = defineType({
       name: 'ctas',
       title: 'Call To Actions',
       type: 'array',
-      description: 'Up to two buttons. First link renders as primary (skewed black); second as outline.',
+      description:
+        'Up to two buttons. First link renders as primary (skewed black); second as outline.',
       of: [
         {
           name: 'cta',

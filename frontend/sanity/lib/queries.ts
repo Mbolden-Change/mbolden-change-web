@@ -1,7 +1,8 @@
-import { defineQuery } from 'next-sanity';
+import { defineQuery } from "next-sanity";
 
 /** Project internal links so reference is dereferenced with slug (required by LinkAtom). */
 const INTERNAL_OR_EXTERNAL_LINK = `{
+  anchor,
   title,
   isExternalLink,
   url,
@@ -27,12 +28,8 @@ export const PAGE_QUERY = defineQuery(`
         videoUrl,
         image{
           ...,
-          asset->{
-            ...,
-            metadata{
-              lqip
-            }
-          }
+          asset,
+          "lqip": asset->metadata.lqip
         }
       },
 
@@ -68,6 +65,7 @@ export const PAGE_QUERY = defineQuery(`
       slides[]{
         ...,
         link{
+          anchor,
           title,
           isExternalLink,
           url,
@@ -79,6 +77,7 @@ export const PAGE_QUERY = defineQuery(`
     _type == "testimonialsCarousel" => {
       ...,
       link{
+        anchor,
         title,
         isExternalLink,
         url,
@@ -88,6 +87,7 @@ export const PAGE_QUERY = defineQuery(`
       slides[]{
         ...,
         link{
+          anchor,
           title,
           isExternalLink,
           url,
@@ -101,6 +101,7 @@ export const PAGE_QUERY = defineQuery(`
       cards[] {
         ...,
         link{
+          anchor,
           title,
           isExternalLink,
           url,
@@ -122,6 +123,7 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       items[]{
         ...,
+        initiative{..., link${INTERNAL_OR_EXTERNAL_LINK}},
         link${INTERNAL_OR_EXTERNAL_LINK}
       }
     },
@@ -136,6 +138,7 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       entries[]{
         ...,
+        image{..., "lqip": asset->metadata.lqip},
         feature{
           ...,
           link${INTERNAL_OR_EXTERNAL_LINK},
@@ -168,6 +171,7 @@ export const PAGE_QUERY = defineQuery(`
     _type == "holidayCard" => {
       ...,
        link{
+          anchor,
           title,
           isExternalLink,
           url,
@@ -206,12 +210,8 @@ export const PAGE_QUERY = defineQuery(`
               videoUrl,
               image{
                 ...,
-                asset->{
-                  ...,
-                  metadata{
-                    lqip
-                  }
-                }
+                asset,
+                "lqip": asset->metadata.lqip
               }
             },
             ctas[]{

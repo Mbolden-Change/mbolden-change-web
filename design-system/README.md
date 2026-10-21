@@ -114,20 +114,21 @@ The mBOLDen Change visual system is built on one idea: **a bold, tilted rectangl
 - **Statement banners** take arbitrary background colors via CMS — the block was designed to carry brand-color statements.
 - **No repeating patterns, no textures, no grain, no illustrations** in the source. The brand does not use hand-drawn illustration — it uses photography + bold type + tilted blocks.
 
-### Corner radii
-- `8 / 12 / 16px` scale. 16px is the common card radius; 12px for image wrappers; pill/50px only on outline-style "read more" links.
-- **Primary buttons have NO border-radius** — they're sharp-edged parallelograms via `clip-path`.
-- Testimonial polaroids: 16px radius on the card, 0 radius on the image inside (the photo is sharp-edged inside a rounded frame).
+### Edges & angles
+- **Cards, image frames, and primary buttons use sharp corners.** Rounded cards and rounded polaroid frames are legacy treatments, not the default for new work.
+- Carry the brand's angled styling through card silhouettes, media crops, and accents. Follow the existing parallelogram patterns and the logo / Donate button as visual references.
+- Keep text upright and readable: angle the container or decorative layer, with an unskewed content layer where needed.
+- Existing radius tokens and rounded components may remain in the codebase; their presence does not establish current design guidance.
 
 ### Cards
-- White fill, 1px light-gray border, 16px radius, `0 2px 6px rgba(0,0,0,0.04)` shadow. Restrained elevation — cards feel printed, not floating.
+- White fill, 1px light-gray border, sharp corners, and brand-aligned angled styling. Use existing card and media parallelogram patterns as a starting point, replacing legacy rounded shells. Restrained elevation — cards feel printed, not floating.
 - Pillar cards invert: white fill with a **fuchsia 1px border** and light-gray shadow. Hover lifts -4px.
 
 ### Buttons
 - **Primary** (header donate, TextMedia CTA, Hero CTA): pure black fill, white text, **skewed `-10.25deg`** with `clip-path` making it a tilted parallelogram, drop-shadow `0 4px 5px rgba(0,0,0,0.4)`. Hover sweeps the yellow/fuchsia fill in from the left via `::before` pseudo-element `transform: scaleX(0→1)`.
 - **Secondary** (atoms/Button): 2px black outline, transparent fill. Hover → aqua fill + white text.
 - **Tertiary:** transparent, fuchsia text, hover underlines. For quiet in-line CTAs.
-- **"Read more" pill:** 2px aqua outline, 50px radius, hover flips to black fill + yellow border.
+- **"Read more" links:** use an inline underline treatment or a sharp, angled outline control. Rounded pills are a legacy treatment.
 
 ### Shapes (the signature move)
 - `transform: skew(-10.25deg)` + `clip-path: polygon(0% 10%, 100% 0%, 100% 90%, 0% 100%)` = the mBOLDen Change parallelogram. This shape is used on the donate button, newsletter button, and case-study highlight images.

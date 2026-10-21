@@ -17,7 +17,7 @@ export const pageType = defineType({
       title: 'Slug',
       type: 'slug',
       description:
-        'The address of the page, usually generated from the title. What we\'re tackling uses what-were-tackling.',
+        "The address of the page, usually generated from the title. What we're tackling uses what-were-tackling.",
       options: {
         source: 'title',
         maxLength: 96,
@@ -28,6 +28,16 @@ export const pageType = defineType({
       name: 'content',
       title: 'Content',
       type: 'pageBuilder',
+      validation: (Rule) =>
+        Rule.custom((value) => {
+          const sections = (value ?? []) as Array<{_type?: string; sectionId?: string}>
+          const ids = sections
+            .filter((block) => block._type === 'textMedia' && block.sectionId)
+            .map((block) => block.sectionId)
+          return new Set(ids).size === ids.length
+            ? true
+            : 'Section IDs must be unique on this page.'
+        }),
       description: 'The blocks on the page, in the order they appear.',
     }),
   ],

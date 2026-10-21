@@ -86,6 +86,7 @@ export default function SkewButton(props: SkewButtonProps) {
 
     control = (
       <LinkAtom
+        anchor={link.anchor}
         isExternalLink={link.isExternalLink}
         reference={referenceWithSlug}
         target={link.target}

@@ -16,7 +16,7 @@ Use the same block twice on What we're tackling. Focus areas leave the introduct
 
 ### What it looks like
 - Optional **Eyebrow**, **Heading**, and **Introduction**. Leave these empty when a Page Header already opened the page.
-- **Menu** of entry names. On a wide screen it sticks to the left. On a phone it becomes one sideways-scrolling row under the site header. The color bar fills on the entry in view. Choosing a name moves to that entry.
+- **Menu** of entry names. On a wide screen it sticks to the left. On a phone it becomes one sideways-scrolling row under the site header. Mobile uses roomy spacing, 48px controls, square initiative cards with accent rules, and taller angled photos. The color bar fills on the entry in view. Choosing a name moves to that entry.
 - **Entries** beside the menu (stacked under it on a phone). Each has a name and a longer explanation, separated by a light rule.
 - Optional **Featured item** inside an entry: kicker, name, summary, one link, and an optional tilted photo. On a phone the photo sits under the copy.
 
@@ -26,7 +26,7 @@ Use the same block twice on What we're tackling. Focus areas leave the introduct
 
 ### How it differs
 - **Topic List** — a compact definition band, no menu, no nested example
-- **Pillars** — tall scroll of how we work, with media rows. Do not use it on this page.
+- **Pillars** — tall scroll of how we work, with media rows.
 - **Text & Media** — one story, not a set
 
 ### How to add it in Sanity
@@ -165,21 +165,24 @@ export const OurModel: Story = {
       {
         _key: 'listen',
         _type: 'stackedEntry',
-        title: 'Listen',
+        title: 'We listen',
+        image: sanityImage('We listen — community voices'),
         anchor: 'listen',
         body: 'Community partners and the families they serve set the agenda. We co-design the work with the people who live it.',
       },
       {
         _key: 'build',
         _type: 'stackedEntry',
-        title: 'Build and strengthen',
+        title: 'We build and strengthen',
+        image: sanityImage('We build and strengthen — planning together'),
         anchor: 'build',
         body: 'Alongside local partners, we meet urgent needs, strengthen the organizations doing the work, and grow what works.',
       },
       {
         _key: 'advocate',
         _type: 'stackedEntry',
-        title: 'Advocate',
+        title: 'We advocate',
+        image: sanityImage('We advocate — speaking up'),
         anchor: 'advocate',
         body: 'We fight for the policies and practices that let families thrive — defending essential safety nets and opening new doors.',
       },

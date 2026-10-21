@@ -112,6 +112,14 @@ export const stackedEntryType = defineType({
         }),
     }),
     defineField({
+      name: 'image', title: 'Entry image', type: 'image', options: {hotspot: true},
+      description: 'Optional photo beneath the explanation. For How we work, use Name, Explanation, and this image; leave Featured item empty.',
+      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.custom((value, context) => {
+        const parent = context.parent as {asset?: unknown} | undefined
+        return parent?.asset && !value?.trim() ? 'Describe the image for screen readers.' : true
+      })})],
+    }),
+    defineField({
       name: 'feature',
       title: 'Featured item',
       type: 'stackedEntryFeature',

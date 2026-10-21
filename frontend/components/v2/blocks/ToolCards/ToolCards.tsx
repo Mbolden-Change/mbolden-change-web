@@ -41,6 +41,7 @@ function ToolCard({card}: {card: LinkedToolCard}) {
       <h3 className={styles.cardTitle}>{card.title}</h3>
       {card.body && <p className={styles.body}>{card.body}</p>}
       <LinkAtom
+        anchor={link.anchor}
         className={styles.cta}
         title={link.title}
         isExternalLink={link.isExternalLink}

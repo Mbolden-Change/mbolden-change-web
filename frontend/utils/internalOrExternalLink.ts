@@ -1,5 +1,5 @@
-import type { ReferenceType } from '@/components/atoms/Link';
-import type { InternalOrExternalLink } from '@/sanity/types';
+import type { ReferenceType } from "@/components/atoms/Link";
+import type { InternalOrExternalLink } from "@/sanity/types";
 
 /**
  * Internal link references from GROQ include `slug` when expanded; this narrows the union.
@@ -7,7 +7,7 @@ import type { InternalOrExternalLink } from '@/sanity/types';
 export function getReferenceWithSlug(
   link?: InternalOrExternalLink,
 ): ReferenceType | undefined {
-  if (!link?.reference || !('slug' in link.reference)) return undefined;
+  if (!link?.reference || !("slug" in link.reference)) return undefined;
   return link.reference as ReferenceType;
 }
 
@@ -20,5 +20,6 @@ export function isRenderableInternalOrExternalLink(
   link?: InternalOrExternalLink,
 ): boolean {
   if (!link?.title) return false;
+  if (link.anchor?.trim() || link.url?.startsWith("#")) return true;
   return !!(link.isExternalLink ? link.url : getReferenceWithSlug(link));
 }

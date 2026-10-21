@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { InternalOrExternalLink as InternalOrExternalLinkType } from '@/sanity/types';
+import Link from "next/link";
+import { InternalOrExternalLink as InternalOrExternalLinkType } from "@/sanity/types";
 
-type LinkAtomProps = Omit<InternalOrExternalLinkType, 'reference' | '_type'> & {
+type LinkAtomProps = Omit<InternalOrExternalLinkType, "reference" | "_type"> & {
   className?: string;
   ariaLabel?: string;
-  ariaCurrent?: React.AriaAttributes['aria-current'];
+  ariaCurrent?: React.AriaAttributes["aria-current"];
   reference?: ReferenceType;
   children?: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -20,13 +20,15 @@ export type ReferenceType = {
 
 /** Maps Sanity document _type (after reference->) to the first segment of the site path. */
 const INTERNAL_ROUTE_PREFIX: Record<string, string> = {
-  page: '',
-  caseStudy: 'case-study',
-  statement: 'statement',
-  report: 'report',
+  page: "",
+  caseStudy: "case-study",
+  statement: "statement",
+  report: "report",
 };
 
-export function hrefForInternalReference(reference: ReferenceType): string | null {
+export function hrefForInternalReference(
+  reference: ReferenceType,
+): string | null {
   const slug = reference.slug?.current;
   if (!slug) return null;
   const prefix = INTERNAL_ROUTE_PREFIX[reference._type];
@@ -36,6 +38,7 @@ export function hrefForInternalReference(reference: ReferenceType): string | nul
 
 export const LinkAtom = ({
   isExternalLink,
+  anchor,
   reference,
   target,
   url,
@@ -49,10 +52,10 @@ export const LinkAtom = ({
 }: LinkAtomProps) => {
   const label = children ?? title;
 
-  if (url?.startsWith('#')) {
+  if (anchor || url?.startsWith("#")) {
     return (
       <a
-        href={url}
+        href={anchor ? `#${anchor}` : url}
         className={className}
         aria-label={ariaLabel}
         aria-current={ariaCurrent}

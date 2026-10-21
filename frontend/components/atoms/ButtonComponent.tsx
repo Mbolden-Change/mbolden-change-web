@@ -2,7 +2,7 @@ import React, { ComponentPropsWithoutRef, forwardRef, ReactNode } from 'react';
 import styles from './ButtonComponent.module.css';
 import { LinkAtom } from './Link';
 import type { InternalOrExternalLink } from '@/sanity/types';
-import { getReferenceWithSlug } from '@/utils/internalOrExternalLink';
+import { getReferenceWithSlug, isRenderableInternalOrExternalLink } from '@/utils/internalOrExternalLink';
 
 type BaseButtonAttributes = ComponentPropsWithoutRef<'button'>;
 type RefType = HTMLButtonElement;
@@ -33,7 +33,7 @@ const ButtonComponent = forwardRef<RefType, ButtonProps>((props, ref) => {
 
     const referenceWithSlug = getReferenceWithSlug(link);
 
-    if (link?.title && (link.isExternalLink ? link.url : referenceWithSlug)) {
+    if (link && isRenderableInternalOrExternalLink(link)) {
         return (
             <LinkAtom
                 {...link}

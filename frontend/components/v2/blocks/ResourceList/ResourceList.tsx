@@ -33,6 +33,7 @@ function ResourceItem({item}: {item: ResourceRow}) {
   if (showLink && item.link) {
     return (
       <LinkAtom
+        anchor={item.link.anchor}
         className={classNames(styles.row, styles.rowLink)}
         title={item.link.title || item.title}
         isExternalLink={item.link.isExternalLink}

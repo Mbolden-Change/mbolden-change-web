@@ -14,6 +14,7 @@ function toRenderableLink(props: ResourceBannerType) {
   const cta = props.cta
   if (cta && isRenderableInternalOrExternalLink(cta)) {
     return {
+      anchor: cta.anchor,
       title: cta.title,
       isExternalLink: cta.isExternalLink,
       url: cta.url,
@@ -49,6 +50,7 @@ const ResourceBanner = (props: ResourceBannerType) => {
         {props.body && <p className={styles.body}>{props.body}</p>}
         {link && (
           <LinkAtom
+            anchor={link.anchor}
             className={styles.cta}
             ariaLabel={link.title}
             isExternalLink={link.isExternalLink}

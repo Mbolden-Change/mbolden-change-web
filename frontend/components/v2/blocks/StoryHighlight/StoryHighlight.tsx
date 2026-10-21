@@ -143,6 +143,7 @@ export default function StoryHighlight({
           {body && <p className={styles.body}>{body}</p>}
           {showCta && cta && (
             <LinkAtom
+              anchor={cta.anchor}
               className={styles.cta}
               title={cta.title}
               isExternalLink={cta.isExternalLink}

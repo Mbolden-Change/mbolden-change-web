@@ -136,3 +136,27 @@ export const WithVideo: Story = {
     ],
   },
 };
+
+
+export const InitiativeDetail: Story = {
+  name: 'Initiative detail with image',
+  args: {
+    ...MediaRight.args,
+    headline: 'Meeting Basic Needs',
+    sectionId: 'meeting-basic-needs',
+    eyebrow: 'Economic security',
+    subtitle: 'With Alum Rock Union School District and The City Peace Project',
+    textBody: portableText('Schools often see urgent family needs first. Together with our partners, we help families cover food, rent and other essentials.'),
+    ctas: [{_key: 'support', _type: 'cta', label: 'Support basic needs', link: 'https://www.mboldenchange.org/donate'}],
+  },
+}
+
+export const InitiativeVideo: Story = {
+  name: 'Initiative detail with video',
+  args: {...InitiativeDetail.args, headline: 'The Gateway Fund', sectionId: 'gateway-fund', eyebrow: 'Rapid response', subtitle: 'Bridging the gap to legal protection', media: WithVideo.args?.media, textBody: portableText('We partner with nonprofit and pro bono immigration attorneys to help immigrant children and youth access legal protection.'), ctas: [{_key: 'gateway', _type: 'cta', label: 'Give to the Gateway Fund', link: 'https://www.mboldenchange.org/donate'}]},
+}
+
+export const ShortVideo: Story = {
+  name: 'Vertical video with sharp corners',
+  args: {...WithVideo.args, media: {videoUrl: 'https://www.youtube.com/shorts/oKOMnSbQLik'}},
+}

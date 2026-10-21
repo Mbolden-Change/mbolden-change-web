@@ -1,3 +1,4 @@
+import ClearableObjectInput from '../../components/ClearableObjectInput'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const topicListItemType = defineType({
@@ -25,7 +26,42 @@ export const topicListItemType = defineType({
       title: 'Link',
       type: 'internalOrExternalLink',
       description:
-        'Optional. Leave empty for informational topics; add when a destination exists.',
+        'Optional link below the topic text. Initiative overview uses the card’s link instead. Use Clear link to remove all saved link details before switching appearances.',
+      hidden: ({parent, document}) => {
+        const blocks = document?.content as Array<{appearance?: string; items?: Array<{_key?: string}>}> | undefined
+        const block = blocks?.find((item) => item.items?.some((topic) => topic._key === parent?._key))
+        return block?.appearance === 'initiatives' || Boolean(parent?.initiative?.title)
+      },
+    }),
+    defineField({
+      name: 'initiative',
+      title: 'Initiative card',
+      type: 'object',
+      components: {input: ClearableObjectInput},
+      description: 'Optional card with its own link. Appearance changes preserve this card and it remains visible until removed. Use Clear content to remove the entire card; leave its Link empty for a card without a link.',
+      options: {collapsible: true, collapsed: true},
+      fields: [
+        defineField({
+          name: 'label',
+          title: 'Label',
+          type: 'string',
+          description: 'For example: Partnership · Active.',
+        }),
+        defineField({
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'summary',
+          title: 'Summary',
+          type: 'text',
+          rows: 4,
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({name: 'link', title: 'Link', type: 'internalOrExternalLink', description: 'Optional card destination. Leave empty for no link. Use Clear link to remove the label and all destination details together.'}),
+      ],
     }),
   ],
   preview: {
@@ -46,8 +82,23 @@ export const topicListType = defineType({
   title: 'Topic List',
   type: 'object',
   description:
-    'Compact informational band of named themes — definitions, not destination cards. Best under Pillars (e.g. focus areas).',
+    'Named themes with optional initiative cards. Use plain topics on the homepage or featured initiatives on What we’re tackling.',
   fields: [
+    defineField({
+      name: 'appearance',
+      title: 'Appearance',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Plain topics', value: 'plain'},
+          {title: 'Initiative overview', value: 'initiatives'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'plain',
+      description:
+        'Initiative overview uses square cards and their own links; topic-level links are hidden. Switching appearances preserves saved content. Clear topic links before switching to Initiative overview. To return to text-only topics, clear each Initiative card.',
+    }),
     defineField({
       name: 'eyebrow',
       title: 'Eyebrow',
@@ -58,8 +109,7 @@ export const topicListType = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Section headline. Smaller than a Pillars title. Required.',
-      validation: (Rule) => Rule.required().error('Title is required.'),
+      description: 'Optional section headline. Leave empty beneath a page header.',
     }),
     defineField({
       name: 'description',
@@ -74,23 +124,20 @@ export const topicListType = defineType({
       type: 'array',
       description: '2–4 topics. Three columns on a wide screen. They stack on a phone.',
       of: [defineArrayMember({type: 'topicListItem'})],
-      validation: (Rule) =>
-        Rule.required().min(2).max(4).error('Add 2–4 topics.'),
+      validation: (Rule) => Rule.required().min(2).max(4).error('Add 2–4 topics.'),
     }),
     defineField({
       name: 'closingEyebrow',
       title: 'Closing eyebrow',
       type: 'string',
-      description:
-        'Optional label above the closing note (e.g. “Across our work”).',
+      description: 'Optional label above the closing note (e.g. “Across our work”).',
     }),
     defineField({
       name: 'closingNote',
       title: 'Closing note',
       type: 'text',
       rows: 4,
-      description:
-        'Optional coda under the topics — a thread that spans all items.',
+      description: 'Optional coda under the topics — a thread that spans all items.',
     }),
   ],
   preview: {
@@ -99,9 +146,7 @@ export const topicListType = defineType({
       const count = items?.length ?? 0
       return {
         title: title ? `Topic List — ${title}` : 'Topic List',
-        subtitle: count
-          ? `${count} topic${count === 1 ? '' : 's'}`
-          : 'No topics',
+        subtitle: count ? `${count} topic${count === 1 ? '' : 's'}` : 'No topics',
       }
     },
   },

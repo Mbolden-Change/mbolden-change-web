@@ -23,7 +23,7 @@ $breakpoint: 768px;
 }
 
 .intro {
-  max-width: 40rem;
+  max-width: none;
   margin: 0 0 1.15rem;
 }
 
@@ -118,6 +118,31 @@ $breakpoint: 768px;
   &:focus-visible {
     outline: 3px solid var(--brand-aqua-teal);
     outline-offset: 3px;
+  }
+}
+
+@media (min-width: $breakpoint) {
+  .body {
+    grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr);
+    column-gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .index {
+    gap: ds.$space-sm;
+    padding-block: ds.$space-sm;
+  }
+
+  .indexLink {
+    padding: 0.75rem ds.$space-sm 0.75rem ds.$space-md;
+    font-size: clamp(1.375rem, 1.8vw, 1.5rem);
+    line-height: 1.25;
+
+    &::after {
+      width: 3px;
+      top: ds.$space-sm;
+      bottom: ds.$space-sm;
+    }
+
   }
 }
 
@@ -263,37 +288,36 @@ $breakpoint: 768px;
   object-fit: cover;
 }
 
+// One responsive pattern: desktop side index, roomy mobile sticky index.
 @media (max-width: #{$breakpoint - 1px}) {
-  .body {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
+  .intro { margin-bottom: ds.$space-xl; }
+  .body { grid-template-columns: 1fr; gap: ds.$space-2xl; }
 
   .index {
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 0 1.25rem;
+    gap: ds.$space-lg;
     top: $header-offset;
     margin: 0;
-    padding: 0.15rem 0 0.35rem;
+    padding: ds.$space-sm ds.$space-xs;
     overflow-x: auto;
     overscroll-behavior-x: contain;
+    scroll-padding-inline: ds.$space-md;
     background: var(--brand-white);
     border-bottom: 1px solid var(--brand-light-gray);
     scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    &::-webkit-scrollbar { display: none; }
   }
 
   .indexLink {
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
-    min-height: 2.75rem;
-    padding: 0 0 0.35rem;
-
+    min-height: 3rem;
+    padding: 0 ds.$space-xs 0.35rem;
+    font-size: 1.0625rem;
+    white-space: nowrap;
+    &.isActive { color: var(--brand-fuchsia); }
     &::after {
       top: auto;
       bottom: 0;
@@ -304,33 +328,56 @@ $breakpoint: 768px;
       transform: scaleX(0.2);
       transform-origin: left;
     }
-
-    &:hover::after,
-    &:focus-visible::after,
-    &.isActive::after {
-      transform: scaleX(1);
-    }
+    &:hover::after, &:focus-visible::after, &.isActive::after { transform: scaleX(1); }
   }
 
   .entry {
-    scroll-margin-top: calc(#{$header-offset} + 3.75rem);
+    --entry-accent: var(--brand-fuchsia);
+    padding-block: ds.$space-xl ds.$space-2xl;
+    scroll-margin-top: calc(#{$header-offset} + 5rem);
+    &:nth-child(3n + 2) { --entry-accent: var(--brand-aqua-teal); }
+    &:nth-child(3n) { --entry-accent: var(--brand-warm-yellow); }
   }
-
+  .entryHeading { margin-bottom: ds.$space-md; font-size: 1.875rem; }
+  .challenge { line-height: 1.75; }
   .feature {
-    padding: 0.9rem 0.85rem;
+    margin-top: ds.$space-xl;
+    padding: clamp(1.25rem, 5vw, 1.75rem);
+    gap: ds.$space-xl;
+    background: var(--brand-white);
+    border: 1px solid var(--brand-light-gray);
+    border-top: 3px solid var(--entry-accent);
+    border-radius: 0;
+    align-items: start;
   }
-
+  .kicker { margin-bottom: ds.$space-sm; }
+  .featureTitle { margin-bottom: ds.$space-md; font-size: 1.5rem; }
+  .summary { line-height: 1.75; }
   .featureLink {
     display: inline-flex;
     align-items: center;
-    min-height: 2.75rem;
-    margin-top: 0.35rem;
+    min-height: 3rem;
+    margin-top: ds.$space-lg;
+    color: var(--brand-fuchsia);
   }
+  .photo { aspect-ratio: 4 / 3; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .indexLink::after,
-  .featureLink::after {
-    transition: none;
+  .indexLink::after, .featureLink::after { transition: none; }
+}
+
+.entryPhoto {
+  margin-top: ds.$space-xl;
+  max-width: 40rem;
+}
+
+.entryWithPhoto {
+  .entryHeading,
+  .challenge,
+  .entryPhoto {
+    width: 100%;
+    max-width: 36rem;
+    margin-inline: auto;
   }
 }

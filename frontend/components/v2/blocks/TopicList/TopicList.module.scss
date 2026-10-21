@@ -1,8 +1,9 @@
-@use 'sass:list';
-@use '../../../../styles/tokens' as ds;
+@use "sass:list";
+@use "../../../../styles/tokens" as ds;
 
 $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
-$accents: var(--brand-fuchsia), var(--brand-aqua-teal), var(--brand-warm-yellow);
+$accents:
+  var(--brand-fuchsia), var(--brand-aqua-teal), var(--brand-warm-yellow);
 
 .wrapper {
   padding: ds.$section-padding-y-compact clamp(1rem, 4vw, 2.5rem);
@@ -100,54 +101,7 @@ $accents: var(--brand-fuchsia), var(--brand-aqua-teal), var(--brand-warm-yellow)
 }
 
 .link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
   margin-top: ds.$space-md;
-  align-self: flex-start;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--brand-fuchsia);
-  text-decoration: none;
-}
-
-.linkLabel {
-  position: relative;
-  padding-right: 2px;
-  padding-bottom: 2px;
-}
-
-.linkLabel::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1.5px;
-  background: currentColor;
-  transform: scaleX(0.25);
-  transform-origin: left;
-  transition: transform 0.35s $ease-brand;
-}
-
-.linkArrow {
-  display: inline-block;
-  transition: transform 0.3s $ease-brand;
-}
-
-.link:hover .linkLabel::after,
-.link:focus-visible .linkLabel::after {
-  transform: scaleX(1);
-}
-
-.link:hover .linkArrow,
-.link:focus-visible .linkArrow {
-  transform: translateX(6px);
-}
-
-.link:focus-visible {
-  outline: 3px solid var(--brand-aqua-teal);
-  outline-offset: 4px;
 }
 
 /* Full-width coda under the grid — same span as the three topics */
@@ -184,9 +138,87 @@ $accents: var(--brand-fuchsia), var(--brand-aqua-teal), var(--brand-warm-yellow)
   white-space: pre-line;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .linkLabel::after,
-  .linkArrow {
-    transition: none;
+/* A fine frame and topic-colored top rule separate the initiative from its theme. */
+.initiative {
+  margin-top: ds.$space-lg;
+  padding: ds.$space-lg;
+  background: var(--brand-white);
+  border: 1px solid var(--brand-light-gray);
+  border-top: 3px solid var(--topic-accent, var(--brand-fuchsia));
+  border-radius: 0;
+}
+
+.initiativeLabel {
+  margin: 0 0 ds.$space-sm;
+  font-size: ds.$text-eyebrow-size;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--brand-black);
+}
+
+.initiativeTitle {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  line-height: 1.25;
+  color: var(--brand-black);
+}
+
+.initiativeSummary {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--brand-black);
+  white-space: pre-line;
+}
+
+.initiatives {
+  .item {
+    border-top: none;
+    position: relative;
+    --topic-accent: var(--brand-aqua-teal);
+
+    &::before {
+      content: "";
+      display: block;
+      width: 3rem;
+      height: 4px;
+      background: var(--topic-accent);
+      margin-bottom: ds.$space-md;
+    }
+  }
+
+  .item:nth-child(3n + 2) {
+    --topic-accent: var(--brand-fuchsia);
+  }
+  .item:nth-child(3n) {
+    --topic-accent: var(--brand-warm-yellow);
+  }
+
+  .itemTitle {
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .list:has(.initiative) {
+    grid-template-rows: auto auto auto;
+    row-gap: 0;
+
+    .item {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      align-content: start;
+    }
+
+    .item::before {
+      position: absolute;
+      top: 0;
+    }
+    .body {
+      flex: initial;
+    }
   }
 }

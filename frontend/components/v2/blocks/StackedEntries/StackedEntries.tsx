@@ -217,7 +217,7 @@ export default function StackedEntries({
                 <article
                   key={entry._key || id}
                   id={id}
-                  className={styles.entry}
+                  className={classNames(styles.entry, entry.image?.asset?._ref && styles.entryWithPhoto)}
                   data-stacked-entry
                 >
                   <Headline
@@ -228,6 +228,11 @@ export default function StackedEntries({
                   />
                   <p className={styles.challenge}>{entry.body}</p>
 
+                  {entry.image?.asset?._ref && (
+                    <div className={classNames(styles.photo, styles.entryPhoto)}>
+                      <SanityNextImage image={entry.image} fit="cover" className={styles.image} sizes="(min-width: 768px) 60vw, 100vw" />
+                    </div>
+                  )}
                   {feature && (
                     <div
                       className={classNames(
@@ -254,6 +259,7 @@ export default function StackedEntries({
                         )}
                         {showLink && feature.link && (
                           <LinkAtom
+                            anchor={feature.link.anchor}
                             className={styles.featureLink}
                             title={feature.link.title}
                             isExternalLink={feature.link.isExternalLink}

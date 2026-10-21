@@ -71,6 +71,10 @@ the brand (skunkworks concepts, unbranded internal tools).
 - **The logo tilts.** `~-6.5°` natural rotation. Don't level it.
 - **Primary buttons skew.** `transform: skew(-10.25deg)` + clip-path
   parallelogram. No rounded-rectangle primary CTAs.
+- **Cards and image frames have sharp corners.** Use the brand's angled
+  card / media patterns, logo, and Donate button as visual references.
+  Keep text upright. Rounded cards, polaroid frames, and link pills are
+  legacy treatments; existing radius tokens do not define current guidance.
 - **Pure black is primary.** Not navy, not near-black. `#000`.
 - **Sentence-case headlines.** All-caps lives in the logo and eyebrows only.
 - **Emoji: essentially none.** One `📄` exception for PDF download links.
@@ -94,8 +98,8 @@ the brand (skunkworks concepts, unbranded internal tools).
 --font-headline:       'Archivo Narrow', sans-serif    (700)
 --font-body:           'Roboto', sans-serif            (400 / 500 / 700)
 
---radius-card:         16px
---radius-pill:         50px        (for "Read more" outline links only)
+Cards / image frames: sharp corners with brand-aligned angled styling
+Read-more controls:   inline underline or sharp, angled outline
 
 --shadow-card:         0 2px 6px rgba(0,0,0,0.04)
 --shadow-btn:          0 4px 5px rgba(0,0,0,0.4)
