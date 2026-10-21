@@ -4,6 +4,7 @@ import type {TextMedia as TextMediaType} from '@/sanity/types'
 
 jest.mock('@/lib/analytics', () => ({isDonateCta: () => false, trackDonateClick: jest.fn()}))
 
+jest.mock('@/sanity/lib/image', () => ({urlFor: jest.fn(), getDimensionsFromRef: jest.fn(() => ({}))}))
 jest.mock('@/components/SanityNextImage', () => ({__esModule: true, default: () => <img alt="Program photo" />}))
 jest.mock('@/components/PortableTextComponent', () => ({__esModule: true, default: () => <p>Body copy</p>}))
 
