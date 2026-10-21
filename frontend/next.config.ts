@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Old page addresses still linked from emails and funder decks. Temporary
+  // (307) until the new pages are live in production; switch to permanent then.
+  async redirects() {
+    return [
+      { source: '/our-work', destination: '/what-were-tackling', permanent: false },
+      { source: '/fueling-bold-change', destination: '/what-were-tackling', permanent: false },
+      { source: '/ideas-in-action', destination: '/mbolden-action', permanent: false },
+    ];
+  },
   async rewrites() {
     return [
       {

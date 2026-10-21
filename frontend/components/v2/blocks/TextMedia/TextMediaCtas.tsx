@@ -1,5 +1,6 @@
 'use client';
 
+import classNames from 'classnames';
 import SkewButton from '@/components/atoms/SkewButton';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 import styles from './TextMedia.module.scss';
@@ -10,7 +11,14 @@ type Cta = {
   link?: string | null;
 };
 
-export default function TextMediaCtas({ ctas }: { ctas: Cta[] }) {
+export default function TextMediaCtas({
+  ctas,
+  variant = 'standard',
+}: {
+  ctas: Cta[];
+  /** Featured pilots use a black outline: teal text is too light at button size. */
+  variant?: 'standard' | 'featured';
+}) {
   let linkIndex = 0;
 
   return (
@@ -37,7 +45,10 @@ export default function TextMediaCtas({ ctas }: { ctas: Cta[] }) {
             <a
               key={cta._key ?? index}
               href={cta.link}
-              className={styles.ctaSecondary}
+              className={classNames(
+                styles.ctaSecondary,
+                variant === 'featured' && styles.ctaSecondaryDark,
+              )}
               onClick={trackIfDonate}
             >
               {cta.label}

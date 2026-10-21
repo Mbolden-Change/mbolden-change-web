@@ -30,7 +30,11 @@ export const topicListItemType = defineType({
       hidden: ({parent, document}) => {
         const blocks = document?.content as Array<{appearance?: string; items?: Array<{_key?: string}>}> | undefined
         const block = blocks?.find((item) => item.items?.some((topic) => topic._key === parent?._key))
-        return block?.appearance === 'initiatives' || Boolean(parent?.initiative?.title)
+        return (
+          block?.appearance === 'initiatives' ||
+          block?.appearance === 'focusIndex' ||
+          Boolean(parent?.initiative?.title)
+        )
       },
     }),
     defineField({
@@ -58,6 +62,8 @@ export const topicListItemType = defineType({
           title: 'Summary',
           type: 'text',
           rows: 4,
+          description:
+            'In a Focus area index, leave a blank line between paragraphs to show them as separate paragraphs.',
           validation: (Rule) => Rule.required(),
         }),
         defineField({name: 'link', title: 'Link', type: 'internalOrExternalLink', description: 'Optional card destination. Leave empty for no link. Use Clear link to remove the label and all destination details together.'}),
@@ -92,12 +98,13 @@ export const topicListType = defineType({
         list: [
           {title: 'Plain topics', value: 'plain'},
           {title: 'Initiative overview', value: 'initiatives'},
+          {title: 'Focus area index', value: 'focusIndex'},
         ],
         layout: 'radio',
       },
       initialValue: 'plain',
       description:
-        'Initiative overview uses square cards and their own links; topic-level links are hidden. Switching appearances preserves saved content. Clear topic links before switching to Initiative overview. To return to text-only topics, clear each Initiative card.',
+        'Initiative overview uses square cards and their own links; topic-level links are hidden. Focus area index sets the topics on cream with larger cards for What we’re tackling; it also uses card links only. Switching appearances preserves saved content. Clear topic links before switching to Initiative overview. To return to text-only topics, clear each Initiative card.',
     }),
     defineField({
       name: 'eyebrow',

@@ -222,3 +222,97 @@ $accents:
     }
   }
 }
+
+/* Focus area index (What we're tackling): three focus areas on cream, each
+   with an angled color bar and a full white card that links to its pilot.
+   Color order follows the focus areas: teal, fuchsia, yellow. */
+.focusIndex {
+  background: var(--brand-creamy-beige);
+  padding-top: 0;
+  padding-bottom: ds.$section-padding-y;
+
+  .list {
+    gap: ds.$space-2xl;
+
+    @media (min-width: 768px) {
+      gap: clamp(1.25rem, 2.5vw, 2rem);
+    }
+  }
+
+  // The bar is positioned so it never becomes a grid row of its own.
+  .item {
+    border-top: none;
+    padding-top: 1.625rem;
+    position: relative;
+    --topic-accent: var(--brand-aqua-teal);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0.25rem;
+      width: 4.5rem;
+      height: 0.625rem;
+      background: var(--topic-accent);
+      transform: skew(var(--brand-skew));
+    }
+  }
+
+  .item:nth-child(3n + 2) {
+    --topic-accent: var(--brand-fuchsia);
+  }
+
+  .item:nth-child(3n) {
+    --topic-accent: var(--brand-warm-yellow);
+  }
+
+  .itemTitle {
+    font-size: clamp(1.625rem, 2.6vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.4px;
+  }
+
+  .body {
+    color: var(--brand-black);
+    font-size: 1rem;
+  }
+
+  .initiative {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$space-md;
+    margin-top: ds.$space-lg;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    border: none;
+    border-top: 6px solid var(--topic-accent);
+    box-shadow: var(--shadow-card);
+  }
+
+  .initiativeLabel {
+    margin: 0;
+    font-family: var(--font-headline);
+    font-size: 0.875rem;
+  }
+
+  .initiativeTitle {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.2vw, 1.75rem);
+    line-height: 1.15;
+  }
+
+  .initiativeSummary {
+    font-size: 1rem;
+    line-height: 1.6;
+    white-space: normal;
+  }
+
+  .initiative .link {
+    margin-top: auto;
+    padding-top: ds.$space-sm;
+    color: var(--brand-black);
+    font-family: var(--font-headline);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+}

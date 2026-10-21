@@ -31,6 +31,20 @@ export const pageHeaderType = defineType({
         'Optional one or two sentences under the heading. Add context. Do not repeat the heading.',
     }),
     defineField({
+      name: 'surface',
+      title: 'Background',
+      type: 'string',
+      description: 'Default keeps the page background. Cream sets the brand cream behind the header, as on What we’re tackling.',
+      options: {
+        list: [
+          {title: 'Default', value: 'default'},
+          {title: 'Cream', value: 'cream'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
+    }),
+    defineField({
       name: 'align',
       title: 'Alignment',
       type: 'string',

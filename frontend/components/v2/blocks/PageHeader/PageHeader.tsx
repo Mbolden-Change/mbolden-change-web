@@ -10,6 +10,7 @@ export default function PageHeader({
   heading,
   dek,
   align = 'left',
+  surface = 'default',
   isFirstBlock,
 }: PageHeaderProps) {
   if (!heading) return null
@@ -19,6 +20,7 @@ export default function PageHeader({
       className={classNames(
         styles.wrapper,
         align === 'center' && styles.center,
+        surface === 'cream' && styles.cream,
         isFirstBlock && styles.first,
       )}
     >

@@ -919,6 +919,23 @@
           },
           "optional": true
         },
+        "surface": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "default"
+              },
+              {
+                "type": "string",
+                "value": "cream"
+              }
+            ]
+          },
+          "optional": true
+        },
         "items": {
           "type": "objectAttribute",
           "value": {
@@ -1339,6 +1356,10 @@
               {
                 "type": "string",
                 "value": "initiatives"
+              },
+              {
+                "type": "string",
+                "value": "focusIndex"
               }
             ]
           },
@@ -1686,6 +1707,23 @@
           },
           "optional": true
         },
+        "surface": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "default"
+              },
+              {
+                "type": "string",
+                "value": "cream"
+              }
+            ]
+          },
+          "optional": true
+        },
         "align": {
           "type": "objectAttribute",
           "value": {
@@ -1718,6 +1756,23 @@
             "type": "string",
             "value": "pillars"
           }
+        },
+        "layout": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "rows"
+              },
+              {
+                "type": "string",
+                "value": "compact"
+              }
+            ]
+          },
+          "optional": true
         },
         "eyebrow": {
           "type": "objectAttribute",
@@ -2208,6 +2263,44 @@
             "value": "textMedia"
           }
         },
+        "appearance": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "standard"
+              },
+              {
+                "type": "string",
+                "value": "featuredPilot"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "accent": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "teal"
+              },
+              {
+                "type": "string",
+                "value": "fuchsia"
+              },
+              {
+                "type": "string",
+                "value": "yellow"
+              }
+            ]
+          },
+          "optional": true
+        },
         "eyebrow": {
           "type": "objectAttribute",
           "value": {
@@ -2539,7 +2632,7 @@
               }
             }
           },
-          "optional": false
+          "optional": true
         },
         "ctas": {
           "type": "objectAttribute",

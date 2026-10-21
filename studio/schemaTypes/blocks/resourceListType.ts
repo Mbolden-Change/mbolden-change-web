@@ -82,6 +82,20 @@ export const resourceListType = defineType({
       description: 'Optional line under the heading.',
     }),
     defineField({
+      name: 'surface',
+      title: 'Background',
+      type: 'string',
+      description: 'Default is white. Cream matches the cream sections on What we’re tackling.',
+      options: {
+        list: [
+          {title: 'Default', value: 'default'},
+          {title: 'Cream', value: 'cream'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'default',
+    }),
+    defineField({
       name: 'items',
       title: 'Resources',
       type: 'array',

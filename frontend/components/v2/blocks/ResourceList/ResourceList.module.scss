@@ -149,6 +149,26 @@ $breakpoint: 768px;
   white-space: pre-line;
 }
 
+// Cream surface (What we're tackling). Small labels go black for contrast;
+// a rule separates the list from the cream section above it.
+.cream {
+  background: var(--brand-creamy-beige);
+
+  &.flushTop .inner {
+    padding-top: ds.$section-padding-y;
+    border-top: 1px solid rgb(0 0 0 / 0.15);
+  }
+
+  .eyebrow,
+  .kicker {
+    color: var(--brand-black);
+  }
+
+  .row {
+    border-top-color: rgb(0 0 0 / 0.15);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rowLink .title::after {
     transition: none;

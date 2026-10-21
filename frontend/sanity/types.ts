@@ -155,6 +155,7 @@ export type ResourceList = {
   eyebrow?: string;
   title: string;
   description?: string;
+  surface?: "default" | "cream";
   items: Array<{
     _key: string;
   } & ResourceListItem>;
@@ -224,7 +225,7 @@ export type StackedEntries = {
 
 export type TopicList = {
   _type: "topicList";
-  appearance?: "plain" | "initiatives";
+  appearance?: "plain" | "initiatives" | "focusIndex";
   eyebrow?: string;
   title?: string;
   description?: string;
@@ -283,11 +284,13 @@ export type PageHeader = {
   eyebrow?: string;
   heading: string;
   dek?: string;
+  surface?: "default" | "cream";
   align?: "left" | "center";
 };
 
 export type Pillars = {
   _type: "pillars";
+  layout?: "rows" | "compact";
   eyebrow?: string;
   title?: string;
   description?: Array<{
@@ -357,6 +360,8 @@ export type Faq = {
 
 export type TextMedia = {
   _type: "textMedia";
+  appearance?: "standard" | "featuredPilot";
+  accent?: "teal" | "fuchsia" | "yellow";
   eyebrow?: string;
   subtitle?: string;
   sectionId?: string;
@@ -381,7 +386,7 @@ export type TextMedia = {
   }>;
   mediaPosition?: "left" | "right";
   mobileLayout?: "imageTop" | "textTop";
-  media: {
+  media?: {
     image?: {
       asset?: {
         _ref: string;

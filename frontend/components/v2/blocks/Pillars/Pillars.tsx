@@ -2,8 +2,10 @@ import type {PortableTextBlock} from 'sanity'
 import type {PillarCard as PillarCardType} from '@/sanity/types'
 import {getPillarContainer} from '@/lib/getPillarContainer'
 import PillarsClient from './PillarsClient'
+import PillarsCompact from './PillarsCompact'
 
 type PillarsProps = {
+  layout?: 'rows' | 'compact'
   title?: string
   eyebrow?: string
   description?: PortableTextBlock[]
@@ -26,6 +28,17 @@ export default async function PillarsV2(props: PillarsProps) {
     description?: PortableTextBlock[]
     pillars?: PillarCardType[]
   } = data
+
+  if (props?.layout === 'compact') {
+    return (
+      <PillarsCompact
+        title={title}
+        eyebrow={eyebrow}
+        description={description}
+        pillars={pillars}
+      />
+    )
+  }
 
   return (
     <PillarsClient

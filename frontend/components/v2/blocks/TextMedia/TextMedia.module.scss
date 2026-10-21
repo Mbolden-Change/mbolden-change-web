@@ -190,6 +190,20 @@ $breakpoint: 768px;
   }
 }
 
+// Featured pilot outline: black on white, yellow sweep with black text.
+.ctaSecondaryDark {
+  color: var(--brand-black);
+  border-color: var(--brand-black);
+
+  &::before {
+    background: var(--brand-warm-yellow);
+  }
+
+  &:hover {
+    color: var(--brand-black);
+  }
+}
+
 .ctaPrimary {
   padding: 12px 28px;
   text-transform: uppercase;

@@ -7,6 +7,38 @@ export const textMedia = defineType({
   description:
     'Primary 50/50 content block — headline, body copy, optional CTAs, and an image or video. Use this instead of the legacy Fifty-Fifty block for new pages.',
   fields: [
+    defineField({
+      name: 'appearance',
+      title: 'Appearance',
+      type: 'string',
+      description:
+        'Standard is the 50/50 layout. Featured pilot is a white band for What we’re tackling: a smaller angled image, an accent color and no empty buttons. Media is optional for a featured pilot.',
+      options: {
+        list: [
+          {title: 'Standard', value: 'standard'},
+          {title: 'Featured pilot', value: 'featuredPilot'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'standard',
+    }),
+    defineField({
+      name: 'accent',
+      title: 'Accent color',
+      type: 'string',
+      description:
+        'The focus area color: teal for Economic Security, fuchsia for Health Access, yellow for Rapid Response.',
+      options: {
+        list: [
+          {title: 'Teal', value: 'teal'},
+          {title: 'Fuchsia', value: 'fuchsia'},
+          {title: 'Yellow', value: 'yellow'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'teal',
+      hidden: ({parent}) => parent?.appearance !== 'featuredPilot',
+    }),
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'Optional focus-area label above the headline.'}),
     defineField({name: 'subtitle', title: 'Subtitle', type: 'string', description: 'Optional supporting line beneath the headline.'}),
     defineField({
@@ -48,6 +80,7 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'right',
+      hidden: ({parent}) => parent?.appearance === 'featuredPilot',
     }),
     defineField({
       name: 'mobileLayout',
@@ -62,13 +95,20 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'imageTop',
+      hidden: ({parent}) => parent?.appearance === 'featuredPilot',
     }),
     defineField({
       name: 'media',
       title: 'Media',
       type: 'object',
-      description: 'Add an image or a YouTube/Vimeo URL — not both.',
-      validation: (Rule) => Rule.required(),
+      description:
+        'Add an image or a YouTube/Vimeo URL — not both. Optional for a featured pilot; the band is laid out to stand on its own without media.',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as {appearance?: string} | undefined
+          if (parent?.appearance === 'featuredPilot') return true
+          return value ? true : 'Required'
+        }),
       fields: [
         defineField({
           name: 'image',
@@ -118,7 +158,8 @@ export const textMedia = defineType({
               name: 'link',
               title: 'Link (Optional)',
               type: 'url',
-              description: 'Leave blank to show a non-clickable info tag instead.',
+              description:
+                'Leave blank to show a non-clickable info tag instead. In a featured pilot, a button without a link is hidden until a link is added.',
             }),
           ],
         },

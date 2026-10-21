@@ -100,6 +100,7 @@ export default function TopicList({
       className={classNames(
         styles.wrapper,
         appearance === "initiatives" && styles.initiatives,
+        appearance === "focusIndex" && styles.focusIndex,
       )}
       aria-label={title || "Focus areas"}
     >
@@ -129,13 +130,14 @@ export default function TopicList({
                   className={styles.itemTitle}
                 />
                 {item.body && <p className={styles.body}>{item.body}</p>}
-                {appearance !== "initiatives" && !item.initiative?.title && showLink && item.link && (
+                {appearance !== "initiatives" && appearance !== "focusIndex" && !item.initiative?.title && showLink && item.link && (
                   <TextLink link={item.link} arrow className={styles.link} />
                 )}
                 {item.initiative && (
                   <InitiativeCard
                     initiative={item.initiative}
                     headingTag={title ? "h4" : "h3"}
+                    paragraphs={appearance === "focusIndex"}
                   />
                 )}
               </li>

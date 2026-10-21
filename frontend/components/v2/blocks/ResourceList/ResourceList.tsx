@@ -54,6 +54,7 @@ export default function ResourceList({
   title,
   description,
   items,
+  surface = 'default',
   prevBlockType,
   isLastBlock,
 }: ResourceListProps) {
@@ -65,6 +66,7 @@ export default function ResourceList({
     <section
       className={classNames(
         styles.wrapper,
+        surface === 'cream' && styles.cream,
         afterStack && styles.afterStack,
         shouldSectionFlushTop(prevBlockType) && !afterStack && styles.flushTop,
         shouldSectionFlushBottom(isLastBlock) && styles.flushBottom,
