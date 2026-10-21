@@ -12,6 +12,7 @@ import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
 import FeaturedPilot from './FeaturedPilot'
+import PilotDialog from './PilotDialog'
 import styles from './TextMedia.module.scss'
 
 type TextMediaProps = TextMediaType &
@@ -35,6 +36,20 @@ const TextMedia = ({
   headingTag = 'h2',
   ...rest
 }: TextMediaProps) => {
+  if (rest.appearance === 'pilotDialog' && !nested) {
+    return (
+      <PilotDialog
+        headline={headline}
+        eyebrow={eyebrow}
+        subtitle={subtitle}
+        sectionId={sectionId}
+        textBody={textBody}
+        ctas={ctas}
+        {...rest}
+      />
+    )
+  }
+
   if (rest.appearance === 'featuredPilot' && !nested) {
     return (
       <FeaturedPilot

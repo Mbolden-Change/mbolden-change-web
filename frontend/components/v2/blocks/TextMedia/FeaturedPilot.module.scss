@@ -187,6 +187,15 @@ $breakpoint: 768px;
   }
 }
 
+.story .displayLine {
+  margin: 0 0 ds.$space-lg;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
 .ctas {
   margin-top: ds.$space-xl;
 }

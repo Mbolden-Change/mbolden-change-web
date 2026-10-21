@@ -21,6 +21,7 @@ export default function FeaturedPilot({
   headline,
   eyebrow,
   subtitle,
+  displayLine,
   sectionId,
   textBody,
   ctas,
@@ -79,6 +80,7 @@ export default function FeaturedPilot({
           )}
 
           <div className={styles.story}>
+            {displayLine && <p className={styles.displayLine}>{displayLine}</p>}
             <PortableTextComponent value={textBody as PortableTextBlock[]} />
             {linkedCtas.length > 0 && (
               <div className={styles.ctas}>

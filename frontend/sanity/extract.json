@@ -2275,6 +2275,10 @@
               {
                 "type": "string",
                 "value": "featuredPilot"
+              },
+              {
+                "type": "string",
+                "value": "pilotDialog"
               }
             ]
           },
@@ -2298,6 +2302,13 @@
                 "value": "yellow"
               }
             ]
+          },
+          "optional": true
+        },
+        "displayLine": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": true
         },

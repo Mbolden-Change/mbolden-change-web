@@ -1,0 +1,340 @@
+@use '../../../../styles/tokens' as ds;
+
+$breakpoint: 768px;
+$ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+.dialog {
+  --pilot-accent: var(--brand-aqua-teal);
+  width: min(1000px, calc(100vw - 3rem));
+  max-width: none;
+  max-height: calc(100dvh - 4rem);
+  // globals.css resets every margin to 0; a modal dialog centers with auto.
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-top: 8px solid var(--pilot-accent);
+  background: var(--brand-white);
+  color: var(--brand-black);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.25);
+  // The dialog scrolls; the image column is sticky, so only the text moves.
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    width: calc(100vw - 1rem);
+    height: calc(100dvh - 1rem);
+    max-height: calc(100dvh - 1rem);
+  }
+}
+
+.teal {
+  --pilot-accent: var(--brand-aqua-teal);
+}
+
+.fuchsia {
+  --pilot-accent: var(--brand-fuchsia);
+}
+
+.yellow {
+  --pilot-accent: var(--brand-warm-yellow);
+}
+
+// Hidden for the one frame between showModal() and the open class.
+.dialog[open]:not(.isOpen):not(.isClosing) {
+  opacity: 0;
+}
+
+.isOpen {
+  animation: rise 500ms $ease-out both;
+
+  &::backdrop {
+    animation: fadeIn 500ms ease-out both;
+  }
+}
+
+.isClosing {
+  animation: sink 200ms ease-in both;
+
+  &::backdrop {
+    animation: fadeOut 200ms ease-in both;
+  }
+}
+
+// Zero-height sticky row keeps the X in view without taking up space.
+.closeBar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+
+  // Phones: a solid strip, so text scrolls under it rather than under the X.
+  @media (max-width: #{$breakpoint - 1px}) {
+    align-items: center;
+    height: 3.75rem;
+    background: var(--brand-white);
+
+    .close {
+      margin: 0 0.5rem 0 0;
+    }
+  }
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0.75rem 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+  background: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-body);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  &:hover {
+    background: var(--brand-warm-yellow);
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 40% minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 3rem);
+  padding: 3rem 3.75rem 3rem 3rem;
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: ds.$space-lg;
+    padding: 0.25rem 1.25rem 2.5rem;
+  }
+}
+
+.noImage {
+  grid-template-columns: minmax(0, 44rem);
+}
+
+.media {
+  position: sticky;
+  top: 3rem;
+  align-self: start;
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    position: static;
+  }
+}
+
+// Standard slanted frame. Two layers so the settle and the drift don't
+// fight over one transform.
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: calc(100dvh - 11rem);
+  overflow: hidden;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-light-gray);
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+}
+
+.settle,
+.drift {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.isOpen .settle {
+  animation: settle 1600ms $ease-out both;
+}
+
+.isOpen .drift {
+  animation: drift 14s ease-in-out 1600ms infinite alternate;
+}
+
+.copy {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+}
+
+.subtitle {
+  margin: ds.$space-md 0 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.displayLine {
+  margin: ds.$space-xl 0 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.875rem, 3.4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+}
+
+.word {
+  display: inline-block;
+}
+
+.isOpen .word {
+  animation: fadeUp var(--word-duration) $ease-out var(--word-delay) both;
+}
+
+.story {
+  margin-top: ds.$space-lg;
+
+  :global(p) {
+    margin: 0 0 ds.$space-md;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--brand-black);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Paragraphs follow the display line one after another, a beat apart.
+@for $i from 1 through 10 {
+  .isOpen .story :global(p):nth-of-type(#{$i}) {
+    animation: fadeUp 450ms $ease-out
+      calc(var(--paragraphs-start) + #{$i - 1} * var(--paragraph-step)) both;
+  }
+}
+
+.ctas {
+  margin-top: ds.$space-xl;
+}
+
+.isOpen .ctas {
+  animation: fadeUp 450ms $ease-out var(--cta-delay) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sink {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.04) translate(-1%, -0.6%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog,
+  .dialog::backdrop,
+  .dialog *,
+  .dialog[open]:not(.isOpen):not(.isClosing) {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+  }
+}

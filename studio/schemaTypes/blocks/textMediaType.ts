@@ -1,5 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
+const isPilot = (parent?: {appearance?: string}) =>
+  parent?.appearance === 'featuredPilot' || parent?.appearance === 'pilotDialog'
+
 export const textMedia = defineType({
   name: 'textMedia',
   title: 'Text & Media',
@@ -12,11 +15,12 @@ export const textMedia = defineType({
       title: 'Appearance',
       type: 'string',
       description:
-        'Standard is the 50/50 layout. Featured pilot is a white band for What we’re tackling: a smaller angled image, an accent color and no empty buttons. Media is optional for a featured pilot.',
+        'Standard is the 50/50 layout. Featured pilot is a white band for What we’re tackling: a smaller angled image, an accent color and no empty buttons. Featured pilot (pop-up) is not shown on the page; it opens as a pop-up from any link to its Section ID, and the address #section-id opens it directly. Media is optional for both pilot appearances.',
       options: {
         list: [
           {title: 'Standard', value: 'standard'},
           {title: 'Featured pilot', value: 'featuredPilot'},
+          {title: 'Featured pilot (pop-up)', value: 'pilotDialog'},
         ],
         layout: 'radio',
       },
@@ -37,7 +41,16 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'teal',
-      hidden: ({parent}) => parent?.appearance !== 'featuredPilot',
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
+      name: 'displayLine',
+      title: 'Display line',
+      type: 'string',
+      description:
+        'Optional large line set between the subtitle and the story, such as “Families decided how to use it.” Keep it to one short sentence.',
+      validation: (Rule) => Rule.max(90),
+      hidden: ({parent}) => !isPilot(parent),
     }),
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'Optional focus-area label above the headline.'}),
     defineField({name: 'subtitle', title: 'Subtitle', type: 'string', description: 'Optional supporting line beneath the headline.'}),
@@ -80,7 +93,7 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'right',
-      hidden: ({parent}) => parent?.appearance === 'featuredPilot',
+      hidden: ({parent}) => isPilot(parent),
     }),
     defineField({
       name: 'mobileLayout',
@@ -95,7 +108,7 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'imageTop',
-      hidden: ({parent}) => parent?.appearance === 'featuredPilot',
+      hidden: ({parent}) => isPilot(parent),
     }),
     defineField({
       name: 'media',
@@ -106,7 +119,7 @@ export const textMedia = defineType({
       validation: (Rule) =>
         Rule.custom((value, context) => {
           const parent = context.parent as {appearance?: string} | undefined
-          if (parent?.appearance === 'featuredPilot') return true
+          if (isPilot(parent)) return true
           return value ? true : 'Required'
         }),
       fields: [
@@ -159,7 +172,7 @@ export const textMedia = defineType({
               title: 'Link (Optional)',
               type: 'url',
               description:
-                'Leave blank to show a non-clickable info tag instead. In a featured pilot, a button without a link is hidden until a link is added.',
+                'Leave blank to show a non-clickable info tag instead. In a featured pilot or pop-up, a button without a link is hidden until a link is added.',
             }),
           ],
         },

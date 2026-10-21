@@ -360,8 +360,9 @@ export type Faq = {
 
 export type TextMedia = {
   _type: "textMedia";
-  appearance?: "standard" | "featuredPilot";
+  appearance?: "standard" | "featuredPilot" | "pilotDialog";
   accent?: "teal" | "fuchsia" | "yellow";
+  displayLine?: string;
   eyebrow?: string;
   subtitle?: string;
   sectionId?: string;
