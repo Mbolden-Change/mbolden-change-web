@@ -363,6 +363,7 @@ export type TextMedia = {
   appearance?: "standard" | "featuredPilot" | "pilotDialog";
   accent?: "teal" | "fuchsia" | "yellow";
   displayLine?: string;
+  displayAttribution?: string;
   eyebrow?: string;
   subtitle?: string;
   sectionId?: string;

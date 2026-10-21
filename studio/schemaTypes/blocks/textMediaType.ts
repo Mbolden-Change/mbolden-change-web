@@ -48,9 +48,18 @@ export const textMedia = defineType({
       title: 'Display line',
       type: 'string',
       description:
-        'Optional large line set between the subtitle and the story, such as “Families decided how to use it.” Keep it to one short sentence.',
-      validation: (Rule) => Rule.max(90),
+        'Optional large line set between the subtitle and the story: a short statement or a partner quote. Type the words only; quote marks are added when there is an attribution.',
+      validation: (Rule) => Rule.max(180),
       hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
+      name: 'displayAttribution',
+      title: 'Display line attribution',
+      type: 'string',
+      description:
+        'Optional. Who said the display line, shown in smaller text below it, such as “Name, Title, Organization”. The dash is added for you.',
+      validation: (Rule) => Rule.max(120),
+      hidden: ({parent}) => !isPilot(parent) || !parent?.displayLine,
     }),
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'Optional focus-area label above the headline.'}),
     defineField({name: 'subtitle', title: 'Subtitle', type: 'string', description: 'Optional supporting line beneath the headline.'}),

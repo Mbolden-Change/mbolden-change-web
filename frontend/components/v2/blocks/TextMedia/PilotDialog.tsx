@@ -4,20 +4,31 @@ import {useCallback, useEffect, useRef, useState, type CSSProperties} from 'reac
 import classNames from 'classnames'
 import {PortableTextBlock} from 'next-sanity'
 import type {TextMedia as TextMediaType} from '@/sanity/types'
-import SanityNextImage from '@/components/SanityNextImage'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
+import {getPilotImage} from './pilotImage'
 import styles from './PilotDialog.module.scss'
 
 type PilotDialogProps = TextMediaType
 
-// Motion timings (ms). The whole sequence finishes in about two seconds.
+// Motion timings (ms). The whole sequence finishes in about two seconds,
+// so a long quote reveals its words faster than a short line.
 const WORDS_START = 450
-const WORD_STEP = 70
+const WORD_STEP_MAX = 70
+const WORDS_SPAN = 500
 const WORD_DURATION = 450
-const PARAGRAPH_STEP = 220
+const PARAGRAPH_STEP = 160
+const ATTRIBUTION_GAP = 120
 const CLOSE_DURATION = 200
+// Longer display lines (quotes) are set smaller.
+const LONG_LINE_WORDS = 10
+
+const QUOTE_MARKS = {
+  teal: '/bold-quote-marks/quote-aqua.png',
+  fuchsia: '/bold-quote-marks/quote-fuchsia.png',
+  yellow: '/bold-quote-marks/quote-yellow.png',
+} as const
 
 /**
  * Text & Media "Featured pilot (pop-up)" appearance. Renders a native modal
@@ -30,6 +41,7 @@ export default function PilotDialog({
   eyebrow,
   subtitle,
   displayLine,
+  displayAttribution,
   sectionId,
   textBody,
   ctas,
@@ -43,11 +55,38 @@ export default function PilotDialog({
 
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
   const linkedCtas = ctas?.filter((cta) => cta.link?.trim()) ?? []
+  const image = getPilotImage(derived.showImage ? derived.image : undefined)
   const words = displayLine?.trim().split(/\s+/) ?? []
+  const wordStep =
+    words.length > 1 ? Math.min(WORD_STEP_MAX, WORDS_SPAN / (words.length - 1)) : 0
+  const lineEnd = words.length ? WORDS_START + (words.length - 1) * wordStep + 200 : 0
+  const attribution = words.length ? displayAttribution?.trim() : undefined
+  const attributionDelay = lineEnd
   const paragraphsStart = words.length
-    ? WORDS_START + words.length * WORD_STEP + 150
+    ? lineEnd + (attribution ? ATTRIBUTION_GAP : 0)
     : WORDS_START
   const paragraphCount = (textBody as PortableTextBlock[] | undefined)?.length ?? 0
+  const displayText = (
+    <p className={styles.displayLine}>
+      {words.map((word, index) => (
+        <span key={index}>
+          <span
+            className={styles.word}
+            style={
+              {
+                '--word-delay': `${WORDS_START + index * wordStep}ms`,
+                '--word-duration': `${WORD_DURATION}ms`,
+              } as CSSProperties
+            }
+          >
+            {word}
+          </span>
+          {index < words.length - 1 && ' '}
+        </span>
+      ))}
+    </p>
+  )
+  const DisplayTag = attribution ? 'figure' : 'div'
   const titleId = sectionId ? `${sectionId}-title` : undefined
   const hash = sectionId ? `#${sectionId}` : ''
 
@@ -179,17 +218,37 @@ export default function PilotDialog({
         </button>
       </div>
 
-      <div className={classNames(styles.layout, !derived.showImage && styles.noImage)}>
-        {derived.showImage && derived.image && (
+      <div
+        className={classNames(
+          styles.layout,
+          !image && styles.noImage,
+          image?.orientation === 'landscape' && styles.landscape,
+        )}
+      >
+        {image && (
           <div className={styles.media}>
-            <div className={styles.frame}>
+            <div
+              className={styles.frame}
+              style={
+                {
+                  '--image-ratio': Math.min(1, Math.max(0.75, image.ratio)),
+                  '--image-focus': image.focus,
+                } as CSSProperties
+              }
+            >
               <div className={styles.settle}>
                 <div className={styles.drift}>
-                  <SanityNextImage
-                    image={derived.image}
-                    fit="cover"
+                  <img
+                    src={image.src}
+                    srcSet={image.srcSet}
+                    sizes={
+                      image.orientation === 'landscape'
+                        ? '(min-width: 768px) 940px, 100vw'
+                        : '(min-width: 768px) 400px, 100vw'
+                    }
+                    alt={image.alt}
+                    loading="lazy"
                     className={styles.image}
-                    sizes="(min-width: 768px) 400px, 100vw"
                   />
                 </div>
               </div>
@@ -205,24 +264,32 @@ export default function PilotDialog({
           {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
 
           {words.length > 0 && (
-            <p className={styles.displayLine}>
-              {words.map((word, index) => (
-                <span key={index}>
-                  <span
-                    className={styles.word}
-                    style={
-                      {
-                        '--word-delay': `${WORDS_START + index * WORD_STEP}ms`,
-                        '--word-duration': `${WORD_DURATION}ms`,
-                      } as CSSProperties
-                    }
+            <DisplayTag
+              className={classNames(
+                styles.display,
+                words.length > LONG_LINE_WORDS && styles.displayLong,
+              )}
+            >
+              {attribution ? (
+                <>
+                  <img
+                    src={QUOTE_MARKS[accent]}
+                    alt=""
+                    aria-hidden="true"
+                    className={styles.quoteMark}
+                  />
+                  <blockquote className={styles.displayQuote}>{displayText}</blockquote>
+                  <figcaption
+                    className={styles.attribution}
+                    style={{'--attribution-delay': `${attributionDelay}ms`} as CSSProperties}
                   >
-                    {word}
-                  </span>
-                  {index < words.length - 1 && ' '}
-                </span>
-              ))}
-            </p>
+                    — {attribution}
+                  </figcaption>
+                </>
+              ) : (
+                displayText
+              )}
+            </DisplayTag>
           )}
 
           <div className={styles.story}>

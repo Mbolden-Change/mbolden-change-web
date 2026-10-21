@@ -2312,6 +2312,13 @@
           },
           "optional": true
         },
+        "displayAttribution": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "eyebrow": {
           "type": "objectAttribute",
           "value": {

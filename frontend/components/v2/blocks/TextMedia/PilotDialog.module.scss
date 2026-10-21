@@ -132,6 +132,28 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   grid-template-columns: minmax(0, 44rem);
 }
 
+// Landscape photos: a wide banner across the top, text below.
+.landscape {
+  grid-template-columns: minmax(0, 1fr);
+
+  .media {
+    position: static;
+  }
+
+  .frame {
+    aspect-ratio: 21 / 9;
+    max-height: none;
+
+    @media (max-width: #{$breakpoint - 1px}) {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  .copy {
+    max-width: 44rem;
+  }
+}
+
 .media {
   position: sticky;
   top: 3rem;
@@ -142,26 +164,28 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 }
 
-// Standard slanted frame. Two layers so the settle and the drift don't
-// fight over one transform.
+// Standard slanted frame, shaped by the editor's crop (portrait to square).
+// Two layers so the settle and the drift don't fight over one transform.
 .frame {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--image-ratio, 0.8);
   max-height: calc(100dvh - 11rem);
   overflow: hidden;
   clip-path: var(--clip-parallelogram);
   background: var(--brand-light-gray);
 
   @media (max-width: #{$breakpoint - 1px}) {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1;
     max-height: none;
   }
 }
 
+// The hotspot is the focal point for the crop and for the zoom.
 .settle,
 .drift {
   position: absolute;
   inset: 0;
+  transform-origin: var(--image-focus, 50% 50%);
 }
 
 .image {
@@ -169,6 +193,7 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--image-focus, 50% 50%);
 }
 
 .isOpen .settle {
@@ -210,14 +235,47 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   line-height: 1.35;
 }
 
-.displayLine {
+.display {
   margin: ds.$space-xl 0 0;
+}
+
+.quoteMark {
+  display: block;
+  width: auto;
+  height: 2.25rem;
+  margin-bottom: ds.$space-md;
+}
+
+.displayQuote {
+  margin: 0;
+}
+
+.displayLine {
+  margin: 0;
   font-family: var(--font-headline);
   font-size: clamp(1.875rem, 3.4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.4px;
   text-wrap: balance;
+}
+
+.displayLong .displayLine {
+  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+
+.attribution {
+  margin-top: ds.$space-md;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.isOpen .attribution {
+  animation: fadeUp 450ms $ease-out var(--attribution-delay) both;
 }
 
 .word {
@@ -246,7 +304,7 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 // Paragraphs follow the display line one after another, a beat apart.
 @for $i from 1 through 10 {
   .isOpen .story :global(p):nth-of-type(#{$i}) {
-    animation: fadeUp 450ms $ease-out
+    animation: fadeUp 400ms $ease-out
       calc(var(--paragraphs-start) + #{$i - 1} * var(--paragraph-step)) both;
   }
 }
@@ -256,7 +314,7 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .isOpen .ctas {
-  animation: fadeUp 450ms $ease-out var(--cta-delay) both;
+  animation: fadeUp 400ms $ease-out var(--cta-delay) both;
 }
 
 @keyframes rise {
