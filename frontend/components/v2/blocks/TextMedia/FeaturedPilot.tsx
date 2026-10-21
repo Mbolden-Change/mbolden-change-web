@@ -4,7 +4,7 @@ import type {TextMedia as TextMediaType} from '@/sanity/types'
 import Headline from '@/components/atoms/Headline'
 import SanityNextImage from '@/components/SanityNextImage'
 import PortableTextComponent from '@/components/PortableTextComponent'
-import {deriveTextMedia} from './deriveTextMedia'
+import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
 import styles from './FeaturedPilot.module.scss'
 
@@ -30,7 +30,10 @@ export default function FeaturedPilot({
   ...rest
 }: FeaturedPilotProps) {
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
-  const linkedCtas = ctas?.filter((cta) => cta.link?.trim()) ?? []
+  const linkedCtas = pilotCtas(
+    ctas,
+    (rest as {documentFile?: PilotDocumentFile}).documentFile,
+  )
 
   return (
     <section

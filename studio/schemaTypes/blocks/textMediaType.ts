@@ -158,6 +158,30 @@ export const textMedia = defineType({
       ],
     }),
     defineField({
+      name: 'documentButton',
+      title: 'File button',
+      type: 'object',
+      description:
+        'Optional outline button beside the give button that opens a PDF in a new tab, such as “Read the partner report (PDF)”.',
+      hidden: ({parent}) => !isPilot(parent),
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'label',
+          title: 'Button text',
+          type: 'string',
+          description: 'Say it is a PDF, for example “Read the partner report (PDF)”.',
+          validation: (Rule) => Rule.max(50),
+        }),
+        defineField({
+          name: 'document',
+          title: 'PDF file',
+          type: 'reference',
+          to: [{type: 'pdfDocument'}],
+        }),
+      ],
+    }),
+    defineField({
       name: 'ctas',
       title: 'Call To Actions',
       type: 'array',

@@ -102,14 +102,61 @@ export const resourceListType = defineType({
       description:
         '1–12 resources. On a wide screen the date sits on the left. On a phone it sits above the title, and a blank date is hidden.',
       of: [defineArrayMember({type: 'resourceListItem'})],
+      hidden: ({parent}) => Boolean(parent?.groups?.length) && !parent?.items?.length,
       validation: (Rule) =>
-        Rule.required().min(1).max(12).error('Add 1–12 resources.'),
+        Rule.custom((items: unknown[] | undefined, context) => {
+          const groups = (context.parent as {groups?: unknown[]} | undefined)?.groups
+          if (groups?.length) return true
+          if (!items?.length || items.length > 12) return 'Add 1–12 resources, or use groups.'
+          return true
+        }),
+    }),
+    defineField({
+      name: 'groups',
+      title: 'Groups',
+      type: 'array',
+      description:
+        'Optional. Split the list into named groups, such as “Toolkits & Briefings” and “Reports & Evaluations”. Groups sit side by side on a wide screen and stack on a phone. When groups are set, they replace the single list above.',
+      of: [
+        defineArrayMember({
+          name: 'resourceGroup',
+          title: 'Group',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Group title',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'items',
+              title: 'Resources',
+              type: 'array',
+              of: [defineArrayMember({type: 'resourceListItem'})],
+              validation: (Rule) => Rule.required().min(1).error('Add at least one resource.'),
+            }),
+          ],
+          preview: {
+            select: {title: 'title', items: 'items'},
+            prepare({title, items}) {
+              const count = items?.length ?? 0
+              return {title, subtitle: `${count} resource${count === 1 ? '' : 's'}`}
+            },
+          },
+        }),
+      ],
     }),
   ],
   preview: {
-    select: {title: 'title', items: 'items'},
-    prepare({title, items}) {
-      const count = items?.length ?? 0
+    select: {title: 'title', items: 'items', groups: 'groups'},
+    prepare({title, items, groups}) {
+      const count =
+        (items?.length ?? 0) +
+        (groups ?? []).reduce(
+          (sum: number, group: {items?: unknown[]}) => sum + (group.items?.length ?? 0),
+          0,
+        )
       return {
         title: title ? `Resource List — ${title}` : 'Resource List',
         subtitle: count

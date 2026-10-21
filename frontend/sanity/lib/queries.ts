@@ -36,7 +36,9 @@ export const PAGE_QUERY = defineQuery(`
       ctas[]{
         label,
         link
-      }
+      },
+
+      "documentFile": documentButton{label, "slug": document->slug.current}
     },
     _type == "caseStudyHighlight" => {
     ...,
@@ -132,6 +134,13 @@ export const PAGE_QUERY = defineQuery(`
       items[]{
         ...,
         link${INTERNAL_OR_EXTERNAL_LINK}
+      },
+      groups[]{
+        ...,
+        items[]{
+          ...,
+          link${INTERNAL_OR_EXTERNAL_LINK}
+        }
       }
     },
     _type == "stackedEntries" => {
@@ -354,3 +363,7 @@ export const REPORT_QUERY = defineQuery(`
     }
   }
 `);
+
+export const PDF_FILE_URL_QUERY = defineQuery(
+  `*[_type == "pdfDocument" && slug.current == $slug][0].file.asset->url`,
+);

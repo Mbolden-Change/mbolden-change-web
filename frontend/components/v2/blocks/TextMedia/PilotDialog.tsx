@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import {PortableTextBlock} from 'next-sanity'
 import type {TextMedia as TextMediaType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
-import {deriveTextMedia} from './deriveTextMedia'
+import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
 import {getPilotImage} from './pilotImage'
 import styles from './PilotDialog.module.scss'
@@ -54,7 +54,10 @@ export default function PilotDialog({
   const [phase, setPhase] = useState<'closed' | 'open' | 'closing'>('closed')
 
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
-  const linkedCtas = ctas?.filter((cta) => cta.link?.trim()) ?? []
+  const linkedCtas = pilotCtas(
+    ctas,
+    (rest as {documentFile?: PilotDocumentFile}).documentFile,
+  )
   const image = getPilotImage(derived.showImage ? derived.image : undefined)
   const words = displayLine?.trim().split(/\s+/) ?? []
   const wordStep =

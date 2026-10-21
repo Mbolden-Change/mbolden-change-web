@@ -22,6 +22,10 @@ type Cta = {
   _key?: string;
   label?: string | null;
   link?: string | null;
+  /** Always render as the outline button, even when first. */
+  secondary?: boolean;
+  /** Open in a new tab (with noopener noreferrer). */
+  newTab?: boolean;
 };
 
 export default function TextMediaCtas({
@@ -45,9 +49,9 @@ export default function TextMediaCtas({
           );
         }
 
-        const isSecondary = linkIndex > 0;
+        const isSecondary = cta.secondary || linkIndex > 0;
         linkIndex += 1;
-        const newTab = variant === 'featured' && isGiveLink(cta);
+        const newTab = cta.newTab || (variant === 'featured' && isGiveLink(cta));
         const trackIfDonate = () => {
           if (isDonateCta({ title: cta.label, url: cta.link })) {
             trackDonateClick('text-media');

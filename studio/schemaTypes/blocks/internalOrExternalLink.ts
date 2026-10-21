@@ -97,8 +97,15 @@ export const internalOrExternalLinkType = defineType({
       name: 'reference',
       title: 'Page',
       type: 'reference',
-      description: 'The page, statement, case study, or report this link opens.',
-      to: [{type: 'page'}, {type: 'statement'}, {type: 'caseStudy'}, {type: 'report'}],
+      description:
+        'The page, statement, case study, report or PDF file this link opens. PDF files open in a new tab.',
+      to: [
+        {type: 'page'},
+        {type: 'statement'},
+        {type: 'caseStudy'},
+        {type: 'report'},
+        {type: 'pdfDocument'},
+      ],
       hidden: ({parent}) => typeof parent?.anchor === 'string' || parent?.isExternalLink === true,
     }),
   ],

@@ -31,6 +31,7 @@ export function hrefForInternalReference(
 ): string | null {
   const slug = reference.slug?.current;
   if (!slug) return null;
+  if (reference._type === "pdfDocument") return `/reports/${slug}.pdf`;
   const prefix = INTERNAL_ROUTE_PREFIX[reference._type];
   if (prefix === undefined) return null;
   return prefix ? `/${prefix}/${slug}` : `/${slug}`;
@@ -86,6 +87,23 @@ export const LinkAtom = ({
   if (reference) {
     const href = hrefForInternalReference(reference);
     if (!href) return null;
+
+    // PDF files are served by a route handler and open in a new tab.
+    if (reference._type === "pdfDocument") {
+      return (
+        <a
+          href={href}
+          className={className}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={ariaLabel}
+          onClick={onClick}
+          onPointerDown={onPointerDown}
+        >
+          {label}
+        </a>
+      );
+    }
 
     return (
       <Link
