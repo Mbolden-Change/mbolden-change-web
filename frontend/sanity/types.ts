@@ -1397,6 +1397,11 @@ export type Footer = {
   organizationInfo?: {
     address?: string;
     contact?: string;
+    note?: {
+      linkText?: string;
+      linkUrl?: string;
+      text?: string;
+    };
     nonProfitDisclaimer?: string;
   };
 };
