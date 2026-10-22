@@ -1,0 +1,321 @@
+@use '../../../../styles/tokens' as ds;
+
+// Layout, cards, covers and motion follow the approved mockup
+// (resources-mockup-reference.html).
+$ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+$card-border: #d4cabb; // warm hairline from the mockup; no token matches
+$stack: 900px;
+
+.wrapper {
+  padding: clamp(3.5rem, 8vw, 6rem) clamp(1rem, 4vw, 2.5rem) clamp(4rem, 9vw, 6.875rem);
+  background: var(--brand-creamy-beige);
+  color: var(--brand-black);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  max-width: 40rem;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  &::before {
+    content: '';
+    width: 1.75rem;
+    height: 0.375rem;
+    background: var(--first-lane);
+  }
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.intro {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: $stack) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.item {
+  display: flex;
+}
+
+// The whole card is the link: it lifts on hover and its cover zooms in.
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--brand-white);
+  border: 1px solid $card-border;
+  color: var(--brand-black);
+  text-decoration: none;
+  transition:
+    transform 0.35s $ease,
+    box-shadow 0.35s;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 3px;
+  }
+}
+
+a.card:hover,
+a.card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 30px -18px rgb(0 0 0 / 0.35);
+
+  .image {
+    transform: scale(1.06) rotate(-1deg);
+  }
+
+  .gen {
+    transform: scale(1.04);
+  }
+}
+
+.cover {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s $ease;
+}
+
+// Automatic cover: lane color, a bolt across it and the type in large letters.
+.gen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.375rem 1.5rem 2.125rem;
+  background: var(--lane);
+  color: var(--lane-contrast);
+  transition: transform 0.6s $ease;
+}
+
+.genWord {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 5.3vw, 4rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  transform: skewX(-8deg);
+}
+
+.genBolt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+
+  path {
+    fill: none;
+    stroke: var(--brand-black);
+    stroke-width: 7;
+    stroke-linejoin: miter;
+  }
+}
+
+.body {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.375rem 1.5rem 1.625rem;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.5625rem;
+  background: var(--lane);
+  color: var(--lane-contrast);
+  font-family: var(--font-headline);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: skewX(-12deg);
+}
+
+.year {
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: rgb(0 0 0 / 0.67);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.summary {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.credit {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: rgb(0 0 0 / 0.67);
+}
+
+// Link: lane-colored underline; yellow is too faint at 3px, so it gets 4px.
+.go {
+  display: inline-flex;
+  gap: 0.375rem;
+  align-self: flex-start;
+  padding-bottom: 3px;
+  border-bottom: 3px solid var(--lane);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.yellow .go {
+  border-bottom-width: 4px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// ——— Motion: cards rise in one after another; automatic covers draw their bolt ———
+
+.motion {
+  .item {
+    opacity: 0;
+    transform: translateY(32px);
+    animation: rise 0.8s $ease forwards;
+  }
+
+  .item:nth-child(1) {
+    animation-delay: 0.15s;
+  }
+
+  .item:nth-child(2) {
+    animation-delay: 0.35s;
+  }
+
+  .item:nth-child(3) {
+    animation-delay: 0.55s;
+  }
+
+  .genBolt path {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: draw 1.1s cubic-bezier(0.5, 0, 0.3, 1) forwards;
+  }
+
+  .item:nth-child(1) .genBolt path {
+    animation-delay: 0.6s;
+  }
+
+  .item:nth-child(2) .genBolt path {
+    animation-delay: 0.8s;
+  }
+
+  .item:nth-child(3) .genBolt path {
+    animation-delay: 1s;
+  }
+}
+
+.armed,
+.armed * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion .item,
+  .motion .genBolt path {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+  }
+
+  a.card:hover,
+  a.card:focus-visible {
+    transform: none;
+
+    .image,
+    .gen {
+      transform: none;
+    }
+  }
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

@@ -38,16 +38,66 @@ export const resourceListItemType = defineType({
       title: 'Link',
       type: 'internalOrExternalLink',
       description:
-        'Optional. Add it when the destination page exists. The whole row becomes the link, and the label can match the title. Leave it empty and the row stays on the page.',
+        'Optional. A page, a site path such as /simulator, a PDF File or an external URL. The whole row or card becomes the link. On a featured card the label is the call to action, such as “Try the simulator”; the ↗ arrow is added for you.',
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Feature in the row',
+      type: 'boolean',
+      description: 'Show this resource as one of the three cards in a Featured row.',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'color',
+      title: 'Lane color',
+      type: 'string',
+      description: 'Colors the card’s type tag, link underline and automatic cover.',
+      options: {
+        list: [
+          {title: 'Teal', value: 'teal'},
+          {title: 'Yellow', value: 'yellow'},
+          {title: 'Fuchsia', value: 'fuchsia'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'teal',
+    }),
+    defineField({
+      name: 'cover',
+      title: 'Cover image',
+      type: 'image',
+      description:
+        'Optional, for featured cards. Without one, the card draws a cover in the lane color with a bolt and the type in large letters.',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              (context.parent as {asset?: unknown} | undefined)?.asset && !value
+                ? 'Describe the image for screen readers.'
+                : true,
+            ),
+        }),
+        defineField({
+          name: 'credit',
+          title: 'Credit',
+          type: 'string',
+          description: 'Optional photo credit shown on the card, such as “Photo: Name, Source”.',
+        }),
+      ],
     }),
   ],
   preview: {
-    select: {title: 'title', date: 'date', label: 'label'},
-    prepare({title, date, label}) {
-      const meta = [date, label].filter(Boolean).join(' · ')
+    select: {title: 'title', date: 'date', label: 'label', featured: 'featured', media: 'cover'},
+    prepare({title, date, label, featured, media}) {
+      const meta = [featured ? 'Featured' : null, date, label].filter(Boolean).join(' · ')
       return {
         title: title || 'Resource',
         subtitle: meta || undefined,
+        media,
       }
     },
   },
@@ -80,6 +130,32 @@ export const resourceListType = defineType({
       type: 'text',
       rows: 3,
       description: 'Optional line under the heading.',
+    }),
+    defineField({
+      name: 'appearance',
+      title: 'Appearance',
+      type: 'string',
+      description:
+        'List shows every resource as dated rows. Featured row shows only the three resources marked “Feature in the row”, as cards; the rest stay here for a full list later.',
+      options: {
+        list: [
+          {title: 'List', value: 'list'},
+          {title: 'Featured row', value: 'featured'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'list',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (value !== 'featured') return true
+          const parent = context.parent as {
+            items?: Array<{featured?: boolean}>
+            groups?: Array<{items?: Array<{featured?: boolean}>}>
+          }
+          const all = [...(parent?.items ?? []), ...(parent?.groups ?? []).flatMap((g) => g.items ?? [])]
+          const count = all.filter((item) => item.featured).length
+          return count === 3 ? true : `Mark exactly three resources “Feature in the row” (now ${count}).`
+        }),
     }),
     defineField({
       name: 'surface',

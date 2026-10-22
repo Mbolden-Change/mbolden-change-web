@@ -11,6 +11,7 @@ import {
   getReferenceWithSlug,
   isRenderableInternalOrExternalLink,
 } from '@/utils/internalOrExternalLink'
+import FeaturedResources from './FeaturedResources'
 import styles from './ResourceList.module.scss'
 
 export type ResourceListProps = ResourceListType & PageBuilderBlockLayoutProps
@@ -49,7 +50,12 @@ function ResourceItem({item, titleTag}: {item: ResourceRow; titleTag: 'h3' | 'h4
   return <div className={styles.row}>{body}</div>
 }
 
-export default function ResourceList({
+export default function ResourceList(props: ResourceListProps) {
+  if (props.appearance === 'featured') return <FeaturedResources {...props} />
+  return <ResourceListRows {...props} />
+}
+
+function ResourceListRows({
   eyebrow,
   title,
   description,

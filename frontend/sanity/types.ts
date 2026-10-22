@@ -200,6 +200,7 @@ export type ResourceList = {
   eyebrow?: string;
   title: string;
   description?: string;
+  appearance?: "list" | "featured";
   surface?: "default" | "cream";
   items?: Array<{
     _key: string;
@@ -221,6 +222,22 @@ export type ResourceListItem = {
   title: string;
   summary?: string;
   link?: InternalOrExternalLink;
+  featured?: boolean;
+  color?: "teal" | "yellow" | "fuchsia";
+  cover?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    credit?: string;
+    _type: "image";
+  };
 };
 
 export type StackedEntry = {
