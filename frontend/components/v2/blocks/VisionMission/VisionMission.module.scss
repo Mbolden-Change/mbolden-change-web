@@ -1,0 +1,79 @@
+@use '../../../../styles/reveal';
+
+// Vision and Mission from the approved About mockup (about-mockup-reference.html).
+
+@include reveal.rise;
+
+.wrapper {
+  padding: 5.5rem 0 6rem;
+  background: var(--brand-black);
+  color: var(--brand-white);
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0 4rem;
+  }
+}
+
+.inner {
+  @include reveal.wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.vision {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  max-width: 61.25rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow;
+  color: var(--brand-white);
+}
+
+.missionEyebrow {
+  @include reveal.eyebrow(var(--brand-fuchsia));
+  color: var(--brand-white);
+  padding-top: 0.625rem;
+}
+
+.statement {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 3.4vw, 2.375rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--brand-white);
+  text-align: left;
+}
+
+.figure {
+  margin: 0;
+  overflow: hidden;
+  clip-path: polygon(0 2%, 100% 0, 100% 98%, 0 100%);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 3rem;
+  align-items: start;
+  padding-top: 0.5rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+
+.missionText {
+  font-size: clamp(1.625rem, 2.6vw, 1.75rem);
+}

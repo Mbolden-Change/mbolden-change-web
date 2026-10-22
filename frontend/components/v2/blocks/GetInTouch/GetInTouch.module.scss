@@ -1,0 +1,138 @@
+@use '../../../../styles/reveal';
+
+// Get in Touch from the approved About mockup (about-mockup-reference.html).
+
+@include reveal.rise;
+
+.wrapper {
+  padding: 5.5rem 0;
+  background: var(--brand-warm-yellow);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.inner {
+  @include reveal.wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow(var(--brand-black));
+}
+
+.heading {
+  @include reveal.section-title;
+}
+
+.text {
+  max-width: 32.5rem;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.donate {
+  padding: 12px 28px;
+  font-family: var(--font-headline);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.newsletter {
+  min-height: 46px;
+  padding: 0 1.5rem;
+  background: transparent;
+  border: 2px solid var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-black);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--brand-black);
+    color: var(--brand-white);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+  margin: 0;
+  padding: 2rem;
+  background: var(--brand-white);
+  box-shadow: 10px 10px 0 var(--brand-black);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+
+  @media (max-width: 900px) {
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0 var(--brand-black);
+  }
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  dt {
+    font-family: var(--font-headline);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  a {
+    color: #1a1a1a;
+  }
+}
+
+.addressLine {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .newsletter {
+    transition: none;
+  }
+}
