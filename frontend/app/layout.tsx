@@ -58,23 +58,23 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   openGraph: { // card preview when sharing social media link
-    title: 'mBOLDen CHANGE',
+    title: 'mBOLDen Change',
     description: SITE_DESCRIPTION,
     url: 'https://www.mboldenchange.org',
-    siteName: 'mBOLDen CHANGE',
+    siteName: 'mBOLDen Change',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'mBOLDen CHANGE social banner',
+        alt: 'mBOLDen Change social banner',
       },
     ],
     type: 'website',
   },
   twitter: { // card preview when sharing social media link
     card: 'summary_large_image',
-    title: 'mBOLDen CHANGE',
+    title: 'mBOLDen Change',
     description: SITE_DESCRIPTION,
     images: ['/og-image.png'],
   },
