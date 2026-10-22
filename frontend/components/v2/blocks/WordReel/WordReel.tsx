@@ -25,8 +25,9 @@ const COLORS = {
  * view the words cycle continuously: each holds for the step time and the last
  * word for longer, then it loops. A tab shows its word and holds it for 8
  * seconds before cycling resumes from there. The timer pauses while the
- * section is off-screen or the browser tab is hidden. With reduced motion the
- * last word shows from the start and nothing moves.
+ * section is off-screen or the browser tab is hidden, and the pause button
+ * holds the current word until play or a tab is pressed. With reduced motion
+ * the last word shows from the start and nothing moves.
  */
 export default function WordReel({eyebrow, lead = 'We are', words, stepSeconds, lastHoldSeconds}: WordReelProps) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.1)
@@ -46,9 +47,11 @@ export default function WordReel({eyebrow, lead = 'We are', words, stepSeconds, 
   const [turn, setTurn] = useState(0)
   // Only announce changes the visitor asked for, not the automatic cycle.
   const [announce, setAnnounce] = useState(false)
+  // The pause button holds the current word until play or a tab is pressed.
+  const [paused, setPaused] = useState(false)
 
   const duration = clickHold ? CLICK_HOLD_MS : active === last ? lastHoldMs : stepMs
-  const running = cycling && phase === 'in' && inView && pageVisible
+  const running = cycling && !paused && phase === 'in' && inView && pageVisible
 
   useEffect(() => {
     setHydrated(true)
@@ -105,6 +108,7 @@ export default function WordReel({eyebrow, lead = 'We are', words, stepSeconds, 
     setActive(index)
     setAnnounce(true)
     if (!cycling) return
+    setPaused(false)
     setClickHold(true)
     setTurn((count) => count + 1)
   }
@@ -160,6 +164,7 @@ export default function WordReel({eyebrow, lead = 'We are', words, stepSeconds, 
                 type="button"
                 className={classNames(
                   styles.tab,
+                  index === last && styles.lastTab,
                   index === active && styles.on,
                   index === active && cycling && phase === 'in' && styles.run,
                 )}
@@ -183,6 +188,19 @@ export default function WordReel({eyebrow, lead = 'We are', words, stepSeconds, 
                 />
               </button>
             ))}
+            {cycling && (
+              <button
+                type="button"
+                className={styles.pause}
+                aria-label={paused ? 'Play the words' : 'Pause the words'}
+                onClick={() => setPaused((value) => !value)}
+              >
+                <svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true">
+                  {paused ? <path d="M0 0 L10 6 L0 12 Z" /> : <path d="M0 0 H3.5 V12 H0 Z M6.5 0 H10 V12 H6.5 Z" />}
+                </svg>
+                {paused ? 'Play' : 'Pause'}
+              </button>
+            )}
           </div>
         </div>
       </div>

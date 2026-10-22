@@ -47,7 +47,7 @@ afterEach(() => {
 
 test('starts on the first word with a tab for every word', () => {
   render(<WordReel {...block} />)
-  expect(screen.getAllByRole('button')).toHaveLength(3)
+  expect(screen.getAllByRole('button', {pressed: undefined}).filter((b) => b.hasAttribute('aria-pressed'))).toHaveLength(3)
   expect(pressed()).toBe('Audacious')
   expect(screen.getByRole('heading', {level: 1})).toHaveTextContent('Audacious.')
 })
@@ -129,4 +129,34 @@ test('pauses while the browser tab is hidden', () => {
   setHidden(false)
   act(() => jest.advanceTimersByTime(600))
   expect(pressed()).toBe('Honest')
+})
+
+test('pause holds the current word until play, then resumes with the time left', () => {
+  render(<WordReel {...block} />)
+  setOnScreen(true)
+  act(() => jest.advanceTimersByTime(1000))
+  fireEvent.click(screen.getByRole('button', {name: 'Pause the words'}))
+  act(() => jest.advanceTimersByTime(30000))
+  expect(pressed()).toBe('Audacious')
+  fireEvent.click(screen.getByRole('button', {name: 'Play the words'}))
+  act(() => jest.advanceTimersByTime(1400))
+  expect(pressed()).toBe('Audacious')
+  act(() => jest.advanceTimersByTime(200))
+  expect(pressed()).toBe('Honest')
+})
+
+test('a tab click while paused ends the pause after its 8s hold', () => {
+  render(<WordReel {...block} />)
+  setOnScreen(true)
+  fireEvent.click(screen.getByRole('button', {name: 'Pause the words'}))
+  fireEvent.click(screen.getByRole('button', {name: 'Honest'}))
+  expect(screen.getByRole('button', {name: 'Pause the words'})).toBeInTheDocument()
+  act(() => jest.advanceTimersByTime(8100))
+  expect(pressed()).toBe('BOLD')
+})
+
+test('no pause button with reduced motion', () => {
+  window.matchMedia = jest.fn().mockReturnValue({matches: true}) as unknown as typeof window.matchMedia
+  render(<WordReel {...block} />)
+  expect(screen.queryByRole('button', {name: /the words/})).toBeNull()
 })
