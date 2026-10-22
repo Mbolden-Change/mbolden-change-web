@@ -35,7 +35,11 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'mBOLDen CHANGE',
+  // Pages set their own title; the template adds the site name.
+  title: {
+    default: 'mBOLDen Change',
+    template: '%s | mBOLDen Change',
+  },
   description: SITE_DESCRIPTION,
   keywords: [
     'mBOLDen Change',
