@@ -33,7 +33,7 @@ export default function WordReel({eyebrow, lead = 'We are', words}: WordReelProp
 
   useEffect(() => {
     setHydrated(true)
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       setActive(last)
       setAuto(false)
     }
