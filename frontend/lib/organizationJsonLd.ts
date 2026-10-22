@@ -3,7 +3,7 @@ import type { Footer } from '@/sanity/types'
 export const SITE_ORIGIN = 'https://www.mboldenchange.org'
 
 export const SITE_DESCRIPTION =
-  'mBOLDen CHANGE is a nonprofit based in Palo Alto, California, formerly known as My New Red Shoes. We meet urgent needs and drive systemic change—bridging temporary setbacks before they become permanent through emergency cash support, community partnership, public education, and policy advocacy.'
+  'mBOLDen Change is a nonprofit based in Palo Alto, California, formerly known as My New Red Shoes. We meet urgent needs and drive systemic change—bridging temporary setbacks before they become permanent through emergency cash support, community partnership, public education and policy advocacy.'
 
 type JsonLd = Record<string, unknown>
 
@@ -98,9 +98,9 @@ export function buildOrganizationJsonLd(
     '@context': 'https://schema.org',
     '@type': 'NGO',
     '@id': `${SITE_ORIGIN}/#organization`,
-    name: 'mBOLDen CHANGE',
+    name: 'mBOLDen Change',
     alternateName: [
-      'mBOLDen Change',
+      'mBOLDen CHANGE',
       'mboldenchange',
       'My New Red Shoes',
     ],
