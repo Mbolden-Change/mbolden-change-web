@@ -50,15 +50,15 @@ export const wordReelWordType = defineType({
 })
 
 /**
- * “We are …” with one large word at a time. The words advance on their own
- * once, ending on the last one; the tabs jump to any word.
+ * “We are …” with one large word at a time. The words cycle on their own,
+ * holding the last one longer; the tabs jump to any word.
  */
 export const wordReelType = defineType({
   name: 'wordReel',
   title: 'Word Reel',
   type: 'object',
   description:
-    'One large word at a time on a slanted color block, with its line underneath and tabs for every word. Advances every 4.5 seconds once and stops on the last word.',
+    'One large word at a time on a slanted color block, with its line underneath and tabs for every word. Cycles continuously, holding the last word a little longer; a tab shows its word for 8 seconds, then cycling resumes. Pauses while off-screen.',
   fields: [
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'For example “About Us · Who We Are”.'}),
     defineField({
@@ -72,9 +72,23 @@ export const wordReelType = defineType({
       name: 'words',
       title: 'Words',
       type: 'array',
-      description: 'In order. The last word is where it stops and what shows with reduced motion.',
+      description: 'In order. The last word is held longer and is what shows with reduced motion.',
       of: [defineArrayMember({type: 'wordReelWord'})],
       validation: (Rule) => Rule.required().min(2).max(8),
+    }),
+    defineField({
+      name: 'stepSeconds',
+      title: 'Seconds per word',
+      type: 'number',
+      description: 'How long each word shows. Leave empty for 2.5.',
+      validation: (Rule) => Rule.min(1).max(15),
+    }),
+    defineField({
+      name: 'lastHoldSeconds',
+      title: 'Seconds on the last word',
+      type: 'number',
+      description: 'How long the last word shows before it loops back to the first. Leave empty for 4.',
+      validation: (Rule) => Rule.min(1).max(30),
     }),
   ],
   preview: {

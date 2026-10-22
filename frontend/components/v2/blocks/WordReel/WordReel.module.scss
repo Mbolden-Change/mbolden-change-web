@@ -199,8 +199,41 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
   }
 
+  // Duration set per word; the bar pauses whenever the timer does.
   &.run i {
-    animation: fill 4.5s linear both;
+    animation: fill var(--duration, 2.5s) linear both;
+  }
+}
+
+// Small, quiet pause/play control at the end of the tab row.
+.pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-left: auto;
+  padding: 0 0 6px;
+  background: none;
+  border: 0;
+  font-family: var(--font-headline);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6156;
+  cursor: pointer;
+
+  svg {
+    fill: currentColor;
+  }
+
+  &:hover {
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-black);
+    outline-offset: 3px;
   }
 }
 
@@ -254,12 +287,17 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
       width: 0;
     }
 
-    .tab:last-child {
+    .lastTab {
       color: var(--brand-black);
     }
 
-    .tab:last-child i {
+    .lastTab i {
       width: 100%;
+    }
+
+    // Nothing moves with reduced motion, so there's nothing to pause.
+    .pause {
+      display: none;
     }
   }
 }

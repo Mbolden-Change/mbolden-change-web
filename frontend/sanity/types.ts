@@ -173,6 +173,8 @@ export type WordReel = {
   words: Array<{
     _key: string;
   } & WordReelWord>;
+  stepSeconds?: number;
+  lastHoldSeconds?: number;
 };
 
 export type FocusAreas = {
