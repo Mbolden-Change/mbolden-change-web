@@ -41,6 +41,9 @@ export const metadata: Metadata = {
     template: '%s | mBOLDen Change',
   },
   description: SITE_DESCRIPTION,
+  // Stop iOS turning number strings such as the EIN into phone links; real
+  // phone numbers are marked up as tel: links.
+  formatDetection: { telephone: false },
   keywords: [
     'mBOLDen Change',
     'Bay Area nonprofit',
