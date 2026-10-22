@@ -5,6 +5,7 @@ import {shouldSectionFlushBottom} from '@/lib/pageBuilderLayout'
 import Headline from '@/components/atoms/Headline'
 import SanityNextImage from '@/components/SanityNextImage'
 import styles from './Leadership.module.scss'
+import LeadershipFeatured from './LeadershipFeatured'
 
 type PersonWithKey = Person & {_key?: string}
 
@@ -51,14 +52,12 @@ function PersonCard({name, role, bio, image, link, linkLabel}: PersonWithKey) {
   )
 }
 
-export default function Leadership({
-  title,
-  people,
-  nested = false,
-  headingTag = 'h2',
-  isLastBlock,
-}: LeadershipProps) {
+export default function Leadership(props: LeadershipProps) {
+  const {title, people, nested = false, headingTag = 'h2', isLastBlock} = props
   if (!people || people.length === 0) return null
+
+  // The About page layout: featured people, then groups.
+  if (props.layout === 'featured' && !nested) return <LeadershipFeatured {...props} />
 
   const flushBottom = !nested && shouldSectionFlushBottom(isLastBlock)
 

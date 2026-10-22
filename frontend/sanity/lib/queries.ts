@@ -122,6 +122,19 @@ export const PAGE_QUERY = defineQuery(`
         description
       }
     },
+    _type == "visionMission" => {
+      ...,
+      actionLink${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    _type == "timeline" => {
+      ...,
+      cta${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    _type == "getInTouch" => {
+      ...,
+      donateLink${INTERNAL_OR_EXTERNAL_LINK},
+      "contact": *[_type == "footer"][0].organizationInfo{address, contact}
+    },
     _type == "focusAreas" => {
       ...,
       "source": page->{

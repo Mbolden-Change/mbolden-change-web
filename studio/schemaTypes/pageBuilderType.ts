@@ -41,6 +41,22 @@ export const pageBuilderType = defineType({
       title: 'Focus Areas',
     }),
     defineArrayMember({
+      type: 'wordReel',
+      title: 'Word Reel',
+    }),
+    defineArrayMember({
+      type: 'visionMission',
+      title: 'Vision and Mission',
+    }),
+    defineArrayMember({
+      type: 'timeline',
+      title: 'Timeline',
+    }),
+    defineArrayMember({
+      type: 'getInTouch',
+      title: 'Get in Touch',
+    }),
+    defineArrayMember({
       type: 'stackedEntries',
       title: 'Stacked Entries',
     }),

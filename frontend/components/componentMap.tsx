@@ -56,6 +56,18 @@ const componentMap: ComponentsMap = {
   storyHighlight: dynamic(
     () => import('@/components/v2/blocks/StoryHighlight/StoryHighlight'),
   ),
+  wordReel: dynamic(
+    () => import('@/components/v2/blocks/WordReel/WordReel'),
+  ),
+  visionMission: dynamic(
+    () => import('@/components/v2/blocks/VisionMission/VisionMission'),
+  ),
+  timeline: dynamic(
+    () => import('@/components/v2/blocks/Timeline/Timeline'),
+  ),
+  getInTouch: dynamic(
+    () => import('@/components/v2/blocks/GetInTouch/GetInTouch'),
+  ),
   featuredIssue: dynamic(
     () => import('@/components/v2/blocks/FeaturedIssue/FeaturedIssue'),
   ),

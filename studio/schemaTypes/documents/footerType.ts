@@ -118,6 +118,29 @@ export const footertype = defineField({
           description: 'List each contact item (phone, email) on a separate line',
         }),
         defineField({
+          name: 'note',
+          title: 'Note under contact details',
+          type: 'object',
+          description:
+            'Optional short line under the email in small light-gray text, starting with a yellow link, such as “mBOLDen Action is where we bring stories, systems and change together.”',
+          options: {collapsible: true, collapsed: false},
+          fields: [
+            defineField({name: 'linkText', title: 'Link text', type: 'string', description: 'For example “mBOLDen Action”.'}),
+            defineField({
+              name: 'linkUrl',
+              title: 'Link URL',
+              type: 'url',
+              description: 'Opens in a new tab.',
+            }),
+            defineField({
+              name: 'text',
+              title: 'Rest of the line',
+              type: 'string',
+              description: 'Follows the link, such as “is where we bring stories, systems and change together.”',
+            }),
+          ],
+        }),
+        defineField({
           name: 'nonProfitDisclaimer',
           title: 'Non-Profit Disclaimer',
           type: 'text',

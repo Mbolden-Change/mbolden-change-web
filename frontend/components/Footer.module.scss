@@ -177,6 +177,25 @@
   gap: 4px;
 }
 
+.note {
+  max-width: 15rem;
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a6a6a6;
+}
+
+.noteLink {
+  color: var(--brand-warm-yellow);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--brand-white);
+  }
+}
+
 .contactLines a {
   color: var(--brand-light-gray);
   text-decoration: underline;

@@ -72,6 +72,25 @@ const Footer = ({ footerData }: FooterProps) => {
                         })}
                     </div>
                   </address>
+                  {footerData.organizationInfo.note?.text && (
+                    <p className={styles.note}>
+                      {footerData.organizationInfo.note.linkText &&
+                      footerData.organizationInfo.note.linkUrl ? (
+                        <a
+                          href={footerData.organizationInfo.note.linkUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.noteLink}
+                          aria-label={`${footerData.organizationInfo.note.linkText} (opens in a new tab)`}
+                        >
+                          {footerData.organizationInfo.note.linkText}
+                        </a>
+                      ) : (
+                        footerData.organizationInfo.note.linkText
+                      )}{' '}
+                      {footerData.organizationInfo.note.text}
+                    </p>
+                  )}
                 </div>
               )}
             </div>

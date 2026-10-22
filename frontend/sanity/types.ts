@@ -66,6 +66,14 @@ export type PageBuilder = Array<{
   _key: string;
 } & FocusAreas | {
   _key: string;
+} & WordReel | {
+  _key: string;
+} & VisionMission | {
+  _key: string;
+} & Timeline | {
+  _key: string;
+} & GetInTouch | {
+  _key: string;
 } & StackedEntries | {
   _key: string;
 } & ResourceList | {
@@ -99,6 +107,73 @@ export type PageBuilder = Array<{
 } & Faq | {
   _key: string;
 } & HolidayCard>;
+
+export type GetInTouch = {
+  _type: "getInTouch";
+  eyebrow?: string;
+  heading: string;
+  text?: string;
+  donateLink?: InternalOrExternalLink;
+  newsletterLabel?: string;
+};
+
+export type Timeline = {
+  _type: "timeline";
+  eyebrow?: string;
+  heading: string;
+  milestones: Array<{
+    _key: string;
+  } & TimelineMilestone>;
+  cta?: InternalOrExternalLink;
+};
+
+export type TimelineMilestone = {
+  _type: "timelineMilestone";
+  year: string;
+  title: string;
+  text: string;
+};
+
+export type VisionMission = {
+  _type: "visionMission";
+  visionEyebrow?: string;
+  vision: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+  };
+  missionEyebrow?: string;
+  mission: string;
+  actionEyebrow?: string;
+  actionText?: string;
+  actionLink?: InternalOrExternalLink;
+};
+
+export type WordReelWord = {
+  _type: "wordReelWord";
+  word: string;
+  color: "teal" | "yellow" | "fuchsia" | "stacked";
+  opening: string;
+  line: string;
+};
+
+export type WordReel = {
+  _type: "wordReel";
+  eyebrow?: string;
+  lead?: string;
+  words: Array<{
+    _key: string;
+  } & WordReelWord>;
+};
 
 export type FocusAreas = {
   _type: "focusAreas";
@@ -376,10 +451,20 @@ export type TopicListItem = {
 
 export type Leadership = {
   _type: "leadership";
+  layout?: "cards" | "featured";
+  eyebrow?: string;
   title?: string;
   people: Array<{
     _key: string;
   } & Person>;
+  groups?: Array<{
+    title: string;
+    people?: Array<{
+      _key: string;
+    } & Person>;
+    _type: "leadershipGroup";
+    _key: string;
+  }>;
 };
 
 export type Person = {
@@ -1312,6 +1397,11 @@ export type Footer = {
   organizationInfo?: {
     address?: string;
     contact?: string;
+    note?: {
+      linkText?: string;
+      linkUrl?: string;
+      text?: string;
+    };
     nonProfitDisclaimer?: string;
   };
 };
@@ -1519,5 +1609,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

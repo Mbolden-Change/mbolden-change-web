@@ -1,0 +1,265 @@
+@use '../../../../styles/reveal';
+
+// “We are …” from the approved About mockup (about-mockup-reference.html).
+$ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+@include reveal.rise;
+
+.wrapper {
+  padding: 6rem 0 6.5rem;
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0 4rem;
+  }
+}
+
+.inner {
+  @include reveal.wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow;
+}
+
+.reel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+  padding-top: 0.5rem;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+  margin: 0;
+  font-weight: 700;
+}
+
+.lead {
+  font-family: var(--font-headline);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--brand-black);
+
+  @media (max-width: 900px) {
+    font-size: 1.75rem;
+  }
+}
+
+// All words share one grid cell; only the active one shows.
+.stack {
+  display: grid;
+  align-items: end;
+  justify-items: start;
+  padding-bottom: 0.2em;
+  font-size: clamp(2.875rem, 12vw, 11rem);
+  line-height: 1;
+}
+
+.word {
+  grid-area: 1 / 1;
+  position: relative;
+  isolation: isolate;
+  padding: 0 0.14em 0.06em 0.08em;
+  font-family: var(--font-headline);
+  letter-spacing: -0.02em;
+  color: var(--brand-black);
+  opacity: 0;
+  transform: translateY(0.35em) skewX(-12deg);
+  transition:
+    opacity 0.45s ease,
+    transform 0.6s $ease;
+
+  // The color block sweeps in from the left behind the word.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0.12em 0 0.02em;
+    z-index: -1;
+    background: var(--c);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.55s $ease 0.2s;
+  }
+
+  &.on {
+    opacity: 1;
+    transform: skewX(-12deg);
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+}
+
+// The final word: larger, with fuchsia and teal blocks stacked behind.
+.stacked {
+  font-size: 1.3em;
+
+  &::before {
+    box-shadow:
+      0.07em 0.07em 0 var(--brand-fuchsia),
+      0.14em 0.14em 0 var(--brand-aqua-teal);
+  }
+}
+
+// Lines share one grid cell too, so the area fits the longest one.
+.lines {
+  display: grid;
+  max-width: 53.75rem;
+}
+
+.line {
+  grid-area: 1 / 1;
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition:
+    opacity 0.5s 0.25s,
+    transform 0.5s 0.25s,
+    visibility 0s 0.75s;
+
+  strong {
+    font-family: var(--font-headline);
+    font-size: 1.75rem;
+    color: var(--brand-black);
+  }
+
+  &.on {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.5s 0.25s,
+      transform 0.5s 0.25s;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.1875rem;
+
+    strong {
+      font-size: 1.1875rem;
+    }
+  }
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  padding-top: 1.125rem;
+  border-top: 2px solid var(--brand-black);
+}
+
+.tab {
+  position: relative;
+  min-height: 44px;
+  padding: 0 0 6px;
+  background: none;
+  border: 0;
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6156;
+  cursor: pointer;
+
+  &:hover,
+  &.on {
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-black);
+    outline-offset: 3px;
+  }
+
+  // The active tab's underline fills as the timer runs.
+  i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 4px;
+    background: var(--c);
+  }
+
+  &.on i {
+    width: 100%;
+  }
+
+  &.run i {
+    animation: fill 4.5s linear both;
+  }
+}
+
+@keyframes fill {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word,
+  .word::before,
+  .line,
+  .tab i {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  // Before the page hydrates, show the last word, its line and its tab.
+  .ssr {
+    .word,
+    .line {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .word:last-child,
+    .line:last-child {
+      opacity: 1;
+      visibility: visible;
+      transform: skewX(-12deg);
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+
+    .line:last-child {
+      transform: none;
+    }
+
+    .tab {
+      color: #6b6156;
+    }
+
+    .tab i {
+      width: 0;
+    }
+
+    .tab:last-child {
+      color: var(--brand-black);
+    }
+
+    .tab:last-child i {
+      width: 100%;
+    }
+  }
+}
