@@ -29,6 +29,10 @@ export const pageBuilderType = defineType({
       title: 'Topic List',
     }),
     defineArrayMember({
+      type: 'boltSteps',
+      title: 'Bolt Steps',
+    }),
+    defineArrayMember({
       type: 'stackedEntries',
       title: 'Stacked Entries',
     }),

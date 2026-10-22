@@ -56,6 +56,9 @@ const componentMap: ComponentsMap = {
   storyHighlight: dynamic(
     () => import('@/components/v2/blocks/StoryHighlight/StoryHighlight'),
   ),
+  boltSteps: dynamic(
+    () => import('@/components/v2/blocks/BoltSteps/BoltSteps'),
+  ),
   toolCards: dynamic(
     () => import('@/components/v2/blocks/ToolCards/ToolCards'),
   ),
