@@ -1,0 +1,323 @@
+@use '../../../../styles/reveal';
+
+// Cards layout from the approved homepage mockup (homepage-mockup-reference.html,
+// “How We Work”). The page renders each silhouette's finished pose; when the
+// section plays, each starts from its opening pose and moves into place.
+
+@include reveal.rise;
+
+.wrapper {
+  padding: 6rem 0;
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.inner {
+  @include reveal.wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow;
+}
+
+.title {
+  @include reveal.section-title;
+}
+
+.intro {
+  max-width: 40rem;
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.75rem 1.75rem 1.875rem;
+  background: var(--brand-white);
+  border: 1px solid #d4cabb;
+}
+
+.bar {
+  display: block;
+  width: 2.5rem;
+  height: 0.4375rem;
+  margin-left: 3px;
+  background: var(--step);
+  transform: skewX(-20deg);
+}
+
+.stepTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--brand-black);
+}
+
+.stepBody {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+// ——— Silhouettes ———
+
+.fig {
+  position: relative;
+  align-self: flex-start;
+  height: 170px;
+
+  img,
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+}
+
+// The tree rises above the card's top padding.
+.build {
+  height: 200px;
+  margin-top: -30px;
+}
+
+.sway {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50.1% 98.7%;
+}
+
+.tree {
+  transform-origin: 50.1% 98.7%;
+}
+
+.waves path {
+  fill: none;
+  stroke: var(--step);
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+
+// Finished poses (no motion, reduced motion, or before hydration).
+.listen .back {
+  transform-origin: 19% 100%;
+  transform: rotate(1.5deg);
+}
+
+.listen .front {
+  transform-origin: 82% 100%;
+  transform: rotate(-3deg);
+}
+
+.advocate .front {
+  transform-origin: 29.1% 53.7%;
+}
+
+// Opening poses while waiting to scroll into view.
+.armed {
+  .listen .back {
+    transform: rotate(-1.5deg);
+  }
+
+  .listen .front {
+    transform: rotate(5deg);
+  }
+
+  .advocate .front {
+    transform: rotate(32deg);
+  }
+
+  .tree {
+    transform: scale(0);
+  }
+
+  .waves {
+    opacity: 0;
+  }
+}
+
+// Motion, with the mockup's timings.
+.in {
+  .listen .back {
+    animation: leanL 1s ease-in-out 0.7s both;
+  }
+
+  .listen .front {
+    animation: leanR 2.4s ease-in-out 0.7s both;
+  }
+
+  .advocate .front {
+    animation: raise 0.9s cubic-bezier(0.3, 1.3, 0.5, 1) 1.1s both;
+  }
+
+  .tree {
+    animation: grow 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.9s both;
+  }
+
+  .sway {
+    animation: sway 4s ease-in-out 3.2s infinite;
+  }
+
+  .waves {
+    animation: show 0.4s ease-out both;
+  }
+
+  .listen .waves {
+    animation-delay: 1.5s;
+  }
+
+  .advocate .waves {
+    animation-delay: 2s;
+  }
+
+  .waves path {
+    animation: pulse 1.5s ease-out infinite;
+  }
+
+  .waves path:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .waves path:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes leanL {
+  from {
+    transform: rotate(-1.5deg);
+  }
+
+  to {
+    transform: rotate(1.5deg);
+  }
+}
+
+@keyframes leanR {
+  0% {
+    transform: rotate(5deg);
+  }
+
+  35% {
+    transform: rotate(-4.5deg);
+  }
+
+  50% {
+    transform: rotate(-2.5deg);
+  }
+
+  65% {
+    transform: rotate(-4.5deg);
+  }
+
+  80% {
+    transform: rotate(-2.5deg);
+  }
+
+  100% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes raise {
+  from {
+    transform: rotate(32deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0);
+  }
+
+  15% {
+    transform: scale(0.12);
+  }
+
+  35% {
+    transform: scale(0.13);
+  }
+
+  90% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.2deg);
+  }
+
+  50% {
+    transform: rotate(1.2deg);
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrapper,
+  .wrapper * {
+    animation: none !important;
+  }
+}

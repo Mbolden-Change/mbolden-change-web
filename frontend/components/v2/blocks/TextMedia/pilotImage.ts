@@ -86,3 +86,8 @@ export function getYouTubeId(input?: string | null) {
     return null
   }
 }
+
+/** Privacy-enhanced YouTube player that starts playing as it loads. */
+export function youTubeEmbedUrl(videoId: string) {
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0&playsinline=1`
+}

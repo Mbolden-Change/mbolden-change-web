@@ -122,6 +122,18 @@ export const PAGE_QUERY = defineQuery(`
         description
       }
     },
+    _type == "focusAreas" => {
+      ...,
+      "source": page->{
+        "slug": slug.current,
+        "topics": content[_type == "topicList" && appearance == "focusIndex"][0].items[]{
+          _key,
+          title,
+          accent,
+          "card": initiative{label, title, summary, "anchor": link.anchor}
+        }
+      }
+    },
     _type == "topicList" => {
       ...,
       items[]{

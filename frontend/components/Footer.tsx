@@ -84,21 +84,38 @@ const Footer = ({ footerData }: FooterProps) => {
                   className={styles['category-title']}
                   tag="h3"
                 />
-                {category.links?.map((link: any) => (
-                  <LinkAtom
-                    key={link._key}
-                    isExternalLink={link.isExternalLink}
-                    url={link.url}
-                    target={link.target}
-                    reference={link.reference as ReferenceType}
-                    className={styles['footer-link']}
-                    ariaLabel={link.title || 'Untitled'}
-                    title={link.title}
-                    onClick={() => {
-                      if (isDonateCta(link)) trackDonateClick('footer');
-                    }}
-                  />
-                ))}
+                {category.links?.map((link: any) => {
+                  // New-tab links get ↗, except the Donate call to action.
+                  const showArrow =
+                    link.isExternalLink &&
+                    link.target === '_blank' &&
+                    !isDonateCta(link);
+                  return (
+                    <LinkAtom
+                      key={link._key}
+                      isExternalLink={link.isExternalLink}
+                      url={link.url}
+                      target={link.target}
+                      reference={link.reference as ReferenceType}
+                      className={styles['footer-link']}
+                      ariaLabel={
+                        showArrow
+                          ? `${link.title} (opens in a new tab)`
+                          : link.title || 'Untitled'
+                      }
+                      title={link.title}
+                      onClick={() => {
+                        if (isDonateCta(link)) trackDonateClick('footer');
+                      }}
+                    >
+                      {showArrow ? (
+                        <>
+                          {link.title} <span aria-hidden="true">↗</span>
+                        </>
+                      ) : undefined}
+                    </LinkAtom>
+                  );
+                })}
               </div>
             </GridItem>
           ))}

@@ -1,0 +1,97 @@
+// Scroll-in motion shared by the homepage blocks (see useScrollReveal).
+// Include `@include reveal.rise;` at the top level of a block's module, put
+// `.armed` / `.in` on the section for its phase, and `.rv` (plus `.d1`–`.d4`
+// for a stagger) on each element that rises in.
+
+$ease-rise: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+@mixin rise {
+  .armed .rv {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  .in .rv {
+    animation: rise 0.9s $ease-rise both;
+  }
+
+  .in .d1 {
+    animation-delay: 0.15s;
+  }
+
+  .in .d2 {
+    animation-delay: 0.3s;
+  }
+
+  .in .d3 {
+    animation-delay: 0.45s;
+  }
+
+  .in .d4 {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+}
+
+// Eyebrow with a short color bar, as on What We're Tackling.
+@mixin eyebrow($bar: var(--brand-aqua-teal)) {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-black);
+
+  &::before {
+    content: '';
+    flex: none;
+    width: 1.75rem;
+    height: 0.375rem;
+    background: $bar;
+  }
+}
+
+// Section shell: 1200px content width with 40px gutters (20px on phones).
+@mixin wrap {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+
+  @media (max-width: 900px) {
+    padding: 0 1.25rem;
+  }
+}
+
+@mixin section-title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brand-black);
+}

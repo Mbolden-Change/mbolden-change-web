@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useRef, type CSSProperties} from 'react'
-import {getPilotImage} from './pilotImage'
+import {getPilotImage, youTubeEmbedUrl} from './pilotImage'
 import styles from './PilotDialog.module.scss'
 
 type PilotVideoProps = {
@@ -36,7 +36,7 @@ export default function PilotVideo({videoId, title, cover, playing, onPlay}: Pil
         tabIndex={-1}
       >
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0&playsinline=1`}
+          src={youTubeEmbedUrl(videoId)}
           title={title}
           allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen

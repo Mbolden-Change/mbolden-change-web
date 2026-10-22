@@ -33,6 +33,14 @@ export const pageBuilderType = defineType({
       title: 'Bolt Steps',
     }),
     defineArrayMember({
+      type: 'featuredIssue',
+      title: 'Featured Issue',
+    }),
+    defineArrayMember({
+      type: 'focusAreas',
+      title: 'Focus Areas',
+    }),
+    defineArrayMember({
       type: 'stackedEntries',
       title: 'Stacked Entries',
     }),
