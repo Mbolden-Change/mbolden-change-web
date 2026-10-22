@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import type { SanityDocument } from '@sanity/client';
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/fetch';
 
 async function getData() {
   const query = `*[_type in ["caseStudy", "statement", "page", "report"] && defined(slug.current)] {
@@ -9,7 +9,7 @@ async function getData() {
     _type
   }`;
 
-  const data = await client.fetch(query);
+  const data = await sanityFetch<SanityDocument[]>(query);
   return data;
 }
 
