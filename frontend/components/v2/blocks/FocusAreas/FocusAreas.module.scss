@@ -1,0 +1,140 @@
+@use '../../../../styles/reveal';
+
+// Layout and type follow the approved homepage mockup
+// (homepage-mockup-reference.html, “Our Focus Areas”).
+$ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+@include reveal.rise;
+
+.wrapper {
+  padding: 6rem 0;
+  background: var(--brand-white);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.inner {
+  @include reveal.wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow;
+}
+
+.heading {
+  @include reveal.section-title;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.area {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--brand-black);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.875rem;
+  padding: 1.625rem 1.625rem 1.75rem;
+  background: var(--brand-creamy-beige);
+  border-top: 6px solid var(--lane);
+  color: #1a1a1a;
+  text-decoration: none;
+  transition:
+    transform 0.35s $ease,
+    box-shadow 0.35s;
+}
+
+a.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 30px -18px rgb(0 0 0 / 0.3);
+}
+
+a.card:focus-visible {
+  outline: 3px solid var(--brand-black);
+  outline-offset: 3px;
+}
+
+.label {
+  font-family: var(--font-headline);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.cardTitle {
+  font-family: var(--font-headline);
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--brand-black);
+}
+
+.paragraph {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+// Pinned to the bottom so the links line up across cards.
+.go {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: auto;
+  gap: 0.375rem;
+  padding-bottom: 3px;
+  border-bottom: 3px solid var(--lane);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+// Yellow is faint as a thin line on cream, so it gets a thicker underline.
+.yellow .go {
+  border-bottom-width: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  a.card:hover {
+    transform: none;
+  }
+}

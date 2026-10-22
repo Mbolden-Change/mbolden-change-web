@@ -88,8 +88,23 @@ export const boltStepsType = defineType({
   type: 'object',
   icon: BoltIcon,
   description:
-    'Three steps along a rising, three-color bolt, with animated silhouettes. Plays once when it scrolls into view; on phones the bolt runs down the left edge.',
+    'Three steps with animated silhouettes, along a rising three-color bolt or as three cards. Plays once when it scrolls into view.',
   fields: [
+    defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      description:
+        'Bolt sets the steps along a rising bolt (What We’re Tackling); on phones the bolt runs down the left edge. Cards sets three white cards on cream (homepage).',
+      options: {
+        list: [
+          {title: 'Bolt', value: 'bolt'},
+          {title: 'Cards', value: 'cards'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'bolt',
+    }),
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'For example “Our Model”.'}),
     defineField({
       name: 'title',
@@ -102,7 +117,7 @@ export const boltStepsType = defineType({
       name: 'steps',
       title: 'Steps',
       type: 'array',
-      description: 'Exactly three, in order along the bolt from left to right.',
+      description: 'Exactly three, in order from left to right.',
       of: [defineArrayMember({type: 'boltStep'})],
       validation: (Rule) => Rule.required().length(3).error('Add exactly three steps.'),
     }),

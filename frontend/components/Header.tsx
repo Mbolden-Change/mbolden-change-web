@@ -105,6 +105,9 @@ export default function Header({ headerData }: HeaderProps) {
                 const isSelected = Boolean(
                   href && (isActive || pendingHref === href),
                 );
+                const opensNewTab = Boolean(
+                  link.isExternalLink && link.target === '_blank',
+                );
 
                 return (
                   <li key={i}>
@@ -118,14 +121,25 @@ export default function Header({ headerData }: HeaderProps) {
                       target={link.target}
                       url={link.url}
                       title={link.title}
-                      ariaLabel={link.title}
+                      ariaLabel={
+                        opensNewTab
+                          ? `${link.title} (opens in a new tab)`
+                          : link.title
+                      }
                       className={classNames(
                         styles.headerLink,
                         isSelected && styles.headerLinkActive,
                       )}
                       onPointerDown={(event) => handleNavPointerDown(event, href)}
                       onClick={handleNavClick}
-                    />
+                    >
+                      {opensNewTab ? (
+                        <>
+                          {link.title}{' '}
+                          <span aria-hidden="true">↗</span>
+                        </>
+                      ) : undefined}
+                    </LinkAtom>
                   </li>
                 );
               })}

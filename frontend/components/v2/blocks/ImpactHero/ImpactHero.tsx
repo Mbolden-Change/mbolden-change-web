@@ -3,15 +3,14 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './ImpactHero.module.scss';
-import Grid from '@/components/Grid';
-import GridItem from '@/components/GridItem';
 import type { ImpactHero as ImpactHeroType } from '@/sanity/types';
-import type { VideoEmbed } from '@/lib/parseVideoUrl';
 import SkewButton from '@/components/atoms/SkewButton';
 import ButtonComponent from '@/components/atoms/ButtonComponent';
 import SanityNextImage from '@/components/SanityNextImage';
 import { deriveImpactHero } from './deriveImpactHero';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
+import { getPilotImage, getYouTubeId } from '../TextMedia/pilotImage';
+import HeroVideo from './HeroVideo';
 
 type HeroCopyProps = Pick<
   ImpactHeroType,
@@ -33,14 +32,14 @@ function HeroCopy({
   showCta2,
 }: HeroCopyProps) {
   return (
-    <>
-      <div className={styles.textWrapper}>
-        {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
-        <h1 className={styles.heading}>{heading}</h1>
-        {subheading && <p className={styles.subheading}>{subheading}</p>}
-      </div>
+    <div className={styles.copy}>
+      {eyebrow && <p className={classNames(styles.eyebrow, styles.rv)}>{eyebrow}</p>}
+      <h1 className={classNames(styles.heading, styles.rv, styles.d1)}>{heading}</h1>
+      {subheading && (
+        <p className={classNames(styles.subheading, styles.rv, styles.d2)}>{subheading}</p>
+      )}
       {showCtas && (
-        <div className={styles.ctaWrapper}>
+        <div className={classNames(styles.ctaWrapper, styles.rv, styles.d3)}>
           {showCta1 && cta1?.title && (
             <SkewButton
               variant="black"
@@ -65,95 +64,74 @@ function HeroCopy({
           )}
         </div>
       )}
-    </>
-  );
-}
-
-type HeroMediaProps = {
-  videoEmbed: VideoEmbed | null;
-  showImage: boolean;
-  image: ImpactHeroType['media']['image'];
-  iframeTitle: string;
-};
-
-function HeroMedia({
-  videoEmbed,
-  showImage,
-  image,
-  iframeTitle,
-}: HeroMediaProps) {
-  return (
-    <div
-      className={classNames(
-        styles.mediaFrame,
-        showImage && styles.mediaFrameImage,
-        videoEmbed?.isShort && styles.mediaFrameShort,
-      )}
-    >
-      {videoEmbed && (
-        <div className={styles.videoInner}>
-          <iframe
-            src={videoEmbed.embedUrl}
-            title={iframeTitle}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-      )}
-      {showImage && image && (
-        <div className={styles.imageInner}>
-          <SanityNextImage
-            image={image}
-            className={styles.mediaImage}
-            sizes="(min-width: 768px) 50vw, 100vw"
-            priority
-          />
-        </div>
-      )}
     </div>
   );
 }
 
 const ImpactHero = (props: ImpactHeroType) => {
   const derived = deriveImpactHero(props);
-  const span = derived.hasMedia ? 6 : 12;
+  const youTubeId = derived.videoEmbed?.isShort ? null : getYouTubeId(props.media.videoUrl);
+  const videoTitle = props.media.videoTitle?.trim() || props.heading || 'Video';
+  const supportedBy = props.supportedBy?.trim();
 
   return (
-    <section className={styles.wrapper}>
-      <Grid
-        className={classNames(derived.isMediaLeft && styles.layoutMediaLeft)}
-      >
-        <GridItem
-          desktopSpan={span}
-          mobileSpan={6}
-          className={styles.leftColumn}
-        >
-          <HeroCopy
-            eyebrow={props.eyebrow}
-            heading={props.heading}
-            subheading={props.subheading}
-            cta1={props.cta1}
-            cta2={props.cta2}
-            showCtas={derived.showCtas}
-            showCta1={derived.showCta1}
-            showCta2={derived.showCta2}
-          />
-        </GridItem>
+    <section
+      className={classNames(
+        styles.wrapper,
+        derived.isMediaLeft && styles.layoutMediaLeft,
+        !derived.hasMedia && styles.noMedia,
+      )}
+    >
+      <div className={styles.inner}>
+        <HeroCopy
+          eyebrow={props.eyebrow}
+          heading={props.heading}
+          subheading={props.subheading}
+          cta1={props.cta1}
+          cta2={props.cta2}
+          showCtas={derived.showCtas}
+          showCta1={derived.showCta1}
+          showCta2={derived.showCta2}
+        />
         {derived.hasMedia && (
-          <GridItem
-            desktopSpan={6}
-            mobileSpan={6}
-            className={styles.mediaColumn}
-          >
-            <HeroMedia
-              videoEmbed={derived.videoEmbed}
-              showImage={derived.showImage}
-              image={derived.image}
-              iframeTitle={derived.iframeTitle}
-            />
-          </GridItem>
+          <div className={classNames(styles.mediaColumn, styles.rv, styles.d2)}>
+            {youTubeId ? (
+              <HeroVideo
+                videoId={youTubeId}
+                title={videoTitle}
+                cover={getPilotImage(props.media.videoCover)}
+              />
+            ) : derived.videoEmbed ? (
+              <div
+                className={classNames(
+                  styles.embed,
+                  derived.videoEmbed.isShort && styles.embedShort,
+                )}
+              >
+                <iframe
+                  src={derived.videoEmbed.embedUrl}
+                  title={derived.iframeTitle}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              derived.showImage &&
+              derived.image && (
+                <div className={styles.imageFrame}>
+                  <SanityNextImage
+                    image={derived.image}
+                    className={styles.mediaImage}
+                    sizes="(min-width: 900px) 620px, 100vw"
+                    priority
+                  />
+                </div>
+              )
+            )}
+            {supportedBy && <p className={styles.supporter}>{supportedBy}</p>}
+          </div>
         )}
-      </Grid>
+      </div>
     </section>
   );
 };

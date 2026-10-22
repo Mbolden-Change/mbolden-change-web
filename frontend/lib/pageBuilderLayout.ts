@@ -14,6 +14,8 @@ const SECTION_PADDED_BLOCKS = new Set([
   'pillars',
   'pillarContainer',
   'boltSteps',
+  'featuredIssue',
+  'focusAreas',
   'topicList',
   'stackedEntries',
   'resourceList',

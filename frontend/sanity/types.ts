@@ -62,6 +62,10 @@ export type PageBuilder = Array<{
   _key: string;
 } & BoltSteps | {
   _key: string;
+} & FeaturedIssue | {
+  _key: string;
+} & FocusAreas | {
+  _key: string;
 } & StackedEntries | {
   _key: string;
 } & ResourceList | {
@@ -96,8 +100,58 @@ export type PageBuilder = Array<{
   _key: string;
 } & HolidayCard>;
 
+export type FocusAreas = {
+  _type: "focusAreas";
+  eyebrow?: string;
+  heading: string;
+  page: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  };
+  linkLabel?: string;
+};
+
+export type FeaturedIssue = {
+  _type: "featuredIssue";
+  eyebrow?: string;
+  heading: string;
+  stats: Array<{
+    _key: string;
+  } & FeaturedIssueStat>;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  color: "teal" | "fuchsia" | "yellow";
+};
+
+export type FeaturedIssueStat = {
+  _type: "featuredIssueStat";
+  prefix?: string;
+  number: number;
+  label: string;
+  source?: string;
+};
+
 export type BoltSteps = {
   _type: "boltSteps";
+  layout?: "bolt" | "cards";
   eyebrow?: string;
   title: string;
   intro?: string;
@@ -412,7 +466,22 @@ export type ImpactHero = {
       _type: "image";
     };
     videoUrl?: string;
+    videoCover?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    videoTitle?: string;
   };
+  supportedBy?: string;
   cta1?: InternalOrExternalLink;
   cta2?: InternalOrExternalLink;
 };
@@ -1450,5 +1519,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

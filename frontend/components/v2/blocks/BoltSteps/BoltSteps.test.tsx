@@ -53,3 +53,10 @@ test('renders nothing without exactly three steps', () => {
   const {container} = render(<BoltSteps {...block} steps={block.steps.slice(0, 2)} />)
   expect(container).toBeEmptyDOMElement()
 })
+
+test('cards layout renders three cards with their silhouettes and no bolt', () => {
+  const {container} = render(<BoltSteps {...block} layout="cards" />)
+  expect(screen.getAllByRole('heading', {level: 3})).toHaveLength(3)
+  expect(screen.getByRole('img', {name: 'We Listen illustration'})).toBeInTheDocument()
+  expect(container.querySelectorAll('svg path[pathLength]')).toHaveLength(0)
+})

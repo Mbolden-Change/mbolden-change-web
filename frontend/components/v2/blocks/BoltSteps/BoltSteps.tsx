@@ -2,13 +2,14 @@
 
 import {useEffect, useId, useRef, useState, type CSSProperties} from 'react'
 import classNames from 'classnames'
-import type {BoltSteps as BoltStepsType, BoltStep} from '@/sanity/types'
-import {getDimensionsFromRef, urlFor} from '@/sanity/lib/image'
+import type {BoltSteps as BoltStepsType} from '@/sanity/types'
 import styles from './BoltSteps.module.scss'
+import BoltStepsCards from './BoltStepsCards'
+import {Illustration} from './Illustration'
 
 export type BoltStepsProps = BoltStepsType
 
-const COLORS = {
+export const COLORS = {
   teal: 'var(--brand-aqua-teal)',
   yellow: 'var(--brand-warm-yellow)',
   fuchsia: 'var(--brand-fuchsia)',
@@ -32,58 +33,12 @@ const SEGMENTS_VERTICAL = [
   'M 8 330 L 36 315 L 8 660',
   'M 8 660 L 36 645 L 12 1000',
 ]
-// Ripples, in each illustration's own pixels: from the speaker's mouth and
-// from the megaphone.
-const WAVES = {
-  listen: ['M 299 164 A 45 45 0 0 1 299 216', 'M 328 144 A 80 80 0 0 1 328 236', 'M 356 124 A 115 115 0 0 1 356 256'],
-  advocate: ['M 581 25 A 45 45 0 0 1 596 81', 'M 601 -4 A 80 80 0 0 1 628 96', 'M 621 -32 A 115 115 0 0 1 659 111'],
-} as const
-
-type Layer = BoltStep['backLayer']
-
-function layerSrc(layer: Layer) {
-  return layer?.asset?._ref ? urlFor(layer).width(640).auto('format').url() : undefined
-}
-
-function Illustration({step}: {step: BoltStep}) {
-  const ref = step.backLayer?.asset?._ref ?? step.frontLayer?.asset?._ref
-  const {imageWidth, imageHeight} = ref ? getDimensionsFromRef(ref) : {imageWidth: 900, imageHeight: 812}
-  const width = imageWidth || 900
-  const height = imageHeight || 812
-  const back = layerSrc(step.backLayer)
-  const front = layerSrc(step.frontLayer)
-  const waves = step.motion === 'listen' || step.motion === 'advocate' ? WAVES[step.motion] : null
-
-  return (
-    <div
-      className={classNames(styles.fig, styles[step.motion])}
-      style={{aspectRatio: `${width} / ${height}`}}
-      role="img"
-      aria-label={step.alt}
-    >
-      {step.motion === 'build' ? (
-        <div className={styles.sway}>{back && <img className={styles.tree} src={back} alt="" />}</div>
-      ) : (
-        back && <img className={styles.back} src={back} alt="" />
-      )}
-      {front && <img className={styles.front} src={front} alt="" />}
-      {waves && (
-        <svg className={styles.waves} viewBox={`0 0 ${width} ${height}`} aria-hidden="true">
-          {waves.map((d) => (
-            <path key={d} d={d} />
-          ))}
-        </svg>
-      )}
-    </div>
-  )
-}
-
 /**
  * How we work as three steps along a rising bolt. The page renders the
  * finished state; once hydrated it rewinds and plays once when the section
  * scrolls into view. With reduced motion it stays finished.
  */
-export default function BoltSteps({eyebrow, title, intro, steps}: BoltStepsProps) {
+function BoltStepsBolt({eyebrow, title, intro, steps}: BoltStepsProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [phase, setPhase] = useState<'static' | 'armed' | 'playing'>('static')
   const headingId = useId()
@@ -186,4 +141,8 @@ export default function BoltSteps({eyebrow, title, intro, steps}: BoltStepsProps
       </div>
     </section>
   )
+}
+
+export default function BoltSteps(props: BoltStepsProps) {
+  return props.layout === 'cards' ? <BoltStepsCards {...props} /> : <BoltStepsBolt {...props} />
 }

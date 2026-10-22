@@ -5,23 +5,22 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   top: 0;
   z-index: 1000;
   width: 100%;
-  height: 90px;
+  height: 84px;
   background-color: var(--brand-white);
   display: flex;
   align-items: center;
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.04);
   transition: box-shadow 400ms $ease-brand;
 
-  /* Skewed brand accent — parallel edges like the signature parallelogram */
+  /* Brand accent: a flat 4px yellow rule */
   &::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 6px;
+    height: 4px;
     background: var(--brand-warm-yellow);
-    clip-path: var(--clip-parallelogram);
     pointer-events: none;
   }
 
@@ -61,8 +60,9 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   position: relative;
   display: inline-block;
   padding-bottom: 0.3em;
-  font-size: 22px;
-  font-weight: 550;
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 700;
   color: var(--brand-black);
   transition: color 400ms $ease-brand;
 
@@ -72,7 +72,7 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 2px;
+    height: 3px;
     background: var(--brand-aqua-teal);
     transform: scaleX(0);
     transform-origin: center;
@@ -155,7 +155,7 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
 
   .linkList {
     position: absolute;
-    top: 90px;
+    top: 84px;
     left: 0;
     right: 0;
     flex-direction: column;
@@ -208,5 +208,17 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   .headerLink {
     font-size: 1.125rem;
     padding-bottom: 0.35em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .linkList,
+  .linkList.open li,
+  .bar,
+  .headerLink,
+  .headerLink::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

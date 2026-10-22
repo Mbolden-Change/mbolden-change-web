@@ -72,7 +72,40 @@ export const impactHeroType = defineType({
           description: 'YouTube or Vimeo URL. Supports standard videos and YouTube Shorts.',
           hidden: ({parent}) => !!parent?.image,
         }),
+        defineField({
+          name: 'videoCover',
+          title: 'Video cover image',
+          type: 'image',
+          options: {hotspot: true},
+          description:
+            'Optional, for YouTube videos. Shown with a play button; nothing loads from YouTube until someone presses play. Without one, a black panel with the video title is shown.',
+          hidden: ({parent}) => !parent?.videoUrl,
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Optional. The play button already says what it does.',
+            }),
+          ],
+        }),
+        defineField({
+          name: 'videoTitle',
+          title: 'Video title',
+          type: 'string',
+          description:
+            'Used for the play button label and the player, such as “The Gateway Fund video”. Defaults to the heading.',
+          hidden: ({parent}) => !parent?.videoUrl,
+        }),
       ],
+    }),
+    defineField({
+      name: 'supportedBy',
+      title: 'Supported by',
+      type: 'string',
+      description:
+        'Optional acknowledgment shown under the image or video in smaller text with a thin rule above it, such as “The Gateway Fund is supported by a grant from the San Francisco Foundation.”',
+      validation: (Rule) => Rule.max(200),
     }),
     defineField({
       name: 'cta1',
