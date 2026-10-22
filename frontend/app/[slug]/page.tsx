@@ -1,3 +1,4 @@
+import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 import {PageBuilder} from '@/components/PageBuilder'
 import {getPage} from '@/lib/getPage'
@@ -8,6 +9,16 @@ import {
   pickGuardedSchemas,
 } from '@/lib/jsonld'
 import styles from './page.module.css'
+
+// Tab title, such as "What We're Tackling | mBOLDen Change".
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{slug: string}>
+}): Promise<Metadata> {
+  const page = await getPage((await params).slug)
+  return page?.title ? {title: page.title} : {}
+}
 
 export default async function Page({
   params,

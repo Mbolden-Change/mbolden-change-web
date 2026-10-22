@@ -1,3 +1,4 @@
+import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 import Grid from '@/components/Grid'
 import GridItem from '@/components/GridItem'
@@ -11,6 +12,16 @@ import {
   resolvePublishedDate,
 } from '@/lib/jsonld'
 import styles from './page.module.css'
+
+// Tab title, such as "What We're Tackling | mBOLDen Change".
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{slug: string}>
+}): Promise<Metadata> {
+  const caseStudy = await getCaseStudy((await params).slug)
+  return caseStudy?.heading ? {title: caseStudy.heading} : {}
+}
 
 export default async function CaseStudyPage({
   params,
