@@ -11,13 +11,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Old page addresses still linked from emails and funder decks. Temporary
-  // (307) until the new pages are live in production; switch to permanent then.
+  // Old page addresses still linked from emails and funder decks. Off until
+  // What We're Tackling is live in production: set
+  // ENABLE_SITE_REFRESH_REDIRECTS=true in that environment and redeploy.
+  // Temporary (307) for now; switch to permanent once the refresh settles.
   async redirects() {
+    if (process.env.ENABLE_SITE_REFRESH_REDIRECTS !== 'true') return [];
     return [
       { source: '/our-work', destination: '/what-were-tackling', permanent: false },
       { source: '/fueling-bold-change', destination: '/what-were-tackling', permanent: false },
-      { source: '/ideas-in-action', destination: '/mbolden-action', permanent: false },
+      { source: '/ideas-in-action', destination: 'https://www.mboldenaction.org', permanent: false },
     ];
   },
   async rewrites() {
