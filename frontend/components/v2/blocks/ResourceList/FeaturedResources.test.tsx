@@ -41,13 +41,13 @@ const block: ResourceListType = {
   ],
 }
 
-test('shows only featured resources, with links, arrow and credit', () => {
+test('shows only featured resources, with links and arrow, but not the credit', () => {
   render(<FeaturedResources {...block} />)
   expect(screen.getAllByRole('heading', {level: 3}).map((h) => h.textContent)).toEqual(['With cover', 'No cover'])
   expect(screen.queryByText('Not featured')).not.toBeInTheDocument()
   expect(screen.getByRole('link', {name: /With cover/})).toHaveAttribute('href', '/simulator')
   expect(screen.getByRole('link', {name: /No cover.*opens in a new tab/})).toHaveAttribute('target', '_blank')
-  expect(screen.getByText('Photo: Someone')).toBeInTheDocument()
+  expect(screen.queryByText('Photo: Someone')).not.toBeInTheDocument()
   expect(screen.getByAltText('Cover alt')).toBeInTheDocument()
 })
 

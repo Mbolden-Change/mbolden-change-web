@@ -68,3 +68,12 @@ test('shows the quote with its attribution and hides buttons without a link', ()
   expect(screen.getByText('Give now')).toBeInTheDocument()
   expect(screen.queryByText('No link yet')).not.toBeInTheDocument()
 })
+
+test('shows the supporter note between the story and the buttons only when set', () => {
+  const {container, rerender} = render(<PilotDialog {...pilot} />)
+  expect(container.querySelector('[class*="supporter"]')).toBeNull()
+  rerender(<PilotDialog {...pilot} supportedBy="Supported by a grant from a foundation." />)
+  const note = screen.getByText('Supported by a grant from a foundation.')
+  const buttons = screen.getByText('Give now')
+  expect(note.compareDocumentPosition(buttons) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+})

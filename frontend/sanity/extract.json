@@ -3025,6 +3025,13 @@
           },
           "optional": false
         },
+        "supportedBy": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "mediaPosition": {
           "type": "objectAttribute",
           "value": {

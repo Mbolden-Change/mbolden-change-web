@@ -90,6 +90,15 @@ export const textMedia = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'supportedBy',
+      title: 'Supported by',
+      type: 'string',
+      description:
+        'Optional acknowledgment shown after the text, before the buttons, in smaller text with a thin rule above it, such as “The Gateway Fund is supported by a grant from the San Francisco Foundation.”',
+      validation: (Rule) => Rule.max(200),
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
       name: 'mediaPosition',
       title: 'Media position',
       type: 'string',

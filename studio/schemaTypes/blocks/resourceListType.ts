@@ -85,7 +85,7 @@ export const resourceListItemType = defineType({
           name: 'credit',
           title: 'Credit',
           type: 'string',
-          description: 'Optional photo credit shown on the card, such as “Photo: Name, Source”.',
+          description: 'Optional photo credit, such as “Photo: Name, Source”. Kept for our records; not shown on the page.',
         }),
       ],
     }),

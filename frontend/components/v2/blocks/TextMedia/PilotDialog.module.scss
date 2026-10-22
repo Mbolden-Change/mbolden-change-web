@@ -468,6 +468,20 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 }
 
+// Acknowledgment, set apart from the story by size and a thin rule.
+.supporter {
+  margin: ds.$space-lg 0 0;
+  padding-top: ds.$space-md;
+  border-top: 1px solid rgb(0 0 0 / 0.2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(0 0 0 / 0.72);
+}
+
+.isOpen .supporter {
+  animation: fadeUp 400ms $ease-out var(--supporter-delay) both;
+}
+
 .ctas {
   margin-top: ds.$space-xl;
 

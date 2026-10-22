@@ -457,6 +457,7 @@ export type TextMedia = {
     _type: "block";
     _key: string;
   }>;
+  supportedBy?: string;
   mediaPosition?: "left" | "right";
   mobileLayout?: "imageTop" | "textTop";
   media?: {

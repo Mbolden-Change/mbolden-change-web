@@ -47,6 +47,7 @@ export default function PilotDialog({
   textBody,
   ctas,
   accent = 'teal',
+  supportedBy: supportedByText,
   ...rest
 }: PilotDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -81,6 +82,9 @@ export default function PilotDialog({
     ? lineEnd + (attribution ? ATTRIBUTION_GAP : 0)
     : WORDS_START
   const paragraphCount = (textBody as PortableTextBlock[] | undefined)?.length ?? 0
+  const supportedBy = supportedByText?.trim()
+  // The supporter note follows the paragraphs; the buttons follow it.
+  const supporterDelay = paragraphsStart + paragraphCount * PARAGRAPH_STEP
   const displayText = (
     <p className={styles.displayLine}>
       {words.map((word, index) => (
@@ -221,7 +225,8 @@ export default function PilotDialog({
         {
           '--paragraphs-start': `${paragraphsStart}ms`,
           '--paragraph-step': `${PARAGRAPH_STEP}ms`,
-          '--cta-delay': `${paragraphsStart + paragraphCount * PARAGRAPH_STEP}ms`,
+          '--supporter-delay': `${supporterDelay}ms`,
+          '--cta-delay': `${supporterDelay + (supportedBy ? PARAGRAPH_STEP : 0)}ms`,
         } as CSSProperties
       }
     >
@@ -342,6 +347,8 @@ export default function PilotDialog({
           <div className={styles.story}>
             <PortableTextComponent value={textBody as PortableTextBlock[]} />
           </div>
+
+          {supportedBy && <p className={styles.supporter}>{supportedBy}</p>}
 
           {linkedCtas.length > 0 && (
             <div className={styles.ctas}>

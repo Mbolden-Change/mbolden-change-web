@@ -64,7 +64,6 @@ function Card({item}: {item: Item}) {
         </div>
         <h3 className={styles.title}>{item.title}</h3>
         {item.summary && <p className={styles.summary}>{item.summary}</p>}
-        {item.cover?.credit && <p className={styles.credit}>{item.cover.credit}</p>}
         {linked && link?.title && (
           <span className={styles.go}>
             {link.title} <span aria-hidden="true">↗</span>
