@@ -1,5 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
+const isPilot = (parent?: {appearance?: string}) =>
+  parent?.appearance === 'featuredPilot' || parent?.appearance === 'pilotDialog'
+
 export const textMedia = defineType({
   name: 'textMedia',
   title: 'Text & Media',
@@ -7,6 +10,57 @@ export const textMedia = defineType({
   description:
     'Primary 50/50 content block — headline, body copy, optional CTAs, and an image or video. Use this instead of the legacy Fifty-Fifty block for new pages.',
   fields: [
+    defineField({
+      name: 'appearance',
+      title: 'Appearance',
+      type: 'string',
+      description:
+        'Standard is the 50/50 layout. Featured pilot is a white band for What we’re tackling: a smaller angled image, an accent color and no empty buttons. Featured pilot (pop-up) is not shown on the page; it opens as a pop-up from any link to its Section ID, and the address #section-id opens it directly. Media is optional for both pilot appearances.',
+      options: {
+        list: [
+          {title: 'Standard', value: 'standard'},
+          {title: 'Featured pilot', value: 'featuredPilot'},
+          {title: 'Featured pilot (pop-up)', value: 'pilotDialog'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'standard',
+    }),
+    defineField({
+      name: 'accent',
+      title: 'Accent color',
+      type: 'string',
+      description:
+        'The focus area color: teal for Economic Security, fuchsia for Health Access, yellow for Rapid Response.',
+      options: {
+        list: [
+          {title: 'Teal', value: 'teal'},
+          {title: 'Fuchsia', value: 'fuchsia'},
+          {title: 'Yellow', value: 'yellow'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'teal',
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
+      name: 'displayLine',
+      title: 'Display line',
+      type: 'string',
+      description:
+        'Optional large line set between the subtitle and the story: a short statement or a partner quote. Type the words only; quote marks are added when there is an attribution.',
+      validation: (Rule) => Rule.max(180),
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
+      name: 'displayAttribution',
+      title: 'Display line attribution',
+      type: 'string',
+      description:
+        'Optional. Who said the display line, shown in smaller text below it, such as “Name, Title, Organization”. The dash is added for you.',
+      validation: (Rule) => Rule.max(120),
+      hidden: ({parent}) => !isPilot(parent) || !parent?.displayLine,
+    }),
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', description: 'Optional focus-area label above the headline.'}),
     defineField({name: 'subtitle', title: 'Subtitle', type: 'string', description: 'Optional supporting line beneath the headline.'}),
     defineField({
@@ -36,6 +90,15 @@ export const textMedia = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'supportedBy',
+      title: 'Supported by',
+      type: 'string',
+      description:
+        'Optional acknowledgment shown after the text, before the buttons, in smaller text with a thin rule above it, such as “The Gateway Fund is supported by a grant from the San Francisco Foundation.”',
+      validation: (Rule) => Rule.max(200),
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
       name: 'mediaPosition',
       title: 'Media position',
       type: 'string',
@@ -48,6 +111,7 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'right',
+      hidden: ({parent}) => isPilot(parent),
     }),
     defineField({
       name: 'mobileLayout',
@@ -62,13 +126,20 @@ export const textMedia = defineType({
         layout: 'radio',
       },
       initialValue: 'imageTop',
+      hidden: ({parent}) => isPilot(parent),
     }),
     defineField({
       name: 'media',
       title: 'Media',
       type: 'object',
-      description: 'Add an image or a YouTube/Vimeo URL — not both.',
-      validation: (Rule) => Rule.required(),
+      description:
+        'Add an image or a YouTube/Vimeo URL — not both. Optional for a featured pilot; the band is laid out to stand on its own without media.',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as {appearance?: string} | undefined
+          if (isPilot(parent)) return true
+          return value ? true : 'Required'
+        }),
       fields: [
         defineField({
           name: 'image',
@@ -96,6 +167,92 @@ export const textMedia = defineType({
       ],
     }),
     defineField({
+      name: 'imageStyle',
+      title: 'Image type',
+      type: 'string',
+      description:
+        'Photo fills the angled frame (crop, hotspot, gentle zoom). Logo is shown whole on a white panel inside the angled frame, with no zoom, cropping or color change.',
+      options: {
+        list: [
+          {title: 'Photo', value: 'photo'},
+          {title: 'Logo', value: 'logo'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'photo',
+      hidden: ({parent}) => !isPilot(parent),
+    }),
+    defineField({
+      name: 'video',
+      title: 'Pop-up video',
+      type: 'object',
+      description:
+        'Optional YouTube video for the pop-up. It replaces the image as a wide banner. Nothing loads from YouTube until someone presses play.',
+      hidden: ({parent}) => parent?.appearance !== 'pilotDialog',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'url',
+          title: 'YouTube URL',
+          type: 'url',
+          description: 'For example https://www.youtube.com/watch?v=… or https://youtu.be/…',
+          validation: (Rule) =>
+            Rule.custom((value?: string) =>
+              !value || /(^https?:\/\/)(www\.)?(youtube\.com|youtu\.be)\//.test(value)
+                ? true
+                : 'Use a YouTube link.',
+            ),
+        }),
+        defineField({
+          name: 'title',
+          title: 'Video title',
+          type: 'string',
+          description:
+            'Used for the play button label and the player, such as “The Gateway Fund video”. Defaults to the headline.',
+        }),
+        defineField({
+          name: 'cover',
+          title: 'Cover image',
+          type: 'image',
+          description:
+            'Shown with the play button before the video loads. Without one, a black panel with the title is shown.',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Optional. The play button already says what it does.',
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      name: 'documentButton',
+      title: 'File button',
+      type: 'object',
+      description:
+        'Optional outline button beside the give button that opens a PDF in a new tab, such as “Read the partner report (PDF)”.',
+      hidden: ({parent}) => !isPilot(parent),
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'label',
+          title: 'Button text',
+          type: 'string',
+          description: 'Say it is a PDF, for example “Read the partner report (PDF)”.',
+          validation: (Rule) => Rule.max(50),
+        }),
+        defineField({
+          name: 'document',
+          title: 'PDF file',
+          type: 'reference',
+          to: [{type: 'pdfDocument'}],
+        }),
+      ],
+    }),
+    defineField({
       name: 'ctas',
       title: 'Call To Actions',
       type: 'array',
@@ -118,7 +275,16 @@ export const textMedia = defineType({
               name: 'link',
               title: 'Link (Optional)',
               type: 'url',
-              description: 'Leave blank to show a non-clickable info tag instead.',
+              description:
+                'Leave blank to show a non-clickable info tag instead. In a featured pilot or pop-up, a button without a link is hidden until a link is added.',
+            }),
+            defineField({
+              name: 'newTab',
+              title: 'Open in a new tab',
+              type: 'boolean',
+              description:
+                'Optional. Giving links (Zeffy) on pilot sections already open in a new tab.',
+              initialValue: false,
             }),
           ],
         },

@@ -1,0 +1,580 @@
+@use '../../../../styles/tokens' as ds;
+
+$breakpoint: 768px;
+$ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+.dialog {
+  --pilot-accent: var(--brand-aqua-teal);
+  width: min(1000px, calc(100vw - 3rem));
+  max-width: none;
+  max-height: calc(100dvh - 4rem);
+  // globals.css resets every margin to 0; a modal dialog centers with auto.
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-top: 8px solid var(--pilot-accent);
+  background: var(--brand-white);
+  color: var(--brand-black);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.25);
+  // The dialog scrolls; the image column is sticky, so only the text moves.
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    width: calc(100vw - 1rem);
+    height: calc(100dvh - 1rem);
+    max-height: calc(100dvh - 1rem);
+  }
+}
+
+.teal {
+  --pilot-accent: var(--brand-aqua-teal);
+  --pilot-accent-contrast: var(--brand-black);
+}
+
+.fuchsia {
+  --pilot-accent: var(--brand-fuchsia);
+  --pilot-accent-contrast: var(--brand-white);
+}
+
+.yellow {
+  --pilot-accent: var(--brand-warm-yellow);
+  --pilot-accent-contrast: var(--brand-black);
+}
+
+// Hidden for the one frame between showModal() and the open class.
+.dialog[open]:not(.isOpen):not(.isClosing) {
+  opacity: 0;
+}
+
+.isOpen {
+  animation: rise 500ms $ease-out both;
+
+  &::backdrop {
+    animation: fadeIn 500ms ease-out both;
+  }
+}
+
+.isClosing {
+  animation: sink 200ms ease-in both;
+
+  &::backdrop {
+    animation: fadeOut 200ms ease-in both;
+  }
+}
+
+// Zero-height sticky row keeps the X in view without taking up space.
+.closeBar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+
+  // Phones: a solid strip, so text scrolls under it rather than under the X.
+  @media (max-width: #{$breakpoint - 1px}) {
+    align-items: center;
+    height: 3.75rem;
+    background: var(--brand-white);
+
+    .close {
+      margin: 0 0.5rem 0 0;
+    }
+  }
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0.75rem 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+  background: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-body);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  &:hover {
+    background: var(--brand-warm-yellow);
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.layout {
+  display: grid;
+  // Image about 40%; a little less so the give and file buttons fit side by side.
+  grid-template-columns: 37% minmax(0, 1fr);
+  gap: clamp(2rem, 3vw, 2.25rem);
+  padding: 3rem 3.25rem 3rem 3rem;
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: ds.$space-lg;
+    padding: 0.25rem 1.25rem 2.5rem;
+  }
+}
+
+.noImage {
+  grid-template-columns: minmax(0, 44rem);
+}
+
+// Landscape photos: a wide banner across the top, text below.
+.landscape {
+  grid-template-columns: minmax(0, 1fr);
+
+  .media {
+    position: static;
+  }
+
+  .frame {
+    aspect-ratio: 21 / 9;
+    max-height: none;
+
+    @media (max-width: #{$breakpoint - 1px}) {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  .copy {
+    max-width: 44rem;
+  }
+}
+
+.media {
+  position: sticky;
+  top: 3rem;
+  align-self: start;
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    position: static;
+  }
+}
+
+// Standard slanted frame, shaped by the editor's crop (portrait to square).
+// Two layers so the settle and the drift don't fight over one transform.
+.frame {
+  position: relative;
+  aspect-ratio: var(--image-ratio, 0.8);
+  max-height: calc(100dvh - 11rem);
+  overflow: hidden;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-light-gray);
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    aspect-ratio: 1;
+    max-height: none;
+  }
+}
+
+// The hotspot is the focal point for the crop and for the zoom.
+.settle,
+.drift {
+  position: absolute;
+  inset: 0;
+  transform-origin: var(--image-focus, 50% 50%);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--image-focus, 50% 50%);
+}
+
+.isOpen .settle {
+  animation: settle 1600ms $ease-out both;
+}
+
+.isOpen .drift {
+  animation: drift 14s ease-in-out 1600ms infinite alternate;
+}
+
+// Video: a 16:9 banner. The cover can use the slanted frame; the player
+// itself is never clipped, so YouTube's controls stay visible.
+.hasVideo .frame {
+  aspect-ratio: 16 / 9;
+  max-height: none;
+}
+
+.videoCover {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+
+  // Spans inside the button (buttons may only hold phrasing content).
+  .frame {
+    display: block;
+  }
+}
+
+// Without a cover image: a black brand panel with the title.
+.videoPanel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: ds.$space-sm;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 5vw, 3rem) clamp(2rem, 6vw, 3.5rem);
+  background: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.videoPanelLabel {
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+}
+
+.videoPanelTitle {
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+// Brand play button: an angled block in the pilot's accent color.
+.playBadge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(4.5rem, 9vw, 6rem);
+  height: clamp(3rem, 6vw, 4rem);
+  background: var(--pilot-accent);
+  box-shadow: var(--shadow-btn, 0 4px 5px rgb(0 0 0 / 0.4));
+  transform: translate(-50%, -50%) skew(var(--brand-skew));
+  transition: background-color 200ms ease;
+}
+
+.playIcon {
+  width: 1.25rem;
+  height: 1.5rem;
+  margin-left: 0.25rem;
+  background: var(--pilot-accent-contrast, var(--brand-black));
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform: skew(calc(var(--brand-skew) * -1));
+  transition: background-color 200ms ease;
+}
+
+.videoCover:hover .playBadge,
+.videoCover:focus-visible .playBadge {
+  background: var(--brand-white);
+}
+
+.videoCover:hover .playIcon,
+.videoCover:focus-visible .playIcon {
+  background: var(--brand-black);
+}
+
+.videoFrame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--brand-black);
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+// Logo: shown whole on a white panel inside the slanted frame, with a hairline
+// edge so the panel reads against the white pop-up. No zoom, crop or filter.
+.logoFrame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-light-gray);
+}
+
+.logoPanel {
+  position: absolute;
+  inset: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16% 14%;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-white);
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.copy {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+}
+
+.subtitle {
+  margin: ds.$space-md 0 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.display {
+  --display-size: clamp(1.875rem, 3.4vw, 2.5rem);
+  --display-leading: 1.1;
+  margin: ds.$space-xl 0 0;
+}
+
+.displayLong {
+  --display-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  --display-leading: 1.15;
+}
+
+// Quote: the brand mark hangs to the left, about two lines tall, starting a
+// little above the first line. Quote and attribution share the edge beside it.
+// Sizes follow the quote's font size, so the mark scales down on phones.
+.hasMark {
+  --mark-height: calc(var(--display-size) * (var(--display-leading) * 2 + 0.15));
+  --mark-width: calc(var(--mark-height) * 707 / 1437);
+  position: relative;
+  padding-left: calc(var(--mark-width) + clamp(0.75rem, 1.6vw, 1.25rem));
+}
+
+.quoteMark {
+  position: absolute;
+  top: calc(var(--display-size) * -0.12);
+  left: 0;
+  width: var(--mark-width);
+  height: var(--mark-height);
+}
+
+.displayQuote {
+  margin: 0;
+}
+
+.displayLine {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: var(--display-size);
+  font-weight: 700;
+  line-height: var(--display-leading);
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+}
+
+.displayLong .displayLine {
+  letter-spacing: -0.3px;
+}
+
+.attribution {
+  margin-top: ds.$space-md;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.isOpen .attribution {
+  animation: fadeUp 450ms $ease-out var(--attribution-delay) both;
+}
+
+.word {
+  display: inline-block;
+}
+
+.isOpen .word {
+  animation: fadeUp var(--word-duration) $ease-out var(--word-delay) both;
+}
+
+.story {
+  margin-top: ds.$space-lg;
+
+  :global(p) {
+    margin: 0 0 ds.$space-md;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--brand-black);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Paragraphs follow the display line one after another, a beat apart.
+@for $i from 1 through 10 {
+  .isOpen .story :global(p):nth-of-type(#{$i}) {
+    animation: fadeUp 400ms $ease-out
+      calc(var(--paragraphs-start) + #{$i - 1} * var(--paragraph-step)) both;
+  }
+}
+
+// Acknowledgment, set apart from the story by size and a thin rule.
+.supporter {
+  margin: ds.$space-lg 0 0;
+  padding-top: ds.$space-md;
+  border-top: 1px solid rgb(0 0 0 / 0.2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(0 0 0 / 0.72);
+}
+
+.isOpen .supporter {
+  animation: fadeUp 400ms $ease-out var(--supporter-delay) both;
+}
+
+.ctas {
+  margin-top: ds.$space-xl;
+
+  // Same text size; slightly tighter padding and gap so two buttons share a row.
+  > div {
+    gap: 0.75rem;
+  }
+
+  a {
+    padding-inline: 1.25rem;
+  }
+}
+
+.isOpen .ctas {
+  animation: fadeUp 400ms $ease-out var(--cta-delay) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sink {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.04) translate(-1%, -0.6%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog,
+  .dialog::backdrop,
+  .dialog *,
+  .dialog[open]:not(.isOpen):not(.isClosing) {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+  }
+}

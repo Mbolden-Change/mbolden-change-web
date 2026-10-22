@@ -222,3 +222,165 @@ $accents:
     }
   }
 }
+
+/* Focus area index (What we're tackling): three focus areas on cream, each
+   with an angled color bar and a full white card that links to its pilot.
+   Color order follows the focus areas: teal, fuchsia, yellow. */
+.focusIndex {
+  background: var(--brand-creamy-beige);
+  padding-top: 0;
+  padding-bottom: ds.$section-padding-y;
+
+  .list {
+    gap: ds.$space-2xl;
+
+    @media (min-width: 768px) {
+      gap: clamp(1.25rem, 2.5vw, 2rem);
+    }
+  }
+
+  // The bar is positioned so it never becomes a grid row of its own.
+  // Yellow is too faint for a thin line on white: thicker underline, black arrow.
+  .item {
+    border-top: none;
+    padding-top: 1.625rem;
+    position: relative;
+    --topic-accent: var(--brand-aqua-teal);
+    --topic-arrow: var(--brand-aqua-teal);
+    --topic-underline: 2px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0.25rem;
+      width: 4.5rem;
+      height: 0.625rem;
+      background: var(--topic-accent);
+      transform: skew(var(--brand-skew));
+    }
+  }
+
+  .item:nth-child(3n + 2) {
+    --topic-accent: var(--brand-fuchsia);
+    --topic-arrow: var(--brand-fuchsia);
+  }
+
+  .item:nth-child(3n) {
+    --topic-accent: var(--brand-warm-yellow);
+    --topic-arrow: var(--brand-black);
+    --topic-underline: 4px;
+  }
+
+  .itemTitle {
+    font-size: clamp(1.625rem, 2.6vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.4px;
+  }
+
+  .body {
+    color: var(--brand-black);
+    font-size: 1rem;
+  }
+
+  .initiative {
+    display: flex;
+    flex-direction: column;
+    gap: ds.$space-md;
+    margin-top: ds.$space-lg;
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    border: none;
+    border-top: 6px solid var(--topic-accent);
+    box-shadow: var(--shadow-card);
+  }
+
+  .initiativeLabel {
+    margin: 0;
+    font-family: var(--font-headline);
+    font-size: 0.875rem;
+  }
+
+  .initiativeTitle {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.2vw, 1.75rem);
+    line-height: 1.15;
+  }
+
+  .initiativeSummary {
+    font-size: 1rem;
+    line-height: 1.6;
+    white-space: normal;
+  }
+
+  .initiative .link {
+    margin-top: auto;
+    padding-top: ds.$space-sm;
+    color: var(--brand-black);
+    font-family: var(--font-headline);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* "See it in action ↓": black text, underline and arrow in the card's accent. */
+.accentLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: ds.$space-sm;
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+}
+
+.accentLinkLabel {
+  position: relative;
+  padding-bottom: 0.25rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--topic-underline, 2px);
+    background: var(--topic-accent, currentColor);
+    transform: scaleX(0.25);
+    transform-origin: left;
+    transition: transform 0.35s $ease-brand;
+  }
+}
+
+.accentLinkArrow {
+  color: var(--topic-arrow, currentColor);
+  transition: transform 0.3s $ease-brand;
+}
+
+.accentLink:hover,
+.accentLink:focus-visible {
+  .accentLinkLabel::after {
+    transform: scaleX(1);
+  }
+
+  .accentLinkArrow {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accentLinkLabel::after,
+  .accentLinkArrow {
+    transition: none;
+  }
+}

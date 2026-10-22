@@ -2,6 +2,7 @@ import {
   BlockElementIcon,
   BlockquoteIcon,
   DocumentIcon,
+  DocumentPdfIcon,
   DocumentTextIcon,
   EarthGlobeIcon,
 } from '@sanity/icons'
@@ -44,5 +45,10 @@ export const structure: StructureResolver = (S) =>
         .schemaType('report')
         .icon(BlockquoteIcon)
         .child(S.documentTypeList('report')),
+      S.listItem()
+        .title('PDF Files')
+        .schemaType('pdfDocument')
+        .icon(DocumentPdfIcon)
+        .child(S.documentTypeList('pdfDocument')),
       S.divider(),
     ])

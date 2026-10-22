@@ -11,6 +11,8 @@ import SanityNextImage from '@/components/SanityNextImage'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
+import FeaturedPilot from './FeaturedPilot'
+import PilotDialog from './PilotDialog'
 import styles from './TextMedia.module.scss'
 
 type TextMediaProps = TextMediaType &
@@ -34,6 +36,35 @@ const TextMedia = ({
   headingTag = 'h2',
   ...rest
 }: TextMediaProps) => {
+  if (rest.appearance === 'pilotDialog' && !nested) {
+    return (
+      <PilotDialog
+        headline={headline}
+        eyebrow={eyebrow}
+        subtitle={subtitle}
+        sectionId={sectionId}
+        textBody={textBody}
+        ctas={ctas}
+        {...rest}
+      />
+    )
+  }
+
+  if (rest.appearance === 'featuredPilot' && !nested) {
+    return (
+      <FeaturedPilot
+        headline={headline}
+        eyebrow={eyebrow}
+        subtitle={subtitle}
+        sectionId={sectionId}
+        textBody={textBody}
+        ctas={ctas}
+        headingTag={headingTag}
+        {...rest}
+      />
+    )
+  }
+
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
   const flushBottom = !nested && shouldSectionFlushBottom(isLastBlock)
   const flushTop = !nested && shouldTextMediaFlushTop(prevBlockType)

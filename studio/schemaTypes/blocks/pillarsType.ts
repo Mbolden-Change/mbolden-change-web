@@ -8,6 +8,21 @@ export const pillarsType = defineType({
     'Highlight the ways mBOLDen Change drives systems-level change. Each pillar appears as a scroll-revealed row with an image, headline, and supporting copy.',
   fields: [
     defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      description:
+        'Scroll rows is the homepage treatment. Compact row sets the pillars side by side on cream with black-and-white images, stacked on a phone.',
+      options: {
+        list: [
+          {title: 'Scroll rows', value: 'rows'},
+          {title: 'Compact row', value: 'compact'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'rows',
+    }),
+    defineField({
       name: 'eyebrow',
       title: 'Eyebrow',
       type: 'string',

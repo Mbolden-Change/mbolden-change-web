@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import classNames from "classnames";
 import Headline from "@/components/atoms/Headline";
 import InitiativeCard from "./InitiativeCard";
@@ -17,6 +17,13 @@ import styles from "./TopicList.module.scss";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export type TopicListProps = TopicListType;
+
+// Focus area index: an explicit accent overrides the default color order.
+const ACCENT_VARS = {
+  teal: { "--topic-accent": "var(--brand-aqua-teal)", "--topic-arrow": "var(--brand-aqua-teal)", "--topic-underline": "2px" },
+  fuchsia: { "--topic-accent": "var(--brand-fuchsia)", "--topic-arrow": "var(--brand-fuchsia)", "--topic-underline": "2px" },
+  yellow: { "--topic-accent": "var(--brand-warm-yellow)", "--topic-arrow": "var(--brand-black)", "--topic-underline": "4px" },
+} as const;
 
 export default function TopicList({
   appearance = "plain",
@@ -100,6 +107,7 @@ export default function TopicList({
       className={classNames(
         styles.wrapper,
         appearance === "initiatives" && styles.initiatives,
+        appearance === "focusIndex" && styles.focusIndex,
       )}
       aria-label={title || "Focus areas"}
     >
@@ -122,6 +130,11 @@ export default function TopicList({
                 key={item._key || index}
                 className={styles.item}
                 data-topic-item
+                style={
+                  appearance === "focusIndex" && item.accent
+                    ? (ACCENT_VARS[item.accent] as CSSProperties)
+                    : undefined
+                }
               >
                 <Headline
                   tag={title ? "h3" : "h2"}
@@ -129,13 +142,14 @@ export default function TopicList({
                   className={styles.itemTitle}
                 />
                 {item.body && <p className={styles.body}>{item.body}</p>}
-                {appearance !== "initiatives" && !item.initiative?.title && showLink && item.link && (
+                {appearance !== "initiatives" && appearance !== "focusIndex" && !item.initiative?.title && showLink && item.link && (
                   <TextLink link={item.link} arrow className={styles.link} />
                 )}
                 {item.initiative && (
                   <InitiativeCard
                     initiative={item.initiative}
                     headingTag={title ? "h4" : "h3"}
+                    paragraphs={appearance === "focusIndex"}
                   />
                 )}
               </li>

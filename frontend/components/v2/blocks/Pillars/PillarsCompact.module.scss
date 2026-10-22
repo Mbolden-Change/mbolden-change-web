@@ -1,0 +1,110 @@
+@use '../../../../styles/tokens' as ds;
+
+$breakpoint: 768px;
+
+.wrapper {
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 2.5rem);
+  background: var(--brand-creamy-beige);
+}
+
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.header {
+  max-width: 44rem;
+  margin: 0 0 clamp(2rem, 4vw, 3rem);
+}
+
+.eyebrow {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: ds.$text-eyebrow-track;
+  text-transform: uppercase;
+  color: var(--brand-black);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 4.2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.4px;
+  color: var(--brand-black);
+}
+
+.description {
+  margin-top: ds.$space-md;
+
+  p {
+    margin: 0 0 ds.$space-md;
+    font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+    line-height: 1.65;
+    color: var(--brand-black);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: ds.$space-2xl;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: $breakpoint) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+// Black-and-white treatment in the house angled frame.
+.imageFrame {
+  margin-bottom: ds.$space-lg;
+  overflow: hidden;
+  clip-path: var(--clip-parallelogram);
+  background: var(--brand-light-gray);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+}
+
+.headline {
+  margin: 0 0 ds.$space-sm;
+  font-family: var(--font-headline);
+  font-size: clamp(1.375rem, 2.2vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  color: var(--brand-black);
+}
+
+.body p {
+  margin: 0 0 ds.$space-sm;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--brand-black);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

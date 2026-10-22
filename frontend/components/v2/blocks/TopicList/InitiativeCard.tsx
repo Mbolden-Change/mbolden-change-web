@@ -1,19 +1,30 @@
 import Headline from "@/components/atoms/Headline";
 import TextLink from "@/components/atoms/TextLink";
+import { LinkAtom } from "@/components/atoms/Link";
+import {
+  getReferenceWithSlug,
+  isRenderableInternalOrExternalLink,
+} from "@/utils/internalOrExternalLink";
 import type { TopicListItem } from "@/sanity/types";
 import styles from "./TopicList.module.scss";
 
 type InitiativeCardProps = {
   initiative: NonNullable<TopicListItem["initiative"]>;
   headingTag: "h3" | "h4";
+  /** Split the summary on blank lines into separate paragraphs. */
+  paragraphs?: boolean;
 };
 
 export default function InitiativeCard({
   initiative,
   headingTag,
+  paragraphs = false,
 }: InitiativeCardProps) {
   if (!initiative.title) return null;
   const link = initiative.link;
+  const summary = paragraphs
+    ? initiative.summary?.split(/\n\s*\n/).map((text) => text.trim()).filter(Boolean)
+    : undefined;
   return (
     <div className={styles.initiative}>
       {initiative.label && (
@@ -24,12 +35,50 @@ export default function InitiativeCard({
         text={initiative.title}
         className={styles.initiativeTitle}
       />
-      {initiative.summary && (
-        <p className={styles.initiativeSummary}>{initiative.summary}</p>
+      {summary
+        ? summary.map((text, index) => (
+            <p key={index} className={styles.initiativeSummary}>
+              {text}
+            </p>
+          ))
+        : initiative.summary && (
+            <p className={styles.initiativeSummary}>{initiative.summary}</p>
+          )}
+      {link && paragraphs && isRenderableInternalOrExternalLink(link) && (
+        <AccentLink link={link} cardTitle={initiative.title} />
       )}
-      {link && (
+      {link && !paragraphs && (
         <TextLink link={link} ariaLabel={`${link.title}: ${initiative.title}`} className={styles.link} />
       )}
     </div>
+  );
+}
+
+type CardLink = NonNullable<NonNullable<TopicListItem["initiative"]>["link"]>;
+
+/**
+ * Focus area index link: black text with an accent-colored underline and
+ * arrow. A trailing arrow in the label (such as "See it in action ↓") is set
+ * apart so it can take the accent color.
+ */
+function AccentLink({ link, cardTitle }: { link: CardLink; cardTitle: string }) {
+  const title = link.title ?? "";
+  const match = title.match(/^(.*?)\s*([↓→↗↘])$/);
+  const text = match ? match[1] : title;
+  const arrow = match?.[2];
+  return (
+    <LinkAtom
+      {...link}
+      reference={getReferenceWithSlug(link)}
+      ariaLabel={`${text}: ${cardTitle}`}
+      className={styles.accentLink}
+    >
+      <span className={styles.accentLinkLabel}>{text}</span>
+      {arrow && (
+        <span className={styles.accentLinkArrow} aria-hidden="true">
+          {arrow}
+        </span>
+      )}
+    </LinkAtom>
   );
 }

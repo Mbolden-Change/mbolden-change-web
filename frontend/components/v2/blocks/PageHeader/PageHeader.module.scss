@@ -53,3 +53,32 @@
 .center .dek {
   margin-inline: auto;
 }
+
+// Cream surface (What we're tackling). Teal is too light for small text on
+// cream, so the eyebrow turns black and carries a teal mark instead.
+.cream {
+  background: var(--brand-creamy-beige);
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: ds.$space-sm;
+    color: var(--brand-black);
+
+    &::before {
+      content: '';
+      width: 1.5rem;
+      height: 0.5rem;
+      background: var(--brand-aqua-teal);
+      transform: skew(var(--brand-skew));
+    }
+  }
+
+  .dek {
+    color: var(--brand-black);
+  }
+}
+
+.cream.center .eyebrow {
+  justify-content: center;
+}

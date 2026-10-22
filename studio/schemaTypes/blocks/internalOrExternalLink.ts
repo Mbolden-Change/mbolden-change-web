@@ -68,10 +68,11 @@ export const internalOrExternalLinkType = defineType({
       name: 'url',
       title: 'URL',
       type: 'url',
-      description: 'The address. Required when this is an external link.',
+      description:
+        'The address. Required when this is an external link. A path on this site, such as /simulator, also works.',
       hidden: ({parent}) => typeof parent?.anchor === 'string' || parent?.isExternalLink !== true,
       validation: (Rule) =>
-        Rule.custom((value, context) => {
+        Rule.uri({allowRelative: true, scheme: ['http', 'https', 'mailto', 'tel']}).custom((value, context) => {
           const parent = context.parent as any
           if (parent && parent.isExternalLink === true && !parent.anchor && !value) {
             return 'Url is required for external links'
@@ -97,8 +98,15 @@ export const internalOrExternalLinkType = defineType({
       name: 'reference',
       title: 'Page',
       type: 'reference',
-      description: 'The page, statement, case study, or report this link opens.',
-      to: [{type: 'page'}, {type: 'statement'}, {type: 'caseStudy'}, {type: 'report'}],
+      description:
+        'The page, statement, case study, report or PDF file this link opens. PDF files open in a new tab.',
+      to: [
+        {type: 'page'},
+        {type: 'statement'},
+        {type: 'caseStudy'},
+        {type: 'report'},
+        {type: 'pdfDocument'},
+      ],
       hidden: ({parent}) => typeof parent?.anchor === 'string' || parent?.isExternalLink === true,
     }),
   ],

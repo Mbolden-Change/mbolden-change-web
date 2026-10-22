@@ -13,6 +13,7 @@ const SECTION_PADDED_BLOCKS = new Set([
   'heroCarousel',
   'pillars',
   'pillarContainer',
+  'boltSteps',
   'topicList',
   'stackedEntries',
   'resourceList',

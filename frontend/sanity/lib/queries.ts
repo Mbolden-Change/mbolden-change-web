@@ -35,8 +35,11 @@ export const PAGE_QUERY = defineQuery(`
 
       ctas[]{
         label,
-        link
-      }
+        link,
+        newTab
+      },
+
+      "documentFile": documentButton{label, "slug": document->slug.current}
     },
     _type == "caseStudyHighlight" => {
     ...,
@@ -132,6 +135,13 @@ export const PAGE_QUERY = defineQuery(`
       items[]{
         ...,
         link${INTERNAL_OR_EXTERNAL_LINK}
+      },
+      groups[]{
+        ...,
+        items[]{
+          ...,
+          link${INTERNAL_OR_EXTERNAL_LINK}
+        }
       }
     },
     _type == "stackedEntries" => {
@@ -216,7 +226,8 @@ export const PAGE_QUERY = defineQuery(`
             },
             ctas[]{
               label,
-              link
+              link,
+              newTab
             }
           }
         }
