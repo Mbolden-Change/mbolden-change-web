@@ -77,3 +77,30 @@
 .missionText {
   font-size: clamp(1.625rem, 2.6vw, 1.75rem);
 }
+
+// Optional row after the mission (mBOLDen Action), with a yellow button.
+.action {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(255 255 255 / 0.25);
+}
+
+.actionEyebrow {
+  @include reveal.eyebrow(var(--brand-warm-yellow));
+  color: var(--brand-white);
+  padding-top: 0.625rem;
+}
+
+.actionBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.actionButton {
+  padding: 12px 28px;
+  font-family: var(--font-headline);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

@@ -153,6 +153,9 @@ export type VisionMission = {
   };
   missionEyebrow?: string;
   mission: string;
+  actionEyebrow?: string;
+  actionText?: string;
+  actionLink?: InternalOrExternalLink;
 };
 
 export type WordReelWord = {

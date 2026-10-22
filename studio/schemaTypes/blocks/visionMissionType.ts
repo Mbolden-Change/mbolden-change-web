@@ -38,6 +38,24 @@ export const visionMissionType = defineType({
       rows: 3,
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'actionEyebrow',
+      title: 'Extra row eyebrow',
+      type: 'string',
+      description: 'Optional row after the mission, such as “mBOLDen Action”.',
+    }),
+    defineField({
+      name: 'actionText',
+      title: 'Extra row text',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'actionLink',
+      title: 'Extra row button',
+      type: 'internalOrExternalLink',
+      description: 'Optional yellow button. The button text is the link title; links that open a new tab get ↗.',
+    }),
   ],
   preview: {
     select: {subtitle: 'vision', media: 'image'},

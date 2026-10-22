@@ -122,6 +122,10 @@ export const PAGE_QUERY = defineQuery(`
         description
       }
     },
+    _type == "visionMission" => {
+      ...,
+      actionLink${INTERNAL_OR_EXTERNAL_LINK}
+    },
     _type == "timeline" => {
       ...,
       cta${INTERNAL_OR_EXTERNAL_LINK}
