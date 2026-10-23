@@ -3,6 +3,7 @@ import type {FundCards as FundCardsType} from '@/sanity/types'
 import FundCards from './FundCards'
 import CampaignBanner from './CampaignBanner'
 import {withEmailLinks} from './GivingOptions'
+import DonorQuote from './DonorQuote'
 import {zeffyEmbedSrc, zeffyPageUrl} from './zeffy'
 
 jest.mock('@/lib/analytics', () => ({trackDonateClick: jest.fn()}))
@@ -94,4 +95,15 @@ test('email addresses in card text become email links with the card subject', ()
     'href',
     'mailto:giveboldly@mboldenchange.org?subject=Gift%20of%20stock',
   )
+})
+
+test('the quote is split into timed words, with the whole quote for screen readers', () => {
+  const {container} = render(
+    <DonorQuote _type="donorQuote" quote="Equity should be the norm" attribution="Jeanne & Roland Chan, donors" />,
+  )
+  const words = container.querySelectorAll<HTMLElement>('[aria-hidden="true"] > span > span')
+  expect([...words].map((word) => word.textContent)).toEqual(['“Equity', 'should', 'be', 'the', 'norm”'])
+  expect(words[1].style.getPropertyValue('--word-delay')).toBe('0.14s')
+  expect(screen.getByText('“Equity should be the norm”')).toBeInTheDocument()
+  expect(screen.getByText('Jeanne & Roland Chan, donors')).toHaveStyle({animationDelay: '0.61s'})
 })
