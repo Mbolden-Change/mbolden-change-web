@@ -9,6 +9,22 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.sanity.io',
         pathname: '/images/**',
       },
+      // Substack cover photos for the Point of View block (see lib/substack.ts).
+      {
+        protocol: 'https',
+        hostname: 'substack-post-media.s3.amazonaws.com',
+        pathname: '/public/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'substackcdn.com',
+        pathname: '/image/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com',
+        pathname: '/public/images/**',
+      },
     ],
   },
   // Old page addresses still linked from emails and funder decks.

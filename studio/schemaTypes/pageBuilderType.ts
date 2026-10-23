@@ -69,6 +69,10 @@ export const pageBuilderType = defineType({
       title: 'Story Highlight',
     }),
     defineArrayMember({
+      type: 'pointOfView',
+      title: 'Point of View',
+    }),
+    defineArrayMember({
       type: 'toolCards',
       title: 'Tool Cards',
     }),
