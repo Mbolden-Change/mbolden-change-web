@@ -8,7 +8,11 @@ import styles from './Donate.module.scss'
 export default function CampaignBanner({enabled, heading, text, link}: CampaignBannerType) {
   if (!enabled || !(heading?.trim() || text?.trim())) return null
   const showLink = isRenderableInternalOrExternalLink(link)
-  const external = Boolean(link?.isExternalLink)
+  // Opens where Studio's “Open in” says; a new tab gets ↗.
+  const newTab = Boolean(link?.isExternalLink) && link?.target === '_blank'
+  // A trailing arrow in the label is decoration, hidden from screen readers.
+  const label = link?.title?.replace(/\s*→\s*$/, '')
+  const arrow = label !== link?.title
 
   return (
     <aside className={styles.banner} aria-label="Campaign">
@@ -22,12 +26,13 @@ export default function CampaignBanner({enabled, heading, text, link}: CampaignB
             isExternalLink={link.isExternalLink}
             reference={getReferenceWithSlug(link)}
             url={link.url}
-            target={external ? '_blank' : link.target}
+            target={newTab ? '_blank' : undefined}
             title={link.title}
             className={styles.bannerLink}
           >
-            {link.title}
-            {external && <span aria-hidden="true"> ↗</span>}
+            {label}
+            {arrow && <span aria-hidden="true"> →</span>}
+            {newTab && <span aria-hidden="true"> ↗</span>}
           </LinkAtom>
         )}
       </div>

@@ -57,7 +57,7 @@ export const campaignBannerType = defineType({
       name: 'link',
       title: 'Link',
       type: 'internalOrExternalLink',
-      description: 'The link text is the link title. External links open in a new tab.',
+      description: 'The link text is the link title. A path on this site, such as /what-were-tackling#gateway-fund, opens in the same tab unless “Open in” says New tab.',
     }),
   ],
   validation: (Rule) =>
