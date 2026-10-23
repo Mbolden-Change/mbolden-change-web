@@ -10,7 +10,14 @@ const REVALIDATE_SECONDS = 60;
 
 // Cached results are refreshed from the live API rather than the CDN, so a
 // refresh straight after a publish can't pick up the previous version.
-const liveClient = client.withConfig({ useCdn: false });
+// Vercel shares its data cache between deployments, so each deployment tags
+// its requests with its own id (part of the cache key). Otherwise a new
+// preview can build from content cached by an earlier one.
+const deployment = (process.env.VERCEL_DEPLOYMENT_ID ?? process.env.VERCEL_GIT_COMMIT_SHA ?? '').replace(/[^a-z0-9_-]/gi, '').slice(0, 40);
+const liveClient = client.withConfig({
+  useCdn: false,
+  ...(deployment && { requestTagPrefix: `site-${deployment}` }),
+});
 
 /**
  * Fetch for content the site caches between requests (pages, header,
