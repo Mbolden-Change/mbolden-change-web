@@ -68,6 +68,9 @@ const componentMap: ComponentsMap = {
   getInTouch: dynamic(
     () => import('@/components/v2/blocks/GetInTouch/GetInTouch'),
   ),
+  pointOfView: dynamic(
+    () => import('@/components/v2/blocks/PointOfView/PointOfView'),
+  ),
   policyText: dynamic(
     () => import('@/components/v2/blocks/PolicyText/PolicyText'),
   ),
