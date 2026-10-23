@@ -226,10 +226,12 @@ $breakpoint: 900px;
 .supporter {
   margin: 1.125rem 0 0;
   padding-top: 0.75rem;
-  border-top: 1px solid #d4cabb;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #444;
+  border-top: 1px solid var(--brand-aqua-teal);
+  // 19px bold counts as large text, so teal meets contrast on cream.
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--brand-aqua-teal);
 }
 
 // ——— Motion: rises on first paint ———
