@@ -17,6 +17,7 @@ export const PAGE_QUERY = defineQuery(`
   _createdAt,
   _updatedAt,
   title,
+  description,
   slug,
   content[]{
     ...,
@@ -150,6 +151,14 @@ export const PAGE_QUERY = defineQuery(`
     _type == "pageTeaser" => {
       ...,
       link${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    _type == "campaignBanner" => {
+      ...,
+      link${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    _type == "donateHero" => {
+      ...,
+      "charityBadge": *[_id == "siteSettings"][0].charityBadge
     },
     _type == "getInTouch" => {
       ...,

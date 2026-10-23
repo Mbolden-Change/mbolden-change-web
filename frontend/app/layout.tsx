@@ -18,6 +18,7 @@ import {
   SITE_DESCRIPTION,
 } from '@/lib/organizationJsonLd';
 import {guardWebSite, pickGuardedSchemas} from '@/lib/jsonld';
+import { openGraphFor, twitterFor } from '@/lib/siteMetadata';
 
 
 const archivoNarrow = Archivo_Narrow({
@@ -60,27 +61,9 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-touch-icon.png',
   },
-  openGraph: { // card preview when sharing social media link
-    title: 'mBOLDen Change',
-    description: SITE_DESCRIPTION,
-    url: 'https://www.mboldenchange.org',
-    siteName: 'mBOLDen Change',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'mBOLDen Change social banner',
-      },
-    ],
-    type: 'website',
-  },
-  twitter: { // card preview when sharing social media link
-    card: 'summary_large_image',
-    title: 'mBOLDen Change',
-    description: SITE_DESCRIPTION,
-    images: ['/og-image.png'],
-  },
+  // Card previews when the link is shared.
+  openGraph: openGraphFor(),
+  twitter: twitterFor(),
 };
 
 export default async function RootLayout({

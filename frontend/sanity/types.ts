@@ -74,6 +74,16 @@ export type PageBuilder = Array<{
   _key: string;
 } & GetInTouch | {
   _key: string;
+} & CampaignBanner | {
+  _key: string;
+} & DonateHero | {
+  _key: string;
+} & FundCards | {
+  _key: string;
+} & GivingOptions | {
+  _key: string;
+} & DonorQuote | {
+  _key: string;
 } & StackedEntries | {
   _key: string;
 } & ResourceList | {
@@ -120,6 +130,61 @@ export type PageBuilder = Array<{
   _key: string;
 } & HolidayCard>;
 
+export type GivingOptions = {
+  _type: "givingOptions";
+  eyebrow?: string;
+  heading: string;
+  options: Array<{
+    title: string;
+    text?: string;
+    detail?: string;
+    note?: string;
+    emailSubject?: string;
+    _type: "option";
+    _key: string;
+  }>;
+};
+
+export type FundCards = {
+  _type: "fundCards";
+  eyebrow?: string;
+  heading: string;
+  funds: Array<{
+    title: string;
+    text?: string;
+    buttonLabel: string;
+    lane: "black" | "yellow" | "teal" | "fuchsia";
+    form: ZeffyForm;
+    _type: "fund";
+    _key: string;
+  }>;
+};
+
+export type DonorQuote = {
+  _type: "donorQuote";
+  eyebrow?: string;
+  quote: string;
+  attribution?: string;
+};
+
+export type DonateHero = {
+  _type: "donateHero";
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  form: ZeffyForm;
+  showCharityBadge?: boolean;
+  badgeText?: string;
+};
+
+export type CampaignBanner = {
+  _type: "campaignBanner";
+  enabled?: boolean;
+  heading?: string;
+  text?: string;
+  link?: InternalOrExternalLink;
+};
+
 export type PageTeaser = {
   _type: "pageTeaser";
   eyebrow?: string;
@@ -135,6 +200,8 @@ export type FunderCta = {
   text?: string;
   buttonLabel?: string;
   emailSubject?: string;
+  contactInText?: boolean;
+  note?: string;
 };
 
 export type ColorBlockHero = {
@@ -1709,6 +1776,7 @@ export type Page = {
   _rev: string;
   title: string;
   slug: Slug;
+  description?: string;
   content?: PageBuilder;
 };
 
@@ -1761,6 +1829,12 @@ export type Statement = {
     _type: "image";
     _key: string;
   }>;
+};
+
+export type ZeffyForm = {
+  _type: "zeffyForm";
+  kind: "donation-form" | "peer-to-peer";
+  id: string;
 };
 
 export type InternalOrExternalLink = {
@@ -1909,5 +1983,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

@@ -25,6 +25,15 @@ export const pageType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 3,
+      description:
+        'For search results and link previews. Leave empty to use the site description.',
+      validation: (Rule) => Rule.max(200),
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'pageBuilder',

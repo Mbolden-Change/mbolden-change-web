@@ -76,6 +76,21 @@ export const funderCtaType = defineType({
     defineField({name: 'text', title: 'Text', type: 'text', rows: 3}),
     defineField({name: 'buttonLabel', title: 'Button text', type: 'string', initialValue: 'Get in Touch'}),
     defineField({name: 'emailSubject', title: 'Email subject', type: 'string'}),
+    defineField({
+      name: 'contactInText',
+      title: 'Name the contact after the text',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Ends the text with “Talk with Sue Sutherland, Director of Advancement.” instead of the line with the email under the button.',
+    }),
+    defineField({
+      name: 'note',
+      title: 'Note under the button',
+      type: 'text',
+      rows: 2,
+      description: 'Small print, such as the 501(c)3 and EIN line.',
+    }),
   ],
   preview: {
     select: {title: 'heading'},
