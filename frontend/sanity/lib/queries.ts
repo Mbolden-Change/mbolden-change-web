@@ -130,6 +130,27 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       cta${INTERNAL_OR_EXTERNAL_LINK}
     },
+    _type == "caseStudyCards" => {
+      ...,
+      "cards": caseStudies[]->{
+        _id,
+        name,
+        "slug": slug.current,
+        color,
+        lane,
+        pilotYears,
+        cardSummary,
+        cardStats
+      }
+    },
+    _type == "funderCta" => {
+      ...,
+      "contact": *[_id == "siteSettings"][0].advancementContact
+    },
+    _type == "pageTeaser" => {
+      ...,
+      link${INTERNAL_OR_EXTERNAL_LINK}
+    },
     _type == "getInTouch" => {
       ...,
       donateLink${INTERNAL_OR_EXTERNAL_LINK},
@@ -393,3 +414,14 @@ export const REPORT_QUERY = defineQuery(`
     }
   }
 `);
+
+/** A Ready to Grow case study at /ready-to-grow/<slug>, with its PDF address and the Advancement contact. */
+export const PROGRAM_CASE_STUDY_QUERY = defineQuery(`
+*[_type == "programCaseStudy" && slug.current == $slug][0]{
+  ...,
+  nextPhase{
+    ...,
+    "pdfSlug": pdf->slug.current
+  },
+  "contact": *[_id == "siteSettings"][0].advancementContact
+}`);

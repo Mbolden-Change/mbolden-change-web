@@ -68,6 +68,18 @@ const componentMap: ComponentsMap = {
   getInTouch: dynamic(
     () => import('@/components/v2/blocks/GetInTouch/GetInTouch'),
   ),
+  colorBlockHero: dynamic(
+    () => import('@/components/v2/readyToGrow/ColorBlockHero'),
+  ),
+  caseStudyCards: dynamic(
+    () => import('@/components/v2/readyToGrow/CaseStudyCards'),
+  ),
+  funderCta: dynamic(
+    () => import('@/components/v2/readyToGrow/FunderCta'),
+  ),
+  pageTeaser: dynamic(
+    () => import('@/components/v2/readyToGrow/PageTeaser'),
+  ),
   pointOfView: dynamic(
     () => import('@/components/v2/blocks/PointOfView/PointOfView'),
   ),

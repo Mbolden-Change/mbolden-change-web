@@ -73,6 +73,22 @@ export const pageBuilderType = defineType({
       title: 'Point of View',
     }),
     defineArrayMember({
+      type: 'colorBlockHero',
+      title: 'Hero with Color Blocks',
+    }),
+    defineArrayMember({
+      type: 'caseStudyCards',
+      title: 'Case Study Cards',
+    }),
+    defineArrayMember({
+      type: 'funderCta',
+      title: 'Funder Invitation',
+    }),
+    defineArrayMember({
+      type: 'pageTeaser',
+      title: 'Page Teaser',
+    }),
+    defineArrayMember({
       type: 'toolCards',
       title: 'Tool Cards',
     }),
