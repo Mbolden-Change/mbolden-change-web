@@ -1,24 +1,24 @@
 // Building the Road to Systemic Equity, from the approved prototype
-// (journey-build/prototype/index.html). One sticky stage under the site
-// header; scroll drives a camera through eight painted stops.
-$header: 84px;
+// (journey-build/prototype/index.html). One full-screen sticky stage inside
+// the overlay; scroll drives a camera through eight painted stops.
 $ink: #141210;
 $gutter: max(24px, calc(env(safe-area-inset-left, 0px) + 16px));
 $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
 
 .track {
   position: relative;
-  // The stage stays pinned while the reader scrolls through every stop.
-  height: calc(var(--screens) * 100vh + 100vh - #{$header});
-  height: calc(var(--screens) * 100vh + 100svh - #{$header});
+  // Every stop, one more screen for the stage, and a little room past the
+  // end, where scrolling on closes the journey.
+  height: calc((var(--screens) + 1.5) * 100vh);
+  height: calc((var(--screens) + 1.5) * 100dvh);
   background: $ink;
 }
 
 .stage {
   position: sticky;
-  top: $header;
-  height: calc(100vh - #{$header});
-  height: calc(100svh - #{$header});
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: $ink;
   color: var(--brand-creamy-beige);
@@ -26,13 +26,25 @@ $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
   font-size: 16px;
 }
 
-// A tiny blurred copy of stop 1, so the stage is never blank while the paintings load.
+// A tiny blurred copy of stop 1, so the stage is never blank while the
+// paintings load. It fades once stop 1 is ready, leaving the dark stage
+// around the painting.
 .placeholder {
   position: absolute;
   inset: -40px;
   background-position: center;
   background-size: cover;
   filter: blur(24px);
+  transition: opacity 0.6s ease;
+
+  .started & {
+    opacity: 0;
+  }
+}
+
+.started {
+  // Marker class; see .placeholder.
+  --started: 1;
 }
 
 .scene {
@@ -65,6 +77,8 @@ $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
   position: absolute;
   top: 0;
   left: 0;
+  // The camera zooms inside the painting; nothing spills onto the dark stage.
+  overflow: hidden;
 }
 
 .plane {
@@ -168,6 +182,11 @@ $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
 .top {
   top: max(28px, calc(env(safe-area-inset-top, 0px) + 22px));
   bottom: auto;
+
+  // Clear the close button in the top right corner.
+  @media (max-width: 640px) {
+    top: max(72px, calc(env(safe-area-inset-top, 0px) + 66px));
+  }
 }
 
 .long p {

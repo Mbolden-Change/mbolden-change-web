@@ -7,6 +7,10 @@ import SkewButton from '@/components/atoms/SkewButton'
 import {LinkAtom} from '@/components/atoms/Link'
 import {getReferenceWithSlug, isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
 import {useScrollReveal} from '../../motion/useScrollReveal'
+import {preloadJourney} from '../../journey/Journey'
+import {JourneyOverlay, useJourney} from '../../journey/JourneyOverlay'
+import {JOURNEY_PATH} from '../../journey/journeyPaths'
+import {useEffect, useRef} from 'react'
 import styles from './VisionMission.module.scss'
 
 export type VisionMissionProps = VisionMissionType
@@ -17,6 +21,7 @@ export default function VisionMission({
   vision,
   image,
   imageLabel,
+  imageNote,
   imageLink,
   missionEyebrow,
   mission,
@@ -25,6 +30,30 @@ export default function VisionMission({
   actionLink,
 }: VisionMissionProps) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.12)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const cardLinkRef = useRef<HTMLElement | null>(null)
+  const journey = useJourney(cardLinkRef)
+  const opensJourney = imageLink?.url === JOURNEY_PATH
+
+  // Start loading the journey's first paintings as the card comes near the screen.
+  useEffect(() => {
+    const card = cardRef.current
+    if (!opensJourney || !card) return
+    cardLinkRef.current = card.querySelector('a')
+    if (typeof IntersectionObserver === 'undefined') return preloadJourney()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          preloadJourney()
+          observer.disconnect()
+        }
+      },
+      {rootMargin: '600px 0px'},
+    )
+    observer.observe(card)
+    return () => observer.disconnect()
+  }, [opensJourney])
+
   if (!vision && !mission) return null
 
   const showButton = isRenderableInternalOrExternalLink(actionLink) && actionLink?.title
@@ -52,26 +81,42 @@ export default function VisionMission({
         )}
         {image?.asset?._ref && imageCard && (
           // The illustration, its label and the button are one link.
+          <div ref={cardRef} className={classNames(styles.rv, styles.d2)}>
           <LinkAtom
             anchor={imageCard.anchor}
             isExternalLink={imageCard.isExternalLink}
             reference={getReferenceWithSlug(imageCard)}
             target={imageCard.target}
             url={imageCard.url}
-            className={classNames(styles.card, styles.rv, styles.d2)}
+            className={styles.card}
+            onClick={
+              opensJourney
+                ? (event) => {
+                    event.preventDefault()
+                    journey.openJourney()
+                  }
+                : undefined
+            }
           >
             <span className={styles.figure}>
               <SanityNextImage image={image} className={styles.image} sizes="(min-width: 1200px) 1120px, 100vw" />
-              {imageLabel && <span className={styles.cardLabel}>{imageLabel}</span>}
+              {(imageLabel || imageNote) && (
+                <span className={styles.cardLabel}>
+                  {imageLabel}
+                  {imageNote && <small>{imageNote}</small>}
+                </span>
+              )}
             </span>
             <span className={styles.cardButton}>
               <span>
                 {imageCard.title}
-                {imageCardNewTab && <span aria-hidden="true"> ↗</span>}
+                <span aria-hidden="true">{imageCardNewTab ? ' ↗' : ' →'}</span>
               </span>
             </span>
           </LinkAtom>
+          </div>
         )}
+        {opensJourney && <JourneyOverlay open={journey.open} onClose={journey.closeJourney} restoreY={journey.restoreY} />}
         {mission && (
           <div className={classNames(styles.mission, styles.rv, styles.d3)}>
             {missionEyebrow && (

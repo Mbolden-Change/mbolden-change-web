@@ -1,7 +1,6 @@
 // Generated from journey-build/assets/journey.json (copy, camera and layer positions)
-// with each painting's pixel size, the spec's alt text and the vertical anchors
-// (stops 2, 3, 4, 6 and 8 keep the top of the painting in view); stop 8 zooms to
-// 1.06 rather than 1.14 so the girl's lantern stays in frame. Layers are listed back to front;
+// with each painting's pixel size and the spec's alt text. Stop 8 zooms to 1.06
+// rather than 1.14 so the girl's lantern stays in frame. Layers are listed back to front;
 // x, y, w and h are percentages of the artboard.
 
 export type JourneyImage = {src: string; width: number; height: number}
@@ -13,11 +12,6 @@ export type JourneyStop = {
   focus: [number, number]
   zoom: [number, number]
   phonePan: [number, number]
-  /**
-   * Where the artboard sits vertically when the stage is wider than the painting:
-   * 0 keeps the top in view, 0.5 centers it, 1 keeps the bottom.
-   */
-  anchorY: number
   shadow: 'teal' | 'yellow' | 'fuchsia'
   longLine: boolean
   captionTop: boolean
@@ -74,7 +68,6 @@ export const JOURNEY: Journey = {
         8,
         78
       ],
-      "anchorY": 0.5,
       "shadow": "teal",
       "longLine": false,
       "captionTop": false,
@@ -147,7 +140,6 @@ export const JOURNEY: Journey = {
         25,
         72
       ],
-      "anchorY": 0,
       "shadow": "yellow",
       "longLine": true,
       "captionTop": false,
@@ -220,7 +212,6 @@ export const JOURNEY: Journey = {
         18,
         72
       ],
-      "anchorY": 0,
       "shadow": "fuchsia",
       "longLine": false,
       "captionTop": true,
@@ -293,7 +284,6 @@ export const JOURNEY: Journey = {
         14,
         40
       ],
-      "anchorY": 0,
       "shadow": "yellow",
       "longLine": false,
       "captionTop": false,
@@ -366,7 +356,6 @@ export const JOURNEY: Journey = {
         30,
         52
       ],
-      "anchorY": 0.5,
       "shadow": "teal",
       "longLine": false,
       "captionTop": false,
@@ -439,7 +428,6 @@ export const JOURNEY: Journey = {
         24,
         80
       ],
-      "anchorY": 0,
       "shadow": "fuchsia",
       "longLine": false,
       "captionTop": false,
@@ -512,7 +500,6 @@ export const JOURNEY: Journey = {
         16,
         86
       ],
-      "anchorY": 0.5,
       "shadow": "teal",
       "longLine": true,
       "captionTop": false,
@@ -585,7 +572,6 @@ export const JOURNEY: Journey = {
         34,
         58
       ],
-      "anchorY": 0,
       "shadow": "yellow",
       "longLine": false,
       "captionTop": true,

@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import {getImageProps} from 'next/image'
-import {useEffect, useRef, useState, type CSSProperties} from 'react'
+import {useEffect, useRef, useState, type CSSProperties, type RefObject} from 'react'
 import {JOURNEY, type JourneyImage, type JourneyStop} from './journeyData'
 import styles from './Journey.module.scss'
 
@@ -24,6 +24,8 @@ const QUALITY = 80
 const CAPTION_IN = 0.08
 // Stops 1 and 2 load with the page; the rest load just ahead of the reader.
 const EAGER = 2
+// Scrolling this far (in screens) past the end fades the journey out and closes it.
+const CLOSE_PAST = 0.3
 const SHADOW = {teal: 'var(--brand-aqua-teal)', yellow: 'var(--brand-warm-yellow)', fuchsia: 'var(--brand-fuchsia)'}
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v))
@@ -110,9 +112,35 @@ function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: numbe
   )
 }
 
+/** Starts loading stops 1 and 2 before the journey opens, so it opens without a wait. */
+export function preloadJourney() {
+  if (typeof window === 'undefined' || preloaded) return
+  preloaded = true
+  const flat = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  STOPS.slice(0, EAGER).forEach((stop) => {
+    for (const image of flat ? [stop.flat] : stop.layers) {
+      const {props} = getImageProps({...image, alt: '', sizes: SIZES, quality: QUALITY})
+      const img = new Image()
+      img.sizes = props.sizes ?? SIZES
+      if (props.srcSet) img.srcset = props.srcSet
+      img.src = props.src
+    }
+  })
+}
+let preloaded = false
+
+type JourneyProps = {
+  /** The element the journey scrolls in (the overlay). */
+  scrollerRef: RefObject<HTMLElement | null>
+  /** Called once the reader scrolls past the end. */
+  onFinish?: () => void
+}
+
 /** Building the Road to Systemic Equity: a sticky stage the reader walks through by scrolling. */
-export default function Journey() {
+export default function Journey({scrollerRef, onFinish}: JourneyProps) {
   const [reduce, setReduce] = useState(false)
+  const onFinishRef = useRef(onFinish)
+  onFinishRef.current = onFinish
   const stageRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLElement>(null)
   const endRef = useRef<HTMLElement>(null)
@@ -132,7 +160,8 @@ export default function Journey() {
 
   useEffect(() => {
     const stage = stageRef.current
-    if (!stage) return
+    const scroller = scrollerRef.current
+    if (!stage || !scroller) return
     // Wait until the motion setting is known, so reduced-motion visitors don't load the layers.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches !== reduce) return
     let cancelled = false
@@ -163,6 +192,7 @@ export default function Journey() {
         if (cancelled) return
         ready[i] = true
         scene.classList.add(styles.ready)
+        if (i === 0) stage.classList.add(styles.started)
       })
       return warming[i]!
     }
@@ -190,8 +220,9 @@ export default function Journey() {
     }))
     const planes = parts.map((part) => part.frames.map((fr) => Array.from(fr.children) as HTMLElement[]))
 
-    const vh = () => window.innerHeight
-    let target = window.scrollY / vh()
+    const vh = () => scroller.clientHeight
+    let target = scroller.scrollTop / vh()
+    let finished = false
     let cur = target
     let lastDrawn = -1
     let lastCurrent = -1
@@ -213,15 +244,16 @@ export default function Journey() {
       }
       railRef.current?.classList.toggle(styles.show, t > 0.6 && t < INTRO + N * DWELL + 0.3)
 
-      // The artboard covers the stage.
+      // Landscape: the whole painting fits, centered on the dark stage. Phones in portrait
+      // show it at full height and pan across it.
       let W: number
       let H: number
-      if (VW / VH > RATIO) {
-        W = VW
-        H = VW / RATIO
-      } else {
+      if (portrait || VW / VH > RATIO) {
         H = VH
         W = VH * RATIO
+      } else {
+        W = VW
+        H = VW / RATIO
       }
 
       // `current` loads ahead as a stop arrives; the rail follows the captions.
@@ -259,8 +291,7 @@ export default function Journey() {
         const zoom = reduce ? 1 : lerp(stop.zoom[0], stop.zoom[1], e)
         const panX = portrait && !reduce ? lerp(stop.phonePan[0], stop.phonePan[1], e) / 100 : 0.5
         const fl = (VW - W) * panX
-        // On wide screens the artboard is taller than the stage; the anchor decides what stays in view.
-        const ft = (VH - H) * stop.anchorY
+        const ft = (VH - H) * 0.5
         // Focal point in frame pixels: on phones it follows the pan, otherwise the stop's focus.
         const fx = portrait ? VW / 2 - fl : (stop.focus[0] / 100) * W
         const fy = portrait ? H / 2 : (stop.focus[1] / 100) * H
@@ -329,6 +360,8 @@ export default function Journey() {
         setMask(end, ev >= 1 || reduce ? 'none' : wash(ev))
       }
       if (barRef.current) barRef.current.style.transform = `scaleX(${clamp(t / (TOTAL - 0.2), 0, 1)})`
+      // Past the end, the journey fades out before it closes.
+      stage.style.opacity = String(1 - smooth(TOTAL, TOTAL + CLOSE_PAST, t))
     }
 
     const tick = () => {
@@ -341,31 +374,38 @@ export default function Journey() {
       frame = requestAnimationFrame(tick)
     }
     const onScroll = () => {
-      target = window.scrollY / vh()
+      target = scroller.scrollTop / vh()
+      if (!finished && target >= TOTAL + CLOSE_PAST) {
+        finished = true
+        onFinishRef.current?.()
+      }
     }
     const onResize = () => {
       onScroll()
       cur = target
       draw()
     }
-    window.addEventListener('scroll', onScroll, {passive: true})
+    scroller.addEventListener('scroll', onScroll, {passive: true})
     window.addEventListener('resize', onResize)
     draw()
     frame = requestAnimationFrame(tick)
-
-    const hash = /^#stop([1-8])$/.exec(window.location.hash)
-    const hashTimer = hash ? window.setTimeout(() => goTo(Number(hash[1]) - 1, reduce), 300) : 0
 
     return () => {
       cancelled = true
       cancelAnimationFrame(frame)
       window.clearTimeout(backgroundTimer)
-      window.clearTimeout(hashTimer)
       window.removeEventListener('load', loadRest)
-      window.removeEventListener('scroll', onScroll)
+      scroller.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
     }
-  }, [reduce])
+  }, [reduce, scrollerRef])
+
+  /** Scrolls to a stop, just after it has fully arrived. */
+  const goTo = (i: number) => {
+    const scroller = scrollerRef.current
+    if (!scroller) return
+    scroller.scrollTo({top: (INTRO + i * DWELL + 0.35) * scroller.clientHeight, behavior: reduce ? 'auto' : 'smooth'})
+  }
 
   return (
     <div className={styles.track} style={{'--screens': TOTAL} as CSSProperties}>
@@ -435,7 +475,7 @@ export default function Journey() {
           <ol>
             {STOPS.map((stop, i) => (
               <li key={stop.number}>
-                <button type="button" onClick={() => goTo(i, reduce)}>
+                <button type="button" onClick={() => goTo(i)}>
                   {pad(i)} {stop.name}
                 </button>
               </li>
@@ -452,7 +492,7 @@ export default function Journey() {
                 dotRefs.current[i] = el
               }}
               aria-label={`Go to stop ${i + 1}: ${stop.name}`}
-              onClick={() => goTo(i, reduce)}
+              onClick={() => goTo(i)}
             >
               <span>{stop.name}</span>
               <i />
@@ -463,10 +503,4 @@ export default function Journey() {
       </div>
     </div>
   )
-}
-
-/** Scrolls to a stop, just after it has fully arrived. */
-function goTo(i: number, reduce: boolean) {
-  const y = (INTRO + i * DWELL + 0.35) * window.innerHeight
-  window.scrollTo({top: y, behavior: reduce ? 'auto' : 'smooth'})
 }

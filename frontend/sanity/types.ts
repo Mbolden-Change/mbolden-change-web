@@ -582,6 +582,7 @@ export type VisionMission = {
     _type: "image";
   };
   imageLabel?: string;
+  imageNote?: string;
   imageLink?: InternalOrExternalLink;
   missionEyebrow?: string;
   mission: string;

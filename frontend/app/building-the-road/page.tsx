@@ -1,6 +1,9 @@
 import type {Metadata} from 'next'
-import Journey from '@/components/v2/journey/Journey'
+import AboutPage from '@/app/[slug]/page'
 import {JOURNEY} from '@/components/v2/journey/journeyData'
+import {JourneyCover} from '@/components/v2/journey/JourneyOverlay'
+import {JOURNEY_HOME} from '@/components/v2/journey/journeyPaths'
+import JourneyRoute from '@/components/v2/journey/JourneyRoute'
 import {SITE_ORIGIN} from '@/lib/organizationJsonLd'
 
 const description =
@@ -23,10 +26,15 @@ export const metadata: Metadata = {
   twitter: {card: 'summary_large_image', title: shareTitle, description, images: [shareImage.url]},
 }
 
+/**
+ * The journey opens as an overlay on About. This address shows About with the
+ * journey already open (the Our Vision card opens it), so links and Back work.
+ */
 export default function BuildingTheRoadPage() {
   return (
-    <main>
-      <Journey />
-    </main>
+    <JourneyRoute>
+      <JourneyCover />
+      <AboutPage params={Promise.resolve({slug: JOURNEY_HOME.slice(1)})} />
+    </JourneyRoute>
   )
 }
