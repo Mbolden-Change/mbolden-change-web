@@ -282,6 +282,7 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   primaryLogo,
   secondaryLogo,
   organizationInfo,
+  legalLinks[]${INTERNAL_OR_EXTERNAL_LINK},
   newsletterButton {
     isExternalLink,
     url,

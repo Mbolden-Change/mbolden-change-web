@@ -149,5 +149,18 @@ export const footertype = defineField({
         }),
       ],
     }),
+    defineField({
+      name: 'legalLinks',
+      title: 'Bottom row links',
+      type: 'array',
+      description: 'Small links in the bottom row, after the copyright line, such as “Privacy Policy”.',
+      of: [
+        defineField({
+          name: 'link',
+          title: 'Link',
+          type: 'internalOrExternalLink',
+        }),
+      ],
+    }),
   ],
 })
