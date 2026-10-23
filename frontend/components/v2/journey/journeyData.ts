@@ -1,5 +1,6 @@
 // Generated from journey-build/assets/journey.json (copy, camera and layer positions)
-// with each painting's pixel size and the spec's alt text. Layers are listed back to front;
+// with each painting's pixel size, the spec's alt text and the vertical anchors
+// (stops 3, 6 and 8 keep the top of the painting in view). Layers are listed back to front;
 // x, y, w and h are percentages of the artboard.
 
 export type JourneyImage = {src: string; width: number; height: number}
@@ -11,6 +12,11 @@ export type JourneyStop = {
   focus: [number, number]
   zoom: [number, number]
   phonePan: [number, number]
+  /**
+   * Where the artboard sits vertically when the stage is wider than the painting:
+   * 0 keeps the top in view, 0.5 centers it, 1 keeps the bottom.
+   */
+  anchorY: number
   shadow: 'teal' | 'yellow' | 'fuchsia'
   longLine: boolean
   captionTop: boolean
@@ -27,6 +33,8 @@ export type Journey = {
   scrollCue: string
   endingEyebrow: string
   ending: string
+  /** A tiny blurred copy of stop 1, shown until its paintings are ready. */
+  placeholder: string
   artboard: {width: number; height: number}
   timing: {introScreens: number; screensPerStop: number; outroScreens: number}
   stops: JourneyStop[]
@@ -38,6 +46,7 @@ export const JOURNEY: Journey = {
   "scrollCue": "Scroll to walk the road",
   "endingEyebrow": "Systemic Equity",
   "ending": "Join us.",
+  "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAbADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDZurko8yR73YLhGGSC3ep7cLcQB8lXXhtxAyazZiTqRggeb95GVUfdGQ2c1aMBSdWlkwj5LBRnoBjBNTdp6se60RbFpI/zJJuHqG/wpRZOGOZOPbOahs4GghU72Q5yTux+dW7p7mKKSWWQw20UJdpnJxkeoHPShTT2DlaIJLAtEc7ww6HGaZBp0iSAs5yenamLLHd6ebu1laUMjGPezLvxVHw3e/b7ma2v7fy7m3YHgkqynvnPrRzoORlq5uGkv2ljynlgorOexPPFPtBJdOXtk8yRW2mWXoPpRaWsEuvyLJGGAycE966OQCG2XygEzgcVlGPMaOXKUrW2jinzKryzjnLjAX6DtUuuxmfw/eRlsF4SDtHUHt+PT8auQovynHPXNQauAdKuM98Z/MVo/di7ErV6nN2eo2sGkJE1vM1vG5/fJj5PQc98cVgC8xqKNExBkmI6YO3qOK2NUAj8MTFOP9IQ/oa5WwAe+tmYDLEZwMUqSvBNlOVpWP/Z",
   "artboard": {
     "width": 2752,
     "height": 1536
@@ -64,6 +73,7 @@ export const JOURNEY: Journey = {
         8,
         78
       ],
+      "anchorY": 0.5,
       "shadow": "teal",
       "longLine": false,
       "captionTop": false,
@@ -136,6 +146,7 @@ export const JOURNEY: Journey = {
         25,
         72
       ],
+      "anchorY": 0.5,
       "shadow": "yellow",
       "longLine": true,
       "captionTop": false,
@@ -208,6 +219,7 @@ export const JOURNEY: Journey = {
         18,
         72
       ],
+      "anchorY": 0,
       "shadow": "fuchsia",
       "longLine": false,
       "captionTop": true,
@@ -280,6 +292,7 @@ export const JOURNEY: Journey = {
         14,
         40
       ],
+      "anchorY": 0.5,
       "shadow": "yellow",
       "longLine": false,
       "captionTop": false,
@@ -352,6 +365,7 @@ export const JOURNEY: Journey = {
         30,
         52
       ],
+      "anchorY": 0.5,
       "shadow": "teal",
       "longLine": false,
       "captionTop": false,
@@ -424,6 +438,7 @@ export const JOURNEY: Journey = {
         24,
         80
       ],
+      "anchorY": 0,
       "shadow": "fuchsia",
       "longLine": false,
       "captionTop": false,
@@ -496,6 +511,7 @@ export const JOURNEY: Journey = {
         16,
         86
       ],
+      "anchorY": 0.5,
       "shadow": "teal",
       "longLine": true,
       "captionTop": false,
@@ -568,9 +584,10 @@ export const JOURNEY: Journey = {
         34,
         58
       ],
+      "anchorY": 0,
       "shadow": "yellow",
       "longLine": false,
-      "captionTop": false,
+      "captionTop": true,
       "alt": "At dusk, people of every age line the teal road holding glowing lanterns beneath a faint Lady Justice. A little girl holds a lantern out toward the viewer.",
       "flat": {
         "src": "/journey/flat/stop-8.webp",

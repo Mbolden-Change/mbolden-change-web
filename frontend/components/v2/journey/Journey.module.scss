@@ -26,6 +26,15 @@ $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
   font-size: 16px;
 }
 
+// A tiny blurred copy of stop 1, so the stage is never blank while the paintings load.
+.placeholder {
+  position: absolute;
+  inset: -40px;
+  background-position: center;
+  background-size: cover;
+  filter: blur(24px);
+}
+
 .scene {
   position: absolute;
   inset: 0;

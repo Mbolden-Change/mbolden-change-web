@@ -19,6 +19,9 @@ const LAG = 0.11
 // Phones show the paintings at full height and pan across them, so they need wide files too.
 const SIZES = '(orientation: portrait) 180vh, 100vw'
 const QUALITY = 80
+// A stop's caption starts to appear this far (in screens) after the stop has fully arrived.
+// The rail switches to the stop at the same moment.
+const CAPTION_IN = 0.08
 // Stops 1 and 2 load with the page; the rest load just ahead of the reader.
 const EAGER = 2
 const SHADOW = {teal: 'var(--brand-aqua-teal)', yellow: 'var(--brand-warm-yellow)', fuchsia: 'var(--brand-fuchsia)'}
@@ -37,6 +40,25 @@ function wash(r: number) {
   const R = r * 165
   return `radial-gradient(circle at 0% 100%, #000 ${Math.max(0, R - 12)}%, rgba(0,0,0,.6) ${Math.max(0, R - 5)}%, transparent ${R}%)`
 }
+/**
+ * Resolves once an image has loaded and decoded. A decode that never settles
+ * (some browsers stall on images that aren't on screen yet) gives up after a second,
+ * so it can't keep a stop hidden.
+ */
+function whenDecoded(img: HTMLImageElement) {
+  const loaded =
+    img.complete
+      ? Promise.resolve()
+      : new Promise<void>((resolve) => {
+          img.addEventListener('load', () => resolve(), {once: true})
+          img.addEventListener('error', () => resolve(), {once: true})
+        })
+  return loaded.then(() =>
+    Promise.race([img.decode().catch(() => undefined), new Promise((resolve) => setTimeout(resolve, DECODE_GIVE_UP_MS))]),
+  )
+}
+const DECODE_GIVE_UP_MS = 1000
+
 function setMask(el: HTMLElement, mask: string) {
   el.style.webkitMaskImage = mask
   el.style.maskImage = mask
@@ -135,7 +157,7 @@ export default function Journey() {
             delete img.dataset.src
             delete img.dataset.srcset
           }
-          return img.decode().catch(() => undefined)
+          return whenDecoded(img)
         }),
       ).then(() => {
         if (cancelled) return
@@ -202,7 +224,9 @@ export default function Journey() {
         W = VH * RATIO
       }
 
+      // `current` loads ahead as a stop arrives; the rail follows the captions.
       let current = 0
+      let named = 0
       STOPS.forEach((stop, i) => {
         const scene = scenes[i]
         const cap = caps[i]
@@ -214,6 +238,7 @@ export default function Journey() {
         const on = i === 0 || (t > wipe0 - 0.02 && t < start + DWELL + 0.8)
         scene.classList.toggle(styles.on, on)
         if (t >= start - 0.3) current = i
+        if (t >= start + CAPTION_IN) named = i
         if (!on) {
           cap.style.opacity = '0'
           cap.style.pointerEvents = 'none'
@@ -234,7 +259,8 @@ export default function Journey() {
         const zoom = reduce ? 1 : lerp(stop.zoom[0], stop.zoom[1], e)
         const panX = portrait && !reduce ? lerp(stop.phonePan[0], stop.phonePan[1], e) / 100 : 0.5
         const fl = (VW - W) * panX
-        const ft = (VH - H) * 0.5
+        // On wide screens the artboard is taller than the stage; the anchor decides what stays in view.
+        const ft = (VH - H) * stop.anchorY
         // Focal point in frame pixels: on phones it follows the pan, otherwise the stop's focus.
         const fx = portrait ? VW / 2 - fl : (stop.focus[0] / 100) * W
         const fy = portrait ? H / 2 : (stop.focus[1] / 100) * H
@@ -264,7 +290,7 @@ export default function Journey() {
         })
 
         // Caption: enters from the bottom left, drifts up and right, holds, then leaves up and right.
-        const a = start + 0.08
+        const a = start + CAPTION_IN
         const b = start + 0.45
         const c = start + DWELL - 0.55
         const z = start + DWELL - 0.2
@@ -280,8 +306,8 @@ export default function Journey() {
 
       dots.forEach((dot, i) => {
         if (!dot) return
-        dot.classList.toggle(styles.cur, i === current)
-        if (i === current) dot.setAttribute('aria-current', 'step')
+        dot.classList.toggle(styles.cur, i === named)
+        if (i === named) dot.setAttribute('aria-current', 'step')
         else dot.removeAttribute('aria-current')
       })
       // Whenever the reader reaches a stop, it and the next two load right away.
@@ -344,6 +370,7 @@ export default function Journey() {
   return (
     <div className={styles.track} style={{'--screens': TOTAL} as CSSProperties}>
       <div ref={stageRef} className={styles.stage}>
+        <div className={styles.placeholder} style={{backgroundImage: `url(${JOURNEY.placeholder})`}} aria-hidden="true" />
         <div>
           {STOPS.map((stop, i) => (
             <div
