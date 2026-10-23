@@ -1,0 +1,826 @@
+@use '../../../styles/reveal';
+
+// Beyond Compliance employer guide, from the approved mockup (Employer board).
+$ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+// The site header is 84px tall and sticky; the progress bar sits under it.
+$header: 84px;
+
+@include reveal.rise;
+
+.page {
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+}
+
+.section {
+  position: relative;
+  padding: 6rem 0;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.wrap {
+  @include reveal.wrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow(var(--bar));
+  color: inherit;
+}
+
+.h2 {
+  @include reveal.section-title;
+  color: inherit;
+
+  @media (max-width: 900px) {
+    font-size: 2.5rem;
+  }
+}
+
+.lead {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.button {
+  padding: 12px 28px;
+  font-family: var(--font-headline);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// Hero
+.hero {
+  padding: 4rem 0 5rem;
+
+  @media (max-width: 900px) {
+    padding: 2.5rem 0 3.5rem;
+  }
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: end;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.crumb {
+  align-self: flex-start;
+  display: inline-flex;
+  gap: 0.5rem;
+  padding-bottom: 2px;
+  border-bottom: 3px solid var(--brand-aqua-teal);
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brand-black);
+  text-decoration: none;
+
+  &:hover {
+    border-bottom-color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-black);
+    outline-offset: 3px;
+  }
+}
+
+.heroEyebrow {
+  margin-top: 0.875rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(3.375rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--brand-black);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--brand-fuchsia);
+}
+
+.intro {
+  max-width: 37.5rem;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.howTo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.625rem 1.75rem;
+  background: var(--brand-white);
+  box-shadow: 10px 10px 0 var(--brand-black);
+
+  p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    margin-right: 10px;
+  }
+}
+
+.howToHeading {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--brand-black);
+}
+
+.lineButton {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  margin-top: 0.25rem;
+  padding: 0 1.5rem;
+  border: 2px solid var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-black);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--brand-black);
+    color: var(--brand-white);
+  }
+}
+
+// Sticky progress bar
+.progress {
+  position: sticky;
+  top: $header;
+  z-index: 6;
+  background: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.progressInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  min-height: 58px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.progressLabel {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.meter {
+  flex: 1 1 240px;
+  height: 10px;
+  overflow: hidden;
+  background: #333;
+
+  b {
+    display: block;
+    height: 100%;
+    background: var(--brand-warm-yellow);
+    transition: width 0.5s $ease;
+  }
+}
+
+.progressCount {
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+
+// Six areas
+.areas {
+  padding: 4.5rem 0 6rem;
+
+  @media (max-width: 900px) {
+    padding: 3rem 0 3.5rem;
+  }
+}
+
+.areaList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+
+  > .head {
+    margin-bottom: 0.875rem;
+  }
+}
+
+.area {
+  background: var(--brand-white);
+  transition: box-shadow 0.3s;
+}
+
+.areaOpen {
+  box-shadow: 10px 10px 0 var(--lane);
+
+  @media (max-width: 900px) {
+    margin-right: 10px;
+  }
+}
+
+.areaHeading {
+  margin: 0;
+}
+
+.areaButton {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 1.375rem 1.625rem;
+  border: 0;
+  border-top: 10px solid var(--lane);
+  background: var(--brand-white);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-black);
+    outline-offset: -3px;
+  }
+
+  @media (max-width: 900px) {
+    gap: 0.875rem;
+    padding: 1.125rem 1.25rem;
+  }
+}
+
+.areaNum {
+  min-width: 3rem;
+  font-family: var(--font-headline);
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+
+  @media (max-width: 900px) {
+    min-width: 2.25rem;
+    font-size: 2rem;
+  }
+}
+
+.areaTitle {
+  flex-grow: 1;
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--brand-black);
+
+  @media (max-width: 900px) {
+    font-size: 1.375rem;
+  }
+}
+
+.areaCount {
+  font-size: 0.875rem;
+  color: #444;
+  white-space: nowrap;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.chev {
+  font-size: 1.625rem;
+  line-height: 1;
+  transition: transform 0.3s;
+}
+
+.areaOpen .chev {
+  transform: rotate(45deg);
+}
+
+.areaBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.25rem 1.625rem 1.75rem 5.875rem;
+  animation: drop 0.35s $ease;
+
+  @media (max-width: 900px) {
+    padding: 0.25rem 1.25rem 1.5rem;
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.stepGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step {
+  display: flex;
+  gap: 0.875rem;
+  align-items: flex-start;
+
+  input {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin: 2px 0 0;
+    accent-color: var(--brand-aqua-teal);
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    cursor: pointer;
+  }
+
+  b {
+    font-family: var(--font-headline);
+    font-size: 1.25rem;
+    color: var(--brand-black);
+  }
+
+  span {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+}
+
+.sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-left: 2.25rem;
+  padding: 1rem 1.125rem;
+  background: var(--brand-creamy-beige);
+
+  @media (max-width: 900px) {
+    margin-left: 0;
+  }
+}
+
+.sampleLabel {
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #444;
+}
+
+.sampleText {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.copy {
+  align-self: flex-start;
+  min-height: 40px;
+  padding: 0 0.875rem;
+  border: 2px solid var(--brand-black);
+  background: var(--brand-white);
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.copyDone {
+  background: var(--brand-aqua-teal);
+}
+
+// Warrant checker, on black
+.warrant {
+  background: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.warrantGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 3.5rem;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+.warrantNote {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #bbb;
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.125rem 0;
+  border-top: 1px solid #333;
+  font-size: 1.125rem;
+  line-height: 1.45;
+}
+
+.yesNo {
+  display: flex;
+  gap: 0.625rem;
+
+  button {
+    min-width: 84px;
+    min-height: 44px;
+    border: 2px solid var(--brand-white);
+    background: transparent;
+    color: var(--brand-white);
+    font-family: var(--font-headline);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 3px solid var(--brand-warm-yellow);
+      outline-offset: 2px;
+    }
+  }
+
+  .answerOn {
+    border-color: var(--brand-warm-yellow);
+    background: var(--brand-warm-yellow);
+    color: var(--brand-black);
+  }
+}
+
+.verdict {
+  margin: 0;
+  padding: 1.375rem 1.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  animation: drop 0.35s $ease;
+
+  strong {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-family: var(--font-headline);
+    font-size: 1.375rem;
+  }
+}
+
+.verdictNo {
+  background: var(--brand-fuchsia);
+  color: var(--brand-white);
+}
+
+.verdictYes {
+  background: var(--brand-warm-yellow);
+  color: var(--brand-black);
+}
+
+// In Case of ICE, on yellow
+.ice {
+  padding: 5.5rem 0;
+  background: var(--brand-warm-yellow);
+  color: var(--brand-black);
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.iceGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 3rem;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+.iceCard {
+  padding: 1.625rem 1.75rem;
+  background: var(--brand-white);
+  box-shadow: 10px 10px 0 var(--brand-black);
+
+  ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0;
+    padding-left: 1.75rem;
+    list-style: decimal;
+    font-size: 1.0625rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 900px) {
+    margin-right: 10px;
+  }
+}
+
+// Only shown when the card is printed.
+.printTitle {
+  display: none;
+}
+
+// Know Your Rights materials, on teal
+.materials {
+  background: var(--brand-aqua-teal);
+  color: var(--brand-black);
+}
+
+.materialsHead {
+  max-width: 47.5rem;
+}
+
+.materialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.material {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.5rem 1.5rem 1.625rem;
+  background: var(--brand-white);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 10px 10px 0 var(--brand-black);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+}
+
+.materialTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--brand-black);
+}
+
+.downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.375rem;
+  margin-top: auto;
+  padding-top: 0.375rem;
+
+  a {
+    border-bottom: 3px solid var(--brand-aqua-teal);
+    font-family: var(--font-headline);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brand-black);
+    text-decoration: none;
+  }
+}
+
+.redCards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 2.5rem;
+  align-items: start;
+  padding: 1.875rem 1.875rem 2rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.redCardsCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.redCardsTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--brand-black);
+}
+
+.languages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.chooseLabel {
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.langChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.lang {
+  min-height: 40px;
+  padding: 0 0.875rem;
+  border: 2px solid var(--brand-black);
+  background: var(--brand-white);
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.langOn {
+  background: var(--brand-black);
+  color: var(--brand-white);
+}
+
+.more {
+  min-height: 40px;
+  padding: 0 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--brand-aqua-teal);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+  cursor: pointer;
+}
+
+.sourceNote {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  text-align: left;
+
+  a {
+    font-weight: 500;
+    color: var(--brand-black);
+  }
+}
+
+.disclaimer {
+  max-width: 56.25rem;
+  margin: 0;
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--brand-black);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .areaBody,
+  .verdict {
+    animation: none;
+  }
+
+  .chev,
+  .area,
+  .meter b,
+  .material,
+  .lang {
+    transition: none;
+  }
+
+  .material:hover,
+  .lang:hover {
+    transform: none;
+  }
+}
+
+// "Print the card": only the ICE card prints, as a bordered card.
+@media print {
+  .printTitle {
+    display: block;
+    margin: 0 0 0.75rem;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}

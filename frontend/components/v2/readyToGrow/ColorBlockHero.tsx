@@ -5,8 +5,8 @@ import type {ColorBlockHero as ColorBlockHeroType} from '@/sanity/types'
 import {useScrollReveal} from '../motion/useScrollReveal'
 import styles from './blocks.module.scss'
 
-/** Page hero on cream; teal, fuchsia and yellow blocks slide in on the right. */
-export default function ColorBlockHero({eyebrow, heading, intro}: ColorBlockHeroType) {
+/** Page hero on cream; teal, fuchsia and yellow blocks slide in on the right unless turned off. */
+export default function ColorBlockHero({eyebrow, heading, intro, showBlocks = true}: ColorBlockHeroType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.1)
   if (!heading) return null
 
@@ -16,11 +16,13 @@ export default function ColorBlockHero({eyebrow, heading, intro}: ColorBlockHero
       className={classNames(styles.hero, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
     >
-      <div className={styles.blocks} aria-hidden="true">
-        <b />
-        <b />
-        <b />
-      </div>
+      {showBlocks !== false && (
+        <div className={styles.blocks} aria-hidden="true">
+          <b />
+          <b />
+          <b />
+        </div>
+      )}
       <div className={classNames(styles.wrap, styles.heroInner)}>
         {eyebrow && (
           <p className={classNames(styles.eyebrow, styles.rv)} style={{'--bar': 'var(--brand-aqua-teal)'} as React.CSSProperties}>

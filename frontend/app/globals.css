@@ -117,3 +117,30 @@ a:hover {
 a:active {
   text-decoration: none;
 }
+
+/* Employer guide "Print the card": while printing, only a copy of the ICE
+   card (added to #print-root) shows. */
+#print-root {
+  display: none;
+}
+
+@media print {
+  body.print-ice-card > :not(#print-root) {
+    display: none !important;
+  }
+
+  body.print-ice-card #print-root {
+    display: block;
+  }
+
+  #print-root > * {
+    max-width: 6.5in;
+    margin: 0;
+    padding: 0.4in;
+    border: 2px solid #000;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

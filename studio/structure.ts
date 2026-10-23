@@ -38,10 +38,15 @@ export const structure: StructureResolver = (S) =>
         .icon(BlockquoteIcon)
         .child(S.documentTypeList('statement')),
       S.listItem()
-        .title('Ready to Grow Case Studies')
+        .title('Program Case Studies')
         .schemaType('programCaseStudy')
         .icon(DocumentTextIcon)
         .child(S.documentTypeList('programCaseStudy')),
+      S.listItem()
+        .title('Employer Guides')
+        .schemaType('employerGuide')
+        .icon(DocumentTextIcon)
+        .child(S.documentTypeList('employerGuide')),
       S.listItem()
         .title('Case Studies')
         .schemaType('caseStudy')

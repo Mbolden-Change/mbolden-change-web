@@ -276,7 +276,8 @@ export const textMedia = defineType({
               title: 'Link (Optional)',
               type: 'url',
               description:
-                'Leave blank to show a non-clickable info tag instead. In a featured pilot or pop-up, a button without a link is hidden until a link is added.',
+                'A full web address, or a page on this site such as /resources/student-and-family-safety-net. Leave blank to show a non-clickable info tag instead. In a featured pilot or pop-up, a button without a link is hidden until a link is added.',
+              validation: (Rule) => Rule.uri({allowRelative: true, scheme: ['http', 'https', 'mailto']}),
             }),
             defineField({
               name: 'newTab',
