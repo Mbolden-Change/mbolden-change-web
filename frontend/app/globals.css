@@ -46,6 +46,23 @@ h6 {
   font-weight: 700;
 }
 
+/* Avoid a single word alone on the last line. Blocks that set their own
+   text-wrap (such as balance) keep it. Browsers without support ignore it. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+dt,
+dd,
+blockquote,
+figcaption {
+  text-wrap: pretty;
+}
+
 h1 {
   font-size: 48px;
   line-height: 120%;

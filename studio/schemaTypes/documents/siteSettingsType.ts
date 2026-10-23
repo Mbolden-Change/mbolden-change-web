@@ -40,6 +40,19 @@ export const siteSettingsType = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'advancementContact',
+      title: 'Advancement contact',
+      type: 'object',
+      description:
+        'Named under funder buttons, such as “Talk with Sue Sutherland, Director of Advancement, at sue@mboldenchange.org.” Funder email buttons go to this address.',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({name: 'name', title: 'Name', type: 'string'}),
+        defineField({name: 'title', title: 'Job title', type: 'string'}),
+        defineField({name: 'email', title: 'Email', type: 'string', validation: (Rule) => Rule.email()}),
+      ],
+    }),
   ],
   preview: {
     prepare() {

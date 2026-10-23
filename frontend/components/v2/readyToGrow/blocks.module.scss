@@ -1,0 +1,431 @@
+@use '../../../styles/reveal';
+
+// Ready to Grow page blocks, from the approved mockup (Ready to Grow board).
+$ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+@include reveal.rise;
+
+.wrap {
+  @include reveal.wrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow(var(--bar));
+}
+
+.h2 {
+  @include reveal.section-title;
+
+  @media (max-width: 900px) {
+    font-size: 2.5rem;
+  }
+}
+
+.text {
+  max-width: 35rem;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.button {
+  padding: 12px 28px;
+  font-family: var(--font-headline);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+// Hero with color blocks
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0 6.5rem;
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0 4rem;
+  }
+}
+
+.heroInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.heroTitle {
+  max-width: 43.75rem;
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2.875rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  color: var(--brand-black);
+}
+
+.heroIntro {
+  max-width: 38.75rem;
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.blocks {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 38%;
+  overflow: hidden;
+  pointer-events: none;
+
+  b {
+    position: absolute;
+    right: -60px;
+    height: 64px;
+    transform: skewX(-12deg);
+  }
+
+  b:nth-child(1) {
+    top: 22%;
+    width: 78%;
+    background: var(--brand-aqua-teal);
+  }
+
+  b:nth-child(2) {
+    top: calc(22% + 82px);
+    width: 58%;
+    background: var(--brand-fuchsia);
+  }
+
+  b:nth-child(3) {
+    top: calc(22% + 164px);
+    width: 40%;
+    background: var(--brand-warm-yellow);
+  }
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.armed .blocks b {
+  transform: skewX(-12deg) translateX(110%);
+}
+
+.in .blocks b {
+  animation: slideIn 1s $ease both;
+
+  &:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: skewX(-12deg) translateX(110%);
+  }
+
+  to {
+    transform: skewX(-12deg) translateX(0);
+  }
+}
+
+// Case study cards
+.models {
+  padding: 6rem 0;
+  background: var(--brand-white);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.cardItem {
+  display: flex;
+}
+
+.card {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  padding: 0 0 2.125rem;
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+  text-decoration: none;
+  transition:
+    transform 0.35s $ease,
+    box-shadow 0.35s;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 12px 12px 0 var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-black);
+    outline-offset: 4px;
+  }
+}
+
+.cardBar {
+  display: block;
+  height: 12px;
+  background: var(--lane);
+  transform-origin: left;
+}
+
+.armed .cardBar {
+  transform: scaleX(0);
+}
+
+.in .cardBar {
+  animation: barIn 0.9s $ease 0.35s both;
+}
+
+.in .d2 .cardBar {
+  animation-delay: 0.6s;
+}
+
+@keyframes barIn {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.cardBody {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  padding: 1rem 2.125rem 0;
+
+  @media (max-width: 900px) {
+    padding: 1rem 1.375rem 0;
+  }
+}
+
+.meta {
+  font-family: var(--font-headline);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #444;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.02;
+  color: var(--brand-black);
+}
+
+.card:hover .cardTitle {
+  text-decoration: underline;
+  text-decoration-color: var(--lane);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+}
+
+.cardSummary {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.cardStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.125rem;
+  padding: 1.25rem 0 0.25rem;
+  border-top: 2px solid var(--brand-black);
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cardStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.cardNum {
+  font-family: var(--font-headline);
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--brand-black);
+}
+
+.cardLabel {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+// Pinned to the bottom so the links line up across cards.
+.go {
+  align-self: flex-start;
+  display: inline-flex;
+  gap: 0.375rem;
+  margin-top: auto;
+  padding-bottom: 3px;
+  border-bottom: 3px solid var(--lane);
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+// Funder invitation
+.funder {
+  padding: 6rem 0;
+  background: var(--brand-warm-yellow);
+  color: var(--brand-black);
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.funderGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: end;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .head {
+    gap: 1.125rem;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.contact {
+  flex-basis: 100%;
+  margin: 0.375rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+// Page teaser
+.teaser {
+  padding: 4.5rem 0;
+  background: var(--brand-creamy-beige);
+  border-top: 4px solid var(--brand-black);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3rem 0;
+  }
+}
+
+.teaserGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto;
+  gap: 2.5rem;
+  align-items: end;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+.teaserTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.02;
+  color: var(--brand-black);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blocks b,
+  .armed .blocks b,
+  .in .blocks b {
+    transform: skewX(-12deg);
+    animation: none;
+  }
+
+  .cardBar,
+  .armed .cardBar,
+  .in .cardBar {
+    transform: none;
+    animation: none;
+  }
+
+  .card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

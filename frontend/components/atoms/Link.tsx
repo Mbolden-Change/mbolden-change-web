@@ -22,6 +22,7 @@ export type ReferenceType = {
 const INTERNAL_ROUTE_PREFIX: Record<string, string> = {
   page: "",
   caseStudy: "case-study",
+  programCaseStudy: "ready-to-grow",
   statement: "statement",
   report: "report",
 };

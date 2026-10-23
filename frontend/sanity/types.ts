@@ -82,6 +82,14 @@ export type PageBuilder = Array<{
   _key: string;
 } & PointOfView | {
   _key: string;
+} & ColorBlockHero | {
+  _key: string;
+} & CaseStudyCards | {
+  _key: string;
+} & FunderCta | {
+  _key: string;
+} & PageTeaser | {
+  _key: string;
 } & ToolCards | {
   _key: string;
 } & ResourceBanner | {
@@ -111,6 +119,44 @@ export type PageBuilder = Array<{
 } & Faq | {
   _key: string;
 } & HolidayCard>;
+
+export type PageTeaser = {
+  _type: "pageTeaser";
+  eyebrow?: string;
+  heading: string;
+  text?: string;
+  link?: InternalOrExternalLink;
+};
+
+export type FunderCta = {
+  _type: "funderCta";
+  eyebrow?: string;
+  heading: string;
+  text?: string;
+  buttonLabel?: string;
+  emailSubject?: string;
+};
+
+export type ColorBlockHero = {
+  _type: "colorBlockHero";
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+};
+
+export type CaseStudyCards = {
+  _type: "caseStudyCards";
+  eyebrow?: string;
+  heading: string;
+  caseStudies: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "programCaseStudy";
+  }>;
+  linkLabel?: string;
+};
 
 export type PointOfView = {
   _type: "pointOfView";
@@ -1223,6 +1269,127 @@ export type HeroCarousel = {
   } & Hero>;
 };
 
+export type ProgramCaseStudy = {
+  _id: string;
+  _type: "programCaseStudy";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
+  color: "teal" | "fuchsia" | "yellow";
+  lane?: string;
+  pilotYears?: string;
+  summary: string;
+  glance?: Array<{
+    label: string;
+    value: string;
+    _type: "glanceRow";
+    _key: string;
+  }>;
+  cardSummary: string;
+  cardStats?: Array<{
+    value: string;
+    label: string;
+    _type: "stat";
+    _key: string;
+  }>;
+  results?: {
+    eyebrow?: string;
+    heading: string;
+    stats?: Array<{
+      value: string;
+      label: string;
+      _type: "stat";
+      _key: string;
+    }>;
+    source?: string;
+  };
+  model?: {
+    eyebrow?: string;
+    heading?: string;
+    intro?: string;
+    cards?: Array<{
+      heading: string;
+      text: string;
+      _type: "modelCard";
+      _key: string;
+    }>;
+  };
+  learned?: {
+    eyebrow?: string;
+    heading?: string;
+    items?: Array<{
+      heading: string;
+      text: string;
+      _type: "lesson";
+      _key: string;
+    }>;
+  };
+  video?: {
+    youtube?: string;
+    eyebrow?: string;
+    heading?: string;
+    description?: string;
+    cover?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    chapters?: Array<{
+      time: string;
+      label: string;
+      _type: "chapter";
+      _key: string;
+    }>;
+  };
+  quotes?: {
+    eyebrow?: string;
+    main?: {
+      quote: string;
+      attribution?: string;
+    };
+    short?: Array<{
+      quote: string;
+      attribution?: string;
+      _type: "shortQuote";
+      _key: string;
+    }>;
+    secondary?: {
+      quote?: string;
+      attribution?: string;
+    };
+  };
+  nextPhase?: {
+    eyebrow?: string;
+    heading?: string;
+    intro?: string;
+    items?: Array<{
+      heading: string;
+      text: string;
+      _type: "need";
+      _key: string;
+    }>;
+    buttonLabel?: string;
+    emailSubject?: string;
+    pdf?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "pdfDocument";
+    };
+    pdfLabel?: string;
+  };
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -1244,6 +1411,11 @@ export type SiteSettings = {
     };
     alt?: string;
     url?: string;
+  };
+  advancementContact?: {
+    name?: string;
+    title?: string;
+    email?: string;
   };
 };
 
@@ -1618,6 +1790,11 @@ export type InternalOrExternalLink = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "programCaseStudy";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "report";
   } | {
     _ref: string;
@@ -1732,5 +1909,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

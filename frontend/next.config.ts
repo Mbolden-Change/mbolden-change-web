@@ -34,6 +34,18 @@ const nextConfig: NextConfig = {
       { source: '/our-work', destination: '/what-were-tackling', permanent: false },
       { source: '/fueling-bold-change', destination: '/what-were-tackling', permanent: false },
       { source: '/ideas-in-action', destination: 'https://www.mboldenaction.org', permanent: false },
+      // The old case study and report now live in Ready to Grow: permanent 301s
+      // (statusCode, since `permanent: true` would send a 308).
+      {
+        source: '/case-study/my-new-red-shoes-youth-cash-transfer-program',
+        destination: '/ready-to-grow/youth-cash-transfer',
+        statusCode: 301,
+      },
+      {
+        source: '/report/uplifting-immigrant-survivors-project-empower-report',
+        destination: '/ready-to-grow/project-empower',
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {
