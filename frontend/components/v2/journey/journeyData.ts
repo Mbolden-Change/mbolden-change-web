@@ -1,6 +1,7 @@
 // Generated from journey-build/assets/journey.json (copy, camera and layer positions)
 // with each painting's pixel size, the spec's alt text and the vertical anchors
-// (stops 3, 6 and 8 keep the top of the painting in view). Layers are listed back to front;
+// (stops 2, 3, 4, 6 and 8 keep the top of the painting in view); stop 8 zooms to
+// 1.06 rather than 1.14 so the girl's lantern stays in frame. Layers are listed back to front;
 // x, y, w and h are percentages of the artboard.
 
 export type JourneyImage = {src: string; width: number; height: number}
@@ -146,7 +147,7 @@ export const JOURNEY: Journey = {
         25,
         72
       ],
-      "anchorY": 0.5,
+      "anchorY": 0,
       "shadow": "yellow",
       "longLine": true,
       "captionTop": false,
@@ -292,7 +293,7 @@ export const JOURNEY: Journey = {
         14,
         40
       ],
-      "anchorY": 0.5,
+      "anchorY": 0,
       "shadow": "yellow",
       "longLine": false,
       "captionTop": false,
@@ -578,7 +579,7 @@ export const JOURNEY: Journey = {
       ],
       "zoom": [
         1,
-        1.14
+        1.06
       ],
       "phonePan": [
         34,
