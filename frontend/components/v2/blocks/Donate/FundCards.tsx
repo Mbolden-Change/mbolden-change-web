@@ -1,24 +1,21 @@
 'use client'
 
-import {useState, type CSSProperties} from 'react'
+import {useRef, type CSSProperties} from 'react'
 import classNames from 'classnames'
 import type {FundCards as FundCardsType} from '@/sanity/types'
 import {trackDonateClick} from '@/lib/analytics'
 import {useScrollReveal} from '../../motion/useScrollReveal'
-import FundDialog, {type DialogFund} from './FundDialog'
+import FundDialog, {type FundDialogHandle} from './FundDialog'
 import {laneColor} from './lanes'
 import {zeffyPageUrl} from './zeffy'
 import styles from './Donate.module.scss'
 
 const STAGGER = [styles.d1, styles.d2, styles.d3]
 
-/**
- * A card per fund. Each button is a link to the fund's Zeffy page, so it works
- * without JavaScript; with it, the form opens in a pop-up instead.
- */
+/** A card per fund. Each button opens the fund's Zeffy form in a pop-up. */
 export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.15)
-  const [active, setActive] = useState<{fund: DialogFund; opener: HTMLElement} | null>(null)
+  const dialogRef = useRef<FundDialogHandle>(null)
 
   if (!heading) return null
   const cards = (funds ?? []).filter((fund) => fund.title && zeffyPageUrl(fund.form))
@@ -49,28 +46,23 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
               <div className={styles.fundBody}>
                 <h3 className={styles.fundTitle}>{fund.title}</h3>
                 {fund.text && <p className={styles.fundText}>{fund.text}</p>}
-                <a
-                  href={zeffyPageUrl(fund.form) ?? undefined}
+                <button
+                  type="button"
                   className={styles.fundButton}
                   aria-haspopup="dialog"
                   onClick={(event) => {
-                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-                    event.preventDefault()
                     trackDonateClick('fund-cards')
-                    setActive({
-                      fund: {title: fund.title!, lane: fund.lane, form: fund.form},
-                      opener: event.currentTarget,
-                    })
+                    dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, event.currentTarget)
                   }}
                 >
                   {fund.buttonLabel || `Give to ${fund.title}`} <span aria-hidden="true">→</span>
-                </a>
+                </button>
               </div>
             </li>
           ))}
         </ul>
       </div>
-      <FundDialog fund={active?.fund ?? null} opener={active?.opener ?? null} onClose={() => setActive(null)} />
+      <FundDialog ref={dialogRef} />
     </section>
   )
 }

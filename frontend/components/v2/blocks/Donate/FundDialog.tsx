@@ -1,6 +1,7 @@
 'use client'
 
-import {useEffect, useRef, type CSSProperties} from 'react'
+import {useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type Ref} from 'react'
+import {flushSync} from 'react-dom'
 import {laneColor, type Lane} from './lanes'
 import {ZEFFY_IFRAME_ATTRS, zeffyEmbedSrc, zeffyPageUrl, type ZeffyFormRef} from './zeffy'
 import styles from './Donate.module.scss'
@@ -11,45 +12,43 @@ export type DialogFund = {
   form?: ZeffyFormRef | null
 }
 
-type FundDialogProps = {
-  /** The fund to show; null keeps the pop-up closed. */
-  fund: DialogFund | null
-  /** The button that opened it, focused again on close. */
-  opener: HTMLElement | null
-  onClose: () => void
+export type FundDialogHandle = {
+  /** Shows the fund's form; `opener` gets focus back when it closes. */
+  open: (fund: DialogFund, opener: HTMLElement) => void
 }
 
 /**
- * Pop-up with one fund's Zeffy form. A native modal dialog, so focus stays
- * inside and Escape closes it. The form's iframe is only added while it's
- * open, so nothing loads from Zeffy until someone asks for it.
+ * Pop-up with one fund's Zeffy form. A native modal dialog, so the page
+ * behind is inert and Escape closes it. The form's iframe is only added
+ * while it's open, so nothing loads from Zeffy until someone asks for it.
  */
-export default function FundDialog({fund, opener, onClose}: FundDialogProps) {
+export default function FundDialog({ref}: {ref: Ref<FundDialogHandle>}) {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const openerRef = useRef(opener)
-  openerRef.current = opener
-  const onCloseRef = useRef(onClose)
-  onCloseRef.current = onClose
-  const isOpen = Boolean(fund)
+  const openerRef = useRef<HTMLElement | null>(null)
+  const [fund, setFund] = useState<DialogFund | null>(null)
 
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    if (isOpen && !dialog.open) {
-      dialog.showModal()
+  // Opens straight from the click, so it never waits on the previous
+  // pop-up's close event.
+  useImperativeHandle(ref, () => ({
+    open(next, opener) {
+      const dialog = dialogRef.current
+      if (!dialog) return
+      openerRef.current = opener
+      flushSync(() => setFund(next))
+      if (!dialog.open) dialog.showModal()
       document.documentElement.style.overflow = 'hidden'
-    } else if (!isOpen && dialog.open) {
-      dialog.close()
-    }
-  }, [isOpen])
+    },
+  }))
 
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
-    // Escape, the X and a click outside all end here.
+    // Escape, the X and a click outside all end here. A close event that
+    // arrives after another fund has opened is ignored.
     const handleClose = () => {
+      if (dialog.open) return
       document.documentElement.style.overflow = ''
-      onCloseRef.current()
+      setFund(null)
       openerRef.current?.focus()
     }
     dialog.addEventListener('close', handleClose)
@@ -92,14 +91,16 @@ export default function FundDialog({fund, opener, onClose}: FundDialogProps) {
     >
       {fund && (
         <div className={styles.dialogBody}>
-          <button
-            type="button"
-            className={styles.close}
-            aria-label="Close"
-            onClick={() => dialogRef.current?.close()}
-          >
-            <span aria-hidden="true">×</span>
-          </button>
+          <div className={styles.closeBar}>
+            <button
+              type="button"
+              className={styles.close}
+              aria-label="Close"
+              onClick={() => dialogRef.current?.close()}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
           <p className={styles.dialogEyebrow}>Donate</p>
           <h2 id={titleId} className={styles.dialogTitle}>
             {fund.title}

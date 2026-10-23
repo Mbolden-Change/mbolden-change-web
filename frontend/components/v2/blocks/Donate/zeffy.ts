@@ -1,8 +1,7 @@
 import type {IframeHTMLAttributes} from 'react'
 
-/** A Zeffy form as set in Studio: its kind and the last part of its address. */
+/** A Zeffy donation form as set in Studio: the last part of its address. */
 export type ZeffyFormRef = {
-  kind?: 'donation-form' | 'peer-to-peer' | string | null
   id?: string | null
 }
 
@@ -14,23 +13,21 @@ export const ZEFFY_IFRAME_ATTRS = {
 
 export const ZEFFY_SCRIPT_SRC = 'https://www.zeffy.com/embed/v2/zeffy-embed.js'
 
-function parts(form?: ZeffyFormRef | null) {
+function formId(form?: ZeffyFormRef | null) {
   const id = form?.id?.trim()
-  if (!id || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) return null
-  const kind = form?.kind === 'peer-to-peer' ? 'peer-to-peer' : 'donation-form'
-  return {kind, id}
+  return id && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) ? id : null
 }
 
 /** The form's own page on Zeffy, for “Form not loading? Give on Zeffy”. */
 export function zeffyPageUrl(form?: ZeffyFormRef | null) {
-  const p = parts(form)
-  return p ? `https://www.zeffy.com/en-US/${p.kind}/${p.id}` : null
+  const id = formId(form)
+  return id ? `https://www.zeffy.com/en-US/donation-form/${id}` : null
 }
 
 /** The path Zeffy's embed script reads from data-form-url. */
 export function zeffyEmbedPath(form?: ZeffyFormRef | null) {
-  const p = parts(form)
-  return p ? `/embed/${p.kind}/${p.id}` : null
+  const id = formId(form)
+  return id ? `/embed/donation-form/${id}` : null
 }
 
 /** The embed address, for an iframe without the script. */

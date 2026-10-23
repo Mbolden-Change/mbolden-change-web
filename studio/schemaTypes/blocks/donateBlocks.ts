@@ -1,29 +1,14 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
-/** A Zeffy form or campaign, by the last part of its Zeffy address. */
+/** A Zeffy donation form, by the last part of its Zeffy address. */
 export const zeffyFormType = defineType({
   name: 'zeffyForm',
   title: 'Zeffy form',
   type: 'object',
   description:
-    'The last part of the Zeffy address. For zeffy.com/en-US/donation-form/power-bold-solutions, choose Donation form and enter power-bold-solutions.',
+    'For zeffy.com/en-US/donation-form/power-bold-solutions, enter power-bold-solutions. It loads as Zeffy’s donation-form embed.',
   options: {collapsible: false},
   fields: [
-    defineField({
-      name: 'kind',
-      title: 'Kind',
-      type: 'string',
-      initialValue: 'donation-form',
-      options: {
-        list: [
-          {title: 'Donation form', value: 'donation-form'},
-          {title: 'Peer-to-peer campaign', value: 'peer-to-peer'},
-        ],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
     defineField({
       name: 'id',
       title: 'Form ID',

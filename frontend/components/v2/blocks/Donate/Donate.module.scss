@@ -292,8 +292,12 @@ $phone: 767px;
 .fundButton {
   align-self: flex-start;
   margin-top: auto;
-  padding-bottom: 3px;
+  padding: 0 0 3px;
+  border: 0;
   border-bottom: 3px solid var(--lane);
+  background: none;
+  cursor: pointer;
+  text-align: left;
   font-family: var(--font-headline);
   font-size: 1.0625rem;
   font-weight: 700;
@@ -416,12 +420,14 @@ $phone: 767px;
   color: #444;
 }
 
-// Fund pop-up
+// Fund pop-up. It grows to fit the form and scrolls when the screen is
+// shorter; the X stays in view.
+$form-height: 880px;
+
 .dialog {
   width: min(560px, calc(100vw - 2rem));
   max-width: none;
-  height: min(880px, calc(100dvh - 4rem));
-  max-height: none;
+  max-height: calc(100dvh - 2rem);
   // globals.css resets every margin to 0; a modal dialog centers with auto.
   margin: auto;
   padding: 0;
@@ -430,7 +436,7 @@ $phone: 767px;
   background: var(--brand-white);
   color: var(--brand-black);
   box-shadow: 12px 12px 0 var(--brand-black);
-  overflow: hidden;
+  overflow-y: auto;
   overscroll-behavior: contain;
 
   &::backdrop {
@@ -449,30 +455,41 @@ $phone: 767px;
   @media (max-width: $phone) {
     width: 100vw;
     height: 100dvh;
+    max-height: 100dvh;
     box-shadow: none;
   }
 }
 
 .dialogBody {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  height: 100%;
   padding: 1.5rem 1.875rem 1.25rem;
-  box-sizing: border-box;
 
   @media (max-width: $phone) {
     padding: 1rem 1rem 0.875rem;
   }
 }
 
+// Zero-height sticky row keeps the X in view without taking up space.
+.closeBar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+  margin: -1rem -1.375rem 0 0;
+
+  @media (max-width: $phone) {
+    margin: -0.5rem -0.5rem 0 0;
+  }
+}
+
 .close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
@@ -519,16 +536,15 @@ $phone: 767px;
 }
 
 .dialogForm {
-  position: relative;
-  flex: 1;
-  min-height: 0;
+  flex: none;
   margin-top: 0.25rem;
 
+  // Tall enough for the whole form, notes included, so it doesn't scroll
+  // inside its frame.
   iframe {
-    position: absolute;
-    inset: 0;
+    display: block;
     width: 100%;
-    height: 100%;
+    height: $form-height;
     border: 0;
   }
 }

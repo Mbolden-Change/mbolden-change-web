@@ -12736,23 +12736,6 @@
             "value": "zeffyForm"
           }
         },
-        "kind": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "donation-form"
-              },
-              {
-                "type": "string",
-                "value": "peer-to-peer"
-              }
-            ]
-          },
-          "optional": false
-        },
         "id": {
           "type": "objectAttribute",
           "value": {

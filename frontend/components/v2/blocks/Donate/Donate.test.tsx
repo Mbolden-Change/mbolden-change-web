@@ -18,15 +18,14 @@ beforeAll(() => {
   }
 })
 
-test('builds Zeffy addresses from the kind and ID', () => {
-  expect(zeffyPageUrl({kind: 'donation-form', id: 'power-bold-solutions'})).toBe(
-    'https://www.zeffy.com/en-US/donation-form/power-bold-solutions',
+test('builds donation-form addresses from the form ID', () => {
+  expect(zeffyPageUrl({id: 'mbolden-change-rapid-response-campaign'})).toBe(
+    'https://www.zeffy.com/en-US/donation-form/mbolden-change-rapid-response-campaign',
   )
-  expect(zeffyEmbedSrc({kind: 'peer-to-peer', id: 'rapid-response'})).toBe(
-    'https://www.zeffy.com/embed/peer-to-peer/rapid-response',
+  expect(zeffyEmbedSrc({id: 'mbolden-change-rapid-response-campaign'})).toBe(
+    'https://www.zeffy.com/embed/donation-form/mbolden-change-rapid-response-campaign',
   )
-  expect(zeffyEmbedSrc({id: 'no-kind'})).toBe('https://www.zeffy.com/embed/donation-form/no-kind')
-  expect(zeffyPageUrl({kind: 'donation-form', id: '../bad'})).toBeNull()
+  expect(zeffyPageUrl({id: '../bad'})).toBeNull()
 })
 
 const block: FundCardsType = {
@@ -39,18 +38,14 @@ const block: FundCardsType = {
       title: 'The Gateway Fund',
       buttonLabel: 'Give to the Gateway Fund',
       lane: 'yellow',
-      form: {_type: 'zeffyForm', kind: 'donation-form', id: 'the-gateway-fund-legal-access-for-immigrant-youth'},
+      form: {_type: 'zeffyForm', id: 'the-gateway-fund-legal-access-for-immigrant-youth'},
     },
   ],
 }
 
-test('a fund button links to Zeffy and opens the form in a pop-up only when clicked', () => {
+test('a fund button opens the form in a pop-up only when clicked', () => {
   const {container} = render(<FundCards {...block} />)
-  const button = screen.getByRole('link', {name: /Give to the Gateway Fund/})
-  expect(button).toHaveAttribute(
-    'href',
-    'https://www.zeffy.com/en-US/donation-form/the-gateway-fund-legal-access-for-immigrant-youth',
-  )
+  const button = screen.getByRole('button', {name: /Give to the Gateway Fund/})
   expect(container.querySelector('iframe')).toBeNull()
 
   fireEvent.click(button)
@@ -69,6 +64,21 @@ test('a fund button links to Zeffy and opens the form in a pop-up only when clic
   expect(container.querySelector('iframe')).toBeNull()
   expect(document.documentElement.style.overflow).toBe('')
   expect(button).toHaveFocus()
+})
+
+test('the first click after closing opens the pop-up, even if the close event comes late', () => {
+  const {container} = render(<FundCards {...block} />)
+  const dialog = container.querySelector('dialog')!
+  const button = screen.getByRole('button', {name: /Give to the Gateway Fund/})
+
+  fireEvent.click(button)
+  // Close without the close event yet, as a browser may deliver it later.
+  dialog.removeAttribute('open')
+  fireEvent.click(button)
+  expect(dialog).toHaveAttribute('open')
+  dialog.dispatchEvent(new Event('close'))
+  expect(dialog).toHaveAttribute('open')
+  expect(container.querySelector('iframe')).not.toBeNull()
 })
 
 test('the campaign banner shows nothing while switched off', () => {

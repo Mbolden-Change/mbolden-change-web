@@ -1833,7 +1833,6 @@ export type Statement = {
 
 export type ZeffyForm = {
   _type: "zeffyForm";
-  kind: "donation-form" | "peer-to-peer";
   id: string;
 };
 
