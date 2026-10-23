@@ -106,6 +106,12 @@ export type PageBuilder = Array<{
   _key: string;
 } & PartnerResources | {
   _key: string;
+} & StatementCards | {
+  _key: string;
+} & NewsRecord | {
+  _key: string;
+} & MediaContact | {
+  _key: string;
 } & ToolCards | {
   _key: string;
 } & ResourceBanner | {
@@ -135,6 +141,143 @@ export type PageBuilder = Array<{
 } & Faq | {
   _key: string;
 } & HolidayCard>;
+
+export type StatementCards = {
+  _type: "statementCards";
+  eyebrow?: string;
+  heading: string;
+  cards?: Array<{
+    statement: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "statement";
+    };
+    text?: string;
+    linkLabel?: string;
+    color?: "yellow" | "teal" | "fuchsia";
+    _type: "statementCard";
+    _key: string;
+  }>;
+};
+
+export type NewsRecord = {
+  _type: "newsRecord";
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  emptyText?: string;
+};
+
+export type MediaContact = {
+  _type: "mediaContact";
+  eyebrow?: string;
+  heading: string;
+  text?: string;
+  newsletterLabel?: string;
+};
+
+export type ThenNow = {
+  _type: "thenNow";
+  label?: string;
+  tabs?: Array<{
+    label: string;
+    tiles?: Array<{
+      label?: string;
+      value: string;
+      text?: string;
+      _type: "thenNowTile";
+      _key: string;
+    }>;
+    _type: "thenNowTab";
+    _key: string;
+  }>;
+};
+
+export type StatBand = {
+  _type: "statBand";
+  stats?: Array<{
+    value: number;
+    from?: number;
+    decimals?: number;
+    prefix?: string;
+    suffix?: string;
+    text?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "stat";
+    _key: string;
+  }>;
+};
+
+export type SectionHeading = {
+  _type: "sectionHeading";
+  heading: string;
+  menuLabel?: string;
+};
+
+export type RequirementCards = {
+  _type: "requirementCards";
+  items?: Array<{
+    title: string;
+    body?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "requirement";
+    _key: string;
+  }>;
+};
+
+export type PunchLine = {
+  _type: "punchLine";
+  text: string;
+};
+
+export type PullQuote = {
+  _type: "pullQuote";
+  quote: string;
+  attribution?: string;
+};
+
+export type Checklist = {
+  _type: "checklist";
+  items?: Array<{
+    lead?: string;
+    text?: string;
+    _type: "checklistItem";
+    _key: string;
+  }>;
+};
 
 export type ResourceLibrary = {
   _type: "resourceLibrary";
@@ -261,6 +404,7 @@ export type PageTeaser = {
   heading: string;
   text?: string;
   link?: InternalOrExternalLink;
+  tone?: "cream" | "yellow";
 };
 
 export type FunderCta = {
@@ -280,6 +424,7 @@ export type ColorBlockHero = {
   heading: string;
   intro?: string;
   showBlocks?: boolean;
+  backLink?: InternalOrExternalLink;
 };
 
 export type CaseStudyCards = {
@@ -1407,6 +1552,57 @@ export type HeroCarousel = {
   } & Hero>;
 };
 
+export type Letter = {
+  _id: string;
+  _type: "letter";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  date: string;
+  issue?: string;
+  summary?: string;
+  position?: string;
+  to?: string;
+  from?: string;
+  bill?: string;
+  letterDate?: string;
+  addresses?: Array<string>;
+  re?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  signOff?: string;
+  signatureName?: string;
+  signatureDetails?: string;
+  moreEyebrow?: string;
+  related?: Array<{
+    label?: string;
+    title: string;
+    link?: InternalOrExternalLink;
+    color?: "fuchsia" | "teal" | "black" | "yellow";
+    _type: "relatedCard";
+    _key: string;
+  }>;
+  moreLabel?: string;
+};
+
 export type EmployerGuide = {
   _id: string;
   _type: "employerGuide";
@@ -2003,6 +2199,10 @@ export type Statement = {
   title: string;
   slug: Slug;
   date: string;
+  datePrecision?: "month" | "day";
+  issue?: string;
+  lead?: string;
+  description?: string;
   pdfDownload?: {
     asset?: {
       _ref: string;
@@ -2020,7 +2220,7 @@ export type Statement = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    style?: "normal";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
@@ -2042,7 +2242,36 @@ export type Statement = {
     crop?: SanityImageCrop;
     _type: "image";
     _key: string;
+  } | {
+    _key: string;
+  } & SectionHeading | {
+    _key: string;
+  } & PunchLine | {
+    _key: string;
+  } & PullQuote | {
+    _key: string;
+  } & ThenNow | {
+    _key: string;
+  } & RequirementCards | {
+    _key: string;
+  } & StatBand | {
+    _key: string;
+  } & Checklist>;
+  sources?: Array<{
+    text: string;
+    url?: string;
+    _type: "source";
+    _key: string;
   }>;
+  closing?: {
+    eyebrow?: string;
+    text?: string;
+    line?: string;
+    lineAccent?: string;
+    cta?: string;
+    newsletterLabel?: string;
+    moreLabel?: string;
+  };
 };
 
 export type ZeffyForm = {
@@ -2068,6 +2297,11 @@ export type InternalOrExternalLink = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "statement";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "letter";
   } | {
     _ref: string;
     _type: "reference";
@@ -2201,5 +2435,22 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
+export type NewsItem = {
+  _id: string;
+  _type: "newsItem";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  kind: "statement" | "ourLetter" | "coalitionLetter" | "announcement";
+  title: string;
+  date: string;
+  datePrecision?: "day" | "month";
+  issue: string;
+  summary?: string;
+  details?: string;
+  linkLabel?: string;
+  link?: string;
+};
+
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug | NewsItem;
 export declare const internalGroqTypeReferenceTo: unique symbol;

@@ -69,6 +69,25 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   gap: 1.5rem;
 }
 
+.crumb {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: 0.5rem;
+  padding-bottom: 2px;
+  margin-bottom: 0.875rem;
+  font-family: var(--font-headline);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brand-black);
+  text-decoration: none;
+  border-bottom: 3px solid var(--brand-aqua-teal);
+
+  &:hover {
+    color: var(--brand-black);
+    border-bottom-color: var(--brand-black);
+  }
+}
+
 .heroTitle {
   max-width: 43.75rem;
   margin: 0;
@@ -391,6 +410,11 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   @media (max-width: 900px) {
     padding: 3rem 0;
   }
+}
+
+.teaserYellow {
+  background: var(--brand-warm-yellow);
+  border-top: 0;
 }
 
 .teaserGrid {

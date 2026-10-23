@@ -3,7 +3,7 @@ import type { SanityDocument } from '@sanity/client';
 import { sanityFetch } from '@/sanity/lib/fetch';
 
 async function getData() {
-  const query = `*[_type in ["caseStudy", "programCaseStudy", "employerGuide", "statement", "page", "report"] && defined(slug.current)] {
+  const query = `*[_type in ["caseStudy", "programCaseStudy", "employerGuide", "statement", "letter", "page", "report"] && defined(slug.current)] {
     "currentSlug": slug.current,
     "updated": _updatedAt,
     section,
@@ -35,6 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           path = `/resources/${item.currentSlug}`;
         } else if (item._type === 'statement') {
           path = `/statement/${item.currentSlug}`;
+        } else if (item._type === 'letter') {
+          path = `/letter/${item.currentSlug}`;
         } else if (item._type === 'page') {
           path = `/${item.currentSlug}`;
         } else if (item._type === 'report') {

@@ -14,6 +14,11 @@ import SkewButton from './atoms/SkewButton';
 import { trackDonateClick } from '@/lib/analytics';
 import styles from './Header.module.scss';
 
+/** Pages outside a menu item's path that still belong to it, such as News & Statements under Resources. */
+const SECTION_ALIASES: Record<string, string[]> = {
+  resources: ['news', 'statement', 'letter'],
+};
+
 type HeaderProps = { headerData: HeaderType };
 
 export default function Header({ headerData }: HeaderProps) {
@@ -101,7 +106,10 @@ export default function Header({ headerData }: HeaderProps) {
                 const isActive =
                   !link.isExternalLink &&
                   slug &&
-                  pathname.startsWith(`/${slug}`);
+                  (pathname.startsWith(`/${slug}`) ||
+                    SECTION_ALIASES[slug]?.some(
+                      (path) => pathname === `/${path}` || pathname.startsWith(`/${path}/`),
+                    ));
                 const isSelected = Boolean(
                   href && (isActive || pendingHref === href),
                 );

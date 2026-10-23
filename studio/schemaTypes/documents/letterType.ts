@@ -1,0 +1,132 @@
+import {defineArrayMember, defineField, defineType} from 'sanity'
+import {EnvelopeIcon} from '@sanity/icons'
+import {articleBlock} from '../objects/articleBlock'
+
+/** One of our own letters, such as a support letter for a bill, shown at /letter/[slug]. */
+export const letterType = defineType({
+  name: 'letter',
+  title: 'Letter',
+  type: 'document',
+  icon: EnvelopeIcon,
+  groups: [
+    {name: 'overview', title: 'Overview', default: true},
+    {name: 'letter', title: 'Letter'},
+    {name: 'more', title: 'Keep Reading'},
+  ],
+  fields: [
+    defineField({name: 'title', title: 'Title', type: 'string', group: 'overview', validation: (Rule) => Rule.required()}),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      group: 'overview',
+      description: 'The page address: /letter/<slug>, such as ab-1357.',
+      options: {source: 'title', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({name: 'date', title: 'Date', type: 'date', group: 'overview', validation: (Rule) => Rule.required()}),
+    defineField({name: 'issue', title: 'Issue', type: 'string', group: 'overview', description: 'Shown as a tag beside "Our letter".'}),
+    defineField({
+      name: 'summary',
+      title: 'Summary',
+      type: 'text',
+      rows: 2,
+      group: 'overview',
+      description: 'One line under the title. Also used for search engines and link previews.',
+    }),
+    defineField({
+      name: 'position',
+      title: 'Position',
+      type: 'string',
+      group: 'overview',
+      initialValue: 'SUPPORT',
+      description: 'Shown as a badge in the facts box.',
+    }),
+    defineField({name: 'to', title: 'To', type: 'text', rows: 2, group: 'overview'}),
+    defineField({name: 'from', title: 'From', type: 'string', group: 'overview'}),
+    defineField({name: 'bill', title: 'Bill', type: 'string', group: 'overview'}),
+    defineField({
+      name: 'letterDate',
+      title: 'Date on the letter',
+      type: 'string',
+      group: 'letter',
+      description: 'As written on the letter, such as "May 7th, 2025".',
+    }),
+    defineField({
+      name: 'addresses',
+      title: 'Addresses',
+      type: 'array',
+      group: 'letter',
+      of: [defineArrayMember({type: 'text', rows: 4})],
+      description: 'One entry per recipient. Each line of the address on its own line.',
+    }),
+    defineField({name: 're', title: 'RE line', type: 'string', group: 'letter', description: 'Shown between two rules.'}),
+    defineField({
+      name: 'body',
+      title: 'Letter text',
+      type: 'array',
+      group: 'letter',
+      of: [articleBlock],
+      description: 'Use Highlight on one sentence to give it the animated yellow marker.',
+    }),
+    defineField({name: 'signOff', title: 'Sign-off', type: 'string', group: 'letter', initialValue: 'Sincerely,'}),
+    defineField({name: 'signatureName', title: 'Signature name', type: 'string', group: 'letter'}),
+    defineField({
+      name: 'signatureDetails',
+      title: 'Under the signature',
+      type: 'text',
+      rows: 3,
+      group: 'letter',
+      description: 'Title and organization, one per line.',
+    }),
+    defineField({name: 'moreEyebrow', title: 'Eyebrow', type: 'string', group: 'more', initialValue: 'Keep Reading'}),
+    defineField({
+      name: 'related',
+      title: 'Related cards',
+      type: 'array',
+      group: 'more',
+      validation: (Rule) => Rule.max(3),
+      of: [
+        defineArrayMember({
+          name: 'relatedCard',
+          title: 'Card',
+          type: 'object',
+          fields: [
+            defineField({name: 'label', title: 'Small label', type: 'string', description: 'For example, "Case study".'}),
+            defineField({name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()}),
+            defineField({name: 'link', title: 'Link', type: 'internalOrExternalLink', description: 'The label is not shown; the whole card is the link.'}),
+            defineField({
+              name: 'color',
+              title: 'Color',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Fuchsia', value: 'fuchsia'},
+                  {title: 'Teal', value: 'teal'},
+                  {title: 'Black', value: 'black'},
+                  {title: 'Yellow', value: 'yellow'},
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+              },
+              initialValue: 'teal',
+            }),
+          ],
+          preview: {select: {title: 'title', subtitle: 'label'}},
+        }),
+      ],
+    }),
+    defineField({
+      name: 'moreLabel',
+      title: 'News & Statements button',
+      type: 'string',
+      group: 'more',
+      initialValue: 'All news & statements',
+      description: 'Links to News & Statements. Leave blank to hide it.',
+    }),
+  ],
+  orderings: [{title: 'Newest first', name: 'dateDesc', by: [{field: 'date', direction: 'desc'}]}],
+  preview: {
+    select: {title: 'title', subtitle: 'date'},
+  },
+})

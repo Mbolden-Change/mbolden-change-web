@@ -9,7 +9,7 @@ import {useScrollReveal} from '../motion/useScrollReveal'
 import styles from './blocks.module.scss'
 
 /** A short row pointing to another page, such as Ready to Grow at the end of What We're Tackling. */
-export default function PageTeaser({eyebrow, heading, text, link}: PageTeaserType) {
+export default function PageTeaser({eyebrow, heading, text, link, tone}: PageTeaserType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.3)
   if (!heading) return null
   const showLink = isRenderableInternalOrExternalLink(link) && link?.title
@@ -17,13 +17,13 @@ export default function PageTeaser({eyebrow, heading, text, link}: PageTeaserTyp
   return (
     <section
       ref={ref}
-      className={classNames(styles.teaser, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
+      className={classNames(styles.teaser, tone === 'yellow' && styles.teaserYellow, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
     >
       <div className={classNames(styles.wrap, styles.teaserGrid)}>
         <div className={styles.head}>
           {eyebrow && (
-            <p className={classNames(styles.eyebrow, styles.rv)} style={{'--bar': 'var(--brand-aqua-teal)'} as CSSProperties}>
+            <p className={classNames(styles.eyebrow, styles.rv)} style={{'--bar': tone === 'yellow' ? 'var(--brand-black)' : 'var(--brand-aqua-teal)'} as CSSProperties}>
               {eyebrow}
             </p>
           )}

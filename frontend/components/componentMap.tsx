@@ -89,6 +89,15 @@ const componentMap: ComponentsMap = {
   pageTeaser: dynamic(
     () => import('@/components/v2/readyToGrow/PageTeaser'),
   ),
+  statementCards: dynamic(
+    () => import('@/components/v2/news/StatementCards'),
+  ),
+  newsRecord: dynamic(
+    () => import('@/components/v2/news/NewsRecord'),
+  ),
+  mediaContact: dynamic(
+    () => import('@/components/v2/news/MediaContact'),
+  ),
   pointOfView: dynamic(
     () => import('@/components/v2/blocks/PointOfView/PointOfView'),
   ),

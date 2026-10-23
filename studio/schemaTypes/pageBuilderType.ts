@@ -121,6 +121,18 @@ export const pageBuilderType = defineType({
       title: 'Partner Resources',
     }),
     defineArrayMember({
+      type: 'statementCards',
+      title: 'Statement Cards',
+    }),
+    defineArrayMember({
+      type: 'newsRecord',
+      title: 'News Record',
+    }),
+    defineArrayMember({
+      type: 'mediaContact',
+      title: 'Media Contact',
+    }),
+    defineArrayMember({
       type: 'toolCards',
       title: 'Tool Cards',
     }),
