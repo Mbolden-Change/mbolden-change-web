@@ -1,0 +1,17 @@
+// Set the width per placement with `className`; the height follows the image.
+.badge {
+  display: block;
+  flex: none;
+  line-height: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-warm-yellow);
+    outline-offset: 3px;
+  }
+}

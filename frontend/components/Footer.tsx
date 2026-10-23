@@ -14,9 +14,11 @@ import ButtonComponent from './atoms/ButtonComponent';
 import { useState } from 'react';
 import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
+import CharityBadge, { type CharityBadgeData } from './CharityBadge/CharityBadge';
 
 type FooterProps = {
-  footerData: FooterType;
+  // The footer query adds the badge from Site Settings.
+  footerData: FooterType & { charityBadge?: CharityBadgeData | null };
 };
 
 const Footer = ({ footerData }: FooterProps) => {
@@ -177,11 +179,18 @@ const Footer = ({ footerData }: FooterProps) => {
           )}
           <GridItem desktopSpan={12} mobileSpan={6}>
             <div className={styles.footerBottomRow}>
-              {footerData.organizationInfo && (
-                <p className={styles.ein}>
-                  {footerData.organizationInfo.nonProfitDisclaimer}
-                </p>
-              )}
+              <div className={styles.trust}>
+                <CharityBadge
+                  badge={footerData.charityBadge}
+                  className={styles.badge}
+                  sizes="80px"
+                />
+                {footerData.organizationInfo && (
+                  <p className={styles.ein}>
+                    {footerData.organizationInfo.nonProfitDisclaimer}
+                  </p>
+                )}
+              </div>
               <div className={styles.legal}>
                 <p className={styles.copyright}>
                   © {yearString} mBOLDen Change. All rights reserved.

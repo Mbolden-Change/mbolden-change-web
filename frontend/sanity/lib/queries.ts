@@ -133,7 +133,8 @@ export const PAGE_QUERY = defineQuery(`
     _type == "getInTouch" => {
       ...,
       donateLink${INTERNAL_OR_EXTERNAL_LINK},
-      "contact": *[_type == "footer"][0].organizationInfo{address, contact}
+      "contact": *[_type == "footer"][0].organizationInfo{address, contact},
+      "charityBadge": *[_id == "siteSettings"][0].charityBadge
     },
     _type == "focusAreas" => {
       ...,
@@ -283,6 +284,7 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   secondaryLogo,
   organizationInfo,
   legalLinks[]${INTERNAL_OR_EXTERNAL_LINK},
+  "charityBadge": *[_id == "siteSettings"][0].charityBadge,
   newsletterButton {
     isExternalLink,
     url,
