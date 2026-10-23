@@ -8,7 +8,7 @@ jest.mock('@/sanity/lib/image', () => ({urlFor: jest.fn()}))
 
 type Reply = {status?: number; json?: unknown; text?: string}
 const replies = new Map<string, Reply>()
-const fetchMock = jest.fn(async (url: string) => {
+const fetchMock = jest.fn(async (url: string, _init?: RequestInit) => {
   const reply = replies.get(url)
   if (!reply) throw new Error(`unexpected fetch ${url}`)
   const status = reply.status ?? 200
@@ -53,6 +53,15 @@ test('reads a picked post from the post API, cached for a day', async () => {
     image: 'https://substack-post-media.s3.amazonaws.com/public/images/abc.jpeg',
   })
   expect(fetchMock.mock.calls[0][1]).toMatchObject({next: {revalidate: 86400}})
+})
+
+test('uses the description when the subtitle is empty, and no summary when both are', async () => {
+  replies.set(`${API}d`, {json: {title: 'D', subtitle: '', description: 'In an AI-saturated world, the fight ahead isn’t just about content.'}})
+  replies.set(`${API}e`, {json: {title: 'E', subtitle: null, description: '  '}})
+  replies.set(`${API}f`, {json: {title: 'F', subtitle: 'Sub F', description: 'Desc F'}})
+  expect((await getSubstackPost(`${POST}d`))?.subtitle).toBe('In an AI-saturated world, the fight ahead isn’t just about content.')
+  expect((await getSubstackPost(`${POST}e`))?.subtitle).toBeUndefined()
+  expect((await getSubstackPost(`${POST}f`))?.subtitle).toBe('Sub F')
 })
 
 test('drops covers from unknown hosts and posts without a cover', async () => {
@@ -102,7 +111,7 @@ test('reads the three latest posts from the RSS feed', async () => {
 })
 
 test('picked posts keep their order, use overrides and alt text, and skip untitled ones', async () => {
-  replies.set(`${API}a`, {json: {title: 'A', subtitle: 'From Substack', cover_image: 'https://substack-post-media.s3.amazonaws.com/public/images/a.jpeg'}})
+  replies.set(`${API}a`, {json: {title: 'A', subtitle: '', description: 'From Substack', cover_image: 'https://substack-post-media.s3.amazonaws.com/public/images/a.jpeg'}})
   replies.set(`${API}b`, {status: 500})
   replies.set(`${POST}b`, {status: 500})
   replies.set(`${API}c`, {json: {title: 'C', subtitle: 'Sub C'}})

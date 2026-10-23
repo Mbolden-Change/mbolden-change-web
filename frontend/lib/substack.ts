@@ -96,9 +96,20 @@ export async function getSubstackPost(postUrl: string): Promise<SubstackPost | n
   const api = await fetchCached(`${SUBSTACK_ORIGIN}/api/v1/posts/${encodeURIComponent(slug)}`, 'application/json')
   if (api) {
     try {
-      const post = (await api.json()) as {title?: unknown; subtitle?: unknown; cover_image?: unknown}
+      const post = (await api.json()) as {
+        title?: unknown
+        subtitle?: unknown
+        description?: unknown
+        cover_image?: unknown
+      }
       if (clean(post.title)) {
-        return {url, title: clean(post.title), subtitle: clean(post.subtitle), image: allowedImage(post.cover_image)}
+        return {
+          url,
+          title: clean(post.title),
+          // Some posts keep their summary in `description` with an empty `subtitle`.
+          subtitle: clean(post.subtitle) ?? clean(post.description),
+          image: allowedImage(post.cover_image),
+        }
       }
     } catch {
       // Fall through to the post page.

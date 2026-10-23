@@ -137,16 +137,16 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .summary {
-  flex-grow: 1;
   margin: 0 1.625rem;
   font-size: 1rem;
   line-height: 1.6;
   text-align: left;
 }
 
+// Pinned to the bottom so the links line up across cards, whatever the summary length.
 .go {
   align-self: flex-start;
-  margin: 0 1.625rem;
+  margin: auto 1.625rem 0;
   padding-bottom: 3px;
   border-bottom: 3px solid var(--lane);
   font-family: var(--font-headline);
