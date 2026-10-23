@@ -1,5 +1,6 @@
 import type { QueryParams } from 'next-sanity';
 import { client } from './client';
+import { protectEins } from '@/lib/ein';
 
 /** Tag on every cached Sanity fetch; /api/revalidate clears it on publish. */
 export const SANITY_TAG = 'sanity';
@@ -16,8 +17,10 @@ const liveClient = client.withConfig({ useCdn: false });
  * footer): cached by Next.js, refreshed as soon as anything is published in
  * Studio, and at most every minute otherwise.
  */
-export function sanityFetch<T = unknown>(query: string, params: QueryParams = {}) {
-  return liveClient.fetch<T>(query, params, {
+export async function sanityFetch<T = unknown>(query: string, params: QueryParams = {}) {
+  const result = await liveClient.fetch<T>(query, params, {
     next: { revalidate: REVALIDATE_SECONDS, tags: [SANITY_TAG] },
   });
+  // EINs can't be turned into phone links on iPhones (see lib/ein.ts).
+  return protectEins(result);
 }
