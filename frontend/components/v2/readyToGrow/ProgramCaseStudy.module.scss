@@ -177,6 +177,7 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     line-height: 1.15;
     color: var(--brand-black);
     text-align: right;
+    text-wrap: pretty;
   }
 
   @media (max-width: 900px) {
