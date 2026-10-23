@@ -21,6 +21,13 @@ export const getInTouchType = defineType({
       description: 'The button text is the link title, such as “Donate”.',
     }),
     defineField({
+      name: 'showCharityBadge',
+      title: 'Show the Charity Navigator badge',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Shown under the buttons. The badge image, alt text and link are in Site Settings.',
+    }),
+    defineField({
       name: 'newsletterLabel',
       title: 'Newsletter button text',
       type: 'string',

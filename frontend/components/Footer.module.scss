@@ -221,6 +221,20 @@
   font-size: 13px;
 }
 
+.trust {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.badge {
+  width: 80px;
+
+  @media (max-width: 768px) {
+    width: 64px;
+  }
+}
+
 .ein {
   margin: 0;
   display: block;

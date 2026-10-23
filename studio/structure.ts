@@ -1,5 +1,6 @@
 import {
   BlockElementIcon,
+  CogIcon,
   BlockquoteIcon,
   DocumentIcon,
   DocumentPdfIcon,
@@ -27,6 +28,7 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       singletonListItem(S, 'footer', 'Footer').icon(EarthGlobeIcon),
       singletonListItem(S, 'header', 'Header').icon(EarthGlobeIcon),
+      singletonListItem(S, 'siteSettings', 'Site Settings').icon(CogIcon),
       S.divider(),
       singletonListItem(S, 'popUpModal', 'Pop-Up Modal').icon(EarthGlobeIcon),
       S.divider(),

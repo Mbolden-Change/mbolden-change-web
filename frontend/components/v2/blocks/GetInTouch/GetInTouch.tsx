@@ -7,16 +7,27 @@ import SkewButton from '@/components/atoms/SkewButton'
 import ActionNetworkModal from '@/components/blocks/ActionNetworkModal/ActionNetworkModal'
 import {isDonateCta, trackDonateClick} from '@/lib/analytics'
 import {isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
+import CharityBadge, {type CharityBadgeData} from '@/components/CharityBadge/CharityBadge'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import styles from './GetInTouch.module.scss'
 
-/** The page query adds `contact`: the Footer's Organization info. */
+/** The page query adds `contact` (the Footer's Organization info) and `charityBadge` (Site Settings). */
 export type GetInTouchProps = GetInTouchType & {
   contact?: {address?: string | null; contact?: string | null} | null
+  charityBadge?: CharityBadgeData | null
 }
 
 /** Contact band: text, Donate and newsletter buttons, and a contact card. */
-export default function GetInTouch({eyebrow, heading, text, donateLink, newsletterLabel, contact}: GetInTouchProps) {
+export default function GetInTouch({
+  eyebrow,
+  heading,
+  text,
+  donateLink,
+  newsletterLabel,
+  showCharityBadge,
+  contact,
+  charityBadge,
+}: GetInTouchProps) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.15)
   const [newsletterOpen, setNewsletterOpen] = useState(false)
 
@@ -59,6 +70,13 @@ export default function GetInTouch({eyebrow, heading, text, donateLink, newslett
                 </button>
               )}
             </div>
+          )}
+          {showCharityBadge && (
+            <CharityBadge
+              badge={charityBadge}
+              className={classNames(styles.badge, styles.rv, styles.d4)}
+              sizes="96px"
+            />
           )}
         </div>
 
