@@ -105,6 +105,10 @@ export const pageBuilderType = defineType({
       title: 'Rich Text',
     }),
     defineArrayMember({
+      type: 'policyText',
+      title: 'Policy Text',
+    }),
+    defineArrayMember({
       type: 'leadership',
       title: 'Leadership',
     }),

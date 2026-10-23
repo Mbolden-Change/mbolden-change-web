@@ -1,0 +1,214 @@
+// Long-form policy text, such as the Privacy Policy, in a readable column on cream.
+
+.wrapper {
+  padding: 4.5rem 1.25rem 6rem;
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3rem 1.25rem 4rem;
+  }
+}
+
+.inner {
+  max-width: 47.5rem;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.header {
+  padding-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid var(--brand-black);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brand-black);
+}
+
+.date {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  color: #4a4038;
+}
+
+.body {
+  font-size: 1.125rem;
+  line-height: 1.7;
+
+  h2 {
+    margin: 2.75rem 0 0.75rem;
+    font-family: var(--font-headline);
+    font-size: clamp(1.625rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--brand-black);
+  }
+
+  h3 {
+    margin: 2rem 0 0.5rem;
+    font-family: var(--font-headline);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--brand-black);
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+  }
+
+  li::marker {
+    color: var(--brand-black);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--brand-aqua-teal);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      text-decoration-color: var(--brand-black);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--brand-black);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.tableWrap {
+  margin: 1.5rem 0 1.75rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  line-height: 1.5;
+  background: var(--brand-white);
+
+  // Keep the policy links whole; the middle column takes up the slack.
+  a {
+    overflow-wrap: normal;
+  }
+
+  th,
+  td {
+    padding: 0.875rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #e3d8c6;
+  }
+
+  thead th {
+    background: var(--brand-black);
+    color: var(--brand-white);
+    font-family: var(--font-headline);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 4px solid var(--brand-aqua-teal);
+  }
+
+  tbody th {
+    font-family: var(--font-headline);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--brand-black);
+    white-space: nowrap;
+  }
+
+  // On phones each row becomes a card, with each cell under its heading.
+  @media (max-width: 640px) {
+    background: none;
+
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      display: block;
+      margin-bottom: 1rem;
+      background: var(--brand-white);
+      border-top: 4px solid var(--brand-aqua-teal);
+    }
+
+    a {
+      overflow-wrap: anywhere;
+    }
+
+    tbody th,
+    tbody td {
+      display: block;
+      padding: 0.5rem 1rem;
+      border-bottom: 0;
+      white-space: normal;
+    }
+
+    tbody th {
+      padding-top: 0.875rem;
+      font-size: 1.25rem;
+    }
+
+    tbody td {
+      &:last-child {
+        padding-bottom: 1rem;
+      }
+
+      &::before {
+        content: attr(data-label);
+        display: block;
+        font-family: var(--font-headline);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #6b6156;
+      }
+    }
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

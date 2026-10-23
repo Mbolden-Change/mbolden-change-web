@@ -98,6 +98,8 @@ export type PageBuilder = Array<{
   _key: string;
 } & RichText | {
   _key: string;
+} & PolicyText | {
+  _key: string;
 } & Leadership | {
   _key: string;
 } & TabsContainer | {
@@ -107,6 +109,63 @@ export type PageBuilder = Array<{
 } & Faq | {
   _key: string;
 } & HolidayCard>;
+
+export type PolicyText = {
+  _type: "policyText";
+  title: string;
+  effectiveDate?: string;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+  } & PolicyTable>;
+};
+
+export type PolicyTable = {
+  _type: "policyTable";
+  headers: Array<string>;
+  rows?: Array<{
+    cells?: Array<{
+      text?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal";
+        listItem?: never;
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      _type: "policyTableCell";
+      _key: string;
+    }>;
+    _type: "policyTableRow";
+    _key: string;
+  }>;
+};
 
 export type GetInTouch = {
   _type: "getInTouch";
@@ -1406,6 +1465,9 @@ export type Footer = {
     };
     nonProfitDisclaimer?: string;
   };
+  legalLinks?: Array<{
+    _key: string;
+  } & InternalOrExternalLink>;
 };
 
 export type Page = {
@@ -1611,5 +1673,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

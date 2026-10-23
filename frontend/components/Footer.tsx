@@ -182,9 +182,23 @@ const Footer = ({ footerData }: FooterProps) => {
                   {footerData.organizationInfo.nonProfitDisclaimer}
                 </p>
               )}
-              <p className={styles.copyright}>
-                © {yearString} mBOLDen Change. All rights reserved.
-              </p>
+              <div className={styles.legal}>
+                <p className={styles.copyright}>
+                  © {yearString} mBOLDen Change. All rights reserved.
+                </p>
+                {footerData.legalLinks?.map((link) => (
+                  <LinkAtom
+                    key={link._key}
+                    isExternalLink={link.isExternalLink}
+                    url={link.url}
+                    target={link.target}
+                    anchor={link.anchor}
+                    reference={link.reference as unknown as ReferenceType}
+                    className={styles.legalLink}
+                    title={link.title}
+                  />
+                ))}
+              </div>
             </div>
           </GridItem>
         </Grid>

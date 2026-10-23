@@ -146,6 +146,25 @@
   font-size: 13px;
 }
 
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.25rem;
+}
+
+.legalLink {
+  color: #bbb;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--brand-white);
+  }
+}
+
 .organizationColumn {
   display: flex;
   flex-direction: column;
