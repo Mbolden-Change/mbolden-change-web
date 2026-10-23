@@ -1,30 +1,35 @@
 import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
-import Grid from '@/components/Grid'
-import GridItem from '@/components/GridItem'
-import PortableTextComponent from '@/components/PortableTextComponent'
 import {getStatement} from '@/lib/getStatement'
-import Link from 'next/link'
 import JsonLd from '@/components/JsonLd'
+import {shareMetadata} from '@/lib/siteMetadata'
+import StatementPage from '@/components/v2/news/StatementPage'
 import {
   guardArticle,
   pickGuardedSchemas,
   portableTextToPlain,
   resolvePublishedDate,
 } from '@/lib/jsonld'
-import styles from './page.module.css'
 
-// Tab title, such as "What We're Tackling | mBOLDen Change".
+/** The search description, or the lead line, or the start of the text. */
+function describe(statement: NonNullable<Awaited<ReturnType<typeof getStatement>>>) {
+  const plain = portableTextToPlain(statement.text as unknown[])
+  return statement.description?.trim() || statement.lead?.trim() || plain.slice(0, 160).trim() || undefined
+}
+
+// Tab title, such as "No Tax Justice Without a Just EITC | mBOLDen Change".
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{slug: string}>
 }): Promise<Metadata> {
-  const statement = await getStatement((await params).slug)
-  return statement?.title ? {title: statement.title} : {}
+  const slug = (await params).slug
+  const statement = await getStatement(slug)
+  if (!statement?.title) return {}
+  return shareMetadata(statement.title, describe(statement), `/statement/${slug}`)
 }
 
-export default async function StatementPage({
+export default async function StatementRoute({
   params,
 }: {
   params: Promise<{slug: string}>
@@ -37,13 +42,12 @@ export default async function StatementPage({
   }
 
   const path = `/statement/${slug}`
-  const headline = statement.title ?? ''
   const datePublished = resolvePublishedDate(statement)
-  // BreadcrumbList JSON-LD waits until templates render visible breadcrumbs.
+  // The page shows a back link to News & Statements, not a full trail, so there is no BreadcrumbList.
   const jsonLd = pickGuardedSchemas([
     guardArticle({
-      headline,
-      description: portableTextToPlain(statement.text as unknown[]),
+      headline: statement.title ?? '',
+      description: describe(statement),
       url: path,
       datePublished,
       dateModified: statement._updatedAt ?? datePublished,
@@ -51,31 +55,9 @@ export default async function StatementPage({
   ])
 
   return (
-    <main className="statement-container">
+    <>
       <JsonLd data={jsonLd} />
-      <Grid>
-        <GridItem desktopOffset={2} desktopSpan={8} mobileSpan={6}>
-          <header className={styles[`statement-header`]}>
-            <h1>{statement.title}</h1>
-            {/* @ts-ignore */}
-            {statement.pdfDownload?.url && (
-              <Link
-                // @ts-ignore
-                href={statement.pdfDownload.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles['statement-download']}
-              >
-                📄 Download PDF
-              </Link>
-            )}
-          </header>
-
-          <article className={styles[`statement-body`]}>
-            <PortableTextComponent value={(statement.text as any[]) ?? []} />
-          </article>
-        </GridItem>
-      </Grid>
-    </main>
+      <StatementPage {...statement} slug={slug} />
+    </>
   )
 }

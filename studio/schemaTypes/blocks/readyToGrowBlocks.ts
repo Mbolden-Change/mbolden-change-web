@@ -23,6 +23,12 @@ export const colorBlockHeroType = defineType({
       description: 'Turn off for a plain hero, as on Resources.',
       initialValue: true,
     }),
+    defineField({
+      name: 'backLink',
+      title: 'Breadcrumb',
+      type: 'internalOrExternalLink',
+      description: 'Optional link above the eyebrow, such as "Resources". It shows with a ← arrow.',
+    }),
   ],
   preview: {
     select: {title: 'heading'},
@@ -120,6 +126,20 @@ export const pageTeaserType = defineType({
       title: 'Link',
       type: 'internalOrExternalLink',
       description: 'The link text is the link title.',
+    }),
+    defineField({
+      name: 'tone',
+      title: 'Background',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Cream', value: 'cream'},
+          {title: 'Yellow', value: 'yellow'},
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'cream',
     }),
   ],
   preview: {

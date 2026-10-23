@@ -36,3 +36,15 @@ export function twitterFor({
     images: [OG_IMAGE.url],
   };
 }
+
+/** Tab title, description and link previews for a page with its own description, matching app/[slug]. */
+export function shareMetadata(title: string, description: string | undefined, path: string): Metadata {
+  if (!description) return { title };
+  const shareTitle = `${title} | mBOLDen Change`;
+  return {
+    title,
+    description,
+    openGraph: openGraphFor({ title: shareTitle, description, path }),
+    twitter: twitterFor({ title: shareTitle, description }),
+  };
+}

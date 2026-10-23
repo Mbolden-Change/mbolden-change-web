@@ -2,10 +2,12 @@ import {
   BlockElementIcon,
   CogIcon,
   BlockquoteIcon,
+  OlistIcon,
   DocumentIcon,
   DocumentPdfIcon,
   DocumentTextIcon,
   EarthGlobeIcon,
+  EnvelopeIcon,
 } from '@sanity/icons'
 
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
@@ -37,6 +39,16 @@ export const structure: StructureResolver = (S) =>
         .schemaType('statement')
         .icon(BlockquoteIcon)
         .child(S.documentTypeList('statement')),
+      S.listItem()
+        .title('Letters')
+        .schemaType('letter')
+        .icon(EnvelopeIcon)
+        .child(S.documentTypeList('letter').defaultOrdering([{field: 'date', direction: 'desc'}])),
+      S.listItem()
+        .title('News Items')
+        .schemaType('newsItem')
+        .icon(OlistIcon)
+        .child(S.documentTypeList('newsItem').defaultOrdering([{field: 'date', direction: 'desc'}])),
       S.listItem()
         .title('Program Case Studies')
         .schemaType('programCaseStudy')

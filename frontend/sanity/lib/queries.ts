@@ -156,6 +156,26 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       link${INTERNAL_OR_EXTERNAL_LINK}
     },
+    _type == "colorBlockHero" => {
+      ...,
+      backLink${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    _type == "statementCards" => {
+      ...,
+      cards[]{
+        _key,
+        text,
+        linkLabel,
+        color,
+        statement->{title, issue, "slug": slug.current}
+      }
+    },
+    _type == "newsRecord" => {
+      ...,
+      "items": *[_type == "newsItem" && defined(date)] | order(date desc){
+        _id, kind, title, date, datePrecision, issue, summary, details, linkLabel, link
+      }
+    },
     _type == "campaignBanner" => {
       ...,
       link${INTERNAL_OR_EXTERNAL_LINK}
@@ -384,12 +404,51 @@ export const STATEMENT_QUERY = defineQuery(`
     _updatedAt,
     title,
     date,
+    datePrecision,
+    issue,
+    lead,
+    description,
     "slug": slug.current,
     text,
+    sources,
+    closing,
     pdfDownload{
       "url": asset->url,
       originalFilename
     }
+  }
+`);
+
+export const LETTER_QUERY = defineQuery(`
+  *[_type == "letter" && slug.current == $slug][0]{
+    _id,
+    _updatedAt,
+    title,
+    "slug": slug.current,
+    date,
+    issue,
+    summary,
+    position,
+    to,
+    from,
+    bill,
+    letterDate,
+    addresses,
+    re,
+    body,
+    signOff,
+    signatureName,
+    signatureDetails,
+    moreEyebrow,
+    related[]{
+      _key,
+      label,
+      title,
+      color,
+      link${INTERNAL_OR_EXTERNAL_LINK}
+    },
+    moreLabel,
+    "logo": *[_id == "header"][0].logo
   }
 `);
 

@@ -27,6 +27,7 @@ const INTERNAL_ROUTE_PREFIX: Record<string, string> = {
   programCaseStudy: "ready-to-grow",
   employerGuide: "resources",
   statement: "statement",
+  letter: "letter",
   report: "report",
 };
 
