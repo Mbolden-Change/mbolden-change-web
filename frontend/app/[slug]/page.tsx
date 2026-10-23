@@ -8,16 +8,28 @@ import {
   guardFaqPage,
   pickGuardedSchemas,
 } from '@/lib/jsonld'
+import {openGraphFor, twitterFor} from '@/lib/siteMetadata'
 import styles from './page.module.css'
 
-// Tab title, such as "What We're Tackling | mBOLDen Change".
+// Tab title, such as "What We're Tackling | mBOLDen Change", and the page's
+// own description for search results and link previews when it has one.
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{slug: string}>
 }): Promise<Metadata> {
-  const page = await getPage((await params).slug)
-  return page?.title ? {title: page.title} : {}
+  const slug = (await params).slug
+  const page = await getPage(slug)
+  if (!page?.title) return {}
+  const description = page.description?.trim()
+  if (!description) return {title: page.title}
+  const title = `${page.title} | mBOLDen Change`
+  return {
+    title: page.title,
+    description,
+    openGraph: openGraphFor({title, description, path: `/${slug}`}),
+    twitter: twitterFor({title, description}),
+  }
 }
 
 export default async function Page({

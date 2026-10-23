@@ -1,0 +1,594 @@
+@use '../../../../styles/reveal';
+
+// Donate page blocks, from the approved Donate mockup.
+
+$ease-rise: cubic-bezier(0.2, 0.8, 0.2, 1);
+$phone: 767px;
+
+@include reveal.rise;
+
+.wrap {
+  @include reveal.wrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow(var(--bar));
+}
+
+.h2 {
+  @include reveal.section-title;
+}
+
+// Campaign banner
+.banner {
+  background: var(--brand-warm-yellow);
+  border-bottom: 2px solid var(--brand-black);
+  color: var(--brand-black);
+}
+
+.bannerInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  min-height: 3.5rem;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.bannerText {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.bannerLead,
+.bannerLink {
+  font-family: var(--font-headline);
+  font-weight: 700;
+}
+
+.bannerLead {
+  font-size: 1.125rem;
+}
+
+.bannerLink {
+  color: var(--brand-black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    text-decoration-thickness: 3px;
+  }
+}
+
+// Hero
+.hero {
+  padding: 4.5rem 0 6rem;
+  background: var(--brand-creamy-beige);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3rem 0 4rem;
+  }
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+  padding-top: 0.75rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(3.5rem, 7vw, 5.25rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--brand-black);
+}
+
+.heroIntro {
+  max-width: 32.5rem;
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;
+  padding-top: 0.625rem;
+}
+
+.badge {
+  flex: none;
+  width: 88px;
+}
+
+.badgeText {
+  max-width: 21.25rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.formCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.25rem;
+  background: var(--brand-white);
+  box-shadow: 10px 10px 0 var(--brand-black);
+
+  @media (max-width: 900px) {
+    padding: 0.75rem;
+    box-shadow: 6px 6px 0 var(--brand-black);
+  }
+}
+
+// Zeffy's embed code: a 450px box the iframe fills.
+.fallbackFrame {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 450px;
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.formNote {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #555;
+  text-align: left;
+
+  a {
+    color: #1a1a1a;
+  }
+}
+
+// Fund cards
+.funds {
+  padding: 6rem 0;
+  background: var(--brand-white);
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.fundGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+// The whole card is the button (see .fundButton::after), so it may lift.
+.fund {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.875rem;
+  background: var(--brand-creamy-beige);
+  transition:
+    transform 0.35s $ease-rise,
+    box-shadow 0.35s;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 12px 12px 0 var(--brand-black);
+  }
+}
+
+.fundBar {
+  display: block;
+  height: 12px;
+  background: var(--lane);
+  transform-origin: left;
+}
+
+.armed .fundBar {
+  transform: scaleX(0);
+}
+
+.in .fundBar {
+  animation: barIn 0.9s $ease-rise 0.35s both;
+}
+
+.in .d2 .fundBar {
+  animation-delay: 0.55s;
+}
+
+.in .d3 .fundBar {
+  animation-delay: 0.75s;
+}
+
+@keyframes barIn {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.fundBody {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 0.875rem 1.875rem 0;
+
+  @media (max-width: 900px) {
+    padding: 0.875rem 1.5rem 0;
+  }
+}
+
+.fundTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--brand-black);
+}
+
+.fundText {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.fundButton {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 0 0 3px;
+  border: 0;
+  border-bottom: 3px solid var(--lane);
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-headline);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-decoration: none;
+
+  // Stretches the click target over the card.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.fund:has(.fundButton:focus-visible) {
+  outline: 3px solid var(--brand-aqua-teal);
+  outline-offset: 3px;
+}
+
+// Other ways to give
+.ways {
+  padding: 6rem 0;
+  background: var(--brand-aqua-teal);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.wayGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+
+.way {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.625rem 1.625rem 1.75rem;
+  background: var(--brand-white);
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  a {
+    color: #1a1a1a;
+  }
+}
+
+.wayTitle {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.625rem;
+  font-weight: 700;
+  color: var(--brand-black);
+}
+
+.way .wayDetail {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--brand-black);
+  white-space: pre-line;
+}
+
+// Quote
+.quote {
+  padding: 6rem 0;
+  background: var(--brand-white);
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.quoteInner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+  max-width: 62.5rem;
+  margin: 0 auto;
+}
+
+.quoteText {
+  margin: 0;
+
+  p {
+    margin: 0;
+    font-family: var(--font-headline);
+    font-size: clamp(1.625rem, 3vw, 2.125rem);
+    font-weight: 700;
+    line-height: 1.22;
+    color: var(--brand-fuchsia);
+    text-align: left;
+  }
+}
+
+.quoteCredit {
+  font-size: 1rem;
+  color: #444;
+}
+
+// Fund pop-up. It grows to fit the form and scrolls when the screen is
+// shorter; the X stays in view.
+$form-height: 880px;
+
+.dialog {
+  width: min(560px, calc(100vw - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  // globals.css resets every margin to 0; a modal dialog centers with auto.
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-top: 12px solid var(--lane);
+  background: var(--brand-white);
+  color: var(--brand-black);
+  box-shadow: 12px 12px 0 var(--brand-black);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  &[open] {
+    animation: popIn 0.35s $ease-rise both;
+  }
+
+  &[open]::backdrop {
+    animation: fadeIn 0.25s ease-out both;
+  }
+
+  // Phones: the whole screen.
+  @media (max-width: $phone) {
+    width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    box-shadow: none;
+  }
+}
+
+.dialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem 1.875rem 1.25rem;
+
+  @media (max-width: $phone) {
+    padding: 1rem 1rem 0.875rem;
+  }
+}
+
+// Zero-height sticky row keeps the X in view without taking up space.
+.closeBar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+  margin: -1rem -1.375rem 0 0;
+
+  @media (max-width: $phone) {
+    margin: -0.5rem -0.5rem 0 0;
+  }
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-body);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    background: var(--brand-warm-yellow);
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.dialogEyebrow {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #444;
+}
+
+.dialogTitle {
+  margin: 0;
+  padding-right: 3rem;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 4vw, 2.125rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--brand-black);
+}
+
+.dialogForm {
+  flex: none;
+  margin-top: 0.25rem;
+
+  // Tall enough for the whole form, notes included, so it doesn't scroll
+  // inside its frame.
+  iframe {
+    display: block;
+    width: 100%;
+    height: $form-height;
+    border: 0;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fund,
+  .close {
+    transition: none;
+  }
+
+  .fund:hover,
+  .fund:focus-within {
+    transform: none;
+  }
+
+  .fundBar {
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .dialog[open],
+  .dialog[open]::backdrop {
+    animation: none;
+  }
+}

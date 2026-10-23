@@ -99,6 +99,22 @@ const componentMap: ComponentsMap = {
     () => import('@/components/v2/blocks/ToolCards/ToolCards'),
   ),
 
+  campaignBanner: dynamic(
+    () => import('@/components/v2/blocks/Donate/CampaignBanner'),
+  ),
+  donateHero: dynamic(
+    () => import('@/components/v2/blocks/Donate/DonateHero'),
+  ),
+  fundCards: dynamic(
+    () => import('@/components/v2/blocks/Donate/FundCards'),
+  ),
+  givingOptions: dynamic(
+    () => import('@/components/v2/blocks/Donate/GivingOptions'),
+  ),
+  donorQuote: dynamic(
+    () => import('@/components/v2/blocks/Donate/DonorQuote'),
+  ),
+
   // Add more components as needed
 };
 

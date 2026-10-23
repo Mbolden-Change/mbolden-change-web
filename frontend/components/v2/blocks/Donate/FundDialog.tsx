@@ -1,0 +1,130 @@
+'use client'
+
+import {useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type Ref} from 'react'
+import {flushSync} from 'react-dom'
+import {laneColor, type Lane} from './lanes'
+import {ZEFFY_IFRAME_ATTRS, zeffyEmbedSrc, zeffyPageUrl, type ZeffyFormRef} from './zeffy'
+import styles from './Donate.module.scss'
+
+export type DialogFund = {
+  title: string
+  lane?: Lane | string | null
+  form?: ZeffyFormRef | null
+}
+
+export type FundDialogHandle = {
+  /** Shows the fund's form; `opener` gets focus back when it closes. */
+  open: (fund: DialogFund, opener: HTMLElement) => void
+}
+
+/**
+ * Pop-up with one fund's Zeffy form. A native modal dialog, so the page
+ * behind is inert and Escape closes it. The form's iframe is only added
+ * while it's open, so nothing loads from Zeffy until someone asks for it.
+ */
+export default function FundDialog({ref}: {ref: Ref<FundDialogHandle>}) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const openerRef = useRef<HTMLElement | null>(null)
+  const [fund, setFund] = useState<DialogFund | null>(null)
+
+  // Opens straight from the click, so it never waits on the previous
+  // pop-up's close event.
+  useImperativeHandle(ref, () => ({
+    open(next, opener) {
+      const dialog = dialogRef.current
+      if (!dialog) return
+      openerRef.current = opener
+      flushSync(() => setFund(next))
+      if (!dialog.open) dialog.showModal()
+      document.documentElement.style.overflow = 'hidden'
+    },
+  }))
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    // Escape, the X and a click outside all end here. A close event that
+    // arrives after another fund has opened is ignored.
+    const handleClose = () => {
+      if (dialog.open) return
+      document.documentElement.style.overflow = ''
+      setFund(null)
+      openerRef.current?.focus()
+    }
+    dialog.addEventListener('close', handleClose)
+    return () => {
+      dialog.removeEventListener('close', handleClose)
+      document.documentElement.style.overflow = ''
+    }
+  }, [])
+
+  const src = zeffyEmbedSrc(fund?.form)
+  const pageUrl = zeffyPageUrl(fund?.form)
+  const titleId = 'fund-dialog-title'
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles.dialog}
+      aria-labelledby={titleId}
+      style={{'--lane': laneColor(fund?.lane)} as CSSProperties}
+      // Tab from the last control goes back to the first, and Shift+Tab the
+      // other way, so focus never leaves for the browser's own controls.
+      onKeyDown={(event) => {
+        if (event.key !== 'Tab') return
+        const focusable = dialogRef.current?.querySelectorAll<HTMLElement>('button, a[href], iframe')
+        if (!focusable?.length) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        } else if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        }
+      }}
+      // A click on the backdrop lands on the dialog itself, not its content.
+      onClick={(event) => {
+        if (event.target === event.currentTarget) dialogRef.current?.close()
+      }}
+    >
+      {fund && (
+        <div className={styles.dialogBody}>
+          <div className={styles.closeBar}>
+            <button
+              type="button"
+              className={styles.close}
+              aria-label="Close"
+              onClick={() => dialogRef.current?.close()}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <p className={styles.dialogEyebrow}>Donate</p>
+          <h2 id={titleId} className={styles.dialogTitle}>
+            {fund.title}
+          </h2>
+          {src && (
+            <div className={styles.dialogForm}>
+              <iframe
+                title={`Donation form for ${fund.title}, powered by Zeffy`}
+                src={src}
+                {...ZEFFY_IFRAME_ATTRS}
+              />
+            </div>
+          )}
+          {pageUrl && (
+            <p className={styles.formNote}>
+              Form not loading?{' '}
+              <a href={pageUrl} target="_blank" rel="noopener noreferrer">
+                Give on Zeffy
+              </a>
+              .
+            </p>
+          )}
+        </div>
+      )}
+    </dialog>
+  )
+}

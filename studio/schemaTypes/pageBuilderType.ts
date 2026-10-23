@@ -57,6 +57,26 @@ export const pageBuilderType = defineType({
       title: 'Get in Touch',
     }),
     defineArrayMember({
+      type: 'campaignBanner',
+      title: 'Campaign Banner',
+    }),
+    defineArrayMember({
+      type: 'donateHero',
+      title: 'Donate Hero',
+    }),
+    defineArrayMember({
+      type: 'fundCards',
+      title: 'Fund Cards',
+    }),
+    defineArrayMember({
+      type: 'givingOptions',
+      title: 'Other Ways to Give',
+    }),
+    defineArrayMember({
+      type: 'donorQuote',
+      title: 'Quote',
+    }),
+    defineArrayMember({
       type: 'stackedEntries',
       title: 'Stacked Entries',
     }),
