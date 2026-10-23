@@ -16,6 +16,13 @@ export const colorBlockHeroType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({name: 'intro', title: 'Intro', type: 'text', rows: 4}),
+    defineField({
+      name: 'showBlocks',
+      title: 'Show the color blocks',
+      type: 'boolean',
+      description: 'Turn off for a plain hero, as on Resources.',
+      initialValue: true,
+    }),
   ],
   preview: {
     select: {title: 'heading'},

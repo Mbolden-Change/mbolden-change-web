@@ -16,6 +16,8 @@ export type ReferenceType = {
   slug: {
     current: string;
   };
+  /** Program case studies live under Ready to Grow or Resources. */
+  section?: string | null;
 };
 
 /** Maps Sanity document _type (after reference->) to the first segment of the site path. */
@@ -23,6 +25,7 @@ const INTERNAL_ROUTE_PREFIX: Record<string, string> = {
   page: "",
   caseStudy: "case-study",
   programCaseStudy: "ready-to-grow",
+  employerGuide: "resources",
   statement: "statement",
   report: "report",
 };
@@ -33,6 +36,7 @@ export function hrefForInternalReference(
   const slug = reference.slug?.current;
   if (!slug) return null;
   if (reference._type === "pdfDocument") return `/reports/${slug}.pdf`;
+  if (reference._type === "programCaseStudy" && reference.section === "resources") return `/resources/${slug}`;
   const prefix = INTERNAL_ROUTE_PREFIX[reference._type];
   if (prefix === undefined) return null;
   return prefix ? `/${prefix}/${slug}` : `/${slug}`;

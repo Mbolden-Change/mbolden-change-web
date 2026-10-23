@@ -77,6 +77,15 @@ const componentMap: ComponentsMap = {
   funderCta: dynamic(
     () => import('@/components/v2/readyToGrow/FunderCta'),
   ),
+  featuredGuide: dynamic(
+    () => import('@/components/v2/resources/FeaturedGuide'),
+  ),
+  resourceLibrary: dynamic(
+    () => import('@/components/v2/resources/ResourceLibrary'),
+  ),
+  partnerResources: dynamic(
+    () => import('@/components/v2/resources/PartnerResources'),
+  ),
   pageTeaser: dynamic(
     () => import('@/components/v2/readyToGrow/PageTeaser'),
   ),

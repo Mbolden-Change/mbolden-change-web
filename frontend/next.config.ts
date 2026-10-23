@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
         hostname: 'bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com',
         pathname: '/public/images/**',
       },
+      // YouTube thumbnails for Resource Library videos, served from our own
+      // image optimizer so visitors don't load anything from YouTube.
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        pathname: '/vi/**',
+      },
     ],
   },
   // Old page addresses still linked from emails and funder decks.

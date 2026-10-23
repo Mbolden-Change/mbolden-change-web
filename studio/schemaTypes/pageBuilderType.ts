@@ -109,6 +109,18 @@ export const pageBuilderType = defineType({
       title: 'Page Teaser',
     }),
     defineArrayMember({
+      type: 'featuredGuide',
+      title: 'Featured Guide',
+    }),
+    defineArrayMember({
+      type: 'resourceLibrary',
+      title: 'Resource Library',
+    }),
+    defineArrayMember({
+      type: 'partnerResources',
+      title: 'Partner Resources',
+    }),
+    defineArrayMember({
       type: 'toolCards',
       title: 'Tool Cards',
     }),

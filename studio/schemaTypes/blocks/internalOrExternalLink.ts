@@ -105,6 +105,7 @@ export const internalOrExternalLinkType = defineType({
         {type: 'statement'},
         {type: 'caseStudy'},
         {type: 'programCaseStudy'},
+        {type: 'employerGuide'},
         {type: 'report'},
         {type: 'pdfDocument'},
       ],

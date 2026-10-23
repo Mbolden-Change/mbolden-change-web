@@ -43,16 +43,19 @@ const quoteFields = [
  */
 export const programCaseStudyType = defineType({
   name: 'programCaseStudy',
-  title: 'Ready to Grow Case Study',
+  title: 'Program Case Study',
   type: 'document',
   groups: [
     {name: 'overview', title: 'Overview', default: true},
     {name: 'results', title: 'Results'},
     {name: 'model', title: 'How It Worked'},
+    {name: 'payments', title: 'Where the Money Went'},
     {name: 'learned', title: 'What We Learned'},
     {name: 'video', title: 'Video'},
+    {name: 'voices', title: 'From the Families'},
     {name: 'quotes', title: 'Quotes'},
     {name: 'next', title: 'Next Phase'},
+    {name: 'closing', title: 'Closing'},
   ],
   fields: [
     // Overview
@@ -69,9 +72,26 @@ export const programCaseStudyType = defineType({
       title: 'Address',
       type: 'slug',
       group: 'overview',
-      description: 'The page is at /ready-to-grow/this-address. Changing it breaks links people already have.',
+      description:
+        'The page is at /ready-to-grow/this-address or /resources/this-address, depending on Section. Changing it breaks links people already have.',
       options: {source: 'name', maxLength: 80},
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'section',
+      title: 'Section',
+      type: 'string',
+      group: 'overview',
+      description:
+        'Where the case study lives: Ready to Grow (/ready-to-grow/…) or Resources (/resources/…). Its “←” link goes back to that section.',
+      options: {
+        list: [
+          {title: 'Ready to Grow', value: 'readyToGrow'},
+          {title: 'Resources', value: 'resources'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'readyToGrow',
     }),
     defineField({
       name: 'color',
@@ -139,7 +159,10 @@ export const programCaseStudyType = defineType({
       rows: 3,
       group: 'overview',
       description: 'The summary on this model’s card on the Ready to Grow page.',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.custom((value, context) =>
+          (context.document as {section?: string})?.section === 'resources' || value ? true : 'Required for Ready to Grow.',
+        ),
     }),
     defineField({
       name: 'cardStats',
@@ -148,7 +171,12 @@ export const programCaseStudyType = defineType({
       group: 'overview',
       description: 'Three results on this model’s card on the Ready to Grow page.',
       of: [stat('As it should read, such as “100%” or “$200”.')],
-      validation: (Rule) => Rule.length(3),
+      validation: (Rule) =>
+        Rule.custom((value, context) =>
+          (context.document as {section?: string})?.section === 'resources' || (value as unknown[] | undefined)?.length === 3
+            ? true
+            : 'Add three stats.',
+        ),
     }),
 
     // Results
@@ -181,6 +209,13 @@ export const programCaseStudyType = defineType({
         defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', initialValue: 'The Model'}),
         defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: 'How It Worked'}),
         defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
+        defineField({
+          name: 'numbered',
+          title: 'Number the cards',
+          type: 'boolean',
+          description: 'Shows 01, 02 and 03 above the card headings, for steps that happen in order.',
+          initialValue: false,
+        }),
         defineField({
           name: 'cards',
           title: 'Cards',
@@ -261,6 +296,43 @@ export const programCaseStudyType = defineType({
       ],
     }),
 
+    // From the Families
+    defineField({
+      name: 'voices',
+      title: 'From the Families (optional)',
+      type: 'object',
+      group: 'voices',
+      description: 'On black: a list of speakers on the left. Choosing one shows their quote, word by word, with a note under it.',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', initialValue: 'In Their Words'}),
+        defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: 'From the Families'}),
+        defineField({
+          name: 'items',
+          title: 'Speakers',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              name: 'voice',
+              title: 'Speaker',
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'speaker',
+                  title: 'Who',
+                  type: 'string',
+                  description: 'Described without names, such as “A grandmother caring for three grandchildren”.',
+                  validation: (Rule) => Rule.required(),
+                }),
+                defineField({name: 'quote', title: 'Quote', type: 'text', rows: 3, validation: (Rule) => Rule.required()}),
+                defineField({name: 'note', title: 'Note', type: 'string', description: 'Shown under the quote, such as “Translated from Spanish.”'}),
+              ],
+              preview: {select: {title: 'speaker', subtitle: 'quote'}},
+            }),
+          ],
+        }),
+      ],
+    }),
+
     // Quotes
     defineField({
       name: 'quotes',
@@ -299,6 +371,63 @@ export const programCaseStudyType = defineType({
           fields: [
             defineField({name: 'quote', title: 'Quote', type: 'text', rows: 3}),
             defineField({name: 'attribution', title: 'Attribution', type: 'string'}),
+          ],
+        }),
+      ],
+    }),
+
+    // Where the Money Went
+    defineField({
+      name: 'payments',
+      title: 'Where the Money Went (optional)',
+      type: 'object',
+      group: 'payments',
+      description:
+        'On yellow: one tile per payment, with chips to highlight the payments that met each need and a live tally.',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', initialValue: 'Every Payment'}),
+        defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: 'Where the Money Went'}),
+        defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
+        defineField({
+          name: 'items',
+          title: 'Payments',
+          type: 'array',
+          description: 'In date order.',
+          of: [
+            defineArrayMember({
+              name: 'payment',
+              title: 'Payment',
+              type: 'object',
+              fields: [
+                defineField({name: 'date', title: 'Date', type: 'string', description: 'As shown, such as “May 20”.', validation: (Rule) => Rule.required()}),
+                defineField({name: 'amount', title: 'Amount ($)', type: 'number', validation: (Rule) => Rule.required().min(0)}),
+                defineField({
+                  name: 'needs',
+                  title: 'Needs met',
+                  type: 'array',
+                  description: 'The first one sets the tile’s color.',
+                  of: [defineArrayMember({type: 'string'})],
+                  options: {
+                    list: [
+                      {title: 'Housing', value: 'Housing'},
+                      {title: 'Clothing', value: 'Clothing'},
+                      {title: 'Food', value: 'Food'},
+                      {title: 'Transportation', value: 'Transportation'},
+                      {title: 'Medical', value: 'Medical'},
+                      {title: 'School supplies', value: 'School supplies'},
+                      {title: 'Other emergencies', value: 'Other'},
+                    ],
+                  },
+                  validation: (Rule) => Rule.required().min(1),
+                }),
+                defineField({name: 'use', title: 'What it paid for', type: 'string', validation: (Rule) => Rule.required()}),
+                defineField({name: 'people', title: 'People helped', type: 'number', validation: (Rule) => Rule.required().min(1)}),
+              ],
+              preview: {
+                select: {date: 'date', amount: 'amount', use: 'use'},
+                prepare: ({date, amount, use}) => ({title: `${date ?? ''} · $${amount ?? ''}`, subtitle: use}),
+              },
+            }),
           ],
         }),
       ],
@@ -346,6 +475,37 @@ export const programCaseStudyType = defineType({
           type: 'string',
           description: 'Such as “Download the full evaluation (PDF)”.',
         }),
+      ],
+    }),
+
+    // Closing
+    defineField({
+      name: 'closing',
+      title: 'Closing (optional)',
+      type: 'object',
+      group: 'closing',
+      description:
+        'A closing block in the case study’s color, used instead of What the Next Phase Needs: text, a credit line in bold and up to two buttons.',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
+        defineField({name: 'heading', title: 'Heading', type: 'string'}),
+        defineField({name: 'text', title: 'Text', type: 'text', rows: 3}),
+        defineField({
+          name: 'credit',
+          title: 'Credit line',
+          type: 'text',
+          rows: 2,
+          description: 'Shown in bold on white, such as a funder credit a grant agreement requires.',
+        }),
+        defineField({name: 'buttonLabel', title: 'Button text', type: 'string'}),
+        defineField({
+          name: 'buttonUrl',
+          title: 'Button link',
+          type: 'url',
+          description: 'Opens in a new tab.',
+        }),
+        defineField({name: 'pdf', title: 'Report PDF', type: 'reference', to: [{type: 'pdfDocument'}]}),
+        defineField({name: 'pdfLabel', title: 'PDF button text', type: 'string'}),
       ],
     }),
   ],

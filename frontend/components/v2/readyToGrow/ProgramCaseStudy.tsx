@@ -7,6 +7,7 @@ import SkewButton from '@/components/atoms/SkewButton'
 import type {ProgramCaseStudyData} from '@/lib/getProgramCaseStudy'
 import {getPilotImage, getYouTubeId, youTubeEmbedUrl} from '../blocks/TextMedia/pilotImage'
 import {useScrollReveal} from '../motion/useScrollReveal'
+import {MoneyWent, Voices} from './CaseStudyExtras'
 import ContactLine from './ContactLine'
 import CountUp from './CountUp'
 import {laneVar, mailtoHref, onLaneIsWhite, partnerVar} from './lanes'
@@ -95,9 +96,28 @@ function CaseVideo({videoId, title, cover}: {videoId: string; title: string; cov
   )
 }
 
-/** The case study template at /ready-to-grow/<slug>. */
+/** The case study template at /ready-to-grow/<slug> or /resources/<slug>. */
 export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
-  const {name, color, lane, pilotYears, summary, glance, results, model, learned, video, quotes, nextPhase, contact} = data
+  const {
+    name,
+    section,
+    color,
+    lane,
+    pilotYears,
+    summary,
+    glance,
+    results,
+    model,
+    payments,
+    learned,
+    video,
+    voices,
+    quotes,
+    nextPhase,
+    closing,
+    contact,
+  } = data
+  const back = section === 'resources' ? {href: '/resources', label: 'Resources'} : {href: '/ready-to-grow', label: 'Ready to Grow'}
   const accent = laneVar(color)
   const partner = partnerVar(color)
   const white = onLaneIsWhite(color)
@@ -113,8 +133,8 @@ export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
         {() => (
           <div className={classNames(styles.wrap, styles.heroGrid)}>
             <div className={styles.heroCopy}>
-              <Link href="/ready-to-grow" className={classNames(styles.crumb, styles.rv)}>
-                <span aria-hidden="true">←</span> Ready to Grow
+              <Link href={back.href} className={classNames(styles.crumb, styles.rv)}>
+                <span aria-hidden="true">←</span> {back.label}
               </Link>
               <Eyebrow text={meta} bar={accent} className={classNames(styles.heroEyebrow, styles.rv, styles.d1)} />
               <h1 className={classNames(styles.title, styles.rv, styles.d1)}>{name}</h1>
@@ -176,6 +196,11 @@ export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
                     className={classNames(styles.modelCard, styles.rv, delay(index))}
                     style={{'--card': [accent, partner, 'var(--brand-warm-yellow)'][index % 3]} as CSSProperties}
                   >
+                    {model.numbered && (
+                      <span className={styles.cardNum} aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    )}
                     <h3>{card.heading}</h3>
                     <p>{card.text}</p>
                   </div>
@@ -185,6 +210,8 @@ export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
           )}
         </Section>
       ) : null}
+
+      {payments?.items?.length ? <MoneyWent {...payments} /> : null}
 
       {learned?.items?.length ? (
         <Section label={learned.heading ?? 'What We Learned'} className={styles.learned}>
@@ -237,6 +264,8 @@ export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
           )}
         </Section>
       )}
+
+      {voices?.items?.length ? <Voices {...voices} /> : null}
 
       {mainWords.length > 0 && (
         <Section label={quotes?.eyebrow ?? 'Quotes'} className={styles.quotes}>
@@ -325,6 +354,53 @@ export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
                   </a>
                 )}
                 <ContactLine contact={contact} subject={nextPhase.emailSubject} className={styles.contact} />
+              </div>
+            </div>
+          )}
+        </Section>
+      )}
+
+      {closing?.heading && (
+        <Section label={closing.heading} className={classNames(styles.closing, white && styles.onDark)}>
+          {() => (
+            <div className={classNames(styles.wrap, styles.split)}>
+              <div className={styles.head}>
+                <Eyebrow text={closing.eyebrow} bar={white ? 'var(--brand-white)' : 'var(--brand-black)'} className={styles.rv} />
+                <h2 className={classNames(styles.h2, styles.rv, styles.d1)}>{closing.heading}</h2>
+              </div>
+              <div className={styles.closingBody}>
+                {closing.text && <p className={classNames(styles.lead, styles.rv, styles.d2)}>{closing.text}</p>}
+                {closing.credit && (
+                  <p className={classNames(styles.credit, styles.rv, styles.d2)}>
+                    <strong>{closing.credit}</strong>
+                  </p>
+                )}
+                {((closing.buttonUrl && closing.buttonLabel) || (closing.pdfSlug && closing.pdfLabel)) && (
+                  <div className={classNames(styles.actions, styles.rv, styles.d3)}>
+                    {closing.buttonUrl && closing.buttonLabel && (
+                      <SkewButton
+                        variant="black"
+                        href={closing.buttonUrl}
+                        target="_blank"
+                        className={styles.button}
+                        ariaLabel={`${closing.buttonLabel} (opens in a new tab)`}
+                      >
+                        {closing.buttonLabel}
+                      </SkewButton>
+                    )}
+                    {closing.pdfSlug && closing.pdfLabel && (
+                      <a
+                        className={styles.lineButton}
+                        href={`/reports/${closing.pdfSlug}.pdf`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {closing.pdfLabel}
+                        <span className={shared.srOnly}> (opens in a new tab)</span>
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}

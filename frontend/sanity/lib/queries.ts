@@ -7,7 +7,7 @@ const INTERNAL_OR_EXTERNAL_LINK = `{
   isExternalLink,
   url,
   target,
-  reference->{ _type, slug }
+  reference->{ _type, slug, section }
 }`;
 
 export const PAGE_QUERY = defineQuery(`
@@ -147,6 +147,10 @@ export const PAGE_QUERY = defineQuery(`
     _type == "funderCta" => {
       ...,
       "contact": *[_id == "siteSettings"][0].advancementContact
+    },
+    _type == "featuredGuide" => {
+      ...,
+      link${INTERNAL_OR_EXTERNAL_LINK}
     },
     _type == "pageTeaser" => {
       ...,
@@ -424,13 +428,28 @@ export const REPORT_QUERY = defineQuery(`
   }
 `);
 
-/** A Ready to Grow case study at /ready-to-grow/<slug>, with its PDF address and the Advancement contact. */
+/** A program case study in its section (/ready-to-grow/<slug> or /resources/<slug>), with PDF addresses and the Advancement contact. */
 export const PROGRAM_CASE_STUDY_QUERY = defineQuery(`
-*[_type == "programCaseStudy" && slug.current == $slug][0]{
+*[_type == "programCaseStudy" && slug.current == $slug && coalesce(section, "readyToGrow") == $section][0]{
   ...,
   nextPhase{
     ...,
     "pdfSlug": pdf->slug.current
   },
+  closing{
+    ...,
+    "pdfSlug": pdf->slug.current
+  },
   "contact": *[_id == "siteSettings"][0].advancementContact
 }`);
+
+/** An interactive employer guide at /resources/<slug>, with its PDF address. */
+export const EMPLOYER_GUIDE_QUERY = defineQuery(`
+*[_type == "employerGuide" && slug.current == $slug][0]{
+  ...,
+  howToUse{
+    ...,
+    "pdfSlug": pdf->slug.current
+  }
+}`);
+

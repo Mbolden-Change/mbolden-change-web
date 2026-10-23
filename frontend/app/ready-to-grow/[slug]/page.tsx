@@ -9,7 +9,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{slug: string}>
 }): Promise<Metadata> {
-  const caseStudy = await getProgramCaseStudy((await params).slug)
+  const caseStudy = await getProgramCaseStudy((await params).slug, 'readyToGrow')
   if (!caseStudy?.name) return {}
   return {title: caseStudy.name, description: caseStudy.summary}
 }
@@ -19,7 +19,7 @@ export default async function ReadyToGrowCaseStudyPage({
 }: {
   params: Promise<{slug: string}>
 }) {
-  const caseStudy = await getProgramCaseStudy((await params).slug)
+  const caseStudy = await getProgramCaseStudy((await params).slug, 'readyToGrow')
   if (!caseStudy) notFound()
   return <ProgramCaseStudy {...caseStudy} />
 }
