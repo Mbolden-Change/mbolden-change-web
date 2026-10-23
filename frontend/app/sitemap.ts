@@ -18,7 +18,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:3000'
     : 'https://www.mboldenchange.org';
-    const dynamicPages: MetadataRoute.Sitemap = data.map((item: SanityDocument) => {
+    // The homepage is a page with the slug "/", listed once below as the base URL.
+    const dynamicPages: MetadataRoute.Sitemap = data
+      .filter((item: SanityDocument) => !(item._type === 'page' && item.currentSlug === '/'))
+      .map((item: SanityDocument) => {
         let path;
         let priority = 0.9;
         
