@@ -89,6 +89,28 @@ test('the campaign banner shows nothing while switched off', () => {
   expect(container).toBeEmptyDOMElement()
 })
 
+test('a banner link to a site path opens in the same tab, its arrow hidden from screen readers', () => {
+  render(
+    <CampaignBanner
+      _type="campaignBanner"
+      enabled
+      heading="Thank you, San Francisco Foundation."
+      text="As lead funder of the Gateway Fund, they’re helping immigrant youth pay the fee to apply for legal protection."
+      link={{
+        _type: 'internalOrExternalLink',
+        title: 'Learn about the Gateway Fund →',
+        isExternalLink: true,
+        url: '/what-were-tackling#gateway-fund',
+        target: '_self',
+      }}
+    />,
+  )
+  const link = screen.getByRole('link', {name: 'Learn about the Gateway Fund'})
+  expect(link).toHaveAttribute('href', '/what-were-tackling#gateway-fund')
+  expect(link).not.toHaveAttribute('target', '_blank')
+  expect(screen.getByText('Thank you, San Francisco Foundation.').tagName).toBe('STRONG')
+})
+
 test('email addresses in card text become email links with the card subject', () => {
   render(<p>{withEmailLinks('Then email giveboldly@mboldenchange.org with your name.', 'Gift of stock')}</p>)
   expect(screen.getByRole('link', {name: 'giveboldly@mboldenchange.org'})).toHaveAttribute(
