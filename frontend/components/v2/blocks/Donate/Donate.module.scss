@@ -420,6 +420,45 @@ $phone: 767px;
   color: #444;
 }
 
+// Words rise in one by one once the section plays. Screen readers get the
+// whole quote from .srOnly instead.
+.word {
+  display: inline-block;
+}
+
+.armed .word {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.in .word {
+  animation: wordIn var(--word-duration) ease-out var(--word-delay) both;
+}
+
+@keyframes wordIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 // Fund pop-up. It grows to fit the form and scrolls when the screen is
 // shorter; the X stays in view.
 $form-height: 880px;
@@ -582,7 +621,9 @@ $form-height: 880px;
     transform: none;
   }
 
-  .fundBar {
+  .fundBar,
+  .word {
+    opacity: 1 !important;
     transform: none !important;
     animation: none !important;
   }
