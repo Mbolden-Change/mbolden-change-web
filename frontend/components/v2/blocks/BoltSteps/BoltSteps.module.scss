@@ -465,22 +465,10 @@ $draw-ease: cubic-bezier(0.5, 0, 0.3, 1);
   6% {
     transform: rotate(5deg);
   }
-  14% {
-    transform: rotate(-4.5deg);
+  20% {
+    transform: rotate(-3.6deg);
   }
-  18% {
-    transform: rotate(-2.5deg);
-  }
-  22% {
-    transform: rotate(-4.5deg);
-  }
-  26% {
-    transform: rotate(-2.5deg);
-  }
-  30% {
-    transform: rotate(-4deg);
-  }
-  34%,
+  26%,
   100% {
     transform: rotate(-3deg);
   }

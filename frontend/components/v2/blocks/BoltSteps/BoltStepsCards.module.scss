@@ -172,7 +172,7 @@
   }
 
   .listen .front {
-    animation: leanR 2.4s ease-in-out 0.7s both;
+    animation: leanR 1.8s cubic-bezier(0.45, 0, 0.2, 1) 0.7s both;
   }
 
   .advocate .front {
@@ -223,27 +223,15 @@
 }
 
 @keyframes leanR {
-  0% {
+  from {
     transform: rotate(5deg);
   }
 
-  35% {
-    transform: rotate(-4.5deg);
+  70% {
+    transform: rotate(-3.6deg);
   }
 
-  50% {
-    transform: rotate(-2.5deg);
-  }
-
-  65% {
-    transform: rotate(-4.5deg);
-  }
-
-  80% {
-    transform: rotate(-2.5deg);
-  }
-
-  100% {
+  to {
     transform: rotate(-3deg);
   }
 }
