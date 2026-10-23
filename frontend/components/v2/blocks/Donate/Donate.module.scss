@@ -132,7 +132,11 @@ $phone: 767px;
 
 .badge {
   flex: none;
-  width: 88px;
+  width: 64px;
+
+  @media (max-width: $phone) {
+    width: 56px;
+  }
 }
 
 .badgeText {

@@ -44,7 +44,7 @@ export default function DonateHero({
           {intro && <p className={classNames(styles.heroIntro, styles.rv, styles.d2)}>{intro}</p>}
           {(hasBadge || badgeText) && (
             <div className={classNames(styles.badgeRow, styles.rv, styles.d3)}>
-              {hasBadge && <CharityBadge badge={charityBadge} className={styles.badge} sizes="88px" />}
+              {hasBadge && <CharityBadge badge={charityBadge} className={styles.badge} sizes="(max-width: 767px) 56px, 64px" />}
               {badgeText && <p className={styles.badgeText}>{badgeText}</p>}
             </div>
           )}
