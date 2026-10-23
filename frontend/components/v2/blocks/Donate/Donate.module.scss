@@ -62,17 +62,21 @@ $phone: 767px;
   font-weight: 700;
 }
 
-// Regular-weight body type in brand teal; underlined on hover and focus.
+// Regular-weight body type in a darker teal than --brand-aqua-teal, which is
+// too light to read on the yellow (2.6:1); #00687c is 4.6:1. Underlined on
+// hover and focus.
+$banner-link-teal: #00687c;
+
 .bannerLink {
   font-family: var(--font-body);
   font-weight: 400;
-  color: var(--brand-aqua-teal);
+  color: $banner-link-teal;
   text-decoration: none;
   text-underline-offset: 3px;
 
   &:hover,
   &:focus-visible {
-    color: var(--brand-aqua-teal);
+    color: $banner-link-teal;
     text-decoration: underline;
   }
 }
