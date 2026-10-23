@@ -56,23 +56,24 @@ $phone: 767px;
   text-align: left;
 }
 
-.bannerLead,
-.bannerLink {
+.bannerLead {
   font-family: var(--font-headline);
+  font-size: 1.125rem;
   font-weight: 700;
 }
 
-.bannerLead {
-  font-size: 1.125rem;
-}
-
+// Regular-weight body type in brand teal; underlined on hover and focus.
 .bannerLink {
-  color: var(--brand-black);
-  text-decoration: underline;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--brand-aqua-teal);
+  text-decoration: none;
   text-underline-offset: 3px;
 
-  &:hover {
-    text-decoration-thickness: 3px;
+  &:hover,
+  &:focus-visible {
+    color: var(--brand-aqua-teal);
+    text-decoration: underline;
   }
 }
 
