@@ -4,7 +4,8 @@ import classNames from 'classnames'
 import type {VisionMission as VisionMissionType} from '@/sanity/types'
 import SanityNextImage from '@/components/SanityNextImage'
 import SkewButton from '@/components/atoms/SkewButton'
-import {isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
+import {LinkAtom} from '@/components/atoms/Link'
+import {getReferenceWithSlug, isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import styles from './VisionMission.module.scss'
 
@@ -15,6 +16,8 @@ export default function VisionMission({
   visionEyebrow,
   vision,
   image,
+  imageLabel,
+  imageLink,
   missionEyebrow,
   mission,
   actionEyebrow,
@@ -26,6 +29,8 @@ export default function VisionMission({
 
   const showButton = isRenderableInternalOrExternalLink(actionLink) && actionLink?.title
   const newTab = actionLink?.isExternalLink && actionLink.target === '_blank'
+  const imageCard = isRenderableInternalOrExternalLink(imageLink) && imageLink?.title ? imageLink : null
+  const imageCardNewTab = imageCard?.isExternalLink && imageCard.target === '_blank'
 
   return (
     <section
@@ -40,10 +45,32 @@ export default function VisionMission({
             <p className={classNames(styles.statement, styles.rv, styles.d1)}>{vision}</p>
           </div>
         )}
-        {image?.asset?._ref && (
+        {image?.asset?._ref && !imageCard && (
           <figure className={classNames(styles.figure, styles.rv, styles.d2)}>
             <SanityNextImage image={image} className={styles.image} sizes="(min-width: 1200px) 1120px, 100vw" />
           </figure>
+        )}
+        {image?.asset?._ref && imageCard && (
+          // The illustration, its label and the button are one link.
+          <LinkAtom
+            anchor={imageCard.anchor}
+            isExternalLink={imageCard.isExternalLink}
+            reference={getReferenceWithSlug(imageCard)}
+            target={imageCard.target}
+            url={imageCard.url}
+            className={classNames(styles.card, styles.rv, styles.d2)}
+          >
+            <span className={styles.figure}>
+              <SanityNextImage image={image} className={styles.image} sizes="(min-width: 1200px) 1120px, 100vw" />
+              {imageLabel && <span className={styles.cardLabel}>{imageLabel}</span>}
+            </span>
+            <span className={styles.cardButton}>
+              <span>
+                {imageCard.title}
+                {imageCardNewTab && <span aria-hidden="true"> ↗</span>}
+              </span>
+            </span>
+          </LinkAtom>
         )}
         {mission && (
           <div className={classNames(styles.mission, styles.rv, styles.d3)}>
