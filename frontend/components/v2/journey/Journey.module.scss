@@ -1,0 +1,432 @@
+// Building the Road to Systemic Equity, from the approved prototype
+// (journey-build/prototype/index.html). One full-screen sticky stage inside
+// the overlay; scroll drives a camera through eight painted stops.
+$ink: #141210;
+$gutter: max(24px, calc(env(safe-area-inset-left, 0px) + 16px));
+$gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
+
+.track {
+  position: relative;
+  // Every stop, one more screen for the stage, and a little room past the
+  // end, where scrolling on closes the journey.
+  height: calc((var(--screens) + 1.5) * 100vh);
+  height: calc((var(--screens) + 1.5) * 100dvh);
+  background: $ink;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: $ink;
+  color: var(--brand-creamy-beige);
+  font-family: var(--font-body, Roboto, Arial, sans-serif);
+  font-size: 16px;
+}
+
+// A tiny blurred copy of stop 1, so the stage is never blank while the
+// paintings load. It fades once stop 1 is ready, leaving the dark stage
+// around the painting.
+.placeholder {
+  position: absolute;
+  inset: -40px;
+  background-position: center;
+  background-size: cover;
+  filter: blur(24px);
+  transition: opacity 0.6s ease;
+
+  .started & {
+    opacity: 0;
+  }
+}
+
+.started {
+  // Marker class; see .placeholder.
+  --started: 1;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: none;
+  // Crossfade with reduced motion; 1 otherwise (the wash mask does the arrival).
+  opacity: var(--arrive, 1);
+}
+
+.on {
+  display: block;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  // A stop shows only once all its paintings are decoded. If a fast scroller
+  // gets there first, the previous painting stays and this one fades in.
+  opacity: 0;
+  transition: opacity 0.45s ease;
+
+  .ready & {
+    opacity: 1;
+  }
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  // The camera zooms inside the painting; nothing spills onto the dark stage.
+  overflow: hidden;
+}
+
+.plane {
+  position: absolute;
+  will-change: transform;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+// Each painting arrives muted and its color blooms in over it.
+.gray {
+  filter: grayscale(0.75) sepia(0.12) brightness(0.92) contrast(0.95);
+}
+
+// The full-color copy; its mask blooms open from the bottom left (see Journey.tsx).
+.color {
+  isolation: isolate;
+}
+
+// Paper grain and vignette over every painting.
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .4  0 0 0 0 .33  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.vig {
+  position: absolute;
+  inset: 0;
+  z-index: 51;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgb(20 18 16 / 0.55) 100%),
+    linear-gradient(to top, rgb(20 18 16 / 0.55), transparent 38%);
+}
+
+// Captions: real text on a cream card with an offset shadow in the stop's color.
+.cap {
+  position: absolute;
+  z-index: 60;
+  bottom: max(36px, calc(env(safe-area-inset-bottom, 0px) + 24px));
+  left: $gutter;
+  max-width: min(30rem, calc(100vw - 48px));
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+
+  p {
+    margin: 0;
+    padding: 0.5em 0.65em 0.55em;
+    background: var(--brand-creamy-beige);
+    color: $ink;
+    font-family: var(--font-headline);
+    font-size: clamp(1.55rem, 1.1rem + 1.9vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.08;
+    text-align: left;
+    text-wrap: balance;
+    box-shadow: 8px 8px 0 var(--sh, var(--brand-aqua-teal));
+  }
+
+  @media (max-width: 640px) {
+    right: max(44px, calc(env(safe-area-inset-right, 0px) + 40px));
+    bottom: max(28px, calc(env(safe-area-inset-bottom, 0px) + 18px));
+  }
+}
+
+.capEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0.45em 0.8em 0.4em;
+  background: $ink;
+  color: var(--brand-creamy-beige);
+  font-family: var(--font-headline);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  b {
+    color: var(--brand-warm-yellow);
+    font-weight: 700;
+  }
+}
+
+// Stop 3 sits at the top so it doesn't cover the street lettering.
+.top {
+  top: max(28px, calc(env(safe-area-inset-top, 0px) + 22px));
+  bottom: auto;
+
+  // Clear the close button in the top right corner.
+  @media (max-width: 640px) {
+    top: max(72px, calc(env(safe-area-inset-top, 0px) + 66px));
+  }
+}
+
+.long p {
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.9rem);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-warm-yellow);
+}
+
+// Opening title over stop 1.
+.title {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 0 $gutter-right 12vh $gutter;
+  background: linear-gradient(to top, rgb(20 18 16 / 0.82), rgb(20 18 16 / 0.25) 60%, rgb(20 18 16 / 0.1));
+  will-change: opacity, transform;
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-headline);
+    font-size: clamp(2.8rem, 1.6rem + 6vw, 6.4rem);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    color: var(--brand-creamy-beige);
+    text-wrap: balance;
+  }
+}
+
+.cue {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--brand-creamy-beige);
+  opacity: 0.85;
+
+  i {
+    display: block;
+    width: 2px;
+    height: 36px;
+    background: linear-gradient(var(--brand-creamy-beige), transparent);
+    animation: drip 2.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    i {
+      animation: none;
+    }
+  }
+}
+
+@keyframes drip {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+
+  51% {
+    transform-origin: bottom;
+  }
+
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+// Ending: teal, with links back to each stop. No Donate or Take Action, by design.
+.end {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.1rem;
+  padding: 0 $gutter-right 0 $gutter;
+  background: var(--brand-aqua-teal);
+  color: var(--brand-creamy-beige);
+  opacity: 0;
+  pointer-events: none;
+
+  h2 {
+    max-width: 14ch;
+    margin: 0;
+    font-family: var(--font-headline);
+    font-size: clamp(3rem, 1.6rem + 6vw, 6.4rem);
+    font-weight: 700;
+    line-height: 0.95;
+    color: var(--brand-creamy-beige);
+  }
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 46rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li button {
+    all: unset;
+    padding: 0.45em 0.8em;
+    background: rgb(20 18 16 / 0.22);
+    color: var(--brand-creamy-beige);
+    font-family: var(--font-headline);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: $ink;
+      outline: 2px solid var(--brand-warm-yellow);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.live {
+  pointer-events: auto;
+}
+
+// Side rail: one dot per stop; the current dot is yellow and shows the stop name.
+.rail {
+  position: absolute;
+  z-index: 80;
+  top: 50%;
+  right: max(14px, calc(env(safe-area-inset-right, 0px) + 10px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.5s;
+
+  button {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  span {
+    font-family: var(--font-headline);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--brand-creamy-beige);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.7);
+    opacity: 0;
+    transform: translateX(6px);
+    transition:
+      opacity 0.35s,
+      transform 0.35s;
+  }
+
+  i {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--brand-creamy-beige);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgb(0 0 0 / 0.5);
+    transition:
+      background 0.35s,
+      transform 0.35s;
+  }
+
+  .cur i {
+    background: var(--brand-warm-yellow);
+    border-color: var(--brand-warm-yellow);
+    transform: scale(1.25);
+  }
+
+  .cur span,
+  button:hover span,
+  button:focus-visible span {
+    opacity: 1;
+    transform: none;
+  }
+
+  button:focus-visible i {
+    outline: 2px solid var(--brand-warm-yellow);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    gap: 9px;
+
+    span {
+      display: none;
+    }
+  }
+}
+
+.show {
+  opacity: 1;
+}
+
+.bar {
+  position: absolute;
+  z-index: 80;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--brand-warm-yellow);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.ready {
+  // Marker class; see .layer.
+  --ready: 1;
+}

@@ -1,4 +1,5 @@
 @use '../../../../styles/reveal';
+@use '../../../../styles/skew-button' as skew;
 
 // Vision and Mission from the approved About mockup (about-mockup-reference.html).
 
@@ -103,4 +104,93 @@
   font-size: 15px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+// The illustration as a card that opens another page, such as the road journey.
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  color: inherit;
+  text-decoration: none;
+
+  .figure {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+
+  // A slow, continuous push-in, so the card reads as something to open.
+  .image {
+    animation: cardPush 16s ease-in-out infinite alternate;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-warm-yellow);
+    outline-offset: 6px;
+  }
+
+}
+
+@keyframes cardPush {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.cardLabel {
+  position: absolute;
+  bottom: 6%;
+  left: 0;
+  max-width: calc(100% - 2rem);
+  padding: 0.55em 0.9em 0.5em;
+  background: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-headline);
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  font-weight: 700;
+  line-height: 1.15;
+
+  @media (max-width: 600px) {
+    font-size: 0.9375rem;
+  }
+
+  small {
+    display: block;
+    margin-top: 0.3em;
+    font-family: var(--font-body, Roboto, Arial, sans-serif);
+    font-size: 0.72em;
+    font-weight: 400;
+    line-height: 1.35;
+    color: rgb(255 255 255 / 0.82);
+  }
+}
+
+.cardButton {
+  @include skew.shell;
+  @include skew.variant-yellow;
+  width: auto;
+  padding: 12px 28px;
+  font-family: var(--font-headline);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  > span {
+    @include skew.label;
+  }
+
+  .card:hover & {
+    background: #f3c919;
+  }
 }

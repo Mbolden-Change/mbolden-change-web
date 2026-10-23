@@ -59,5 +59,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 1,  
         },
         ...dynamicPages,
+        // Pages built in code rather than in Studio.
+        {
+        url: `${baseUrl}/building-the-road`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.9,
+        },
     ];
 }

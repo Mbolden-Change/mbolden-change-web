@@ -1,0 +1,58 @@
+// The journey overlay: above the whole site, including the sticky header (z-index 1000).
+$ink: #141210;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: $ink;
+}
+
+// The journey scrolls in here; the page behind stays put.
+.scroller {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+}
+
+.close {
+  position: absolute;
+  z-index: 10;
+  top: max(14px, calc(env(safe-area-inset-top, 0px) + 10px));
+  right: max(14px, calc(env(safe-area-inset-right, 0px) + 10px));
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(20 18 16 / 0.72);
+  color: var(--brand-creamy-beige);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+
+  &:hover {
+    background: var(--brand-warm-yellow);
+    color: $ink;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-warm-yellow);
+    outline-offset: 3px;
+  }
+}
+
+// /building-the-road: hides About until the overlay is up (see JourneyCover).
+.cover {
+  position: fixed;
+  inset: 0;
+  z-index: 1999;
+  background: $ink;
+}

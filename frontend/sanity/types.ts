@@ -581,6 +581,9 @@ export type VisionMission = {
     alt: string;
     _type: "image";
   };
+  imageLabel?: string;
+  imageNote?: string;
+  imageLink?: InternalOrExternalLink;
   missionEyebrow?: string;
   mission: string;
   actionEyebrow?: string;

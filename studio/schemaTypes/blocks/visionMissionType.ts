@@ -30,6 +30,25 @@ export const visionMissionType = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'imageLabel',
+      title: 'Illustration label',
+      type: 'string',
+      description: 'Optional black label over the bottom left of the illustration, such as “Building the Road to Systemic Equity”.',
+    }),
+    defineField({
+      name: 'imageNote',
+      title: 'Illustration note',
+      type: 'string',
+      description: 'Optional small line under the label, such as “An illustrated journey in eight stops. Scroll to walk the road.”',
+    }),
+    defineField({
+      name: 'imageLink',
+      title: 'Illustration link',
+      type: 'internalOrExternalLink',
+      description:
+        'Optional. Makes the illustration, label and a yellow button one clickable card. The button text is the link title, such as “Build with us”. A link to /building-the-road opens the road journey over this page.',
+    }),
     defineField({name: 'missionEyebrow', title: 'Mission eyebrow', type: 'string', initialValue: 'Our Mission'}),
     defineField({
       name: 'mission',
