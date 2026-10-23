@@ -318,6 +318,13 @@ export type PartnerResources = {
     focus?: string;
     name: string;
     text?: string;
+    note?: string;
+    links?: Array<{
+      label: string;
+      url: string;
+      _type: "partnerLink";
+      _key: string;
+    }>;
     websiteUrl?: string;
     reportUrl?: string;
     _type: "partner";

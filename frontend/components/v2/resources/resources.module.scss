@@ -245,6 +245,14 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 }
 
+.cardsTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .cardItem {
   display: flex;
 }
@@ -475,6 +483,17 @@ $ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   gap: 0.75rem;
   padding: 1.625rem 1.625rem 1.75rem;
   background: var(--brand-white);
+}
+
+.brandCase {
+  text-transform: none;
+}
+
+.cnote {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #555;
 }
 
 .plinks {
