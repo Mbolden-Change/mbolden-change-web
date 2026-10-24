@@ -118,6 +118,14 @@ a:active {
   text-decoration: none;
 }
 
+/* Links an iPhone browser adds on its own (data detectors, which Firefox on
+   iOS runs despite format-detection) look and act like the plain text. */
+a[x-apple-data-detectors] {
+  color: inherit !important;
+  text-decoration: none !important;
+  pointer-events: none;
+}
+
 /* Employer guide "Print the card": while printing, only a copy of the ICE
    card (added to #print-root) shows. */
 #print-root {
