@@ -1,0 +1,106 @@
+@use '../../../styles/reveal';
+
+// Gateway Fund request page for legal providers (/legal-providers).
+$paper: #fbf6ee;
+
+.page {
+  color: #1a1a1a;
+}
+
+.wrap {
+  @include reveal.wrap;
+}
+
+.hero {
+  padding: 3rem 0 3.5rem;
+  background: var(--brand-creamy-beige);
+
+  @media (max-width: 900px) {
+    padding: 2.25rem 0 2.75rem;
+  }
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 51.25rem;
+}
+
+.eyebrow {
+  @include reveal.eyebrow;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 78px;
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--brand-black);
+  text-wrap: balance;
+
+  @media (max-width: 900px) {
+    font-size: 46px;
+  }
+}
+
+.lead {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.contact {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+  text-align: left;
+
+  a {
+    color: var(--brand-black);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--brand-aqua-teal);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      color: var(--brand-aqua-teal);
+    }
+  }
+}
+
+.formSection {
+  padding: 2.5rem 0 3rem;
+  background: $paper;
+
+  @media (max-width: 900px) {
+    padding: 1.5rem 0 2.5rem;
+  }
+}
+
+// Jotform's embed handler sets the height to fit the form.
+.frame,
+.frameFallback {
+  display: block;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 539px;
+  border: none;
+}
+
+.frameFallback {
+  height: min(1400px, 85vh);
+}
+
+.credit {
+  margin: 2rem 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  text-align: left;
+}
