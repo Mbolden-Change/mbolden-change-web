@@ -240,6 +240,14 @@
   display: block;
   color: #bbb;
   font-size: 13px;
+
+  // The EIN isn't a phone number: a link a browser wraps around it stays
+  // plain text. The real phone number is a link in the address above.
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+    pointer-events: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
