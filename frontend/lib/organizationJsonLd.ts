@@ -3,7 +3,7 @@ import type { Footer } from '@/sanity/types'
 export const SITE_ORIGIN = 'https://www.mboldenchange.org'
 
 export const SITE_DESCRIPTION =
-  'mBOLDen Change is a nonprofit based in Palo Alto, California, formerly known as My New Red Shoes. We meet urgent needs and drive systemic change—bridging temporary setbacks before they become permanent through emergency cash support, community partnership, public education and policy advocacy.'
+  'mBOLDen Change, formerly My New Red Shoes, works to ensure every person has the resources, dignity and real opportunity to thrive, no matter their zip code, income or immigration status.'
 
 type JsonLd = Record<string, unknown>
 
