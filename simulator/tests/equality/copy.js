@@ -6,12 +6,17 @@
  */
 'use strict';
 
-// The removals the simulator refresh spec allows.
+// The removals the simulator refresh spec allows. (The approved display fixes in
+// simulator/tools/display-fixes.json are applied to the reference text before
+// this check, so they never count as missing copy.)
 const ALLOWED_REMOVALS = [
   { label: 'the intro "About us" block', test: (l) => /^ABOUT US$/i.test(l) || /champions, designs, and incubates bold, community-driven solutions that dismantle barriers/.test(l) },
   { label: 'the bottom 501(c)(3) line', test: (l) => /is a 501\(c\)\(3\) nonprofit/.test(l) },
   { label: 'emoji and glyph icons (now line icons)', test: (l) => /^[\p{Extended_Pictographic}️‍\s✓✕↻▲▼▾▸◉○→←]+$/u.test(l) },
   { label: 'the simulator logo', test: (l) => /^mBOLDen Change$/.test(l) },
+  // Confirming now applies the choice before advancing (mockup); approved by Minh, 2026-10-26.
+  { label: 'confirm label, now "Confirm tradeoffs →" (approved)', test: (l) => l === 'Confirm tradeoffs & next round →' },
+  { label: 'confirm label, now "Confirm choice →" (approved)', test: (l) => l === 'Confirm choice & next round →' },
 ];
 
 // Letters and digits only. Inline elements can run words together in innerText

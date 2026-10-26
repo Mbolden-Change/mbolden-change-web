@@ -44,11 +44,20 @@ The harness and keyboard test use the Playwright that `frontend/` already
 installs (run `npx playwright install chromium` in `frontend/` once), and the
 harness needs network access for the reference build's CDN scripts.
 
+## Approved differences from the reference build
+
+- Display fixes in `simulator/tools/display-fixes.json`: the reference shows two
+  JSX escapes literally in Sources & Methodology; the site shows "zǒuxiàn" and "—".
+- Confirm buttons read "Confirm tradeoffs →" and "Confirm choice →", because
+  confirming now applies the choice before "Next policy round →".
+
 ## Known behaviour carried over from the reference build
 
 - Build Your Own appears after one finished simulation, and California can't be
   turned on for a custom household (the toggle lives on the region step, which
-  custom households skip, and Start over resets it).
+  custom households skip, and Start over resets it). Possible future feature:
+  a California toggle in the builder. It would be new behaviour with no
+  reference to compare against, so it needs its own checks.
 - Preset households have no `children` count, so on the region step the
   "Children only" Medi-Cal answer and the CalWORKs question don't appear for them.
 - Each trajectory point is the stability score at the start of that round (the

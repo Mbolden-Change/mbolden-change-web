@@ -6,6 +6,8 @@
  */
 'use strict';
 
+const { fixText } = require('../../tools/reference.cjs');
+
 const NUM = /[−-]?\$?\d[\d,]*(?:\.\d+)?%?/g;
 const normNum = (s) => s.replace('−', '-');
 
@@ -37,6 +39,7 @@ class RefDriver {
 
   /** Visible text. With hideOptions, tradeoff option buttons are left out. */
   async text({ hideOptions = false } = {}) {
+    await this.page.mouse.move(0, 0); // no hover tooltips in the reading
     return this.page.evaluate((hide) => {
       const opts = hide ? [...document.querySelectorAll('button')].filter((b) => /^[○◉]/.test(b.innerText.trim())) : [];
       // Never visible to users: the sticky bar off screen, and the skip link until focused.
@@ -50,7 +53,7 @@ class RefDriver {
       const t = document.body.innerText;
       all.forEach((e) => (e.style.display = e.dataset.prevDisplay));
       return t;
-    }, hideOptions);
+    }, hideOptions).then(fixText); // the approved display fixes (simulator/tools/display-fixes.json)
   }
 
   async numbers(opts) {
@@ -207,6 +210,7 @@ class NewDriver {
 
   /** Visible simulator text, without the site header/footer or [data-sim-ignore] parts. */
   async text({ hideOptions = false } = {}) {
+    await this.page.mouse.move(0, 0); // no hover tooltips in the reading
     return this.page.evaluate((hide) => {
       const root = document.querySelector('[data-sim-root]');
       const hidden = [...root.querySelectorAll(hide ? '[data-sim-ignore], [data-sim="option"]' : '[data-sim-ignore]')];

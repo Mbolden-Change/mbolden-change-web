@@ -5,7 +5,8 @@
  *  - The engine files must match the hashes they had when extracted from the
  *    reference build. A parameter refresh replaces parameters.json and the
  *    CalEITC table on purpose: update their hashes here in the same change.
- *  - Each ported block must equal its reference line range byte-for-byte.
+ *  - Each ported block must equal its reference line range byte-for-byte,
+ *    except for the approved display fixes in simulator/tools/display-fixes.json.
  */
 'use strict';
 const fs = require('fs');
@@ -32,7 +33,7 @@ for (const [p, h] of Object.entries(HASHES)) {
   check(`${p} sha256`, got === h, `expected ${h}, got ${got}`);
 }
 
-const ref = fs.readFileSync(path.join(root, 'simulator/reference/index.html'), 'utf8').split('\n');
+const { referenceLines, FIXES } = require(path.join(root, 'simulator/tools/reference.cjs'));
 const dir = path.join(root, 'frontend/lib/simulator');
 const compDir = path.join(root, 'frontend/components/v2/simulator');
 const files = [
@@ -47,7 +48,7 @@ for (const f of files) {
   for (const m of src.matchAll(re)) {
     blocks++;
     const [a, b] = [Number(m[1]), Number(m[2])];
-    const want = ref.slice(a - 1, b).join('\n');
+    const want = referenceLines(a, b).join('\n');
     let detail;
     if (m[3] !== want) {
       const got = m[3].split('\n'), exp = want.split('\n');
@@ -58,6 +59,9 @@ for (const f of files) {
   }
 }
 check('found the ported blocks', blocks >= 2, `only ${blocks} blocks found`);
+for (const f of FIXES) {
+  console.log(`  ok  display fix ${JSON.stringify(f.from)} -> ${JSON.stringify(f.to)} (approved: ${f.approved})`);
+}
 
 console.log(failed ? `\n${failed} failed` : `\nall ${Object.keys(HASHES).length + blocks} checks passed`);
 if (failed) process.exit(1);

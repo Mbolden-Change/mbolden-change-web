@@ -1,0 +1,77 @@
+{
+  "_about": "Approved display fixes to the reference build's text. The reference renders these JSX escape sequences literally; the website shows the intended characters. Applied by simulator/tools/inline-verbatim.mjs, checked by simulator/tests/verbatim.test.js, and applied to the reference side of the equality harness. Nothing else may differ.",
+  "fixes": [
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "z\\u01D2uxi\\xE0n",
+      "to": "zǒuxiàn",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\—",
+      "to": "—",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\–",
+      "to": "–",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\×",
+      "to": "×",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\÷",
+      "to": "÷",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\−",
+      "to": "−",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\u2013",
+      "to": "–",
+      "approved": "Minh, 2026-10-26"
+    },
+    {
+      "lines": [
+        11119,
+        11180
+      ],
+      "from": "\\u2014",
+      "to": "—",
+      "approved": "Minh, 2026-10-26"
+    }
+  ]
+}
