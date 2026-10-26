@@ -83,8 +83,14 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} ${archivoNarrow.variable}`} >
         <JsonLd data={[organizationJsonLd, ...siteJsonLd]} />
+        {/* First in the tab order, so keyboard users can skip the header and menu. */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <Header headerData={headerData} />
-        {children}
+        <div id="main-content" tabIndex={-1} className="skip-target">
+          {children}
+        </div>
         <PopUpModal popUpModalData={popUpModalData}/>
         <Footer footerData={footerData} />
         <Analytics />
