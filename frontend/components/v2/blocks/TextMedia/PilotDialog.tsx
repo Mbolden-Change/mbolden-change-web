@@ -7,7 +7,8 @@ import type {TextMedia as TextMediaType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
-import {getFunderLogo, getLogoImage, getPilotImage, getYouTubeId} from './pilotImage'
+import {getLogoImage, getPilotImage, getYouTubeId} from './pilotImage'
+import FunderLogo, {getFunder} from './FunderLogo'
 import PilotVideo from './PilotVideo'
 import styles from './PilotDialog.module.scss'
 
@@ -85,10 +86,8 @@ export default function PilotDialog({
     : WORDS_START
   const paragraphCount = (textBody as PortableTextBlock[] | undefined)?.length ?? 0
   const supportedBy = supportedByText?.trim()
-  // A funder logo shows only with the link it opens.
-  const funderLink = supportedByLink?.trim()
-  const funderLogo = funderLink ? getFunderLogo(supportedByLogo) : null
-  const hasSupporter = Boolean(supportedBy || funderLogo)
+  const funder = getFunder(supportedByLogo, supportedByLink)
+  const hasSupporter = Boolean(supportedBy || funder)
   // The supporter note follows the paragraphs; the buttons follow it.
   const supporterDelay = paragraphsStart + paragraphCount * PARAGRAPH_STEP
   const displayText = (
@@ -354,24 +353,14 @@ export default function PilotDialog({
             <PortableTextComponent value={textBody as PortableTextBlock[]} />
           </div>
 
-          {funderLogo ? (
+          {funder ? (
             <div className={styles.supporter}>
               {supportedBy && <p className={styles.supporterText}>{supportedBy}</p>}
-              <a
-                href={funderLink}
-                target="_blank"
-                rel="noopener noreferrer"
+              <FunderLogo
+                funder={funder}
                 className={styles.funderLink}
-              >
-                <img
-                  src={funderLogo.src}
-                  alt={funderLogo.alt}
-                  width={funderLogo.width}
-                  height={funderLogo.height}
-                  loading="lazy"
-                  className={styles.funderLogo}
-                />
-              </a>
+                imageClassName={styles.funderLogo}
+              />
             </div>
           ) : (
             supportedBy && <p className={styles.supporter}>{supportedBy}</p>

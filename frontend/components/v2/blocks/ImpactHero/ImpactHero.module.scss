@@ -227,11 +227,37 @@ $breakpoint: 900px;
   margin: 1.125rem 0 0;
   padding-top: 0.75rem;
   border-top: 1px solid var(--brand-aqua-teal);
-  // 19px bold counts as large text, so teal meets contrast on cream.
+  // Plain text in the section's color, like the subheading.
   font-size: 1.1875rem;
-  font-weight: 700;
   line-height: 1.4;
-  color: var(--brand-aqua-teal);
+}
+
+.supporterText {
+  margin: 0;
+}
+
+// The logo sits straight on the cream, no panel. Clear space of 12.5% of its
+// width on the top, right and bottom; none on the left, so it lines up with
+// the Supported by text.
+.funderLink {
+  // Matches FUNDER_LOGO_WIDTH in TextMedia/pilotImage.ts.
+  --funder-logo-width: 180px;
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: calc(var(--funder-logo-width) * 0.125);
+  padding-left: 0;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.funderLogo {
+  display: block;
+  width: var(--funder-logo-width);
+  max-width: none;
+  height: auto;
 }
 
 // ——— Motion: rises on first paint ———

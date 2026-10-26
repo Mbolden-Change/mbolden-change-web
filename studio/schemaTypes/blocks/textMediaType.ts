@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {supportedByLogoFields} from '../fields/supportedByLogo'
 
 const isPilot = (parent?: {appearance?: string}) =>
   parent?.appearance === 'featuredPilot' || parent?.appearance === 'pilotDialog'
@@ -98,41 +99,7 @@ export const textMedia = defineType({
       validation: (Rule) => Rule.max(200),
       hidden: ({parent}) => !isPilot(parent),
     }),
-    defineField({
-      name: 'supportedByLogo',
-      title: 'Supported by logo',
-      type: 'image',
-      description:
-        'Optional funder logo shown with the Supported by line. Use the funder’s full-color horizontal PNG with a transparent background.',
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          description: 'The funder’s name, such as “San Francisco Foundation”. Required when a logo is set.',
-          validation: (Rule) =>
-            Rule.custom((value, context) => {
-              const parent = context.parent as {asset?: unknown} | undefined
-              return !parent?.asset || value?.trim() ? true : 'Required when a logo is set.'
-            }),
-        }),
-      ],
-      hidden: ({parent}) => !isPilot(parent),
-    }),
-    defineField({
-      name: 'supportedByLink',
-      title: 'Supported by link',
-      type: 'url',
-      description: 'The funder’s website. Required when a logo is set; the logo links here.',
-      validation: (Rule) => [
-        Rule.uri({scheme: ['http', 'https']}),
-        Rule.custom((value, context) => {
-          const parent = context.parent as {supportedByLogo?: {asset?: unknown}} | undefined
-          return !parent?.supportedByLogo?.asset || value ? true : 'Required when a logo is set.'
-        }).error(),
-      ],
-      hidden: ({parent}) => !isPilot(parent),
-    }),
+    ...supportedByLogoFields({hidden: ({parent}) => !isPilot(parent)}),
     defineField({
       name: 'mediaPosition',
       title: 'Media position',

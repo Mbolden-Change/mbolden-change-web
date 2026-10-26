@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {supportedByLogoFields} from '../fields/supportedByLogo'
 
 export const impactHeroType = defineType({
   name: 'impactHero',
@@ -107,6 +108,7 @@ export const impactHeroType = defineType({
         'Optional acknowledgment shown under the image or video in smaller text with a thin rule above it, such as “The Gateway Fund is supported by a grant from the San Francisco Foundation.”',
       validation: (Rule) => Rule.max(200),
     }),
+    ...supportedByLogoFields(),
     defineField({
       name: 'cta1',
       title: 'CTA 1',
