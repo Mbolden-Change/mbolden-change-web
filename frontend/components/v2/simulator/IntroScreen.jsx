@@ -1,14 +1,49 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { Eyebrow, SimButton, StabilityBar, stabilityBand } from './ui'
+import { Eyebrow, RiseWords, SimButton, StabilityBar, prefersReducedMotion, stabilityBand } from './ui'
 import styles from './Simulator.module.scss'
 
 // Illustration only: a Maria-like household losing support round by round.
-// Hidden from assistive tech; PR B animates it.
-const DEMO = { pct: 38, step: 3, cuts: [['SNAP', '−$202/mo'], ['Medicaid', '−$263/mo'], ['Housing', 'Cut']] }
+// Hidden from assistive tech. At rest (and with reduced motion) it shows the
+// third cut; otherwise it drains from 100% in a loop, as in the mockup.
+const CUTS = [['SNAP', '−$202/mo'], ['Medicaid', '−$263/mo'], ['Housing', 'Cut']]
+const TARGETS = [100, 74, 52, 38, 18]
+
+function useDrainLoop() {
+  const [state, setState] = useState({ pct: 38, step: 3 })
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    let pct = 100
+    let i = 0
+    let hold = 0
+    setState({ pct, step: 0 })
+    const timer = setInterval(() => {
+      const target = TARGETS[Math.min(i, TARGETS.length - 1)]
+      if (pct > target) {
+        pct -= 1
+        setState((s) => ({ ...s, pct }))
+        return
+      }
+      if (++hold < 16) return
+      hold = 0
+      i += 1
+      if (i >= TARGETS.length) {
+        i = 0
+        pct = 100
+        setState({ pct, step: 0 })
+        return
+      }
+      setState({ pct, step: i })
+    }, 45)
+    return () => clearInterval(timer)
+  }, [])
+  return state
+}
 
 function DemoMeter() {
+  const DEMO = { ...useDrainLoop(), cuts: CUTS }
   const band = stabilityBand(DEMO.pct)
   return (
     <div className={styles.demo} aria-hidden="true" data-sim-ignore>
@@ -45,9 +80,11 @@ export default function IntroScreen({ onStart }) {
           <div>
             <Eyebrow dash="teal" className={styles.yellowText}>A POLICY IMPACT SIMULATION</Eyebrow>
             <h1 className={styles.introTitle}>
-              The Safety Net
+              <RiseWords text="The Safety Net" />
               <br />
-              <em>Simulator</em>
+              <em>
+                <RiseWords text="Simulator" start={3} />
+              </em>
             </h1>
             <p className={styles.introSub}>An interactive experience about policy choices and real consequences</p>
             <div className={styles.introCta}>

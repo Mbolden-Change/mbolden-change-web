@@ -4,7 +4,7 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import { HOUSEHOLDS, getCashBenefitTotal, getExpenseTotal, formatMoney } from '@/lib/simulator/model'
 import HouseholdBuilder from './HouseholdBuilder'
-import { Eyebrow, Icon, StabilityBar, stabilityBand } from './ui'
+import { Eyebrow, Icon, RiseWords, StabilityBar, stabilityBand } from './ui'
 import styles from './Simulator.module.scss'
 
 /** Teal title band used by the household list, region step and household intro. */
@@ -13,14 +13,14 @@ export function TealBand({ eyebrow, title, children, as: Tag = 'h1' }) {
     <section className={styles.tealBand}>
       <div className={styles.wrap}>
         {eyebrow && <Eyebrow dash="yellow" className={styles.blackText}>{eyebrow}</Eyebrow>}
-        <Tag className={styles.bandTitle}>{title}</Tag>
+        <Tag className={styles.bandTitle}>{typeof title === 'string' ? <RiseWords text={title} /> : title}</Tag>
         {children}
       </div>
     </section>
   )
 }
 
-function HouseholdCard({ hh, onSelect }) {
+function HouseholdCard({ hh, onSelect, index }) {
   // ---- BEGIN VERBATIM reference lines 9943-9944 ----
               const bt = getCashBenefitTotal(hh.benefits);
               const et = getExpenseTotal(hh.expenses);
@@ -28,7 +28,7 @@ function HouseholdCard({ hh, onSelect }) {
   const [name, role] = hh.name.split(' — ')
   const band = stabilityBand(hh.baselineQuality)
   return (
-    <button type="button" onClick={() => onSelect(hh)} className={styles.hhCard} data-sim="household-card">
+    <button type="button" onClick={() => onSelect(hh)} className={classNames(styles.hhCard, styles.stagger)} style={{ '--i': index }} data-sim="household-card">
       <span className={styles.hhCardHead}>
         <span className={styles.hhName}>
           {name}
@@ -62,7 +62,7 @@ function HouseholdCard({ hh, onSelect }) {
           <span>Stability: {hh.baselineQuality}%</span>
           <span className={styles.hhBand}>{band.label}</span>
         </span>
-        <StabilityBar score={hh.baselineQuality} />
+        <StabilityBar score={hh.baselineQuality} className={styles.fillIn} />
       </span>
     </button>
   )
@@ -83,11 +83,11 @@ export default function HouseholdSelect({ onSelect, showBuilder }) {
       <section className={styles.cream}>
         <h2 className={styles.srOnly}>Households</h2>
         <div className={classNames(styles.wrap, styles.hhGrid)}>
-          {HOUSEHOLDS.map((hh) => (
-            <HouseholdCard key={hh.id} hh={hh} onSelect={onSelect} />
+          {HOUSEHOLDS.map((hh, i) => (
+            <HouseholdCard key={hh.id} hh={hh} onSelect={onSelect} index={i} />
           ))}
           {showBuilder && (
-            <button type="button" onClick={() => setBuilding(true)} className={styles.buildCard}>
+            <button type="button" onClick={() => setBuilding(true)} className={classNames(styles.buildCard, styles.stagger)} style={{ '--i': HOUSEHOLDS.length }}>
               <span className={styles.buildTitle}>
                 Build Your Own Household
                 <span className={styles.beta}>BETA</span>

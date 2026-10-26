@@ -72,6 +72,7 @@ async function playRounds(page) {
     await tabTo(page, run.region, focused(`e.matches('[data-sim="region"]') && e.dataset.name === ${JSON.stringify(run.region)}`));
     await tabTo(page, 'Begin policy rounds', focused(`/begin policy rounds/i.test(e.innerText)`));
     const rounds = await playRounds(page);
+    await page.waitForFunction(() => !document.querySelector('[data-counting]'));
     const final = await page.locator('[data-sim="final-stability"]').textContent();
     console.log(`ok  ${run.name}: ${rounds} rounds by keyboard, results screen reached (final stability ${final})`);
     await tabTo(page, 'Start over', focused(`e.getAttribute('aria-label') === 'Start over with a new household'`));
