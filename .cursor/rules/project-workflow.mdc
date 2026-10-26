@@ -61,7 +61,8 @@ If you edit `frontend/app/globals.css`, `frontend/app/design-tokens.scss`,
 or `frontend/styles/_variables.scss`, run:
 
 ```
-npm run tokens:sync
+node design-system/scripts/sync-tokens.mjs
 ```
 
-to regenerate `design-system/colors_and_type.css`. CI will fail on drift.
+to regenerate `design-system/colors_and_type.css`. Add `--check` to report
+drift without writing.
