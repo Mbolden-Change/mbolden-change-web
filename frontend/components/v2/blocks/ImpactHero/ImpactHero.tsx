@@ -10,6 +10,7 @@ import SanityNextImage from '@/components/SanityNextImage';
 import { deriveImpactHero } from './deriveImpactHero';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 import { getPilotImage, getYouTubeId } from '../TextMedia/pilotImage';
+import FunderLogo, { getFunder } from '../TextMedia/FunderLogo';
 import HeroVideo from './HeroVideo';
 
 type HeroCopyProps = Pick<
@@ -73,6 +74,7 @@ const ImpactHero = (props: ImpactHeroType) => {
   const youTubeId = derived.videoEmbed?.isShort ? null : getYouTubeId(props.media.videoUrl);
   const videoTitle = props.media.videoTitle?.trim() || props.heading || 'Video';
   const supportedBy = props.supportedBy?.trim();
+  const funder = getFunder(props.supportedByLogo, props.supportedByLink);
 
   return (
     <section
@@ -128,7 +130,18 @@ const ImpactHero = (props: ImpactHeroType) => {
                 </div>
               )
             )}
-            {supportedBy && <p className={styles.supporter}>{supportedBy}</p>}
+            {funder ? (
+              <div className={styles.supporter}>
+                {supportedBy && <p className={styles.supporterText}>{supportedBy}</p>}
+                <FunderLogo
+                  funder={funder}
+                  className={styles.funderLink}
+                  imageClassName={styles.funderLogo}
+                />
+              </div>
+            ) : (
+              supportedBy && <p className={styles.supporter}>{supportedBy}</p>
+            )}
           </div>
         )}
       </div>
