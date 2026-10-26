@@ -152,3 +152,33 @@ a[x-apple-data-detectors] {
     animation: none !important;
   }
 }
+
+/* Skip link: hidden until focused, then shown above the sticky header. */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1100;
+  padding: 0.75rem 1.25rem;
+  background: var(--brand-black);
+  color: var(--brand-warm-yellow);
+  font-family: var(--font-headline), Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+  outline: 3px solid var(--brand-aqua-teal);
+  outline-offset: 2px;
+}
+
+/* Where the skip link lands: below the 84px sticky header, with no focus ring on the wrapper. */
+.skip-target {
+  scroll-margin-top: 84px;
+}
+
+.skip-target:focus {
+  outline: none;
+}

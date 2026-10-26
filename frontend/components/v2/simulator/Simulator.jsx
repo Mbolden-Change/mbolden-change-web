@@ -180,7 +180,7 @@ export default function Simulator() {
   useEffect(() => setReady(true), [])
 
   return (
-    <main id="main-content" className={styles.sim} data-sim-root data-screen={screen} data-ready={ready || undefined}>
+    <main className={styles.sim} data-sim-root data-screen={screen} data-ready={ready || undefined}>
       {showStickyBar && (
         <PlayBar
           household={household}
