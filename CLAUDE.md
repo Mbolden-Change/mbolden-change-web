@@ -24,6 +24,11 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
 - Never commit secrets or put them in environment variables. Keys go in the
   environment's network secrets, and never get printed.
 - Unpublish old pages; don't delete them.
+- Never link the Document Retention & Destruction Policy publicly.
+- Never publish the original TCPP report. Only
+  `TCPP-Alum-Rock-Partner-Report-PUBLIC.pdf` is public.
+- No identifying details for Project Empower participants.
+- Don't mention immigration detention in Safety Net Simulator public copy.
 
 ## Copy and voice
 
@@ -31,7 +36,9 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
 - No Oxford commas. Write the name as mBOLDen (never Mbolden or MBOLDEN).
 - mBOLDen is national: never "based in Palo Alto."
 - First-person plural ("we / our"). Partners and communities, not
-  beneficiaries or clients. Sentence-case headlines. Active verbs.
+  beneficiaries or clients. Active verbs.
+- Keep headline capitalization exactly as Minh wrote it (most site headlines
+  are title case).
 - No emoji, except `📄` before PDF download links on statement pages.
 
 ## Design
@@ -44,9 +51,12 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
 - Keep the tilted-parallelogram identity: logo tilts `-6.5°`, primary buttons
   skew `-10.25deg` with the clip-path polygon. Sharp corners on new cards.
 - Archivo Narrow 700 for headlines, Roboto for body.
-- No SVG illustrations of people: real photography or solid placeholders.
-- Hover motion only on controls; photographs and static pieces stay still.
-- Motion is welcome but must respect `prefers-reduced-motion`.
+- No generic flat-vector or stock illustrations of people. Use Minh's
+  commissioned painted or ink illustrations, real photography, or solid
+  placeholders.
+- Hover effects belong on clickable things; a clickable card's image may push
+  in. Scroll and entrance motion is welcome. Everything respects
+  `prefers-reduced-motion`.
 - CSS modules only (no Tailwind or styled-components). Check
   `frontend/components/blocks/` and `frontend/components/v2/blocks/` before
   adding a component.
