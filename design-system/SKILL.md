@@ -76,15 +76,16 @@ the brand (skunkworks concepts, unbranded internal tools).
   Keep text upright. Rounded cards, polaroid frames, and link pills are
   legacy treatments; existing radius tokens do not define current guidance.
 - **Pure black is primary.** Not navy, not near-black. `#000`.
-- **Sentence-case headlines.** All-caps lives in the logo and eyebrows only.
+- **Keep headline capitalization exactly as Minh wrote it** (most site
+  headlines are title case). All-caps lives in the logo and eyebrows only.
 - **Emoji: essentially none.** One `📄` exception for PDF download links.
 - **"We / our" voice.** Partners not beneficiaries; communities not clients.
-- **Photography, not illustration, for human subjects.** Use placeholders
-  when real photos aren't available — never illustrate people.
-- **Hover motion only on controls.** Links, buttons, and cards that are
-  the thing you activate can move (underline sweep, button fill, pillar-card
-  lift). Photographs and other static pieces stay still. No floating hover
-  on something that is not a control.
+- **No generic flat-vector or stock illustrations of people.** Use Minh's
+  commissioned painted or ink illustrations, real photography, or solid
+  placeholders.
+- **Hover effects belong on clickable things**; a clickable card's image may
+  push in. Scroll and entrance motion is welcome. Everything respects
+  `prefers-reduced-motion`.
 
 ## Quick reference — most-used tokens
 

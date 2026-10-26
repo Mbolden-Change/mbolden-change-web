@@ -11,6 +11,8 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
 - Every change goes: PR → Vercel preview link → Minh's explicit approval →
   merge → check on production.
 - Never merge without Minh's approval in the chat.
+- Minh is the only approver. Never request other reviewers or wait on anyone
+  else's review.
 - Previews sit behind Vercel's team login. Run checks on a local production
   build of the same commit (`npm run build && npm start` in `frontend/`), and
   send Minh the preview link to review herself.
