@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Safety Net Simulator — policy round</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#000000}a:hover{color:#0091ad}
+@keyframes stamp{0%{opacity:0;transform:scale(1.8) rotate(-8deg)}60%{opacity:1;transform:scale(.94) rotate(-3deg)}100%{opacity:1;transform:scale(1) rotate(-3deg)}}
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes flash{0%{background:#fad826}100%{background:transparent}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.stamp{animation:stamp .7s .5s cubic-bezier(.2,.7,.2,1) both}
+.rise{animation:riseIn .6s cubic-bezier(.2,.7,.2,1) both}
+.opt{transition:transform .15s, box-shadow .15s, background .2s}
+.opt:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 #000000}
+.changed{animation:flash 1.6s ease-out both}
+.hit{animation:shake .4s 2}
+.navlink:hover{color:#0091ad}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="font-family: Roboto, Arial, sans-serif; color: #000000; background: #ffffff; min-height: 100%;">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding: 14px 48px; background: #ffffff; border-bottom: 4px solid #fad826;">
+    <a href="https://www.mboldenchange.org/" aria-label="mBOLDen Change home" style="display: block; line-height: 0;"><img src="/_blob/0d3e141c147602db3efcb0b7d3b6df5c" alt="mBOLDen Change" style="height: 64px; width: auto;"></a>
+    <nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-family: 'Archivo Narrow', sans-serif; font-weight: 600; font-size: 18px;">
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">What We're Tackling</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Ready to Grow</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Resources</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">mBOLDen Action ↗</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">About</a>
+      <a href="#" style="display: inline-block; text-decoration: none; background: #000000; color: #ffffff; padding: 10px 26px; transform: skewX(-10deg); box-shadow: 0 4px 5px rgba(0,0,0,.4); font-family: Roboto, sans-serif; font-weight: 600; font-size: 16px;"><span style="display: inline-block; transform: skewX(10deg);">Donate</span></a>
+    </nav>
+  </header>
+
+  <div style="position: sticky; top: 0; z-index: 5; background: #000000; color: #ffffff; padding: 16px 48px 18px; box-shadow: 0 6px 18px rgba(0,0,0,.25);">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 14px 40px; align-items: center;">
+      <div style="flex: 1 1 260px; min-width: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 14px;">
+          <span><span style="color: #fad826;">Maria</span> · Round 1 of 6</span>
+          <a href="Main.dc.html" style="color: #bdbdbd; text-decoration: none; font-size: 13px;">↻ Start over</a>
+        </div>
+        <div style="margin-top: 8px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px;" aria-hidden="true">
+          <span style="height: 6px; background: #fad826;"></span><span style="height: 6px; background: #333333;"></span><span style="height: 6px; background: #333333;"></span><span style="height: 6px; background: #333333;"></span><span style="height: 6px; background: #333333;"></span><span style="height: 6px; background: #333333;"></span>
+        </div>
+      </div>
+      <div style="flex: 1 1 260px; min-width: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 14px;">Stability</span>
+          <span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 26px; color: {{stabColor}};">{{stab}}% <span style="font-size: 15px;">{{band}}</span></span>
+        </div>
+        <div style="margin-top: 6px; height: 12px; background: #333333; overflow: hidden;">
+          <div style="height: 100%; width: {{stabW}}; background: {{stabColor}}; transition: width 1.2s cubic-bezier(.2,.7,.2,1), background .6s;"></div>
+        </div>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+        <div><div style="font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #bdbdbd;">Income</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">$1,680</div></div>
+        <div class="{{supportClass}}"><div style="font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #bdbdbd;">Support</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">{{support}}</div></div>
+        <div><div style="font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #bdbdbd;">Expenses</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">$2,995</div></div>
+        <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: {{balanceBg}}; color: {{balanceFg}}; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 17px; transition: background .6s, color .6s;"><span>{{balanceLabel}}</span><span>{{balance}}/mo</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section style="background: #b22f93; color: #ffffff; padding: 56px 48px 64px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: center; justify-content: space-between;">
+      <div class="rise" style="flex: 999 1 520px; min-width: 0;">
+        <div style="display: flex; align-items: center; gap: 12px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #fad826;">
+          <span aria-hidden="true" style="display: inline-block; width: 28px; height: 5px; background: #fad826;"></span>Policy change · Round 1
+        </div>
+        <h1 style="margin: 14px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(40px, 5.4vw, 64px); line-height: 1;">SNAP Benefits Reduction (OBBB)</h1>
+      </div>
+      <div class="stamp" style="flex: none; background: #fad826; color: #000000; padding: 18px 30px 16px; box-shadow: 8px 8px 0 #000000; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; text-align: left;">
+        <div style="font-size: 14px; letter-spacing: .12em; text-transform: uppercase;">This family loses</div>
+        <div style="font-size: 54px; line-height: 1;">−$202<span style="font-size: 24px;">/month</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #f8efe0; padding: 56px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 32px 56px;">
+      <div style="flex: 999 1 560px; min-width: 0;">
+        <p style="margin: 0; font-size: 19px; line-height: 1.7; max-width: 760px;">H.R. 1, popularly known as the One Big Beautiful Bill (OBBB), cuts $186 billion from SNAP over 10 years — one of the largest cuts in SNAP history. Work requirements are expanded to ages 55–64. Internet costs are stripped from shelter deductions, reducing benefits by ~$10/month for 65% of households. Starting FY2028, states must cost-share food benefits for the first time ever. (Note: This round compresses the projected 10-year impact into a single period for simulation purposes. Some provisions, including state cost-sharing, phase in through FY2028.)</p>
+        <button type="button" onClick="{{toggleProgram}}" aria-expanded="{{programOpenStr}}" style="margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 4px; background: transparent; border: none; border-bottom: 2px solid #000000; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer; color: #000000;">{{programLabel}}</button>
+        <sc-if value="{{programOpen}}" hint-placeholder-val="{{false}}">
+          <p class="rise" style="margin: 16px 0 0; padding: 18px 20px; background: #ffffff; font-size: 17px; line-height: 1.65; max-width: 760px;">SNAP (Supplemental Nutrition Assistance Program), commonly known as food stamps, is the nation's largest anti-hunger program. It provides monthly funds on an EBT card that families use to buy groceries. Eligibility is based on income and household size. For many families, SNAP is the difference between eating and going hungry.</p>
+        </sc-if>
+      </div>
+      <aside style="flex: 1 1 300px; min-width: 0; background: #000000; color: #ffffff; padding: 24px 26px; align-self: flex-start;">
+        <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #fad826;">Nationally</div>
+        <p style="margin: 10px 0 0; font-size: 16px; line-height: 1.6;">SNAP serves 42 million Americans. CBO estimates 4.7 million people will lose average monthly enrollment. Up to 1.4 million children are at risk of losing automatic certification for free school meals (Urban Institute).</p>
+      </aside>
+    </div>
+  </section>
+
+  <section style="background: #ffffff; padding: 56px 48px 72px;">
+    <div style="max-width: 1184px; margin: 0 auto;">
+      <h2 style="margin: 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 44px); line-height: 1.05;">What does this family sacrifice?</h2>
+      <p style="margin: 10px 0 0; font-size: 18px; color: #333333;">Choose one tradeoff in each area. There are no good options.</p>
+      <div style="margin-top: 28px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .14em; text-transform: uppercase;">Food</div>
+      <div role="radiogroup" aria-label="Food" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px;">
+        <sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+          <button type="button" class="opt" role="radio" aria-checked="{{o.checked}}" onClick="{{o.pick}}" disabled="{{locked}}" style="display: flex; flex-direction: column; gap: 12px; text-align: left; min-height: 150px; padding: 22px 22px 20px; background: {{o.bg}}; color: {{o.fg}}; border: 3px solid #000000; cursor: pointer; font: inherit;">
+            <span style="display: flex; justify-content: space-between; gap: 12px; width: 100%;">
+              <span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.15;">{{o.title}}</span>
+              <span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border: 3px solid {{o.fg}}; display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">{{o.mark}}</span>
+            </span>
+            <span style="font-size: 16px; line-height: 1.5;">{{o.desc}}</span>
+            <span style="margin-top: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;">Harm
+              <span style="display: inline-flex; gap: 4px;" aria-label="{{o.harmLabel}}">
+                <sc-for list="{{o.dots}}" as="d" hint-placeholder-count="3"><span style="width: 22px; height: 8px; background: {{d.c}};"></span></sc-for>
+              </span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{showConfirm}}" hint-placeholder-val="{{true}}">
+        <div style="margin-top: 36px; display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center;">
+          <button type="button" onClick="{{confirm}}" disabled="{{cantConfirm}}" style="min-height: 56px; padding: 0 40px; transform: skewX(-10deg); background: {{confirmBg}}; color: {{confirmFg}}; border: none; box-shadow: {{confirmShadow}}; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer;"><span style="display: inline-block; transform: skewX(10deg);">Confirm tradeoffs →</span></button>
+          <span style="font-size: 15px; color: #444444;">{{confirmHint}}</span>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{confirmed}}" hint-placeholder-val="{{false}}">
+        <div class="rise" style="margin-top: 36px; background: #000000; color: #ffffff; padding: 28px 30px; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between;">
+          <div style="flex: 999 1 420px; min-width: 0;">
+            <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #fad826;">What changed this round</div>
+            <div style="margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+              <div><div style="font-size: 13px; color: #bdbdbd;">Support</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 28px;">$1,428 → $1,226</div></div>
+              <div><div style="font-size: 13px; color: #bdbdbd;">Budget</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 28px;">+$113 → −$89</div></div>
+              <div><div style="font-size: 13px; color: #bdbdbd;">Stability</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 28px; color: {{stabColor}};">50% → {{target}}%</div></div>
+            </div>
+          </div>
+          <a href="Results.dc.html" style="flex: none; display: inline-block; text-decoration: none; background: #fad826; color: #000000; padding: 16px 34px; transform: skewX(-10deg); font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: .08em; text-transform: uppercase;"><span style="display: inline-block; transform: skewX(10deg);">Next policy round →</span></a>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <footer style="background: #000000; color: #e2e2e2; padding: 40px 48px; font-size: 15px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between;">
+      <span>Site footer (same as every mboldenchange.org page)</span>
+      <span>© 2026 mBOLDen Change · Privacy Policy</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2050}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { picked: null, confirmed: false, stab: 50, support: 1428, balance: 113, programOpen: false }; }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); }
+  animateTo(target) {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const from = { stab: 50, support: 1428, balance: 113 }, to = { stab: target, support: 1226, balance: -89 };
+    if (reduce) { this.setState(to); return; }
+    const t0 = performance.now(), dur = 1400;
+    const tick = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      this.setState({
+        stab: Math.round(from.stab + (to.stab - from.stab) * e),
+        support: Math.round(from.support + (to.support - from.support) * e),
+        balance: Math.round(from.balance + (to.balance - from.balance) * e)
+      });
+      if (k < 1) this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+  renderVals() {
+    const opts = [
+      { title: 'Skip meals to stretch food budget', desc: 'Adults skip meals so children can eat. Nutrition suffers.', harm: 3, stab: 38 },
+      { title: 'Rely on food banks (long waits, limited selection)', desc: "Food banks help but can't fully replace lost benefits.", harm: 1, stab: 46 },
+      { title: 'Switch to cheapest processed foods only', desc: 'Calorie-dense but nutrient-poor. Health consequences follow.', harm: 2, stab: 42 }
+    ];
+    const s = this.state, money = (n) => '$' + Math.abs(n).toLocaleString('en-US');
+    const options = opts.map((o, i) => {
+      const on = s.picked === i;
+      return {
+        title: o.title, desc: o.desc, checked: on ? 'true' : 'false', mark: on ? '✓' : '',
+        bg: on ? '#000000' : '#ffffff', fg: on ? '#ffffff' : '#000000',
+        harmLabel: 'Harm level ' + o.harm + ' of 3',
+        dots: [0, 1, 2].map((d) => ({ c: d < o.harm ? (on ? '#fad826' : '#b22f93') : (on ? '#444444' : '#e2e2e2') })),
+        pick: () => { if (!s.confirmed) this.setState({ picked: i }); }
+      };
+    });
+    const st = s.stab;
+    const band = st >= 75 ? 'Stable' : st >= 50 ? 'One crisis away' : st >= 25 ? 'Basic needs at risk' : 'Crisis';
+    const stabColor = st >= 75 ? '#0091ad' : st >= 50 ? '#fad826' : st >= 25 ? '#f08a3a' : '#e0559f';
+    const neg = s.balance < 0;
+    const target = s.picked == null ? 38 : opts[s.picked].stab;
+    return {
+      options, locked: s.confirmed, confirmed: s.confirmed, showConfirm: !s.confirmed,
+      cantConfirm: s.picked == null,
+      confirmBg: s.picked == null ? '#e2e2e2' : '#000000', confirmFg: s.picked == null ? '#6b6b6b' : '#ffffff',
+      confirmShadow: s.picked == null ? 'none' : '0 4px 5px rgba(0,0,0,.4)',
+      confirmHint: s.picked == null ? 'Pick one tradeoff to continue.' : 'Watch the budget and stability bars above.',
+      confirm: () => { if (s.picked == null) return; this.setState({ confirmed: true }); this.animateTo(target); },
+      stab: st, stabW: st + '%', band, stabColor, target,
+      support: money(s.support), supportClass: s.confirmed ? 'changed' : '',
+      balance: (neg ? '−' : '+') + money(s.balance), balanceLabel: neg ? 'Shortfall' : 'Surplus',
+      balanceBg: neg ? '#b22f93' : '#1f3d2a', balanceFg: '#ffffff',
+      programOpen: s.programOpen, programOpenStr: s.programOpen ? 'true' : 'false',
+      programLabel: s.programOpen ? '▾ Hide program details' : '▸ What is this program?',
+      toggleProgram: () => this.setState({ programOpen: !s.programOpen })
+    };
+  }
+}
+</script>
+</body>
+</html>

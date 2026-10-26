@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Safety Net Simulator — intro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#000000}a:hover{color:#0091ad}
+@keyframes riseIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}60%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(1);opacity:0}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(250,216,38,.55)}50%{box-shadow:0 0 0 12px rgba(250,216,38,0)}}
+.rise1{animation:riseIn .7s cubic-bezier(.2,.7,.2,1) both}
+.rise2{animation:riseIn .7s .15s cubic-bezier(.2,.7,.2,1) both}
+.rise3{animation:riseIn .7s .3s cubic-bezier(.2,.7,.2,1) both}
+.rise4{animation:riseIn .7s .45s cubic-bezier(.2,.7,.2,1) both}
+.slide{animation:slideRight .8s .2s cubic-bezier(.2,.7,.2,1) both}
+.cta{animation:pulse 2.4s 1.2s ease-in-out infinite}
+.cta:hover{transform:skewX(-10deg) translateY(-2px)}
+.navlink:hover{color:#0091ad}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="font-family: Roboto, Arial, sans-serif; color: #000000; background: #ffffff; min-height: 100%;">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding: 14px 48px; background: #ffffff; border-bottom: 4px solid #fad826;">
+    <a href="https://www.mboldenchange.org/" aria-label="mBOLDen Change home" style="display: block; line-height: 0;"><img src="/_blob/0d3e141c147602db3efcb0b7d3b6df5c" alt="mBOLDen Change" style="height: 64px; width: auto;"></a>
+    <nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-family: 'Archivo Narrow', sans-serif; font-weight: 600; font-size: 18px;">
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">What We're Tackling</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Ready to Grow</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Resources</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">mBOLDen Action ↗</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">About</a>
+      <a href="#" style="display: inline-block; text-decoration: none; background: #000000; color: #ffffff; padding: 10px 26px; transform: skewX(-10deg); box-shadow: 0 4px 5px rgba(0,0,0,.4); font-family: Roboto, sans-serif; font-weight: 600; font-size: 16px;"><span style="display: inline-block; transform: skewX(10deg);">Donate</span></a>
+    </nav>
+  </header>
+
+  <section style="background: #000000; color: #ffffff; padding: 88px 48px 96px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center;">
+      <div style="flex: 999 1 520px; min-width: 0;">
+        <div class="rise1" style="display: flex; align-items: center; gap: 12px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #fad826;">
+          <span aria-hidden="true" style="display: inline-block; width: 28px; height: 5px; background: #0091ad;"></span>A Policy Impact Simulation
+        </div>
+        <h1 style="margin: 20px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; line-height: .9; letter-spacing: -.01em; text-transform: uppercase;">
+          <span class="rise2" style="display: block; font-size: clamp(56px, 9vw, 120px); color: #ffffff;">The Safety Net</span>
+          <span class="rise3" style="display: block; font-size: clamp(56px, 9vw, 120px); color: #fad826; font-style: italic;">Simulator</span>
+        </h1>
+        <p class="rise4" style="margin: 28px 0 0; max-width: 560px; font-size: 21px; line-height: 1.5; color: #e2e2e2;">An interactive experience about policy choices and real consequences</p>
+        <div class="rise4" style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+          <a class="cta" href="Households.dc.html" style="display: inline-block; text-decoration: none; background: #fad826; color: #000000; padding: 18px 40px; transform: skewX(-10deg); font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: .08em; text-transform: uppercase; transition: transform .2s;"><span style="display: inline-block; transform: skewX(10deg);">Begin the simulation →</span></a>
+          <span style="font-size: 15px; color: #bdbdbd;">6 to 8 rounds of policy cuts</span>
+        </div>
+      </div>
+
+      <div class="slide" aria-label="Example: a household's stability falling as cuts land" role="img" style="flex: 1 1 340px; min-width: 0; max-width: 420px; background: #111111; border: 1px solid #2a2a2a; padding: 28px 28px 32px; box-shadow: 10px 10px 0 #0091ad;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #bdbdbd;">
+          <span>Household stability</span><span style="font-size: 44px; letter-spacing: 0; color: {{bandColor}};">{{pct}}%</span>
+        </div>
+        <div style="margin-top: 14px; height: 18px; background: #2a2a2a; overflow: hidden;">
+          <div style="height: 100%; width: {{pctW}}; background: {{bandColor}}; transition: width .25s linear, background .4s;"></div>
+        </div>
+        <div style="margin-top: 14px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px; color: {{bandColor}};">{{band}}</div>
+        <div style="margin-top: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+          <sc-for list="{{cuts}}" as="c" hint-placeholder-count="3">
+            <div style="padding: 10px 10px 12px; background: {{c.bg}}; color: {{c.fg}}; font-size: 13px; line-height: 1.3; transition: background .4s, color .4s;">
+              <div style="font-weight: 700;">{{c.name}}</div>
+              <div style="margin-top: 2px; font-family: 'Archivo Narrow', sans-serif; font-size: 18px; font-weight: 700;">{{c.amt}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #f8efe0; padding: 80px 48px 88px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px 64px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase;">
+          <span aria-hidden="true" style="display: inline-block; width: 28px; height: 5px; background: #0091ad;"></span>How it works
+        </div>
+        <p style="margin: 20px 0 0; font-size: 19px; line-height: 1.65;">You'll follow a household through a series of federal policy cuts. At each stage, you'll face the impossible tradeoffs real families face when benefits are reduced. Every choice has consequences.</p>
+        <p style="margin: 18px 0 0; font-size: 19px; line-height: 1.65;"><strong>Household stability</strong> measures a family's ability to meet basic needs — food, housing, healthcare, childcare. Each household starts with a stability score based on their income, benefits, and expenses. As policy changes take effect, you'll watch that stability erode.</p>
+      </div>
+      <div>
+        <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase;">The stability scale</div>
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 16px; background: #ffffff; padding: 14px 18px;"><span aria-hidden="true" style="width: 18px; height: 18px; background: #0091ad; flex: none;"></span><span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; width: 72px;">75%+</span><span style="font-size: 17px;">Stable</span></div>
+          <div style="display: flex; align-items: center; gap: 16px; background: #ffffff; padding: 14px 18px;"><span aria-hidden="true" style="width: 18px; height: 18px; background: #fad826; flex: none;"></span><span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; width: 72px;">50–74%</span><span style="font-size: 17px;">One crisis away</span></div>
+          <div style="display: flex; align-items: center; gap: 16px; background: #ffffff; padding: 14px 18px;"><span aria-hidden="true" style="width: 18px; height: 18px; background: #e8731c; flex: none;"></span><span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; width: 72px;">25–49%</span><span style="font-size: 17px;">Basic needs at risk</span></div>
+          <div style="display: flex; align-items: center; gap: 16px; background: #ffffff; padding: 14px 18px;"><span aria-hidden="true" style="width: 18px; height: 18px; background: #b22f93; flex: none;"></span><span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; width: 72px;">Below 25%</span><span style="font-size: 17px;">Crisis</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #fad826; padding: 56px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between;">
+      <p style="margin: 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.05;">There are no good options — only less bad ones.</p>
+      <a href="Households.dc.html" style="display: inline-block; text-decoration: none; background: #000000; color: #ffffff; padding: 16px 34px; transform: skewX(-10deg); box-shadow: 0 4px 5px rgba(0,0,0,.4); font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: .08em; text-transform: uppercase;"><span style="display: inline-block; transform: skewX(10deg);">Choose a household →</span></a>
+    </div>
+  </section>
+
+  <section style="background: #ffffff; padding: 28px 48px;">
+    <p style="max-width: 1184px; margin: 0 auto; font-size: 14px; line-height: 1.55; color: #444444;">This tool is for educational purposes. Household profiles are composites based on published program rules, CBO estimates, and public data.</p>
+  </section>
+
+  <footer style="background: #000000; color: #e2e2e2; padding: 48px 48px 40px; font-size: 15px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px;">
+      <div style="line-height: 1.7;">3790 El Camino Real #1098<br>Palo Alto, CA 94306<br>info@mboldenchange.org</div>
+      <div style="line-height: 1.9;"><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; color: #ffffff;">Learn More</div>About · What We're Tackling · Resources</div>
+      <div style="line-height: 1.9;"><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; color: #ffffff;">Support Us</div>Donate</div>
+      <div style="line-height: 1.9;"><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; color: #ffffff;">Connect with us</div><span style="display: inline-block; background: #fad826; color: #000000; padding: 8px 16px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 14px;">Sign up for our newsletter</span></div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1560}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { pct: 100, step: 0 }; }
+  componentDidMount() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ pct: 38, step: 3 }); return; }
+    const targets = [100, 74, 52, 38, 18];
+    let i = 0, hold = 0;
+    this.timer = setInterval(() => {
+      const t = targets[Math.min(i, targets.length - 1)];
+      if (this.state.pct > t) { this.setState({ pct: this.state.pct - 1 }); return; }
+      hold++;
+      if (hold < 16) return;
+      hold = 0; i++;
+      if (i >= targets.length) { i = 0; this.setState({ pct: 100, step: 0 }); return; }
+      this.setState({ step: i });
+    }, 45);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  renderVals() {
+    const p = this.state.pct, s = this.state.step;
+    const band = p >= 75 ? 'Stable' : p >= 50 ? 'One crisis away' : p >= 25 ? 'Basic needs at risk' : 'Crisis';
+    const bandColor = p >= 75 ? '#0091ad' : p >= 50 ? '#fad826' : p >= 25 ? '#e8731c' : '#e0559f';
+    const names = [['SNAP', '−$202/mo'], ['Medicaid', '−$263/mo'], ['Housing', 'Cut']];
+    const cuts = names.map((n, k) => ({ name: n[0], amt: n[1], bg: s > k ? '#b22f93' : '#1e1e1e', fg: s > k ? '#ffffff' : '#7a7a7a' }));
+    return { pct: p, pctW: p + '%', band, bandColor, cuts };
+  }
+}
+</script>
+</body>
+</html>

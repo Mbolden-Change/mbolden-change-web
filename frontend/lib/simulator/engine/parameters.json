@@ -1,0 +1,227 @@
+{
+  "meta": {
+    "name": "mBOLDen Benefits-Cliff Engine parameters",
+    "compiled": "2026-07-06",
+    "refreshed": "2026-10-14 (scheduled October 2026 parameter refresh: FFY2027 CalFresh COLA, FFY2027 CalWORKs IRT, FY2027 FMRs; FTB TY2026 still pending); 2026-10-26: CalWORKs MAP updated to ACL 26-66 (Oct 1, 2026)",
+    "vintage": {
+      "calfresh": "FFY2027 (Oct 1, 2026 - Sep 30, 2027)",
+      "medical": "2026 FPLs (MAGI groups effective Jan 1, 2026)",
+      "calworks": "MAP eff. Oct 1, 2026 (ACL 26-66, +1.8%); MBSAC eff. Jul 1, 2026; IRT FFY2027 (ACL 26-62)",
+      "federalTax": "TY2025 default; TY2026 supported",
+      "caTax": "TY2025 (TY2026 unpublished as of compile date - ca2026Provisional)",
+      "section8FMR": "FY2027 FMRs eff. Oct 1, 2026 (FR Doc. 2026-17891)",
+      "section8": "HOTMA income rules (mandatory since Jul 1, 2025) + pre-HOTMA deductions (default until Jan 1, 2027)"
+    },
+    "citations": "Every block carries a `_source` key. Full citation detail: phase1-parameters-2026.md and research/*.md in this folder."
+  },
+
+  "fpl2026": {
+    "_source": "HHS/ASPE 2026 poverty guidelines, FR Doc. 2026-00755 (Jan 15, 2026); monthly values per DHCS ACWDL 26-01 Enclosure 1 (rounded up)",
+    "annualBase1": 15960,
+    "annualIncrement": 5680,
+    "monthly": [1330, 1804, 2277, 2750, 3224, 3697, 4170, 4644],
+    "monthlyIncrement": 474
+  },
+
+  "calfresh": {
+    "_source": "USDA FNA FY2027 COLA memo (Aug 21, 2026; FNA COLA page upd. Oct 13, 2026); CDSS ACIN I-40-26 (Sep 10, 2026) Attachment I incl. 200% MCE/BBCE table, CA SUA/LUA/TUA; 7 CFR 273.9, 273.10; ACL 23-60 (MCE + GI); FNS OBBBA memo (Sep 4, 2025). Prior vintage FFY2026: ACIN I-46-25 (archived research/archive-2026-07/)",
+    "maxAllotment": [306, 562, 808, 1023, 1217, 1463, 1616, 1841],
+    "maxAllotmentIncrement": 225,
+    "netLimit100": [1330, 1804, 2277, 2750, 3224, 3697, 4170, 4644],
+    "netLimit100Increment": 474,
+    "grossLimit130": [1729, 2345, 2960, 3575, 4191, 4806, 5421, 6037],
+    "grossLimit130Increment": 616,
+    "mceGrossLimit200": [2660, 3608, 4554, 5500, 6448, 7394, 8340, 9288],
+    "mceGrossLimit200Increment": 948,
+    "standardDeduction": {"1": 217, "2": 217, "3": 217, "4": 229, "5": 268, "6plus": 308},
+    "earnedIncomeDeductionRate": 0.20,
+    "shelterCapNonElderly": 769,
+    "homelessShelterAllowance": 205.66,
+    "sua": 686,
+    "lua": 176,
+    "tua": 21,
+    "medicalDeductionThreshold": 35,
+    "benefitReductionRate": 0.30,
+    "minBenefit1and2": 25,
+    "resourceLimitStandard": 3000,
+    "resourceLimitElderlyDisabled": 4750,
+    "notes": "MCE (CA BBCE) households: 200% FPL gross screen, no resource test, no separate net-income eligibility test (benefit formula still binds). Non-MCE (sanctioned member; elderly/disabled over 200%): 130% gross + 100% net + resource tests. Rounding: engine computes benefit = floor(maxAllotment - 0.3*netIncome) per 7 CFR 273.10(e)(2)(ii)(A) state option."
+  },
+
+  "medical": {
+    "_source": "DHCS ACWDL 26-01 Enclosures 1 & 3 (monthly MAGI thresholds incl. 5-pt disregard); MEDIL I 22-23 (GI); DHCS MAGI Income & Deduction Types chart (gifts not counted)",
+    "adultPctFPL": 1.38,
+    "childPctFPL": 2.66,
+    "pregnantPctFPL": 2.13,
+    "monthlyAdult138": [1836, 2490, 3143, 3795, 4450, 5102, 5755, 6409],
+    "monthlyAdult138Increment": 655,
+    "monthlyChild266": [3538, 4799, 6057, 7315, 8576, 9835, 11093, 12354],
+    "monthlyChild266Increment": 1261
+  },
+
+  "coveredCA2026": {
+    "_source": "IRS Rev. Proc. 2025-25 (TY2026 applicable percentage table); Covered California 2026 FPL chart (state subsidy: net 0% benchmark premium 100-150% FPL, 3.19-3.91% for >150-165%); enhanced PTC expired Dec 31, 2025; 400% FPL cliff restored",
+    "applicablePctTable": [
+      {"fplMin": 0.0, "fplMax": 1.33, "pctInitial": 0.021, "pctFinal": 0.021},
+      {"fplMin": 1.33, "fplMax": 1.50, "pctInitial": 0.0314, "pctFinal": 0.0419},
+      {"fplMin": 1.50, "fplMax": 2.00, "pctInitial": 0.0419, "pctFinal": 0.066},
+      {"fplMin": 2.00, "fplMax": 2.50, "pctInitial": 0.066, "pctFinal": 0.0844},
+      {"fplMin": 2.50, "fplMax": 3.00, "pctInitial": 0.0844, "pctFinal": 0.0996},
+      {"fplMin": 3.00, "fplMax": 4.00, "pctInitial": 0.0996, "pctFinal": 0.0996}
+    ],
+    "caStateSubsidy": {
+      "netZeroUpToFPL": 1.50,
+      "band150to165": {"fplMin": 1.50, "fplMax": 1.65, "pctInitial": 0.0319, "pctFinal": 0.0391}
+    },
+    "subsidyCliffFPL": 4.00,
+    "assumptions": {
+      "_warning": "ASSUMPTION-LABELED VALUES - not agency-published. benchmarkSilverMonthlyPerMember is a modeling anchor for the >400% FPL case and premium caps; csrActuarialValues are statutory ACA/CA AVs; assumedAnnualAllowedCosts drives the cost-sharing delta and must be disclosed wherever cliff values that depend on it are published.",
+      "benchmarkSilverMonthlyPerMember": 550,
+      "csrActuarialValues": {"mediCal": 0.985, "silver94": 0.94, "silver87": 0.87, "silver73": 0.73, "silver": 0.70},
+      "csrBands": [
+        {"fplMax": 1.50, "av": 0.94},
+        {"fplMax": 2.00, "av": 0.87},
+        {"fplMax": 2.50, "av": 0.73},
+        {"fplMax": 99.0, "av": 0.70}
+      ],
+      "assumedAnnualAllowedCostsAdult": 6000,
+      "assumedAnnualAllowedCostsChild": 2500
+    }
+  },
+
+  "calworks": {
+    "_source": "ACL 26-66 (MAP eff. Oct 1, 2026: +1.8% per AB 152, Ch. 26, Stats. 2026; replaces the ACL 24-55 Oct 2024 schedule); ACL 26-39 (MBSAC eff. Jul 1, 2026); ACL 21-130 ($600 EID + 50%); ACL 25-61 (IRT); ACL 25-65 (resources); ACL 24-09 + WIC 11157(e) (GI exempt); ACL 26-62 (FFY2027 IRT, eff. Oct 1, 2026); ACL 26-56 (resource limit $13,003/$19,505 eff. Jan 1, 2027 - scheduled, not yet applied)",
+    "map": {
+      "r1": {
+        "exempt":    [824, 1058, 1338, 1607, 1883, 2161, 2438, 2717, 2992, 3273],
+        "nonExempt": [747, 947, 1196, 1441, 1689, 1936, 2184, 2432, 2678, 2928]
+      },
+      "r2": {
+        "exempt":    [784, 1005, 1270, 1525, 1790, 2054, 2315, 2583, 2841, 3109],
+        "nonExempt": [708, 900, 1135, 1370, 1606, 1841, 2076, 2312, 2546, 2780]
+      }
+    },
+    "mapIncrease2026": {"factor": 1.018, "effectiveApprox": "2026-10-01", "status": "applied 2026-10-26: map{} holds the published ACL 26-66 tables; factor kept for reference only (do not also apply)", "source": "ACL 26-66 (Oct 1, 2026)", "engineApplies": false},
+    "mbsac": {
+      "r1": [963, 1581, 1960, 2325, 2653, 2983, 3280, 3569, 3872, 4202],
+      "r2": [914, 1501, 1859, 2211, 2529, 2839, 3110, 3397, 3671, 3997],
+      "increment": 37
+    },
+    "applicantEarnedDeduction": 450,
+    "earnedIncomeDisregard": 600,
+    "remainderDisregardRate": 0.50,
+    "childSupportDisregard1": 100,
+    "childSupportDisregard2plus": 200,
+    "irtTier1Base": 1252,
+    "irtTier2": [1729, 2345, 2960, 3575, 4191, 4806, 5421, 6037],
+    "irtTier2Increment": 616,
+    "resourceLimit": 12552,
+    "resourceLimitElderlyDisabled": 18829,
+    "resourceLimitScheduled": {"effective": "2027-01-01", "standard": 13003, "elderlyDisabled": 19505, "source": "ACL 26-56"},
+    "vehicleEquityExclusion": 33626,
+    "minGrantPayment": 10,
+    "notes": "Grant = MAP(region, exemptStatus, AU size) - NNI; NNI = countable unearned + 0.5*max(0, earned - 600). Recipient rules modeled (steady state). GI payments (program-based unconditional cash, any funding source) exempt as income AND resources per WIC 11157(e)/ACL 24-09. Mixed-status deeming approximated via MBSAC differential (MPP 44-133.2) - flagged approximate."
+  },
+
+  "eitc": {
+    "_source": "TY2025: Rev. Proc. 2024-40 sec. 2.06; TY2026: Rev. Proc. 2025-32 sec. 2.06 (IRB 2025-45); rates 26 USC 32(b)",
+    "2025": {
+      "earnedIncomeAmount": [8490, 12730, 17880, 17880],
+      "maxCredit": [649, 4328, 7152, 8046],
+      "phaseOutStartSingle": [10620, 23350, 23350, 23350],
+      "phaseOutStartMFJ": [17730, 30470, 30470, 30470],
+      "investmentIncomeLimit": 11950
+    },
+    "2026": {
+      "earnedIncomeAmount": [8680, 13020, 18290, 18290],
+      "maxCredit": [664, 4427, 7316, 8231],
+      "phaseOutStartSingle": [10860, 23890, 23890, 23890],
+      "phaseOutStartMFJ": [18140, 31160, 31160, 31160],
+      "investmentIncomeLimit": 12200
+    },
+    "phaseInRate": [0.0765, 0.34, 0.40, 0.45],
+    "phaseOutRate": [0.0765, 0.1598, 0.2106, 0.2106]
+  },
+
+  "ctc": {
+    "_source": "OBBBA (P.L. 119-21) sec. 70104; Rev. Proc. 2024-40 sec. 2.05; Rev. Proc. 2025-32 sec. 2.05; 26 USC 24(d); IRS CTC page rev. Mar 3, 2026",
+    "perChild": 2200,
+    "actcCap": 1700,
+    "actcEarnedIncomeFloor": 2500,
+    "actcPhaseInRate": 0.15,
+    "phaseOutThresholdSingle": 200000,
+    "phaseOutThresholdMFJ": 400000,
+    "phaseOutPer1000": 50,
+    "odc": 500,
+    "childAgeLimit": 17,
+    "ssnRules": "Taxpayer (or one spouse on MFJ) and each qualifying child need work-valid SSNs. Both-ITIN parents: no CTC/ACTC. ITIN child: ODC only."
+  },
+
+  "caleitc": {
+    "_source": "FTB 2025 3514 booklet (658-row table extracted to caleitc-table-2025.json); FTB CalEITC eligibility page upd. 4/16/2026; R&TC 17052; AB 1876 (ITIN eligibility)",
+    "taxYear": 2025,
+    "ca2026Provisional": true,
+    "maxIncome": 32900,
+    "maxCredit": [302, 2016, 3339, 3756],
+    "agiLookupBreakpoints": [4661, 6998, 9823, 9823],
+    "tableFile": "caleitc-table-2025.json",
+    "itinEligible": true
+  },
+
+  "yctc": {
+    "_source": "FTB YCTC page + 2025 FTB 3514 instructions Lines 25-27",
+    "taxYear": 2025,
+    "ca2026Provisional": true,
+    "maxCredit": 1189,
+    "childAgeLimit": 6,
+    "phaseOutThreshold": 27425,
+    "reductionPerFull100": 21.71,
+    "maxIncome": 32900,
+    "zeroEarningsWageCap": 35640
+  },
+
+  "section8": {
+    "_source": "24 CFR 5.609/5.611/5.628/5.630/982.503/982.505 (eCFR, post-HOTMA); PIH 2024-38 (income rules live Jul 1, 2025); PIH 2026-15 (deductions Jan 1, 2027); HUDUSER CY2026 indexed values; HUD PD&R GI FAQ Sept 2023; FY2027 FMR Schedule (huduser.gov FY2027_FMR_Schedule.pdf; FR Doc. 2026-17891, eff. Oct 1, 2026); FY2026 retained for reference",
+    "ttpAdjustedRate": 0.30,
+    "ttpGrossRate": 0.10,
+    "minRentDefault": 50,
+    "deductions": {
+      "preHotma": {"dependentAnnual": 480, "elderlyDisabledAnnual": 400, "medicalThresholdRate": 0.03},
+      "hotmaCY2026": {"dependentAnnual": 500, "elderlyDisabledAnnual": 550, "medicalThresholdRate": 0.10}
+    },
+    "hotmaDeductionsMandatory": "2027-01-01",
+    "assetCapCY2026": 105574,
+    "fy2027FMR": {
+      "sanJose": {"0br": 2458, "1br": 2778, "2br": 3272, "3br": 4396, "4br": 4688, "_note": "mandatory-SAFMR HMFA; metro figures are anchors, actual standards are ZIP-level. FY2027 metro FMR fell ~6% vs FY2026"},
+      "fresno": {"0br": 1354, "1br": 1363, "2br": 1685, "3br": 2333, "4br": 2671}
+    },
+    "fy2026FMR": {
+      "sanJose": {"0br": 2621, "1br": 2982, "2br": 3483, "3br": 4602, "4br": 5010, "_note": "mandatory-SAFMR HMFA; metro figures are anchors, actual standards are ZIP-level"},
+      "fresno": {"0br": 1347, "1br": 1355, "2br": 1664, "3br": 2314, "4br": 2660}
+    },
+    "giRule": "Ongoing GI counts as annual income unless pilot ends within 12 months of income examination (5.609(b)(24), HUD PD&R FAQ 9/2023), PHA permissive deduction, safe-harbor adoption, or MTW policy. Engine default: counted, with per-scenario override flags."
+  },
+
+  "fedTax": {
+    "_source": "TY2025: Rev. Proc. 2024-40 / IRS Pub 17 (2025) as amended by OBBBA (std deduction $15,750/$23,625/$31,500); brackets per Rev. Proc. 2024-40",
+    "2025": {
+      "standardDeduction": {"single": 15750, "hoh": 23625, "mfj": 31500},
+      "brackets": {
+        "single": [[0, 0.10], [11925, 0.12], [48475, 0.22], [103350, 0.24]],
+        "hoh":    [[0, 0.10], [17000, 0.12], [64850, 0.22], [103350, 0.24]],
+        "mfj":    [[0, 0.10], [23850, 0.12], [96950, 0.22], [206700, 0.24]]
+      }
+    },
+    "ficaRate": 0.0765,
+    "notes": "Brackets above 24% omitted (out of modeling range). CA income tax omitted: at sweep incomes (<$80k with dependents) CA liability net of exemption credits is ~zero; documented limitation."
+  },
+
+  "giCountability": {
+    "_source": "Cross-program matrix: WIC 11157(e)+ACL 24-09 (CalWORKs); ACL 23-60 (CalFresh non-governmental-funds test); DHCS MAGI chart + MEDIL I 22-23 (Medi-Cal); 24 CFR 5.609(b)(24) + HUD PD&R FAQ (HCV); IRC 102/Duberstein + 26 USC 6409 (tax)",
+    "calworks": {"giProgram": "exempt", "giProgramGovtFunded": "exempt", "lumpSum": "property", "informalRecurring": "counted"},
+    "calfresh": {"giProgram": "excludedIfAnyPrivateFunds", "giProgramGovtFunded": "counted", "lumpSum": "excluded", "informalRecurring": "countedAboveCarveouts"},
+    "medicalMAGI": {"giProgram": "notCounted", "giProgramGovtFunded": "notCounted", "lumpSum": "notCounted", "informalRecurring": "notCounted"},
+    "section8": {"giProgram": "countedUnlessFinal12moOrPHAOptOut", "giProgramGovtFunded": "same", "lumpSum": "excludedAsset", "informalRecurring": "counted"},
+    "taxCredits": {"any": "noEffect"}
+  }
+}
