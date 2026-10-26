@@ -64,7 +64,7 @@ The brand voice is **warm, direct, and advocacy-forward** — speaks to systems 
 
 ### Casing
 - The **brand name** is set `mBOLDen Change` — lowercase `m`, uppercase `BOLD`, lowercase `en`, capitalized `Change`. Never `Mbolden`, never all-caps `MBOLDEN`. The typographic emphasis on `BOLD` is intentional — "bold" is the operative word.
-- Headlines use **sentence case** or **Title Case**; not SCREAMING ALL CAPS. The logo is the one place all-caps lives.
+- Keep headline capitalization exactly as Minh wrote it (most site headlines are title case). Not SCREAMING ALL CAPS. The logo is the one place all-caps lives.
 - Eyebrow labels (small uppercase meta-text) use `text-transform: uppercase` with 0.05–0.12em tracking (token `--text-eyebrow-track`).
 - Buttons: UPPERCASE + `letter-spacing: 0.02em` in the TextMedia block; sentence-case in the header/nav donate button. Both patterns are shipping — match the block context.
 
@@ -112,7 +112,7 @@ The mBOLDen Change visual system is built on one idea: **a bold, tilted rectangl
 - **Full-bleed hero imagery** with a dark overlay (`rgba(0,0,0,0.401)`) and text sitting in a bottom-anchored overlay panel. No centered hero text.
 - **Testimonial sections flood aqua-teal** as a full-width color block.
 - **Statement banners** take arbitrary background colors via CMS — the block was designed to carry brand-color statements.
-- **No repeating patterns, no textures, no grain, no illustrations** in the source. The brand does not use hand-drawn illustration — it uses photography + bold type + tilted blocks.
+- **No repeating patterns, no textures, no grain** in the source. No generic flat-vector or stock illustrations of people. Use Minh's commissioned painted or ink illustrations, real photography, or solid placeholders.
 
 ### Edges & angles
 - **Cards, image frames, and primary buttons use sharp corners.** Rounded cards and rounded polaroid frames are legacy treatments, not the default for new work.
@@ -164,7 +164,7 @@ The mBOLDen Change visual system is built on one idea: **a bold, tilted rectangl
 - Durations: `200ms` (fast), `300ms` (base for underlines), `400–450ms` (button fills).
 
 ### Hover & press states
-Hover and press motion belong on controls: links, buttons, and cards that are the thing a person activates. Photographs, color blocks, and other static pieces stay still — no lift, float, scale, or shadow bump on hover. The pillar-card lift is the one card treatment, and it applies only when the card itself is the control.
+Hover effects belong on clickable things; a clickable card's image may push in. Scroll and entrance motion is welcome. Everything respects `prefers-reduced-motion`.
 - **Text links:** underline sweep in brand-aqua (or brand-yellow in footer).
 - **Primary buttons:** background sweep to yellow (or fuchsia); text flips to black. No shrink, no opacity change.
 - **Outline buttons:** fill becomes aqua, border matches fill, text flips to white.
@@ -204,7 +204,7 @@ Lucide's 2px stroke weight, rounded line-caps, and restrained silhouette match t
 - No decorative emoji. No 🎉 🚀 ✨. The brand is serious about equity — decorative emoji undercut the voice.
 - No multicolor / duotone icons.
 - No circular badge-icons on colored backgrounds.
-- No SVG illustrations of people / families / communities. The site uses **real photography** for human subjects — substitute placeholder images, never illustrate.
+- No generic flat-vector or stock illustrations of people. Use Minh's commissioned painted or ink illustrations, real photography, or solid placeholders.
 
 ---
 
