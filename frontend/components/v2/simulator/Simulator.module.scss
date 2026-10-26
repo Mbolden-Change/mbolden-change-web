@@ -2370,3 +2370,131 @@ div.action {
     font-size: 0.9375rem;
   }
 }
+
+// ── Motion (PR B) ─────────────────────────────────────────────────────────
+// Everything here is behind prefers-reduced-motion: no-preference, so with
+// reduced motion the page shows its finished state at once. Numbers that count
+// (play bar, after-confirm panel, final stability) use useCountTo in ui.jsx.
+$ease-rise: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+.riseWord {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .riseWord {
+    animation: simRise 0.7s $ease-rise both;
+    animation-delay: calc(var(--i, 0) * 0.12s);
+  }
+
+  .stagger {
+    animation: simRise 0.6s $ease-rise both;
+    animation-delay: calc(var(--i, 0) * 0.08s);
+  }
+
+  .fillIn .stabFill {
+    transform-origin: left center;
+    animation: simFill 0.9s $ease-rise both;
+    animation-delay: calc(0.4s + var(--i, 0) * 0.08s);
+  }
+
+  .stamp {
+    animation: simDrop 0.55s 0.35s cubic-bezier(0.2, 1.3, 0.4, 1) both;
+  }
+
+  .playBar .stabFill,
+  .finalStab .stabFill {
+    transition: width 1.4s $ease-rise;
+  }
+
+  .changed {
+    animation: simRise 0.5s $ease-rise both;
+  }
+
+  .receiptPrint > p {
+    animation: simRise 0.45s $ease-rise both;
+
+    @for $n from 1 through 8 {
+      &:nth-child(#{$n}) {
+        animation-delay: #{0.25s + $n * 0.18s};
+      }
+    }
+  }
+
+  .chartArmed {
+    .chartLine {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+
+    .chartPoint {
+      opacity: 0;
+    }
+  }
+
+  .chartIn {
+    .chartLine {
+      stroke-dasharray: 1;
+      animation: simDraw 1.8s ease-in-out both;
+    }
+
+    .chartPoint {
+      animation: simFade 0.4s ease both;
+      animation-delay: calc(var(--i, 0) * 0.25s);
+    }
+  }
+}
+
+@keyframes simRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes simFill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes simDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-70px) rotate(-14deg) scale(1.15);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes simDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes simFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

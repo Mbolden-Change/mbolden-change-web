@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import { formatMoney } from '@/lib/simulator/model'
-import { Icon, StabilityBar, stabilityBand } from './ui'
+import { Icon, StabilityBar, stabilityBand, useCountTo } from './ui'
 import styles from './Simulator.module.scss'
 
 function StartOver({ onRestart }) {
@@ -35,12 +35,15 @@ export function ScreenStrip({ label, onRestart }) {
  * stability meter and budget card.
  */
 export default function PlayBar({ household, current, total, score, income, benefits, expenses, onRestart }) {
-  const gap = income + benefits - expenses
+  // On confirm, support, the budget and stability count to their new values.
+  const [shownScore, c1] = useCountTo(score)
+  const [shownBenefits, c2] = useCountTo(benefits)
+  const [gap, c3] = useCountTo(income + benefits - expenses)
   const isNeg = gap < 0
-  const band = stabilityBand(score)
+  const band = stabilityBand(shownScore)
   const [shortName, role] = household.name.split(' — ')
   return (
-    <div className={styles.playBar} data-sim="playbar">
+    <div className={styles.playBar} data-sim="playbar" data-counting={c1 || c2 || c3 || undefined}>
       <div className={classNames(styles.wrap, styles.playGrid)}>
         <div className={styles.playRound}>
           <div className={styles.playRoundHead}>
@@ -71,7 +74,7 @@ export default function PlayBar({ household, current, total, score, income, bene
           <div className={styles.playStabHead}>
             <span className={styles.playKey}>Household stability</span>
             <span>
-              <span className={styles.playStabPct} data-sim="stability">{Math.round(score)}%</span>{' '}
+              <span className={styles.playStabPct} data-sim="stability">{Math.round(shownScore)}%</span>{' '}
               <span className={classNames(styles.playBand, styles[`text_${band.tone}`])}>{band.label}</span>
             </span>
           </div>
@@ -87,7 +90,7 @@ export default function PlayBar({ household, current, total, score, income, bene
             </div>
             <div>
               <dt>Support</dt>
-              <dd data-sim="support">{formatMoney(benefits)}</dd>
+              <dd data-sim="support">{formatMoney(shownBenefits)}</dd>
             </div>
             <div>
               <dt>Expenses</dt>

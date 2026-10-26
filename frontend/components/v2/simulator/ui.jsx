@@ -1,9 +1,51 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { formatMoney } from '@/lib/simulator/model'
 import styles from './Simulator.module.scss'
+
+export const prefersReducedMotion = () =>
+  typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/**
+ * A number that counts to `value` whenever it changes (and, with `from`, once on
+ * mount). Returns [shown, counting]. With reduced motion it jumps to `value`.
+ * The last frame is exactly `value`, and `counting` is simply shown !== value,
+ * so it is true from the first render after a change until the count lands;
+ * elements carry it as data-counting so tests can wait for it.
+ */
+export function useCountTo(value, { from = value, duration = 1400 } = {}) {
+  const [shown, setShown] = useState(() => (prefersReducedMotion() ? value : from))
+  const shownRef = useRef(shown)
+
+  useEffect(() => {
+    const start = shownRef.current
+    const set = (v) => {
+      shownRef.current = v
+      setShown(v)
+    }
+    if (start === value || prefersReducedMotion()) {
+      set(value)
+      return
+    }
+    let frame = 0
+    const t0 = performance.now()
+    const tick = (now) => {
+      const k = Math.min(1, (now - t0) / duration)
+      const eased = 1 - Math.pow(1 - k, 3)
+      set(k < 1 ? Math.round(start + (value - start) * eased) : value)
+      if (k < 1) frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => {
+      cancelAnimationFrame(frame)
+      set(value)
+    }
+  }, [value, duration])
+
+  return [shown, shown !== value]
+}
 
 // Line icons (24px grid, 2px stroke) that replace the reference build's emoji.
 const ICONS = {
@@ -135,6 +177,18 @@ export function SimButton({ tone = 'black', children, icon = 'arrowRight', iconF
       </button>
     </span>
   )
+}
+
+/** Splits a title into words that rise in one after another (CSS; off with reduced motion). */
+export function RiseWords({ text, start = 0 }) {
+  return text.split(' ').map((word, i) => (
+    <span key={i}>
+      {i > 0 && ' '}
+      <span className={styles.riseWord} style={{ '--i': start + i }}>
+        {word}
+      </span>
+    </span>
+  ))
 }
 
 /** Small uppercase label with the brand dash in front. */

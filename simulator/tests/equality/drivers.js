@@ -173,6 +173,7 @@ class RefDriver {
 
   async restart() {
     await this.page.click('button[aria-label="Start over with a new household"]');
+    await this.page.waitForSelector('text=Choose a household');
   }
 
   // Builder
@@ -203,6 +204,11 @@ class NewDriver {
     this.name = 'website';
   }
 
+  /** Waits for counting numbers (useCountTo) to reach their values. */
+  async settle() {
+    await this.page.waitForFunction(() => !document.querySelector('[data-counting]'), null, { timeout: 15000 });
+  }
+
   async open() {
     await this.page.goto(this.url, { waitUntil: 'load', timeout: 120000 });
     await this.page.waitForSelector('[data-sim-root][data-ready]', { timeout: 120000 });
@@ -211,6 +217,7 @@ class NewDriver {
   /** Visible simulator text, without the site header/footer or [data-sim-ignore] parts. */
   async text({ hideOptions = false } = {}) {
     await this.page.mouse.move(0, 0); // no hover tooltips in the reading
+    await this.settle();
     return this.page.evaluate((hide) => {
       const root = document.querySelector('[data-sim-root]');
       const hidden = [...root.querySelectorAll(hide ? '[data-sim-ignore], [data-sim="option"]' : '[data-sim-ignore]')];
@@ -273,6 +280,7 @@ class NewDriver {
   }
 
   async roundMetrics() {
+    await this.settle();
     return this.page.evaluate(() => {
       const q = (s) => {
         const e = document.querySelector(`[data-sim="playbar"] [data-sim="${s}"]`);
@@ -325,6 +333,7 @@ class NewDriver {
     if (await confirm.count()) {
       await confirm.first().click();
       await p.waitForSelector('[data-sim="what-changed"]');
+      await this.settle();
       after = await p.evaluate(() => {
         const vals = [...document.querySelectorAll('[data-sim="what-changed"] [data-sim="after"]')].map((e) => e.textContent.trim());
         const cut = document.querySelector('[data-sim="cut"]');
@@ -336,6 +345,7 @@ class NewDriver {
   }
 
   async resultsMetrics() {
+    await this.settle();
     return this.page.evaluate(() => {
       const receipt = document.querySelector('[data-sim="receipt"]');
       const lines = receipt
@@ -357,6 +367,7 @@ class NewDriver {
 
   async restart() {
     await this.page.locator('button[aria-label="Start over with a new household"]').first().click();
+    await this.page.waitForSelector('[data-sim-root][data-screen="select"]');
   }
 
   async builderSet({ adults, children, income, status }) {

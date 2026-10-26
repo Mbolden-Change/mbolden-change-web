@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { TRADEOFF_OPTIONS, formatMoney, getCABufferForRound, getEffectiveCutPercent } from '@/lib/simulator/model'
-import { Eyebrow, Icon, SeverityDots, SimButton } from './ui'
+import { Eyebrow, Icon, RiseWords, SeverityDots, SimButton, useCountTo } from './ui'
 import styles from './Simulator.module.scss'
 
 // ---- BEGIN VERBATIM reference lines 10454-10489 ----
@@ -78,7 +78,7 @@ function CutBand({ round, current, total, children }) {
           </Eyebrow>
           {round.isBudgetPressure && <p className={styles.pressureTag}>Budget Pressure Scenario — Not a direct OBBB provision</p>}
           <h1 className={styles.cutTitle} ref={titleRef} tabIndex={-1}>
-            {round.title}
+            <RiseWords text={round.title} />
           </h1>
         </div>
         {children}
@@ -144,18 +144,24 @@ function AreaOptions({ area, label, subtitle, selected, locked, onPick }) {
   )
 }
 
-function Change({ label, from, to }) {
+/** One "What changed" figure: the new value counts from the old one. */
+function Change({ label, from, to, format }) {
+  const [shown, counting] = useCountTo(to, { from })
   return (
     <div className={styles.change}>
       <p className={styles.changeKey}>{label}</p>
       <p className={styles.changeVal}>
-        <span>{from}</span>
+        <span>{format(from)}</span>
         <Icon name="arrowRight" size={18} />
-        <span data-sim="after">{to}</span>
+        <span data-sim="after" data-counting={counting || undefined}>
+          {format(shown)}
+        </span>
       </p>
     </div>
   )
 }
+
+const pct = (n) => `${Math.round(n)}%`
 
 const signedMoney = (n) => (n < 0 ? '−' : '+') + formatMoney(Math.abs(n))
 
@@ -232,9 +238,9 @@ export default function PolicyRound({ round, household, currentBenefits, onChoic
       <div className={styles.changedNums}>
         <p className={styles.changedKey}>What changed this round</p>
         <div className={styles.changeGrid}>
-          <Change label="Support" from={formatMoney(confirmed.support)} to={formatMoney(live.support)} />
-          <Change label="Monthly budget" from={signedMoney(confirmed.balance)} to={signedMoney(live.balance)} />
-          <Change label="Stability" from={`${Math.round(confirmed.score)}%`} to={`${Math.round(live.score)}%`} />
+          <Change label="Support" from={confirmed.support} to={live.support} format={formatMoney} />
+          <Change label="Monthly budget" from={confirmed.balance} to={live.balance} format={signedMoney} />
+          <Change label="Stability" from={confirmed.score} to={live.score} format={pct} />
         </div>
       </div>
       <SimButton tone="yellow" onClick={next} autoFocus>

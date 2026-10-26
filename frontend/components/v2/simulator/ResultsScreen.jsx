@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import {
   BENEFIT_NAMES,
@@ -10,7 +10,7 @@ import {
   generateSimulationSummary,
   getBenefitTotal,
 } from '@/lib/simulator/model'
-import { Eyebrow, Icon, SeverityDots, StabilityBar, stabilityBand } from './ui'
+import { Eyebrow, Icon, RiseWords, SeverityDots, StabilityBar, prefersReducedMotion, stabilityBand, useCountTo } from './ui'
 import Sources from './Sources'
 import styles from './Simulator.module.scss'
 
@@ -36,7 +36,7 @@ function QolChart({ history }) {
     [0, 25, 'crisis'],
   ]
   return (
-    <div className={styles.chartWrap}>
+    <ChartReveal>
       <svg viewBox={`0 0 ${W} ${H}`} className={styles.chart} role="img" aria-label="Household stability trajectory chart showing score changes across policy rounds" data-sim="chart">
         {bands.map(([lo, hi, tone]) => (
           <rect key={tone} x={PAD.l} width={cw} y={PAD.t + (1 - hi / 100) * ch} height={((hi - lo) / 100) * ch} className={styles[`band_${tone}`]} />
@@ -52,9 +52,9 @@ function QolChart({ history }) {
             </g>
           )
         })}
-        <path d={pathD} className={styles.chartLine} />
+        <path d={pathD} className={styles.chartLine} pathLength="1" />
         {pts.map((p, i) => (
-          <g key={i} data-sim="chart-point">
+          <g key={i} data-sim="chart-point" className={styles.chartPoint} style={{ '--i': i }}>
             <circle cx={p.x} cy={p.y} r={i === 0 ? 5 : i === pts.length - 1 ? 6 : 4} className={classNames(styles.chartDot, i === pts.length - 1 && styles[`dot_${stabilityBand(p.score).tone}`])} />
             <text x={i === 0 ? p.x + 14 : p.x} y={i === 0 ? p.y - 2 : p.y - 10} textAnchor={i === 0 ? 'start' : 'middle'} className={styles.chartPct}>
               {Math.round(p.score)}%
@@ -70,6 +70,49 @@ function QolChart({ history }) {
           </g>
         ))}
       </svg>
+    </ChartReveal>
+  )
+}
+
+/**
+ * Draws the trajectory when it scrolls into view. Like the site's
+ * useScrollReveal, it stays finished without IntersectionObserver or with
+ * reduced motion; it starts watching only after the simulator's own jump to
+ * the top of the page, so the previous screen's scroll position can't play it.
+ */
+function useDrawOnView(threshold = 0.35) {
+  const ref = useRef(null)
+  const [phase, setPhase] = useState('static')
+  useEffect(() => {
+    const node = ref.current
+    if (!node || typeof IntersectionObserver === 'undefined' || prefersReducedMotion()) return
+    setPhase('armed')
+    let observer
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting && e.intersectionRatio >= threshold)) {
+            setPhase('in')
+            observer.disconnect()
+          }
+        },
+        { threshold: [0, threshold, 0.6, 1] },
+      )
+      observer.observe(node)
+    }, 150)
+    return () => {
+      clearTimeout(timer)
+      if (observer) observer.disconnect()
+    }
+  }, [threshold])
+  return { ref, phase }
+}
+
+function ChartReveal({ children }) {
+  const { ref, phase } = useDrawOnView()
+  return (
+    <div ref={ref} className={classNames(styles.chartWrap, phase === 'armed' && styles.chartArmed, phase === 'in' && styles.chartIn)}>
+      {children}
     </div>
   )
 }
@@ -141,7 +184,9 @@ export default function ResultsScreen({ household, region, finalBenefits, finalS
         return opt ? { area, ...opt } : null;
       }).filter(Boolean)).filter((t, i, arr) => arr.findIndex((x) => x.id === t.id) === i);
   // ---- END VERBATIM ----
-  const band = stabilityBand(finalScore)
+  // Final stability counts down from where the family started.
+  const [shownFinal, counting] = useCountTo(finalScore, { from: qolHistory.length ? qolHistory[0].score : finalScore, duration: 1800 })
+  const band = stabilityBand(shownFinal)
 
   return (
     <div data-sim="results">
@@ -149,18 +194,22 @@ export default function ResultsScreen({ household, region, finalBenefits, finalS
         <div className={classNames(styles.wrap, styles.resultsGrid)}>
           <div>
             <Eyebrow dash="teal" className={styles.yellowText}>SIMULATION COMPLETE</Eyebrow>
-            <h1 className={styles.resultsTitle}>{household.name}</h1>
+            <h1 className={styles.resultsTitle}>
+              <RiseWords text={household.name} />
+            </h1>
             {region && region.id !== 'national-avg' && <p className={styles.mutedDark}>Region: {region.name}</p>}
             <div className={styles.finalStab} role="status" aria-label={`Household stability: ${Math.round(finalScore)}%`}>
               <p className={styles.playKey}>Final Household Stability</p>
-              <p className={styles.finalPct} data-sim="final-stability">{Math.round(finalScore)}%</p>
+              <p className={styles.finalPct} data-sim="final-stability" data-counting={counting || undefined} aria-hidden="true">
+                {Math.round(shownFinal)}%
+              </p>
               <p className={classNames(styles.finalBand, styles[`text_${band.tone}`])}>{band.label}</p>
-              <StabilityBar score={finalScore} dark />
+              <StabilityBar score={shownFinal} dark />
               <p className={styles.mutedDark}>This family's capacity to meet basic needs under current conditions</p>
             </div>
           </div>
 
-          <div className={styles.receipt} data-sim="receipt">
+          <div className={classNames(styles.receipt, styles.receiptPrint)} data-sim="receipt">
             <p className={styles.receiptKey}>THE COST</p>
             <p className={styles.small}>What this family lost</p>
             <p className={styles.receiptLine}>

@@ -13,6 +13,7 @@
  * Usage (from the repo root):
  *   node simulator/tests/equality/harness.js --url http://localhost:3000/simulator
  *   options: --workers 6  --only <substring>  --quick (one path per household)
+ *            --motion reduce|on (default reduce; "on" waits for counting numbers to settle)
  *            --out <dir> (report.json, report.md; default simulator/tests/equality/out)
  */
 'use strict';
@@ -41,6 +42,9 @@ const REF_URL = 'file://' + path.resolve(__dirname, '..', '..', 'reference', 'in
 const WORKERS = Number(arg('workers', 6));
 const ONLY = arg('only', null);
 const QUICK = args.includes('--quick');
+// --motion reduce (default): the browser asks for reduced motion, so the site shows final values at once.
+// --motion on: full motion; the website driver waits for counting numbers to settle before reading.
+const MOTION = arg('motion', 'reduce');
 const OUT = path.resolve(arg('out', path.join(__dirname, 'out')));
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -206,7 +210,7 @@ async function main() {
   if (ONLY) paths = paths.filter((p) => p.id.includes(ONLY));
   if (QUICK) paths = paths.filter((p, i, all) => all.findIndex((x) => x.group === p.group) === i);
   fs.mkdirSync(OUT, { recursive: true });
-  console.log(`${paths.length} paths, ${WORKERS} workers\nreference: ${REF_URL}\nwebsite:   ${NEW_URL}\n`);
+  console.log(`${paths.length} paths, ${WORKERS} workers, motion ${MOTION}\nreference: ${REF_URL}\nwebsite:   ${NEW_URL}\n`);
 
   const browser = await chromium.launch();
   const results = [];
@@ -217,9 +221,9 @@ async function main() {
 
   async function worker(w) {
     const refCtx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
-    const webCtx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
-    // Vercel Analytics' script only exists on Vercel; stub it when testing a local build.
-    if (/^http:\/\/localhost/.test(NEW_URL)) await webCtx.route('**/_vercel/insights/**', (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: '' }));
+    const webCtx = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: MOTION === 'on' ? 'no-preference' : 'reduce' });
+    // Stub Vercel Analytics: test runs shouldn't count as site visits (and locally the script doesn't exist).
+    await webCtx.route('**/_vercel/insights/**', (r) => r.fulfill({ status: 200, contentType: 'application/javascript', body: '' }));
     const refPage = await refCtx.newPage();
     const webPage = await webCtx.newPage();
     webPage.on('pageerror', (e) => consoleErrors.push(String(e.message)));
@@ -263,7 +267,7 @@ async function main() {
   const md = [
     `# Simulator equality check`,
     ``,
-    `- Paths played: **${results.length}**`,
+    `- Paths played: **${results.length}** (motion: ${MOTION})`,
     `- Number differences: **${totalDiffs}**${totalDiffs ? ` (in ${failed.length} paths)` : ''}`,
     `- Reference text missing from the website: ${missing.length} line(s), ${unexpected.length} not on the allowed-removals list`,
     `- Website console errors: ${report.consoleErrors.length}`,
