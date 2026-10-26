@@ -227,11 +227,9 @@ $breakpoint: 900px;
   margin: 1.125rem 0 0;
   padding-top: 0.75rem;
   border-top: 1px solid var(--brand-aqua-teal);
-  // 19px bold counts as large text, so teal meets contrast on cream.
+  // Plain text in the section's color, like the subheading.
   font-size: 1.1875rem;
-  font-weight: 700;
   line-height: 1.4;
-  color: var(--brand-aqua-teal);
 }
 
 .supporterText {
