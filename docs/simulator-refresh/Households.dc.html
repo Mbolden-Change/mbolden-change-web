@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Safety Net Simulator — choose a household</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#000000}a:hover{color:#000000}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fillBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.card{animation:cardIn .6s cubic-bezier(.2,.7,.2,1) both;transition:transform .2s,box-shadow .2s}
+.card:hover,.card:focus-visible{transform:translate(-4px,-4px);box-shadow:10px 10px 0 #000000}
+.fill{transform-origin:left;animation:fillBar 1.1s cubic-bezier(.2,.7,.2,1) both}
+.navlink:hover{color:#0091ad}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="font-family: Roboto, Arial, sans-serif; color: #000000; background: #ffffff; min-height: 100%;">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding: 14px 48px; background: #ffffff; border-bottom: 4px solid #fad826;">
+    <a href="https://www.mboldenchange.org/" aria-label="mBOLDen Change home" style="display: block; line-height: 0;"><img src="/_blob/0d3e141c147602db3efcb0b7d3b6df5c" alt="mBOLDen Change" style="height: 64px; width: auto;"></a>
+    <nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-family: 'Archivo Narrow', sans-serif; font-weight: 600; font-size: 18px;">
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">What We're Tackling</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Ready to Grow</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Resources</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">mBOLDen Action ↗</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">About</a>
+      <a href="#" style="display: inline-block; text-decoration: none; background: #000000; color: #ffffff; padding: 10px 26px; transform: skewX(-10deg); box-shadow: 0 4px 5px rgba(0,0,0,.4); font-family: Roboto, sans-serif; font-weight: 600; font-size: 16px;"><span style="display: inline-block; transform: skewX(10deg);">Donate</span></a>
+    </nav>
+  </header>
+
+  <div style="background: #000000; color: #ffffff; padding: 14px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase;">
+      <span><span style="color: #fad826;">The Safety Net Simulator</span> · Choose a household</span>
+      <a href="Main.dc.html" style="color: #ffffff; text-decoration: none; letter-spacing: .08em;">↻ Start over</a>
+    </div>
+  </div>
+
+  <section style="background: #0091ad; color: #ffffff; padding: 64px 48px 56px;">
+    <div style="max-width: 1184px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; gap: 12px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #fad826;">
+        <span aria-hidden="true" style="display: inline-block; width: 28px; height: 5px; background: #fad826;"></span>Select a household
+      </div>
+      <h1 style="margin: 16px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 72px); line-height: 1;">Choose a household</h1>
+      <p style="margin: 16px 0 0; font-size: 20px; line-height: 1.5; max-width: 640px;">Each household depends on different programs. Your experience will vary.</p>
+    </div>
+  </section>
+
+  <section style="background: #f8efe0; padding: 56px 48px 80px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px;">
+      <sc-for list="{{households}}" as="h" hint-placeholder-count="6">
+        <a class="card" href="{{h.href}}" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #000000; background: #ffffff; padding: 26px 26px 24px; animation-delay: {{h.delay}};">
+          <div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;">
+            <h2 style="margin: 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.1;">{{h.name}}<span style="display: block; font-size: 17px; font-weight: 600; color: #4a4a4a; margin-top: 4px;">{{h.role}}</span></h2>
+            <span aria-hidden="true" style="flex: none; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">→</span>
+          </div>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #222222; flex: 1 1 auto;">{{h.desc}}</p>
+          <sc-if value="{{h.mixed}}" hint-placeholder-val="{{false}}">
+            <span style="align-self: flex-start; background: #b22f93; color: #ffffff; font-size: 13px; font-weight: 700; padding: 4px 10px;">Mixed immigration status — ITIN filers</span>
+          </sc-if>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 2px solid #000000; padding-top: 14px;">
+            <div><div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #4a4a4a;">Income</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">{{h.income}}</div></div>
+            <div><div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #4a4a4a;">Support</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">{{h.support}}</div></div>
+            <div><div style="font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #4a4a4a;">Expenses</div><div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px;">{{h.expenses}}</div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;"><span>Stability</span><span>{{h.stab}}% · {{h.band}}</span></div>
+            <div style="margin-top: 6px; height: 12px; background: #e2e2e2; overflow: hidden;">
+              <div class="fill" style="height: 100%; width: {{h.stabW}}; background: {{h.color}}; animation-delay: {{h.barDelay}};"></div>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+      <a class="card" href="#" style="display: flex; flex-direction: column; justify-content: center; gap: 12px; text-decoration: none; color: #000000; background: transparent; border: 3px dashed #000000; padding: 26px; animation-delay: .6s;">
+        <h2 style="margin: 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 26px;">Build Your Own Household</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55;">Customize income, family size, and immigration status to explore how the safety net works for different families.</p>
+        <span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: .08em; text-transform: uppercase;">Start building →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer style="background: #000000; color: #e2e2e2; padding: 40px 48px; font-size: 15px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between;">
+      <span>Site footer (same as every mboldenchange.org page)</span>
+      <span>© 2026 mBOLDen Change · Privacy Policy</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const raw = [
+      ['Maria', 'Single Mother', 'Single mom, 2 kids (ages 4 & 9). Works part-time as a home health aide.', '$1,680', '$1,428', '$2,995', 50, false, 'Round.dc.html'],
+      ['James & Dorothy', 'Retired Couple', 'Both 72. James has diabetes; Dorothy has early-stage Alzheimer\'s. Fixed income from Social Security.', '$2,340', '$963', '$2,825', 45, false, '#'],
+      ['The Johnsons', 'Working Family', 'Two parents, 3 kids (ages 2, 7, 12). Dad works full-time warehouse; Mom works retail part-time.', '$3,200', '$1,314', '$4,175', 52, false, '#'],
+      ['The Ramirez Family', 'Mixed-Status Family', 'Two parents (ITINs, no SSNs), 3 US-citizen kids (ages 3, 8, 13). Dad: landscaping crew. Mom: house cleaning.', '$2,200', '$808', '$3,380', 33, true, '#'],
+      ['The Chen Family', 'Fully Undocumented', 'Two parents (both undocumented, ITINs), 2 children born in China (ages 4, 10). Dad: restaurant kitchen. Mom: garment alterations. Family of four in one rented room.', '$2,200', '$0', '$1,840', 28, false, '#'],
+      ['The Carters', 'Self-Employed Family', 'Sarah runs a small home health aide business. David does contract IT work. 2 kids (ages 10, 7). Younger child has autism and receives therapy through Medicaid.', '$6,250', '$0', '$5,665', 58, false, '#']
+    ];
+    const households = raw.map((r, i) => {
+      const s = r[6];
+      return {
+        name: r[0], role: r[1], desc: r[2], income: r[3], support: r[4], expenses: r[5], stab: s, mixed: r[7], href: r[8],
+        stabW: s + '%',
+        band: s >= 75 ? 'Stable' : s >= 50 ? 'One crisis away' : s >= 25 ? 'Basic needs at risk' : 'Crisis',
+        color: s >= 75 ? '#0091ad' : s >= 50 ? '#fad826' : s >= 25 ? '#e8731c' : '#b22f93',
+        delay: (i * 0.08) + 's', barDelay: (0.4 + i * 0.08) + 's'
+      };
+    });
+    return { households, false: false };
+  }
+}
+</script>
+</body>
+</html>

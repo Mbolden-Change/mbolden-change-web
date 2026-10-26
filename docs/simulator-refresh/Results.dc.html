@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Safety Net Simulator — results</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#000000}a:hover{color:#0091ad}
+@keyframes lineIn{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.line{animation:lineIn .5s cubic-bezier(.2,.7,.2,1) both}
+.rise{animation:riseIn .6s cubic-bezier(.2,.7,.2,1) both}
+.tile{transition:transform .2s, box-shadow .2s}
+.tile:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 #000000}
+.navlink:hover{color:#0091ad}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="font-family: Roboto, Arial, sans-serif; color: #000000; background: #ffffff; min-height: 100%;">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding: 14px 48px; background: #ffffff; border-bottom: 4px solid #fad826;">
+    <a href="https://www.mboldenchange.org/" aria-label="mBOLDen Change home" style="display: block; line-height: 0;"><img src="/_blob/0d3e141c147602db3efcb0b7d3b6df5c" alt="mBOLDen Change" style="height: 64px; width: auto;"></a>
+    <nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-family: 'Archivo Narrow', sans-serif; font-weight: 600; font-size: 18px;">
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">What We're Tackling</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Ready to Grow</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">Resources</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">mBOLDen Action ↗</a>
+      <a class="navlink" href="#" style="text-decoration: none; color: #000000;">About</a>
+      <a href="#" style="display: inline-block; text-decoration: none; background: #000000; color: #ffffff; padding: 10px 26px; transform: skewX(-10deg); box-shadow: 0 4px 5px rgba(0,0,0,.4); font-family: Roboto, sans-serif; font-weight: 600; font-size: 16px;"><span style="display: inline-block; transform: skewX(10deg);">Donate</span></a>
+    </nav>
+  </header>
+
+  <section style="background: #000000; color: #ffffff; padding: 72px 48px 80px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px 64px; align-items: center;">
+      <div style="flex: 999 1 460px; min-width: 0;">
+        <div style="display: flex; align-items: center; gap: 12px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #fad826;">
+          <span aria-hidden="true" style="display: inline-block; width: 28px; height: 5px; background: #0091ad;"></span>Simulation complete
+        </div>
+        <h1 style="margin: 16px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 72px); line-height: 1;">Maria — Single Mother</h1>
+        <div style="margin-top: 36px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #bdbdbd;">Final household stability</div>
+        <div style="display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;">
+          <span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(96px, 14vw, 168px); line-height: .95; color: {{stabColor}};">{{stab}}%</span>
+          <span style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 28px; color: {{stabColor}};">{{band}}</span>
+        </div>
+        <div style="margin-top: 12px; height: 14px; background: #2a2a2a; max-width: 560px; overflow: hidden;">
+          <div style="height: 100%; width: {{stabW}}; background: {{stabColor}};"></div>
+        </div>
+        <p style="margin: 14px 0 0; font-size: 16px; color: #bdbdbd;">This family's capacity to meet basic needs under current conditions</p>
+      </div>
+
+      <div style="flex: 1 1 360px; min-width: 0; max-width: 440px; background: #f8efe0; color: #000000; padding: 28px 30px 24px; box-shadow: 10px 10px 0 #fad826;">
+        <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: #b22f93;">The cost</div>
+        <div style="font-size: 15px; color: #444444; margin-top: 2px;">What this family lost</div>
+        <div style="margin-top: 16px; display: flex; flex-direction: column;">
+          <div class="line" style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #b9a98c; animation-delay: .6s;"><span>Support lost / month</span><strong style="font-family: 'Archivo Narrow', sans-serif; font-size: 22px;">$888</strong></div>
+          <div class="line" style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #b9a98c; animation-delay: .9s;"><span>Safety net cut</span><strong style="font-family: 'Archivo Narrow', sans-serif; font-size: 22px;">34%</strong></div>
+          <div class="line" style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #b9a98c; animation-delay: 1.2s;"><span>Household stability</span><strong style="font-family: 'Archivo Narrow', sans-serif; font-size: 22px;">0%</strong></div>
+          <div class="line" style="display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0 6px; border-top: 3px solid #000000; margin-top: 8px; animation-delay: 1.6s;"><span style="font-weight: 700;">Annual impact</span><strong style="font-family: 'Archivo Narrow', sans-serif; font-size: 34px; color: #b22f93;">$10,656/year</strong></div>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: #5a5a5a; font-family: 'Roboto Mono', monospace;">Generated October 26, 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #ffffff; padding: 64px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; gap: 12px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase;">
+        <span aria-hidden="true" style="display: inline-block; width: 28px; height: 5px; background: #0091ad;"></span>Household stability trajectory
+      </div>
+      <p style="margin: 10px 0 0; font-size: 17px; color: #333333;">Each point represents a new round of cuts to safety net programs</p>
+      <div ref="{{chartRef}}" style="margin-top: 24px; overflow-x: auto;">
+        <svg viewBox="0 0 1000 340" role="img" aria-label="Stability by round: Start 50%, SNAP 50%, Medicaid 38%, Work requirements 18%, SSN and tax credits 14%, Housing 14%, School meals 0%" style="width: 100%; min-width: 640px; height: auto; display: block;">
+          <rect x="60" y="40" width="876" height="60" fill="#e6f4f7"></rect>
+          <rect x="60" y="100" width="876" height="60" fill="#fdf6cc"></rect>
+          <rect x="60" y="160" width="876" height="60" fill="#fbe6d4"></rect>
+          <rect x="60" y="220" width="876" height="60" fill="#f6dcee"></rect>
+          <text x="48" y="44" text-anchor="end" font-size="13" fill="#444444" font-family="Roboto">100%</text>
+          <text x="48" y="104" text-anchor="end" font-size="13" fill="#444444" font-family="Roboto">75%</text>
+          <text x="48" y="164" text-anchor="end" font-size="13" fill="#444444" font-family="Roboto">50%</text>
+          <text x="48" y="224" text-anchor="end" font-size="13" fill="#444444" font-family="Roboto">25%</text>
+          <text x="48" y="284" text-anchor="end" font-size="13" fill="#444444" font-family="Roboto">0%</text>
+          <polyline points="60,160 206,160 352,188.8 498,236.8 644,246.4 790,246.4 936,280" fill="none" stroke="#000000" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="{{dash}}" style="transition: stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1);"></polyline>
+          <sc-for list="{{pts}}" as="p" hint-placeholder-count="7">
+            <g style="opacity: {{p.op}}; transition: opacity .3s {{p.delay}};">
+              <circle cx="{{p.x}}" cy="{{p.y}}" r="9" fill="{{p.c}}" stroke="#000000" stroke-width="3"></circle>
+              <text x="{{p.x}}" y="{{p.ly}}" text-anchor="middle" font-size="17" font-weight="700" font-family="Archivo Narrow" fill="#000000">{{p.v}}%</text>
+              <text x="{{p.x}}" y="308" text-anchor="middle" font-size="13" font-weight="700" font-family="Roboto" fill="#000000">{{p.r}}</text>
+              <text x="{{p.x}}" y="326" text-anchor="middle" font-size="12" font-family="Roboto" fill="#444444">{{p.n}}</text>
+            </g>
+          </sc-for>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #f8efe0; padding: 64px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px 56px;">
+      <div style="flex: 999 1 560px; min-width: 0;">
+        <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #b22f93;">Impossible choices</div>
+        <h2 style="margin: 10px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 40px); line-height: 1.05;">The tradeoffs this family was forced to make:</h2>
+        <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+          <sc-for list="{{tradeoffs}}" as="t" hint-placeholder-count="7">
+            <div class="rise" style="background: #ffffff; padding: 18px 20px; animation-delay: {{t.delay}};">
+              <div style="display: flex; gap: 4px;" aria-label="{{t.harmLabel}}">
+                <sc-for list="{{t.dots}}" as="d" hint-placeholder-count="3"><span style="width: 22px; height: 8px; background: {{d.c}};"></span></sc-for>
+              </div>
+              <div style="margin-top: 10px; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.15;">{{t.title}}</div>
+              <div style="margin-top: 6px; font-size: 15px; line-height: 1.5; color: #333333;">{{t.desc}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <aside style="flex: 1 1 280px; min-width: 0; align-self: flex-start;">
+        <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #006a80;">Not directly affected</div>
+        <h2 style="margin: 10px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.1;">Policies that didn't affect your household:</h2>
+        <div style="margin-top: 18px; background: #0091ad; color: #ffffff; padding: 20px 22px;">
+          <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 20px;">New Tax Credit SSN Requirements (OBBB)</div>
+          <div style="margin-top: 8px; font-size: 16px; line-height: 1.5;">Your family was protected, but other families — especially mixed-status households — were not.</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section style="background: #000000; color: #ffffff; padding: 72px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto;"><div style="max-width: 860px;">
+      <h2 style="margin: 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(34px, 4.4vw, 52px); line-height: 1;">What this means</h2>
+      <p style="margin: 22px 0 0; font-size: 20px; line-height: 1.65;">This simulation covered 6 policy changes. In real life, these cuts can happen simultaneously, compounding their effects. Families don't get to choose one hardship at a time — they face them all at once.</p>
+      <p style="margin: 18px 0 0; font-size: 20px; line-height: 1.65;">The safety net isn't a luxury. It's the difference between stability and crisis for millions of families who are already working, already sacrificing, already stretched to their limit.</p>
+      <p style="margin: 26px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 34px); line-height: 1.15; color: #fad826;">Every choice you made in this simulation is a choice real people are making right now.</p>
+    </div></div>
+  </section>
+
+  <section style="background: #0091ad; padding: 64px 48px 72px;">
+    <div style="max-width: 1184px; margin: 0 auto;">
+      <div style="font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #ffffff;">What you can do</div>
+      <h2 style="margin: 10px 0 0; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: clamp(34px, 4.4vw, 52px); line-height: 1; color: #ffffff;">Turn understanding into action</h2>
+      <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <sc-for list="{{actions}}" as="a" hint-placeholder-count="6">
+          <a class="tile" href="{{a.href}}" style="display: flex; gap: 16px; align-items: flex-start; text-decoration: none; color: #000000; background: #ffffff; padding: 22px 22px 24px;">
+            <span aria-hidden="true" style="flex: none; width: 44px; height: 44px; background: {{a.bg}}; display: inline-flex; align-items: center; justify-content: center;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{a.fg}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{a.icon}}"></path></svg>
+            </span>
+            <span>
+              <span style="display: block; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.1;">{{a.title}}</span>
+              <span style="display: block; margin-top: 6px; font-size: 15px; line-height: 1.5; color: #333333;">{{a.desc}}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #f8efe0; padding: 32px 48px;">
+    <div style="max-width: 1184px; margin: 0 auto;">
+      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #333333; max-width: 900px;">Data current as of October 2026 (v3.2 — CalFresh, CalWORKs, CalEITC/YCTC, and FPL values computed by the embedded verified engine). Sources include CBO supplemental analysis of H.R. 1, USDA-FNS FY2027 COLA memo, CDSS ACL 26-66 / ACIN I-40-26, FTB 2025 Form 3514, CMS, IRS, KFF, and ITEP.</p>
+      <button type="button" style="margin-top: 16px; min-height: 44px; padding: 0 18px; background: #ffffff; border: 2px solid #000000; font-family: 'Archivo Narrow', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer;">Sources &amp; Methodology ▾</button>
+    </div>
+  </section>
+
+  <footer style="background: #000000; color: #e2e2e2; padding: 40px 48px; font-size: 15px;">
+    <div style="max-width: 1184px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between;">
+      <span>Site footer (same as every mboldenchange.org page)</span>
+      <span>© 2026 mBOLDen Change · Privacy Policy</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":3400}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { stab: 50, chartIn: false }; }
+  componentDidMount() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ stab: 0, chartIn: true }); return; }
+    const t0 = performance.now(), dur = 1800;
+    const tick = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      this.setState({ stab: Math.round(50 * (1 - e)) });
+      if (k < 1) this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+    this.fallback = setTimeout(() => { if (!this.state.chartIn && !this.io) this.setState({ chartIn: true }); }, 1200);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.fallback); if (this.io) this.io.disconnect(); }
+  renderVals() {
+    const st = this.state.stab;
+    const band = st >= 75 ? 'Stable' : st >= 50 ? 'One crisis away' : st >= 25 ? 'Basic needs at risk' : 'Crisis';
+    const stabColor = st >= 75 ? '#0091ad' : st >= 50 ? '#fad826' : st >= 25 ? '#f08a3a' : '#e0559f';
+    const data = [['Start', '', 50], ['Round 1', 'SNAP', 50], ['Round 2', 'Medicaid', 38], ['Round 3', 'Work Req.', 18], ['Round 4', 'SSN / Tax Credit', 14], ['Round 5', 'Housing', 14], ['Round 6', 'School Meals', 0]];
+    const pts = data.map((d, i) => {
+      const v = d[2], y = 280 - v * 2.4;
+      return { r: d[0], n: d[1], v, x: 60 + i * 146, y, ly: y - 18, op: this.state.chartIn ? 1 : 0, delay: (0.3 * i) + 's',
+        c: v >= 75 ? '#0091ad' : v >= 50 ? '#fad826' : v >= 25 ? '#f08a3a' : '#b22f93' };
+    });
+    const harmDots = (h) => [0, 1, 2].map((k) => ({ c: k < h ? (h === 3 ? '#b22f93' : h === 2 ? '#e8731c' : '#d9b800') : '#e2e2e2' }));
+    const tr = [
+      ['Skip meals to stretch food budget', 'Adults skip meals so children can eat. Nutrition suffers.', 3],
+      ['Skip preventive care and checkups', 'Small problems become emergencies. ER visits cost more.', 2],
+      ['Split pills or take half doses', 'Dangerous for medications that require precise dosing.', 3],
+      ['Track monthly hours and submit documentation at the 6-month review', 'You keep coverage — for now. But you need 6 months of pay stubs, timesheets, or employer letters ready for review. Hourly workers, gig workers, and people with multiple jobs face the hardest time assembling proof.', 1],
+      ['Double up with another family', 'Overcrowding strains relationships and violates lease terms.', 2],
+      ['Reduce heating/cooling to dangerous levels', 'Hypothermia risk in winter. Heat stroke in summer.', 3],
+      ['Children go hungry during the school day', 'Without free or reduced lunch, and unable to afford packed meals, children sit in the cafeteria with nothing to eat. Hunger affects concentration, behavior, and learning.', 3]
+    ];
+    const tradeoffs = tr.map((t, i) => ({ title: t[0], desc: t[1], dots: harmDots(t[2]), harmLabel: 'Harm level ' + t[2] + ' of 3', delay: (0.08 * i) + 's' }));
+    const actions = [
+      ['Explore Another Household', 'Choose a preset family or build your own', 'Households.dc.html', 'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', '#fad826', '#000000'],
+      ['Share the Simulator', 'Email, Facebook, LinkedIn, Bluesky or copy the link', '#', 'M18 8a3 3 0 1 0-2.8-4M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8.6 13.5l6.8 4M15.4 6.5l-6.8 4', '#000000', '#ffffff'],
+      ['Stay Informed', 'Sign up for our newsletter for action alerts & updates', '#', 'M3 11l15-6v14L3 13zM7 13v5a2 2 0 0 0 4 0v-3', '#b22f93', '#ffffff'],
+      ['Download Summary', 'Get a printable one-page summary for testimony, grants, or presentations', '#', 'M12 3v12M7 10l5 5 5-5M4 21h16', '#000000', '#ffffff'],
+      ['Use This in Your Work', 'Contact us to bring the simulator into trainings, workshops, or advocacy', '#', 'M13 2L4 14h7l-1 8 9-12h-7z', '#fad826', '#000000'],
+      ['Give Us Feedback', "Tell us what worked, what didn't, and what you'd like to see next", '#', 'M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z', '#b22f93', '#ffffff']
+    ];
+    return {
+      stab: st, stabW: st + '%', band, stabColor, pts,
+      dash: this.state.chartIn ? 0 : 1,
+      tradeoffs,
+      actions: actions.map((a) => ({ title: a[0], desc: a[1], href: a[2], icon: a[3], bg: a[4], fg: a[5] })),
+      chartRef: (el) => {
+        if (!el || this.io || typeof IntersectionObserver === 'undefined') return;
+        this.io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { this.setState({ chartIn: true }); this.io.disconnect(); } }, { threshold: 0.35 });
+        this.io.observe(el);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

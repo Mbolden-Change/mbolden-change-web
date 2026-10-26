@@ -41,3 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env
+
+# Simulator equality harness reports
+/simulator/tests/equality/out/
