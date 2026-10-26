@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import type {CampaignBanner as CampaignBannerType} from '@/sanity/types'
 import {LinkAtom} from '@/components/atoms/Link'
-import {getReferenceWithSlug, isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
+import {getReferenceWithSlug, isRenderableInternalOrExternalLink, opensInNewTab} from '@/utils/internalOrExternalLink'
 import styles from './Donate.module.scss'
 
 /** Yellow campaign strip; nothing shows while it's switched off in Studio. */
@@ -9,7 +9,7 @@ export default function CampaignBanner({enabled, heading, text, link}: CampaignB
   if (!enabled || !(heading?.trim() || text?.trim())) return null
   const showLink = isRenderableInternalOrExternalLink(link)
   // Opens where Studio's “Open in” says; a new tab gets ↗.
-  const newTab = Boolean(link?.isExternalLink) && link?.target === '_blank'
+  const newTab = opensInNewTab(link)
   // A trailing arrow in the label is decoration, hidden from screen readers.
   const label = link?.title?.replace(/\s*→\s*$/, '')
   const arrow = label !== link?.title

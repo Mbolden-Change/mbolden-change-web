@@ -22,9 +22,11 @@ export type FundDialogHandle = {
  * behind is inert and Escape closes it. The form's iframe is only added
  * while it's open, so nothing loads from Zeffy until someone asks for it.
  */
-export default function FundDialog({ref}: {ref: Ref<FundDialogHandle>}) {
+export default function FundDialog({ref, onClose}: {ref: Ref<FundDialogHandle>; onClose?: () => void}) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const openerRef = useRef<HTMLElement | null>(null)
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
   const [fund, setFund] = useState<DialogFund | null>(null)
 
   // Opens straight from the click, so it never waits on the previous
@@ -50,6 +52,7 @@ export default function FundDialog({ref}: {ref: Ref<FundDialogHandle>}) {
       document.documentElement.style.overflow = ''
       setFund(null)
       openerRef.current?.focus()
+      onCloseRef.current?.()
     }
     dialog.addEventListener('close', handleClose)
     return () => {

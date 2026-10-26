@@ -375,6 +375,7 @@ export type FundCards = {
     buttonLabel: string;
     lane: "black" | "yellow" | "teal" | "fuchsia";
     form: ZeffyForm;
+    linkId?: string;
     _type: "fund";
     _key: string;
   }>;

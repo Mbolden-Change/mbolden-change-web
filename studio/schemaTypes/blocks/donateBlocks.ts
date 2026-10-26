@@ -132,7 +132,13 @@ export const fundCardsType = defineType({
       title: 'Funds',
       type: 'array',
       description: 'In order; drag to reorder. Three fit in a row.',
-      validation: (Rule) => Rule.required().min(1),
+      validation: (Rule) =>
+        Rule.required()
+          .min(1)
+          .custom((value) => {
+            const ids = ((value ?? []) as Array<{linkId?: string}>).map((fund) => fund.linkId).filter(Boolean)
+            return new Set(ids).size === ids.length ? true : 'Link IDs must be unique in this block.'
+          }),
       of: [
         defineArrayMember({
           name: 'fund',
@@ -162,6 +168,15 @@ export const fundCardsType = defineType({
               title: 'Zeffy form',
               type: 'zeffyForm',
               validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'linkId',
+              title: 'Link ID',
+              type: 'string',
+              description:
+                'Optional. Lets other pages link straight to this fund’s form, such as /donate#gateway-fund.',
+              validation: (Rule) =>
+                Rule.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).error('Use lowercase letters, numbers and hyphens.'),
             }),
           ],
           preview: {
