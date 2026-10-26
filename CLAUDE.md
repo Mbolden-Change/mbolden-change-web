@@ -21,8 +21,21 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
 
 ## Content and data
 
-- Never create, edit or delete content in the Sanity `production` dataset.
-  Use `development` for testing, and tell Minh exactly what you changed.
+- Content edits in the Sanity `production` dataset (copy, images, logos,
+  cards, banners) are allowed only with Minh's explicit approval of that
+  specific change, and only through the Sanity connector when it's enabled for
+  the session. Without the connector, use a Sanity write token from the
+  environment's network secrets, which Minh adds herself. Never ask for a
+  token in chat.
+- Before any production edit, list the exact document and field, with the old
+  and new values.
+- Make the change as a draft and show Minh. Publish only after she approves.
+- Keep existing alt text and wording unless Minh gave new text.
+- Never delete documents. Unpublish instead.
+- After publishing, check the live page.
+- Use `development` for test content.
+- Schema changes and new block types still go through a PR. Deploy schema
+  changes only as part of an approved PR.
 - Never commit secrets or put them in environment variables. Keys go in the
   environment's network secrets, and never get printed.
 - Unpublish old pages; don't delete them.
