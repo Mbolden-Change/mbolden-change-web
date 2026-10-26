@@ -38,7 +38,6 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
   changes only as part of an approved PR.
 - Never commit secrets or put them in environment variables. Keys go in the
   environment's network secrets, and never get printed.
-- Unpublish old pages; don't delete them.
 - Never link the Document Retention & Destruction Policy publicly.
 - Never publish the original TCPP report. Only
   `TCPP-Alum-Rock-Partner-Report-PUBLIC.pdf` is public.
