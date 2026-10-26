@@ -72,6 +72,33 @@ export function getLogoImage(image?: PilotImageSource) {
   }
 }
 
+// The funder logo's rendered width (px) on every screen size; the CDN serves
+// twice that for 2x screens.
+export const FUNDER_LOGO_WIDTH = 180
+
+/**
+ * A funder logo beside the Supported by line: the whole file at a fixed width,
+ * height from its own aspect ratio, never cropped.
+ */
+export function getFunderLogo(image?: PilotImageSource) {
+  const ref = image?.asset?._ref
+  if (!image || !ref) return null
+  const {imageWidth, imageHeight} = getDimensionsFromRef(ref)
+  return {
+    src: urlFor({asset: {_ref: ref}})
+      .width(FUNDER_LOGO_WIDTH * 2)
+      .fit('max')
+      .auto('format')
+      .url(),
+    alt: image.alt || '',
+    width: FUNDER_LOGO_WIDTH,
+    height:
+      imageWidth && imageHeight
+        ? Math.round((FUNDER_LOGO_WIDTH * imageHeight) / imageWidth)
+        : undefined,
+  }
+}
+
 /** The YouTube video id from a watch, short, embed or youtu.be link. */
 export function getYouTubeId(input?: string | null) {
   if (!input) return null

@@ -1047,6 +1047,20 @@ export type TextMedia = {
     _key: string;
   }>;
   supportedBy?: string;
+  supportedByLogo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  supportedByLink?: string;
   mediaPosition?: "left" | "right";
   mobileLayout?: "imageTop" | "textTop";
   media?: {
