@@ -3,12 +3,15 @@
 import classNames from 'classnames';
 import SkewButton from '@/components/atoms/SkewButton';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
+import { isSitePath } from '@/utils/internalOrExternalLink';
 import styles from './TextMedia.module.scss';
 
-// Giving links (Zeffy, or a "give" / "donate" label) open in a new tab on
-// featured pilots so the story stays open behind the form.
+// External giving links (Zeffy, or a "give" / "donate" label) open in a new
+// tab on featured pilots so the story stays open behind the form. Paths on
+// this site, such as /donate#gateway-fund, stay in the same tab.
 const isGiveLink = (cta: Cta) =>
-  /(^|\.)zeffy\.com/i.test(safeHost(cta.link)) || /\b(give|donate)\b/i.test(cta.label ?? '');
+  !isSitePath(cta.link) &&
+  (/(^|\.)zeffy\.com/i.test(safeHost(cta.link)) || /\b(give|donate)\b/i.test(cta.label ?? ''));
 
 const safeHost = (link?: string | null) => {
   try {

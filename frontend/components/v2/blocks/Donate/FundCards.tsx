@@ -1,6 +1,6 @@
 'use client'
 
-import {useRef, type CSSProperties} from 'react'
+import {useEffect, useRef, type CSSProperties} from 'react'
 import classNames from 'classnames'
 import type {FundCards as FundCardsType} from '@/sanity/types'
 import {trackDonateClick} from '@/lib/analytics'
@@ -12,13 +12,51 @@ import styles from './Donate.module.scss'
 
 const STAGGER = [styles.d1, styles.d2, styles.d3]
 
-/** A card per fund. Each button opens the fund's Zeffy form in a pop-up. */
+type Fund = NonNullable<FundCardsType['funds']>[number]
+
+const showable = (funds: FundCardsType['funds']) =>
+  (funds ?? []).filter((fund) => fund.title && zeffyPageUrl(fund.form))
+
+/** The fund whose link ID is in the address, such as /donate#gateway-fund. */
+const fundForHash = (funds: Fund[]) => {
+  const id = window.location.hash.slice(1)
+  return id ? funds.find((fund) => fund.linkId === id) : undefined
+}
+
+/**
+ * A card per fund. Each button opens the fund's Zeffy form in a pop-up. An
+ * address ending in a fund's link ID, such as /donate#gateway-fund, scrolls
+ * here and opens that fund's pop-up, on arrival or from a link on the page.
+ */
 export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.15)
   const dialogRef = useRef<FundDialogHandle>(null)
 
+  useEffect(() => {
+    if (!heading) return
+    const openFromHash = () => {
+      const fund = fundForHash(showable(funds))
+      const button = fund && document.getElementById(fund.linkId!)?.querySelector('button')
+      if (!fund || !button) return
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ref.current?.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'})
+      dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, button)
+    }
+    openFromHash()
+    window.addEventListener('hashchange', openFromHash)
+    return () => window.removeEventListener('hashchange', openFromHash)
+  }, [heading, funds, ref])
+
   if (!heading) return null
-  const cards = (funds ?? []).filter((fund) => fund.title && zeffyPageUrl(fund.form))
+  const cards = showable(funds)
+
+  // Drops the fund's link ID from the address on close, without a new
+  // history entry, so Back goes to the previous page, not a re-opened pop-up.
+  const clearHash = () => {
+    if (!fundForHash(cards)) return
+    const {pathname, search} = window.location
+    window.history.replaceState(window.history.state, '', pathname + search)
+  }
 
   return (
     <section
@@ -39,6 +77,7 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
           {cards.map((fund, index) => (
             <li
               key={fund._key}
+              id={fund.linkId || undefined}
               className={classNames(styles.fund, styles.rv, STAGGER[index % STAGGER.length])}
               style={{'--lane': laneColor(fund.lane)} as CSSProperties}
             >
@@ -62,7 +101,7 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
           ))}
         </ul>
       </div>
-      <FundDialog ref={dialogRef} />
+      <FundDialog ref={dialogRef} onClose={clearHash} />
     </section>
   )
 }

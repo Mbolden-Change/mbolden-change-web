@@ -60,3 +60,18 @@ test('no video section without a YouTube link', () => {
   render(<ProgramCaseStudy {...base} video={undefined} />)
   expect(screen.queryByRole('button', {name: /Play video/})).toBeNull()
 })
+
+test.each([
+  ['/donate#basic-needs-fund', null, 'Give to the Basic Needs Fund'],
+  ['https://www.zeffy.com/en-US/peer-to-peer/x', '_blank', 'Give to the Basic Needs Fund (opens in a new tab)'],
+])('the closing button for %s opens in the right tab', (buttonUrl, target, name) => {
+  render(
+    <ProgramCaseStudy
+      {...base}
+      closing={{heading: 'Keep It Going', buttonLabel: 'Give to the Basic Needs Fund', buttonUrl}}
+    />,
+  )
+  const link = screen.getByRole('link', {name})
+  if (target) expect(link).toHaveAttribute('target', target)
+  else expect(link).not.toHaveAttribute('target')
+})

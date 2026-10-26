@@ -14,6 +14,7 @@ import ButtonComponent from './atoms/ButtonComponent';
 import { useState } from 'react';
 import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
+import { opensInNewTab } from '@/utils/internalOrExternalLink';
 import CharityBadge, { type CharityBadgeData } from './CharityBadge/CharityBadge';
 
 type FooterProps = {
@@ -108,9 +109,7 @@ const Footer = ({ footerData }: FooterProps) => {
                 {category.links?.map((link: any) => {
                   // New-tab links get ↗, except the Donate call to action.
                   const showArrow =
-                    link.isExternalLink &&
-                    link.target === '_blank' &&
-                    !isDonateCta(link);
+                    opensInNewTab(link) && !isDonateCta(link);
                   return (
                     <LinkAtom
                       key={link._key}

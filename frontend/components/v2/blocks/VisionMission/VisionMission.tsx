@@ -5,7 +5,7 @@ import type {VisionMission as VisionMissionType} from '@/sanity/types'
 import SanityNextImage from '@/components/SanityNextImage'
 import SkewButton from '@/components/atoms/SkewButton'
 import {LinkAtom} from '@/components/atoms/Link'
-import {getReferenceWithSlug, isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
+import {getReferenceWithSlug, isRenderableInternalOrExternalLink, opensInNewTab} from '@/utils/internalOrExternalLink'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import {preloadJourney} from '../../journey/Journey'
 import {JourneyOverlay, useJourney} from '../../journey/JourneyOverlay'
@@ -57,9 +57,9 @@ export default function VisionMission({
   if (!vision && !mission) return null
 
   const showButton = isRenderableInternalOrExternalLink(actionLink) && actionLink?.title
-  const newTab = actionLink?.isExternalLink && actionLink.target === '_blank'
+  const newTab = opensInNewTab(actionLink)
   const imageCard = isRenderableInternalOrExternalLink(imageLink) && imageLink?.title ? imageLink : null
-  const imageCardNewTab = imageCard?.isExternalLink && imageCard.target === '_blank'
+  const imageCardNewTab = opensInNewTab(imageCard)
 
   return (
     <section

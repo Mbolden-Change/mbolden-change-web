@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react'
+import {act, fireEvent, render, screen} from '@testing-library/react'
 import type {FundCards as FundCardsType} from '@/sanity/types'
 import FundCards from './FundCards'
 import CampaignBanner from './CampaignBanner'
@@ -128,4 +128,92 @@ test('the quote is split into timed words, with the whole quote for screen reade
   expect(words[1].style.getPropertyValue('--word-delay')).toBe('0.14s')
   expect(screen.getByText('“Equity should be the norm”')).toBeInTheDocument()
   expect(screen.getByText('Jeanne & Roland Chan, donors')).toHaveStyle({animationDelay: '0.61s'})
+})
+
+describe('a fund link ID in the address', () => {
+  const funds: FundCardsType = {
+    _type: 'fundCards',
+    heading: 'Choose Where Your Gift Goes',
+    funds: [
+      {...block.funds[0], linkId: 'gateway-fund'},
+      {
+        _type: 'fund',
+        _key: 'b',
+        title: 'The Basic Needs Fund',
+        buttonLabel: 'Give to the Basic Needs Fund',
+        lane: 'teal',
+        form: {_type: 'zeffyForm', id: 'basic-needs-fund-form'},
+        linkId: 'basic-needs-fund',
+      },
+    ],
+  }
+  const scrollIntoView = jest.fn()
+
+  beforeEach(() => {
+    window.history.replaceState(null, '', '/donate')
+    window.matchMedia = jest.fn().mockReturnValue({matches: false}) as unknown as typeof window.matchMedia
+    Element.prototype.scrollIntoView = scrollIntoView
+    scrollIntoView.mockClear()
+  })
+
+  const formSrc = (container: HTMLElement) => container.querySelector('iframe')?.getAttribute('src')
+
+  test('opens that fund’s pop-up on arrival, scrolled to the cards', () => {
+    window.history.replaceState(null, '', '/donate#basic-needs-fund')
+    const {container} = render(<FundCards {...funds} />)
+    expect(container.querySelector('dialog')).toHaveAttribute('open')
+    expect(screen.getByRole('heading', {level: 2, name: 'The Basic Needs Fund'})).toBeInTheDocument()
+    expect(formSrc(container)).toBe('https://www.zeffy.com/embed/donation-form/basic-needs-fund-form')
+    expect(scrollIntoView).toHaveBeenCalledWith({behavior: 'smooth', block: 'start'})
+    expect(container.querySelector('#basic-needs-fund')).toHaveClass('fund')
+  })
+
+  test('scrolls without motion when reduced motion is on', () => {
+    window.matchMedia = jest.fn().mockReturnValue({matches: true}) as unknown as typeof window.matchMedia
+    window.history.replaceState(null, '', '/donate#gateway-fund')
+    render(<FundCards {...funds} />)
+    expect(scrollIntoView).toHaveBeenCalledWith({behavior: 'auto', block: 'start'})
+  })
+
+  test('opens the pop-up when a link on the page changes the address', () => {
+    const {container} = render(<FundCards {...funds} />)
+    expect(container.querySelector('dialog')).not.toHaveAttribute('open')
+
+    act(() => {
+      window.history.pushState(null, '', '/donate#gateway-fund')
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+    })
+    expect(container.querySelector('dialog')).toHaveAttribute('open')
+    expect(formSrc(container)).toBe(
+      'https://www.zeffy.com/embed/donation-form/the-gateway-fund-legal-access-for-immigrant-youth',
+    )
+  })
+
+  test('closing drops the link ID without a new history entry and returns focus to the fund’s button', () => {
+    window.history.replaceState(null, '', '/donate?ref=home#gateway-fund')
+    const {container} = render(<FundCards {...funds} />)
+    const entries = window.history.length
+
+    fireEvent.click(screen.getByRole('button', {name: 'Close'}))
+    expect(container.querySelector('dialog')).not.toHaveAttribute('open')
+    expect(window.location.pathname + window.location.search + window.location.hash).toBe('/donate?ref=home')
+    expect(window.history.length).toBe(entries)
+    expect(screen.getByRole('button', {name: /Give to the Gateway Fund/})).toHaveFocus()
+  })
+
+  test.each(['', '#nonsense'])('the address %p opens nothing', (hash) => {
+    window.history.replaceState(null, '', `/donate${hash}`)
+    const {container} = render(<FundCards {...funds} />)
+    expect(container.querySelector('dialog')).not.toHaveAttribute('open')
+    expect(container.querySelector('iframe')).toBeNull()
+    expect(scrollIntoView).not.toHaveBeenCalled()
+  })
+
+  test('closing a pop-up opened by its button leaves an unrelated address alone', () => {
+    window.history.replaceState(null, '', '/donate#top')
+    render(<FundCards {...funds} />)
+    fireEvent.click(screen.getByRole('button', {name: /Give to the Basic Needs Fund/}))
+    fireEvent.click(screen.getByRole('button', {name: 'Close'}))
+    expect(window.location.hash).toBe('#top')
+  })
 })

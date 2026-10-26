@@ -12,6 +12,7 @@ import { Header as HeaderType } from '@/sanity/types';
 import { LinkAtom, ReferenceType, hrefForInternalReference } from './atoms/Link';
 import SkewButton from './atoms/SkewButton';
 import { trackDonateClick } from '@/lib/analytics';
+import { opensInNewTab } from '@/utils/internalOrExternalLink';
 import styles from './Header.module.scss';
 
 /** Pages outside a menu item's path that still belong to it, such as News & Statements under Resources. */
@@ -113,9 +114,7 @@ export default function Header({ headerData }: HeaderProps) {
                 const isSelected = Boolean(
                   href && (isActive || pendingHref === href),
                 );
-                const opensNewTab = Boolean(
-                  link.isExternalLink && link.target === '_blank',
-                );
+                const opensNewTab = opensInNewTab(link);
 
                 return (
                   <li key={i}>

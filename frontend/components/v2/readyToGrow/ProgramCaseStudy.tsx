@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {useEffect, useRef, useState, type CSSProperties, type ReactNode} from 'react'
 import SkewButton from '@/components/atoms/SkewButton'
 import type {ProgramCaseStudyData} from '@/lib/getProgramCaseStudy'
+import {isSitePath} from '@/utils/internalOrExternalLink'
 import {getPilotImage, getYouTubeId, youTubeEmbedUrl} from '../blocks/TextMedia/pilotImage'
 import {useScrollReveal} from '../motion/useScrollReveal'
 import {MoneyWent, Voices} from './CaseStudyExtras'
@@ -381,9 +382,12 @@ export default function ProgramCaseStudy(data: ProgramCaseStudyData) {
                       <SkewButton
                         variant="black"
                         href={closing.buttonUrl}
-                        target="_blank"
+                        // External giving links open in a new tab; paths on this site, such as /donate, don't.
+                        target={isSitePath(closing.buttonUrl) ? undefined : '_blank'}
                         className={styles.button}
-                        ariaLabel={`${closing.buttonLabel} (opens in a new tab)`}
+                        ariaLabel={
+                          isSitePath(closing.buttonUrl) ? undefined : `${closing.buttonLabel} (opens in a new tab)`
+                        }
                       >
                         {closing.buttonLabel}
                       </SkewButton>

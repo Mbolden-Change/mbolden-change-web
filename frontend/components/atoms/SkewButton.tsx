@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './SkewButton.module.scss';
 import { LinkAtom, ReferenceType } from './Link';
 import type { InternalOrExternalLink } from '@/sanity/types';
-import { getReferenceWithSlug } from '@/utils/internalOrExternalLink';
+import { getReferenceWithSlug, isDonatePath } from '@/utils/internalOrExternalLink';
 
 type SkewButtonVariant = 'black' | 'yellow';
 
@@ -71,14 +71,16 @@ export default function SkewButton(props: SkewButtonProps) {
   let control: React.ReactElement;
 
   if (href) {
+    // Links to the Donate page stay in the same tab.
+    const hrefTarget = isDonatePath(href) ? undefined : target;
     control = (
       <a
         href={href}
         className={innerClassName}
         aria-label={ariaLabel}
         onClick={onClick}
-        target={target}
-        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+        target={hrefTarget}
+        rel={hrefTarget === '_blank' ? 'noopener noreferrer' : undefined}
       >
         {label}
       </a>

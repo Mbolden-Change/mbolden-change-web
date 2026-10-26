@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { InternalOrExternalLink as InternalOrExternalLinkType } from "@/sanity/types";
+import { isDonatePath } from "@/utils/internalOrExternalLink";
 
 type LinkAtomProps = Omit<InternalOrExternalLinkType, "reference" | "_type"> & {
   className?: string;
@@ -79,7 +80,8 @@ export const LinkAtom = ({
       <a
         href={url}
         className={className}
-        target={target}
+        // Links to the Donate page stay in the same tab.
+        target={isDonatePath(url) ? undefined : target}
         rel="noopener noreferrer"
         aria-label={ariaLabel}
         onClick={onClick}
