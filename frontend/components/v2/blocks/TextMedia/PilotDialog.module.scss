@@ -483,13 +483,15 @@ $ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 // The logo sits whole on a white panel with clear space of 12.5% of its width
-// on every side.
+// on the top, right and bottom. No left clear space, so the logo lines up with
+// the Supported by text above it.
 .funderLink {
   // Matches FUNDER_LOGO_WIDTH in pilotImage.ts.
   --funder-logo-width: 180px;
   display: inline-block;
   margin-top: ds.$space-sm;
   padding: calc(var(--funder-logo-width) * 0.125);
+  padding-left: 0;
   background: var(--brand-white);
 
   &:focus-visible {
