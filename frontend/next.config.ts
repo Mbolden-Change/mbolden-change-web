@@ -55,40 +55,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // The Safety Net Simulator is a self-contained build served from
-  // public/simulator/index.html. Never edit that file by hand; replace it with
-  // a new build. /simulator/ already redirects here (Next's trailing-slash 308).
-  async rewrites() {
-    return [{ source: '/simulator', destination: '/simulator/index.html' }];
-  },
-  // The simulator build compiles its JSX in the browser (Babel) and loads React,
-  // Tailwind and Google Fonts from CDNs, so it needs inline scripts and eval.
-  // This policy allows exactly that, on the simulator only.
-  async headers() {
-    const simulatorHeaders = [
-      {
-        key: 'Content-Security-Policy',
-        value: [
-          "default-src 'self'",
-          "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.tailwindcss.com",
-          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-          "font-src 'self' https://fonts.gstatic.com",
-          "img-src 'self' data: blob:",
-          "connect-src 'self'",
-          "object-src 'none'",
-          "base-uri 'self'",
-          "form-action 'self'",
-          "frame-ancestors 'self'",
-        ].join('; '),
-      },
-      { key: 'X-Content-Type-Options', value: 'nosniff' },
-      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-    ];
-    return [
-      { source: '/simulator', headers: simulatorHeaders },
-      { source: '/simulator/index.html', headers: simulatorHeaders },
-    ];
-  },
 };
 
 export default nextConfig;
