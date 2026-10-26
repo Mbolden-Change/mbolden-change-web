@@ -7,7 +7,12 @@ jest.mock('@/lib/analytics', () => ({isDonateCta: () => false, trackDonateClick:
 jest.mock('@/components/PortableTextComponent', () => ({__esModule: true, default: () => <p>Body copy</p>}))
 jest.mock('@/sanity/lib/image', () => ({
   urlFor: () => {
-    const builder = {width: () => builder, auto: () => builder, url: () => 'https://cdn.test/image.jpg'}
+    const builder = {
+      width: () => builder,
+      fit: () => builder,
+      auto: () => builder,
+      url: () => 'https://cdn.test/image.jpg',
+    }
     return builder
   },
   getDimensionsFromRef: (ref: string) => {
@@ -76,4 +81,31 @@ test('shows the supporter note between the story and the buttons only when set',
   const note = screen.getByText('Supported by a grant from a foundation.')
   const buttons = screen.getByText('Give now')
   expect(note.compareDocumentPosition(buttons) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+})
+
+test('a funder logo links to the funder in a new tab, named by its alt text', () => {
+  render(
+    <PilotDialog
+      {...pilot}
+      supportedBy="Supported by a grant from a foundation."
+      supportedByLogo={{_type: 'image', asset: {_type: 'reference', _ref: 'image-logo-1000x250-png'}, alt: 'A Foundation'}}
+      supportedByLink="https://example.org"
+    />,
+  )
+  const link = screen.getByRole('link', {hidden: true, name: 'A Foundation'})
+  expect(link).toHaveAttribute('href', 'https://example.org')
+  expect(link).toHaveAttribute('target', '_blank')
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  const logo = link.querySelector('img')
+  expect(logo).toHaveAttribute('width', '180')
+  expect(logo).toHaveAttribute('height', '45')
+  expect(screen.getByText('Supported by a grant from a foundation.')).toBeInTheDocument()
+})
+
+test('without a logo the supporter note stays a single line of text', () => {
+  const {container} = render(<PilotDialog {...pilot} supportedBy="Supported by a foundation." />)
+  const note = container.querySelector('[class*="supporter"]')
+  expect(note?.tagName).toBe('P')
+  expect(note).toHaveTextContent('Supported by a foundation.')
+  expect(container.querySelector('a[target="_blank"] img')).toBeNull()
 })

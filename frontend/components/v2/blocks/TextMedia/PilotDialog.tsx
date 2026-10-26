@@ -7,7 +7,7 @@ import type {TextMedia as TextMediaType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
-import {getLogoImage, getPilotImage, getYouTubeId} from './pilotImage'
+import {getFunderLogo, getLogoImage, getPilotImage, getYouTubeId} from './pilotImage'
 import PilotVideo from './PilotVideo'
 import styles from './PilotDialog.module.scss'
 
@@ -48,6 +48,8 @@ export default function PilotDialog({
   ctas,
   accent = 'teal',
   supportedBy: supportedByText,
+  supportedByLogo,
+  supportedByLink,
   ...rest
 }: PilotDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -83,6 +85,10 @@ export default function PilotDialog({
     : WORDS_START
   const paragraphCount = (textBody as PortableTextBlock[] | undefined)?.length ?? 0
   const supportedBy = supportedByText?.trim()
+  // A funder logo shows only with the link it opens.
+  const funderLink = supportedByLink?.trim()
+  const funderLogo = funderLink ? getFunderLogo(supportedByLogo) : null
+  const hasSupporter = Boolean(supportedBy || funderLogo)
   // The supporter note follows the paragraphs; the buttons follow it.
   const supporterDelay = paragraphsStart + paragraphCount * PARAGRAPH_STEP
   const displayText = (
@@ -226,7 +232,7 @@ export default function PilotDialog({
           '--paragraphs-start': `${paragraphsStart}ms`,
           '--paragraph-step': `${PARAGRAPH_STEP}ms`,
           '--supporter-delay': `${supporterDelay}ms`,
-          '--cta-delay': `${supporterDelay + (supportedBy ? PARAGRAPH_STEP : 0)}ms`,
+          '--cta-delay': `${supporterDelay + (hasSupporter ? PARAGRAPH_STEP : 0)}ms`,
         } as CSSProperties
       }
     >
@@ -348,7 +354,28 @@ export default function PilotDialog({
             <PortableTextComponent value={textBody as PortableTextBlock[]} />
           </div>
 
-          {supportedBy && <p className={styles.supporter}>{supportedBy}</p>}
+          {funderLogo ? (
+            <div className={styles.supporter}>
+              {supportedBy && <p className={styles.supporterText}>{supportedBy}</p>}
+              <a
+                href={funderLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.funderLink}
+              >
+                <img
+                  src={funderLogo.src}
+                  alt={funderLogo.alt}
+                  width={funderLogo.width}
+                  height={funderLogo.height}
+                  loading="lazy"
+                  className={styles.funderLogo}
+                />
+              </a>
+            </div>
+          ) : (
+            supportedBy && <p className={styles.supporter}>{supportedBy}</p>
+          )}
 
           {linkedCtas.length > 0 && (
             <div className={styles.ctas}>
