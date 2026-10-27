@@ -217,3 +217,75 @@ describe('a fund link ID in the address', () => {
     expect(window.location.hash).toBe('#top')
   })
 })
+
+describe('funds hidden from the Donate page', () => {
+  const card = (key: string, title: string, linkId: string, extra: Partial<FundCardsType['funds'][number]> = {}) => ({
+    _type: 'fund' as const,
+    _key: key,
+    title,
+    buttonLabel: `Give to ${title}`,
+    lane: 'teal' as const,
+    form: {_type: 'zeffyForm' as const, id: `${linkId}-form`},
+    linkId,
+    ...extra,
+  })
+  const funds: FundCardsType = {
+    _type: 'fundCards',
+    heading: 'Choose Where Your Gift Goes',
+    funds: [
+      card('a', 'Where It’s Needed Most', 'where-needed-most'),
+      card('b', 'The Gateway Fund', 'gateway-fund', {showOnDonatePage: true}),
+      card('c', 'The Basic Needs Fund', 'basic-needs-fund'),
+      card('d', 'The Care Access Fund', 'care-access-fund', {showOnDonatePage: false}),
+      card('e', 'Stories, Systems, Change', 'stories-systems-change', {showOnDonatePage: false}),
+    ],
+  }
+
+  beforeEach(() => {
+    window.history.replaceState(null, '', '/donate')
+    window.matchMedia = jest.fn().mockReturnValue({matches: false}) as unknown as typeof window.matchMedia
+    Element.prototype.scrollIntoView = jest.fn()
+  })
+
+  test('render no card, and a fund with no value for the switch shows', () => {
+    const {container} = render(<FundCards {...funds} />)
+    const titles = [...container.querySelectorAll('li h3')].map((title) => title.textContent)
+    expect(titles).toEqual(['Where It’s Needed Most', 'The Gateway Fund', 'The Basic Needs Fund'])
+    expect(screen.queryByText(/Care Access/)).toBeNull()
+    expect(screen.queryByText(/Stories, Systems, Change/)).toBeNull()
+    expect(container.querySelector('#care-access-fund')).toBeNull()
+    expect(container.querySelector('iframe')).toBeNull()
+  })
+
+  test.each([
+    ['care-access-fund', 'The Care Access Fund'],
+    ['stories-systems-change', 'Stories, Systems, Change'],
+  ])('open from #%s on arrival, scrolled to the cards', (linkId, title) => {
+    window.history.replaceState(null, '', `/donate#${linkId}`)
+    const {container} = render(<FundCards {...funds} />)
+    expect(container.querySelector('dialog')).toHaveAttribute('open')
+    expect(screen.getByRole('heading', {level: 2, name: title})).toBeInTheDocument()
+    expect(container.querySelector('iframe')).toHaveAttribute(
+      'src',
+      `https://www.zeffy.com/embed/donation-form/${linkId}-form`,
+    )
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({behavior: 'smooth', block: 'start'})
+  })
+
+  test('open when the address changes, and closing drops the link ID and focuses the heading', () => {
+    const {container} = render(<FundCards {...funds} />)
+    act(() => {
+      window.history.pushState(null, '', '/donate#care-access-fund')
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+    })
+    expect(container.querySelector('dialog')).toHaveAttribute('open')
+    const entries = window.history.length
+
+    fireEvent.click(screen.getByRole('button', {name: 'Close'}))
+    expect(container.querySelector('dialog')).not.toHaveAttribute('open')
+    expect(container.querySelector('iframe')).toBeNull()
+    expect(window.location.hash).toBe('')
+    expect(window.history.length).toBe(entries)
+    expect(screen.getByRole('heading', {level: 2, name: 'Choose Where Your Gift Goes'})).toHaveFocus()
+  })
+})
