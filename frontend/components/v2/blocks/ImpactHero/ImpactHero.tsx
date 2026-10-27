@@ -10,6 +10,7 @@ import SanityNextImage from '@/components/SanityNextImage';
 import { deriveImpactHero } from './deriveImpactHero';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 import { getPilotImage, getYouTubeId } from '../TextMedia/pilotImage';
+import type { VideoSource } from '../TextMedia/videoSource';
 import FunderLogo, { getFunder } from '../TextMedia/FunderLogo';
 import HeroVideo from './HeroVideo';
 
@@ -72,6 +73,11 @@ function HeroCopy({
 const ImpactHero = (props: ImpactHeroType) => {
   const derived = deriveImpactHero(props);
   const youTubeId = derived.videoEmbed?.isShort ? null : getYouTubeId(props.media.videoUrl);
+  const clickToPlay: VideoSource | null = derived.muxPlaybackId
+    ? { kind: 'mux', playbackId: derived.muxPlaybackId }
+    : youTubeId
+      ? { kind: 'youtube', videoId: youTubeId }
+      : null;
   const videoTitle = props.media.videoTitle?.trim() || props.heading || 'Video';
   const supportedBy = props.supportedBy?.trim();
   const funder = getFunder(props.supportedByLogo, props.supportedByLink);
@@ -97,9 +103,9 @@ const ImpactHero = (props: ImpactHeroType) => {
         />
         {derived.hasMedia && (
           <div className={classNames(styles.mediaColumn, styles.rv, styles.d2)}>
-            {youTubeId ? (
+            {clickToPlay ? (
               <HeroVideo
-                videoId={youTubeId}
+                source={clickToPlay}
                 title={videoTitle}
                 cover={getPilotImage(props.media.videoCover)}
               />

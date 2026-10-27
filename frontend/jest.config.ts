@@ -94,6 +94,7 @@ const config: Config = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '^@mux/mux-player-react/lazy$': '<rootDir>/__mocks__/muxPlayerLazy.tsx',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

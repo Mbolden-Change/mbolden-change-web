@@ -2,10 +2,12 @@
 
 import {useEffect, useRef, type CSSProperties} from 'react'
 import {getPilotImage, youTubeEmbedUrl} from './pilotImage'
+import type {VideoSource} from './videoSource'
+import MuxVideo from './MuxVideo'
 import styles from './PilotDialog.module.scss'
 
 type PilotVideoProps = {
-  videoId: string
+  source: VideoSource
   title: string
   cover: ReturnType<typeof getPilotImage>
   playing: boolean
@@ -13,15 +15,15 @@ type PilotVideoProps = {
 }
 
 /**
- * Click-to-load YouTube video for a pilot pop-up. Until someone presses play,
- * only our cover (or a brand panel) is shown and nothing loads from YouTube.
- * The player itself sits in an unclipped frame so YouTube's controls show.
+ * Click-to-load YouTube or Mux video for a pilot pop-up. Until someone presses
+ * play, only our cover (or a brand panel) is shown and nothing loads from
+ * YouTube or Mux. The player sits in an unclipped frame so its controls show.
  */
-export default function PilotVideo({videoId, title, cover, playing, onPlay}: PilotVideoProps) {
+export default function PilotVideo({source, title, cover, playing, onPlay}: PilotVideoProps) {
   const frameRef = useRef<HTMLDivElement>(null)
 
-  // Focus lands on the player's frame, not inside YouTube's iframe, so Escape
-  // still closes the pop-up; one Tab reaches YouTube's controls.
+  // Focus lands on the player's frame, not inside the player, so Escape still
+  // closes the pop-up; one Tab reaches the player's controls.
   useEffect(() => {
     if (playing) frameRef.current?.focus()
   }, [playing])
@@ -35,12 +37,16 @@ export default function PilotVideo({videoId, title, cover, playing, onPlay}: Pil
         aria-label={title}
         tabIndex={-1}
       >
-        <iframe
-          src={youTubeEmbedUrl(videoId)}
-          title={title}
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
+        {source.kind === 'mux' ? (
+          <MuxVideo playbackId={source.playbackId} title={title} poster={cover?.src} />
+        ) : (
+          <iframe
+            src={youTubeEmbedUrl(source.videoId)}
+            title={title}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+        )}
       </div>
     )
   }

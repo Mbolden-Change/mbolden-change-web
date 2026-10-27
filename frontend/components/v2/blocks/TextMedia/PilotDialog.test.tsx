@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import PilotDialog from './PilotDialog'
 import {getPilotImage} from './pilotImage'
 import type {TextMedia as TextMediaType} from '@/sanity/types'
@@ -108,4 +108,31 @@ test('without a logo the supporter note stays a single line of text', () => {
   expect(note?.tagName).toBe('P')
   expect(note).toHaveTextContent('Supported by a foundation.')
   expect(container.querySelector('a[target="_blank"] img')).toBeNull()
+})
+
+const MUX_ID = 'CiP7O9em3lzgEir017eprS6j9vVZtWczhsfAF1T7z400Q'
+
+test('a pop-up Mux video plays from Mux after one click, ignoring the YouTube URL', () => {
+  const {container} = render(
+    <PilotDialog
+      {...pilot}
+      video={{url: 'https://youtu.be/abc123', muxPlaybackId: MUX_ID, title: 'The Gateway Fund video'}}
+    />,
+  )
+  expect(screen.queryByTestId('mux-player')).toBeNull()
+  fireEvent.click(screen.getByRole('button', {hidden: true, name: 'Play video: The Gateway Fund video'}))
+  const player = screen.getByTestId('mux-player')
+  expect(player).toHaveAttribute('data-playback-id', MUX_ID)
+  expect(player).toHaveAttribute('data-video-title', 'The Gateway Fund video')
+  expect(container.querySelector('iframe')).toBeNull()
+})
+
+test('a pop-up without a Mux playback ID plays the YouTube video as before', () => {
+  const {container} = render(<PilotDialog {...pilot} video={{url: 'https://youtu.be/abc123'}} />)
+  fireEvent.click(screen.getByRole('button', {hidden: true, name: `Play video: ${pilot.headline}`}))
+  expect(screen.queryByTestId('mux-player')).toBeNull()
+  expect(container.querySelector('iframe')).toHaveAttribute(
+    'src',
+    'https://www.youtube-nocookie.com/embed/abc123?autoplay=1&rel=0&playsinline=1',
+  )
 })
