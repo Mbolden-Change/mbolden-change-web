@@ -18,7 +18,7 @@ export default function FeaturedGuide({
   note,
   previewHeading,
   previewItems,
-  previewNote,
+  scoreMessages,
 }: FeaturedGuideType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.15)
   const id = useId()
@@ -77,8 +77,8 @@ export default function FeaturedGuide({
             <div className={styles.miniMeter} aria-hidden="true">
               <b style={{width: `${Math.round((done / items.length) * 100)}%`}} />
             </div>
-            <span className={styles.miniLabel}>
-              {done} of {items.length} here.{previewNote ? ` ${previewNote}` : ''}
+            <span className={styles.miniLabel} aria-live="polite">
+              You checked {done} of {items.length}.{scoreMessages?.[done] ? ` ${scoreMessages[done]}` : ''}
             </span>
           </div>
         )}
