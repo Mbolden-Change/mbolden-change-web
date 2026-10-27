@@ -17,6 +17,9 @@ type Fund = NonNullable<FundCardsType['funds']>[number]
 const showable = (funds: FundCardsType['funds']) =>
   (funds ?? []).filter((fund) => fund.title && zeffyPageUrl(fund.form))
 
+/** Funds with a card. Hidden funds open only from their link ID; no value counts as shown. */
+const onCards = (funds: Fund[]) => funds.filter((fund) => fund.showOnDonatePage !== false)
+
 /** The fund whose link ID is in the address, such as /donate#gateway-fund. */
 const fundForHash = (funds: Fund[]) => {
   const id = window.location.hash.slice(1)
@@ -24,23 +27,27 @@ const fundForHash = (funds: Fund[]) => {
 }
 
 /**
- * A card per fund. Each button opens the fund's Zeffy form in a pop-up. An
- * address ending in a fund's link ID, such as /donate#gateway-fund, scrolls
+ * A card per shown fund. Each button opens the fund's Zeffy form in a pop-up.
+ * An address ending in a fund's link ID, such as /donate#gateway-fund, scrolls
  * here and opens that fund's pop-up, on arrival or from a link on the page.
+ * Hidden funds have no card but open the same way from their link ID.
  */
 export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.15)
   const dialogRef = useRef<FundDialogHandle>(null)
+  const headingRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
     if (!heading) return
     const openFromHash = () => {
       const fund = fundForHash(showable(funds))
-      const button = fund && document.getElementById(fund.linkId!)?.querySelector('button')
-      if (!fund || !button) return
+      if (!fund) return
+      // A hidden fund has no button, so focus returns to the heading.
+      const opener = document.getElementById(fund.linkId!)?.querySelector('button') ?? headingRef.current
+      if (!opener) return
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       ref.current?.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'})
-      dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, button)
+      dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, opener)
     }
     openFromHash()
     window.addEventListener('hashchange', openFromHash)
@@ -48,12 +55,13 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
   }, [heading, funds, ref])
 
   if (!heading) return null
-  const cards = showable(funds)
+  const all = showable(funds)
+  const cards = onCards(all)
 
   // Drops the fund's link ID from the address on close, without a new
   // history entry, so Back goes to the previous page, not a re-opened pop-up.
   const clearHash = () => {
-    if (!fundForHash(cards)) return
+    if (!fundForHash(all)) return
     const {pathname, search} = window.location
     window.history.replaceState(window.history.state, '', pathname + search)
   }
@@ -71,7 +79,9 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
               {eyebrow}
             </p>
           )}
-          <h2 className={classNames(styles.h2, styles.rv, styles.d1)}>{heading}</h2>
+          <h2 ref={headingRef} tabIndex={-1} className={classNames(styles.h2, styles.rv, styles.d1)}>
+            {heading}
+          </h2>
         </div>
         <ul className={styles.fundGrid}>
           {cards.map((fund, index) => (

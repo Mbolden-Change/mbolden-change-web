@@ -372,10 +372,11 @@ export type FundCards = {
   funds: Array<{
     title: string;
     text?: string;
-    buttonLabel: string;
+    buttonLabel?: string;
     lane: "black" | "yellow" | "teal" | "fuchsia";
     form: ZeffyForm;
     linkId?: string;
+    showOnDonatePage?: boolean;
     _type: "fund";
     _key: string;
   }>;

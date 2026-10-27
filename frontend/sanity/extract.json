@@ -2434,7 +2434,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": false
+                  "optional": true
                 },
                 "lane": {
                   "type": "objectAttribute",
@@ -2473,6 +2473,13 @@
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
+                  },
+                  "optional": true
+                },
+                "showOnDonatePage": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "boolean"
                   },
                   "optional": true
                 },

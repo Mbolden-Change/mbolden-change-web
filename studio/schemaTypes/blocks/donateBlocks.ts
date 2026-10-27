@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {fundsErrors, isShown} from './fundRules'
 
 /** A Zeffy donation form, by the last part of its Zeffy address. */
 export const zeffyFormType = defineType({
@@ -136,8 +137,8 @@ export const fundCardsType = defineType({
         Rule.required()
           .min(1)
           .custom((value) => {
-            const ids = ((value ?? []) as Array<{linkId?: string}>).map((fund) => fund.linkId).filter(Boolean)
-            return new Set(ids).size === ids.length ? true : 'Link IDs must be unique in this block.'
+            const errors = fundsErrors(value as Parameters<typeof fundsErrors>[0])
+            return errors.length ? errors : true
           }),
       of: [
         defineArrayMember({
@@ -152,7 +153,13 @@ export const fundCardsType = defineType({
               title: 'Button text',
               type: 'string',
               description: 'Such as “Give to the Gateway Fund”.',
-              validation: (Rule) => Rule.required(),
+              // Only a card has a button, so a hidden fund can leave it empty.
+              validation: (Rule) =>
+                Rule.custom((value, context) =>
+                  value?.trim() || !isShown((context.parent ?? {}) as {showOnDonatePage?: boolean})
+                    ? true
+                    : 'Required',
+                ),
             }),
             defineField({
               name: 'lane',
@@ -178,9 +185,21 @@ export const fundCardsType = defineType({
               validation: (Rule) =>
                 Rule.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).error('Use lowercase letters, numbers and hyphens.'),
             }),
+            defineField({
+              name: 'showOnDonatePage',
+              title: 'Show on Donate page',
+              type: 'boolean',
+              initialValue: true,
+              description:
+                "Off: no card on the Donate page, but links to /donate#<link ID> still open this fund's form. Up to 3 funds can be shown.",
+            }),
           ],
           preview: {
-            select: {title: 'title', subtitle: 'form.id'},
+            select: {title: 'title', form: 'form.id', showOnDonatePage: 'showOnDonatePage'},
+            prepare: ({title, form, showOnDonatePage}) => ({
+              title,
+              subtitle: isShown({showOnDonatePage}) ? form : 'Hidden',
+            }),
           },
         }),
       ],
