@@ -7,7 +7,8 @@ import type {TextMedia as TextMediaType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
-import {getLogoImage, getPilotImage, getYouTubeId} from './pilotImage'
+import {getLogoImage, getPilotImage} from './pilotImage'
+import {getVideoSource} from './videoSource'
 import FunderLogo, {getFunder} from './FunderLogo'
 import PilotVideo from './PilotVideo'
 import styles from './PilotDialog.module.scss'
@@ -65,13 +66,14 @@ export default function PilotDialog({
     (rest as {documentFile?: PilotDocumentFile}).documentFile,
   )
   // A video replaces the image; a logo is shown whole instead of as a photo.
-  const videoId = getYouTubeId(rest.video?.url)
+  // A Mux playback ID wins over the YouTube URL.
+  const video = getVideoSource(rest.video?.muxPlaybackId, rest.video?.url)
   const videoTitle = rest.video?.title?.trim() || headline
-  const isLogo = !videoId && rest.imageStyle === 'logo'
+  const isLogo = !video && rest.imageStyle === 'logo'
   const logo = isLogo ? getLogoImage(derived.showImage ? derived.image : undefined) : null
   const image =
-    videoId || isLogo ? null : getPilotImage(derived.showImage ? derived.image : undefined)
-  const hasMedia = Boolean(videoId || logo || image)
+    video || isLogo ? null : getPilotImage(derived.showImage ? derived.image : undefined)
+  const hasMedia = Boolean(video || logo || image)
   const words = displayLine?.trim().split(/\s+/) ?? []
   const wordStep =
     words.length > 1 ? Math.min(WORD_STEP_MAX, WORDS_SPAN / (words.length - 1)) : 0
@@ -250,14 +252,14 @@ export default function PilotDialog({
         className={classNames(
           styles.layout,
           !hasMedia && styles.noImage,
-          (videoId || image?.orientation === 'landscape') && styles.landscape,
-          videoId && styles.hasVideo,
+          (video || image?.orientation === 'landscape') && styles.landscape,
+          video && styles.hasVideo,
         )}
       >
-        {videoId && (
+        {video && (
           <div className={styles.media}>
             <PilotVideo
-              videoId={videoId}
+              source={video}
               title={videoTitle}
               cover={getPilotImage(rest.video?.cover)}
               playing={playing}

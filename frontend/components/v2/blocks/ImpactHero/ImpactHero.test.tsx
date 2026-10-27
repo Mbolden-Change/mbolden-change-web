@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ImpactHero from './ImpactHero';
 import type { ImpactHero as ImpactHeroType } from '@/sanity/types';
 
@@ -57,4 +57,49 @@ test('without a logo the Supported by line stays a single line of text', () => {
   expect(note?.tagName).toBe('P');
   expect(note).toHaveTextContent(hero.supportedBy!);
   expect(container.querySelector('a[target="_blank"]')).toBeNull();
+});
+
+const MUX_ID = 'CiP7O9em3lzgEir017eprS6j9vVZtWczhsfAF1T7z400Q';
+const cover = { _type: 'image' as const, asset: { _type: 'reference' as const, _ref: 'image-cover-1600x900-jpg' } };
+
+test('a Mux video shows the cover first and plays from Mux in one click, ignoring the YouTube URL', () => {
+  const { container } = render(
+    <ImpactHero
+      {...hero}
+      media={{
+        muxPlaybackId: MUX_ID,
+        videoUrl: 'https://www.youtube.com/watch?v=abc123',
+        videoCover: cover,
+        videoTitle: 'The Gateway Fund video',
+      }}
+    />,
+  );
+  expect(screen.queryByTestId('mux-player')).toBeNull();
+  expect(container.querySelector('iframe')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Play video: The Gateway Fund video' }));
+  const player = screen.getByTestId('mux-player');
+  expect(player).toHaveAttribute('data-playback-id', MUX_ID);
+  expect(player).toHaveAttribute('data-video-title', 'The Gateway Fund video');
+  expect(player).toHaveAttribute('data-autoplay', 'true');
+  expect(player).toHaveAttribute('data-poster', 'https://cdn.test/logo.png');
+  expect(container.querySelector('iframe')).toBeNull();
+  expect(screen.getByRole('group', { name: 'The Gateway Fund video' })).toHaveFocus();
+});
+
+test('a Mux video replaces the hero image', () => {
+  render(<ImpactHero {...hero} media={{ ...hero.media, muxPlaybackId: MUX_ID }} />);
+  expect(screen.queryByAltText('Hero photo')).toBeNull();
+  expect(screen.getByRole('button', { name: `Play video: ${hero.heading}` })).toBeInTheDocument();
+});
+
+test('without a Mux playback ID the YouTube video plays as before', () => {
+  const { container } = render(
+    <ImpactHero {...hero} media={{ videoUrl: 'https://www.youtube.com/watch?v=abc123', videoTitle: 'A video' }} />,
+  );
+  fireEvent.click(screen.getByRole('button', { name: 'Play video: A video' }));
+  expect(screen.queryByTestId('mux-player')).toBeNull();
+  expect(container.querySelector('iframe')).toHaveAttribute(
+    'src',
+    'https://www.youtube-nocookie.com/embed/abc123?autoplay=1&rel=0&playsinline=1',
+  );
 });

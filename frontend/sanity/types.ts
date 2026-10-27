@@ -987,6 +987,7 @@ export type ImpactHero = {
       _type: "image";
     };
     videoUrl?: string;
+    muxPlaybackId?: string;
     videoCover?: {
       asset?: {
         _ref: string;
@@ -1097,6 +1098,7 @@ export type TextMedia = {
   imageStyle?: "photo" | "logo";
   video?: {
     url?: string;
+    muxPlaybackId?: string;
     title?: string;
     cover?: {
       asset?: {

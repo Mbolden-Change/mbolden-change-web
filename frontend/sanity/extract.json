@@ -6491,6 +6491,13 @@
                 },
                 "optional": true
               },
+              "muxPlaybackId": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
               "videoCover": {
                 "type": "objectAttribute",
                 "value": {
@@ -7276,6 +7283,13 @@
             "type": "object",
             "attributes": {
               "url": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "muxPlaybackId": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "string"

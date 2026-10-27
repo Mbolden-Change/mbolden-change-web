@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {supportedByLogoFields} from '../fields/supportedByLogo'
+import {muxPlaybackIdField} from '../fields/muxPlaybackId'
 
 const isPilot = (parent?: {appearance?: string}) =>
   parent?.appearance === 'featuredPilot' || parent?.appearance === 'pilotDialog'
@@ -189,7 +190,7 @@ export const textMedia = defineType({
       title: 'Pop-up video',
       type: 'object',
       description:
-        'Optional YouTube video for the pop-up. It replaces the image as a wide banner. Nothing loads from YouTube until someone presses play.',
+        'Optional YouTube or Mux video for the pop-up. It replaces the image as a wide banner. Nothing loads from YouTube or Mux until someone presses play.',
       hidden: ({parent}) => parent?.appearance !== 'pilotDialog',
       options: {collapsible: true, collapsed: false},
       fields: [
@@ -205,6 +206,7 @@ export const textMedia = defineType({
                 : 'Use a YouTube link.',
             ),
         }),
+        muxPlaybackIdField(),
         defineField({
           name: 'title',
           title: 'Video title',

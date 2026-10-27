@@ -2,19 +2,21 @@
 
 import {useEffect, useRef, useState, type CSSProperties} from 'react'
 import {getPilotImage, youTubeEmbedUrl} from '../TextMedia/pilotImage'
+import type {VideoSource} from '../TextMedia/videoSource'
+import MuxVideo from '../TextMedia/MuxVideo'
 import styles from './ImpactHero.module.scss'
 
 type HeroVideoProps = {
-  videoId: string
+  source: VideoSource
   title: string
   cover: ReturnType<typeof getPilotImage>
 }
 
 /**
- * Click-to-load YouTube video, as in the pilot pop-ups: until someone presses
- * play only our cover shows and nothing loads from YouTube.
+ * Click-to-load YouTube or Mux video, as in the pilot pop-ups: until someone
+ * presses play only our cover shows and nothing loads from YouTube or Mux.
  */
-export default function HeroVideo({videoId, title, cover}: HeroVideoProps) {
+export default function HeroVideo({source, title, cover}: HeroVideoProps) {
   const [playing, setPlaying] = useState(false)
   const frameRef = useRef<HTMLDivElement>(null)
 
@@ -25,12 +27,16 @@ export default function HeroVideo({videoId, title, cover}: HeroVideoProps) {
   if (playing) {
     return (
       <div ref={frameRef} className={styles.player} role="group" aria-label={title} tabIndex={-1}>
-        <iframe
-          src={youTubeEmbedUrl(videoId)}
-          title={title}
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
+        {source.kind === 'mux' ? (
+          <MuxVideo playbackId={source.playbackId} title={title} poster={cover?.src} />
+        ) : (
+          <iframe
+            src={youTubeEmbedUrl(source.videoId)}
+            title={title}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+        )}
       </div>
     )
   }

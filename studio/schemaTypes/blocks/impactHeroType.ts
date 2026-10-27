@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {supportedByLogoFields} from '../fields/supportedByLogo'
+import {muxPlaybackIdField} from '../fields/muxPlaybackId'
 
 export const impactHeroType = defineType({
   name: 'impactHero',
@@ -54,7 +55,7 @@ export const impactHeroType = defineType({
           type: 'image',
           options: {hotspot: true},
           description: 'Hero image.',
-          hidden: ({parent}) => !!parent?.videoUrl,
+          hidden: ({parent}) => !!parent?.videoUrl || !!parent?.muxPlaybackId,
           fields: [
             defineField({
               name: 'alt',
@@ -73,14 +74,15 @@ export const impactHeroType = defineType({
           description: 'YouTube or Vimeo URL. Supports standard videos and YouTube Shorts.',
           hidden: ({parent}) => !!parent?.image,
         }),
+        muxPlaybackIdField({hidden: ({parent}) => !!parent?.image}),
         defineField({
           name: 'videoCover',
           title: 'Video cover image',
           type: 'image',
           options: {hotspot: true},
           description:
-            'Optional, for YouTube videos. Shown with a play button; nothing loads from YouTube until someone presses play. Without one, a black panel with the video title is shown.',
-          hidden: ({parent}) => !parent?.videoUrl,
+            'Optional, for YouTube and Mux videos. Shown with a play button; nothing loads from YouTube or Mux until someone presses play. Without one, a black panel with the video title is shown.',
+          hidden: ({parent}) => !parent?.videoUrl && !parent?.muxPlaybackId,
           fields: [
             defineField({
               name: 'alt',
@@ -96,7 +98,7 @@ export const impactHeroType = defineType({
           type: 'string',
           description:
             'Used for the play button label and the player, such as “The Gateway Fund video”. Defaults to the heading.',
-          hidden: ({parent}) => !parent?.videoUrl,
+          hidden: ({parent}) => !parent?.videoUrl && !parent?.muxPlaybackId,
         }),
       ],
     }),
@@ -129,9 +131,10 @@ export const impactHeroType = defineType({
       subheading: 'subheading',
       mediaImage: 'media.image',
       videoUrl: 'media.videoUrl',
+      muxPlaybackId: 'media.muxPlaybackId',
     },
-    prepare({heading, eyebrow, subheading, mediaImage, videoUrl}) {
-      const mediaLabel = videoUrl ? 'Video hero' : 'Image hero'
+    prepare({heading, eyebrow, subheading, mediaImage, videoUrl, muxPlaybackId}) {
+      const mediaLabel = videoUrl || muxPlaybackId ? 'Video hero' : 'Image hero'
       return {
         title: heading ? `Impact Hero — ${heading}` : 'Impact Hero',
         subtitle: [eyebrow, mediaLabel, subheading].filter(Boolean).join(' · '),

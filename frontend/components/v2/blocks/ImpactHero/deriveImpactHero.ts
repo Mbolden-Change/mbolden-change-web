@@ -1,5 +1,6 @@
 import type { ImpactHero } from '@/sanity/types';
 import { parseVideoUrl } from '@/lib/parseVideoUrl';
+import { getMuxPlaybackId } from '../TextMedia/videoSource';
 import { isRenderableInternalOrExternalLink } from '@/utils/internalOrExternalLink';
 
 /**
@@ -7,16 +8,19 @@ import { isRenderableInternalOrExternalLink } from '@/utils/internalOrExternalLi
  */
 export function deriveImpactHero(props: ImpactHero) {
   const mediaPosition = props.mediaPosition ?? 'right';
-  const videoEmbed = parseVideoUrl(props.media.videoUrl);
+  // A Mux playback ID wins; the YouTube or Vimeo URL is then ignored.
+  const muxPlaybackId = getMuxPlaybackId(props.media.muxPlaybackId);
+  const videoEmbed = muxPlaybackId ? null : parseVideoUrl(props.media.videoUrl);
   const image = props.media.image;
-  const showImage = Boolean(image?.asset?._ref && !videoEmbed);
-  const hasMedia = Boolean(videoEmbed || showImage);
+  const showImage = Boolean(image?.asset?._ref && !videoEmbed && !muxPlaybackId);
+  const hasMedia = Boolean(muxPlaybackId || videoEmbed || showImage);
   const showCta1 = isRenderableInternalOrExternalLink(props.cta1);
   const showCta2 = isRenderableInternalOrExternalLink(props.cta2);
 
   return {
     mediaPosition,
     isMediaLeft: mediaPosition === 'left',
+    muxPlaybackId,
     videoEmbed,
     image,
     showImage,
