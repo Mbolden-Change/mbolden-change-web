@@ -2276,10 +2276,13 @@
           },
           "optional": true
         },
-        "previewNote": {
+        "scoreMessages": {
           "type": "objectAttribute",
           "value": {
-            "type": "string"
+            "type": "array",
+            "of": {
+              "type": "string"
+            }
           },
           "optional": true
         }

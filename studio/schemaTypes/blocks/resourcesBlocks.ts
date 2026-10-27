@@ -35,10 +35,21 @@ export const featuredGuideType = defineType({
       ],
     }),
     defineField({
-      name: 'previewNote',
-      title: 'Checklist note',
-      type: 'string',
-      description: 'Follows “1 of 3 here.”, such as “The full guide has six areas to work through.”',
+      name: 'scoreMessages',
+      title: 'Message for each score',
+      type: 'array',
+      of: [defineArrayMember({type: 'string'})],
+      description:
+        'One message per score, in order: the first shows when nothing is ticked, the second when one is ticked, and so on. Add one more message than there are checklist items.',
+      validation: (Rule) =>
+        Rule.custom((messages, context) => {
+          if (!messages) return true
+          const items = (context.parent as {previewItems?: unknown[]} | undefined)?.previewItems ?? []
+          const needed = items.length + 1
+          return messages.length === needed
+            ? true
+            : `Add ${needed} messages: one for each score from 0 to ${items.length}.`
+        }),
     }),
   ],
   preview: {select: {title: 'heading'}, prepare: ({title}) => ({title: `Featured Guide — ${title ?? ''}`})},

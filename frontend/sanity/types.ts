@@ -347,7 +347,7 @@ export type FeaturedGuide = {
     _type: "previewItem";
     _key: string;
   }>;
-  previewNote?: string;
+  scoreMessages?: Array<string>;
 };
 
 export type GivingOptions = {
