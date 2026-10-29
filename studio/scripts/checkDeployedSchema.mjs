@@ -29,9 +29,12 @@ export function expectedNames(extract) {
 }
 
 export function missingNames(extract, deployedText) {
+  // The deployed schema is stored as JSON text inside the listing's JSON, so
+  // its quotes arrive escaped (\"invite\"). Unescape them before searching.
+  const text = deployedText.replace(/\\"/g, '"')
   return expectedNames(extract).filter((name) => {
     const last = name.split('.').pop()
-    return !deployedText.includes(JSON.stringify(last))
+    return !text.includes(JSON.stringify(last))
   })
 }
 
