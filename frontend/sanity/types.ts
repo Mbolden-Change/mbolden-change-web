@@ -13,39 +13,6 @@
  */
 
 // Source: schema.json
-export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
-  title?: string;
-};
-
-export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
-};
-
-export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
 export type PageBuilder = Array<{
   _key: string;
 } & PageHeader | {
@@ -2411,12 +2378,67 @@ export type InternalOrExternalLink = {
   };
 };
 
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+export type PdfDocument = {
+  _id: string;
+  _type: "pdfDocument";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  file: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+};
+
+export type NewsItem = {
+  _id: string;
+  _type: "newsItem";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  kind: "statement" | "ourLetter" | "coalitionLetter" | "announcement";
+  title: string;
+  date: string;
+  datePrecision?: "day" | "month";
+  issue: string;
+  summary?: string;
+  details?: string;
+  linkLabel?: string;
+  link?: string;
+};
+
+export type SanityImagePaletteSwatch = {
+  _type: "sanity.imagePaletteSwatch";
+  background?: string;
+  foreground?: string;
+  population?: number;
+  title?: string;
+};
+
+export type SanityImagePalette = {
+  _type: "sanity.imagePalette";
+  darkMuted?: SanityImagePaletteSwatch;
+  lightVibrant?: SanityImagePaletteSwatch;
+  darkVibrant?: SanityImagePaletteSwatch;
+  vibrant?: SanityImagePaletteSwatch;
+  dominant?: SanityImagePaletteSwatch;
+  lightMuted?: SanityImagePaletteSwatch;
+  muted?: SanityImagePaletteSwatch;
+};
+
+export type SanityImageDimensions = {
+  _type: "sanity.imageDimensions";
+  height?: number;
+  width?: number;
+  aspectRatio?: number;
 };
 
 export type SanityImageHotspot = {
@@ -2425,6 +2447,36 @@ export type SanityImageHotspot = {
   y?: number;
   height?: number;
   width?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityFileAsset = {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
 };
 
 export type SanityImageAsset = {
@@ -2461,46 +2513,17 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type PdfDocument = {
-  _id: string;
-  _type: "pdfDocument";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  slug: Slug;
-  file: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
-  };
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
 };
 
-export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
 };
 
 export type SanityAssetSourceData = {
@@ -2510,28 +2533,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
-export type NewsItem = {
-  _id: string;
-  _type: "newsItem";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  kind: "statement" | "ourLetter" | "coalitionLetter" | "announcement";
-  title: string;
-  date: string;
-  datePrecision?: "day" | "month";
-  issue: string;
-  summary?: string;
-  details?: string;
-  linkLabel?: string;
-  link?: string;
-};
-
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityImageMetadata | PdfDocument | SanityFileAsset | SanityAssetSourceData | Slug | NewsItem;
+export type AllSanitySchemaTypes = PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | PdfDocument | NewsItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;

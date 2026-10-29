@@ -29,7 +29,6 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          # The pinned schema CLI below needs Node 22.12 or later.
           node-version: 22
           cache: npm
           cache-dependency-path: studio/package-lock.json
@@ -38,7 +37,10 @@ jobs:
         run: npm ci
 
       - name: Deploy Studio
-        # package.json deploy script uses --yes --url so CI is non-interactive.
+        # package.json deploy script uses --yes --url so CI is non-interactive,
+        # and --schema-required so the deploy fails if the schema isn't stored.
+        # Tools that check content against the deployed schema (such as the
+        # Sanity connector) reject fields it doesn't have.
         run: npm run deploy
         env:
           # Robot token with permission to deploy the Studio.
@@ -47,22 +49,12 @@ jobs:
           # The hosted Studio (deployed from main) targets the production dataset.
           SANITY_STUDIO_DATASET: production
 
-      - name: Deploy schema
-        # `sanity deploy` only deploys the schema from sanity 3.88, and this
-        # Studio is on 3.87, so a pinned newer CLI deploys it. Tools that check
-        # content against the deployed schema (such as the Sanity connector)
-        # reject fields it doesn't have.
-        run: npx -y sanity@6.19.0 schemas deploy --workspace default
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}
-          SANITY_STUDIO_DATASET: production
-
       - name: Check the deployed schema
         # Fails the run, naming what's missing, if any type or field in
         # studio/schemaTypes didn't reach the deployed schema.
         run: |
           npx sanity schema extract --path "$RUNNER_TEMP/local-schema.json"
-          npx -y sanity@6.19.0 schemas list --id _.schemas.default --json > "$RUNNER_TEMP/deployed-schema.json"
+          npx sanity schema list --id _.schemas.default --json > "$RUNNER_TEMP/deployed-schema.json"
           node scripts/checkDeployedSchema.mjs "$RUNNER_TEMP/local-schema.json" "$RUNNER_TEMP/deployed-schema.json"
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}

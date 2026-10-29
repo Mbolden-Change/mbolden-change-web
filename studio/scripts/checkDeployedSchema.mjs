@@ -4,7 +4,7 @@
 //
 // Usage: node scripts/checkDeployedSchema.mjs <local-extract.json> <deployed.json>
 //   local-extract.json: output of `sanity schema extract`
-//   deployed.json:      output of `sanity schemas list --id _.schemas.default --json`
+//   deployed.json:      output of `sanity schema list --id _.schemas.default --json`
 //
 // The deployed format differs from the extract format, so this only checks
 // that each name appears in it as a JSON string. Exits 1 and lists what's
