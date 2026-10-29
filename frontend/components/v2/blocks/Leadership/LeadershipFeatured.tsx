@@ -5,6 +5,7 @@ import type {CSSProperties} from 'react'
 import type {Leadership as LeadershipType, Person} from '@/sanity/types'
 import {getPilotImage} from '../TextMedia/pilotImage'
 import {useScrollReveal} from '../../motion/useScrollReveal'
+import LeadershipInvite from './LeadershipInvite'
 import styles from './LeadershipFeatured.module.scss'
 
 const DELAYS = [styles.d3, styles.d4]
@@ -27,9 +28,10 @@ function ProfileLink({person}: {person: Person}) {
 
 /**
  * About page leadership: a large card for each featured person (headshot,
- * role, name, bio, link), then groups such as the board and advisors.
+ * role, name, bio, link), then groups such as the board and advisors, then
+ * an optional button that opens an invitation pop-up.
  */
-export default function LeadershipFeatured({eyebrow, title, people, groups}: LeadershipType) {
+export default function LeadershipFeatured({eyebrow, title, people, groups, invite}: LeadershipType) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.1)
 
   return (
@@ -89,6 +91,12 @@ export default function LeadershipFeatured({eyebrow, title, people, groups}: Lea
               </ul>
             </div>
           ) : null,
+        )}
+
+        {invite?.buttonLabel?.trim() && (
+          <div className={classNames(styles.rv, styles.d4)}>
+            <LeadershipInvite {...invite} />
+          </div>
         )}
       </div>
     </section>

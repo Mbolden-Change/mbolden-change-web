@@ -69,6 +69,92 @@ export const leadershipType = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'invite',
+      title: 'Invitation pop-up',
+      type: 'object',
+      description:
+        'Featured layout only. A button after the groups that opens a pop-up, such as an invitation to join the board. Leave empty to show no button.',
+      hidden: ({parent}) => parent?.layout !== 'featured',
+      options: {collapsible: true, collapsed: true},
+      fields: [
+        defineField({
+          name: 'buttonLabel',
+          title: 'Button label',
+          type: 'string',
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              const invite = context.parent as Record<string, unknown> | undefined
+              const anySet = Object.entries(invite ?? {}).some(
+                ([key, field]) => key !== '_type' && key !== 'buttonLabel' && field,
+              )
+              return anySet && !value?.trim() ? 'Add a button label, or clear the pop-up fields.' : true
+            }),
+        }),
+        defineField({name: 'heading', title: 'Heading', type: 'string'}),
+        defineField({
+          name: 'body',
+          title: 'Body',
+          type: 'array',
+          description: 'Paragraphs, with bold, italic and links.',
+          of: [
+            defineArrayMember({
+              type: 'block',
+              styles: [{title: 'Normal', value: 'normal'}],
+              lists: [],
+              marks: {
+                decorators: [
+                  {title: 'Bold', value: 'strong'},
+                  {title: 'Italic', value: 'em'},
+                ],
+              },
+            }),
+          ],
+        }),
+        defineField({
+          name: 'closingLine',
+          title: 'Closing line',
+          type: 'array',
+          description: 'Shown above the email address, such as “Ready to take action? Introduce yourself to Minh.”',
+          of: [
+            defineArrayMember({
+              type: 'block',
+              styles: [{title: 'Normal', value: 'normal'}],
+              lists: [],
+              marks: {
+                decorators: [
+                  {title: 'Bold', value: 'strong'},
+                  {title: 'Italic', value: 'em'},
+                ],
+                annotations: [],
+              },
+            }),
+          ],
+        }),
+        defineField({
+          name: 'email',
+          title: 'Email address',
+          type: 'string',
+          description: 'Shown as text and as an email link, with a Copy button.',
+          validation: (Rule) => Rule.email().error('Enter a valid email address.'),
+        }),
+        defineField({
+          name: 'emailSubject',
+          title: 'Email subject',
+          type: 'string',
+          description: 'Optional. When set, pre-fills the subject of the email link.',
+        }),
+        defineField({
+          name: 'sectionId',
+          title: 'Section ID',
+          type: 'string',
+          description:
+            'Optional. Lowercase words separated by hyphens, such as shape-the-future. The address /about#shape-the-future opens the pop-up, and so does any link to that section.',
+          validation: (Rule) =>
+            Rule.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).error('Use lowercase letters, numbers, and hyphens.'),
+        }),
+      ],
+    }),
   ],
   preview: {
     select: {title: 'title', people: 'people'},
