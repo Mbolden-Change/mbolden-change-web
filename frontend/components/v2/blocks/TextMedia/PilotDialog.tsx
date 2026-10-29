@@ -1,6 +1,6 @@
 'use client'
 
-import {useCallback, useEffect, useRef, useState, type CSSProperties} from 'react'
+import {useState, type CSSProperties} from 'react'
 import classNames from 'classnames'
 import {PortableTextBlock} from 'next-sanity'
 import type {TextMedia as TextMediaType} from '@/sanity/types'
@@ -11,6 +11,7 @@ import {getLogoImage, getPilotImage} from './pilotImage'
 import {getVideoSource} from './videoSource'
 import FunderLogo, {getFunder} from './FunderLogo'
 import PilotVideo from './PilotVideo'
+import {useHashDialog} from './useHashDialog'
 import styles from './PilotDialog.module.scss'
 
 type PilotDialogProps = TextMediaType
@@ -23,7 +24,6 @@ const WORDS_SPAN = 500
 const WORD_DURATION = 450
 const PARAGRAPH_STEP = 160
 const ATTRIBUTION_GAP = 120
-const CLOSE_DURATION = 200
 // Longer display lines (quotes) are set smaller.
 const LONG_LINE_WORDS = 10
 
@@ -54,11 +54,9 @@ export default function PilotDialog({
   supportedByLink,
   ...rest
 }: PilotDialogProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null)
-  const openerRef = useRef<HTMLElement | null>(null)
-  const closeTimer = useRef<number | undefined>(undefined)
-  const [phase, setPhase] = useState<'closed' | 'open' | 'closing'>('closed')
   const [playing, setPlaying] = useState(false)
+  // Unmounting the player on close stops the video.
+  const {dialogRef, phase, requestClose} = useHashDialog(sectionId, () => setPlaying(false))
 
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
   const linkedCtas = pilotCtas(
@@ -115,101 +113,6 @@ export default function PilotDialog({
   )
   const DisplayTag = attribution ? 'figure' : 'div'
   const titleId = sectionId ? `${sectionId}-title` : undefined
-  const hash = sectionId ? `#${sectionId}` : ''
-
-  const open = useCallback(
-    (opener?: HTMLElement | null) => {
-      const dialog = dialogRef.current
-      if (!dialog || dialog.open) return
-      openerRef.current =
-        opener ?? document.querySelector<HTMLElement>(`a[href="${hash}"]`)
-      window.clearTimeout(closeTimer.current)
-      dialog.showModal()
-      document.documentElement.style.overflow = 'hidden'
-      setPhase('open')
-    },
-    [hash],
-  )
-
-  const requestClose = useCallback(() => {
-    const dialog = dialogRef.current
-    if (!dialog?.open) return
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) {
-      dialog.close()
-      return
-    }
-    setPhase('closing')
-    closeTimer.current = window.setTimeout(() => dialog.close(), CLOSE_DURATION)
-  }, [])
-
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog || !sectionId) return
-
-    // Links that open this dialog announce it.
-    const links = document.querySelectorAll<HTMLAnchorElement>(`a[href="${hash}"]`)
-    links.forEach((link) => {
-      link.setAttribute('aria-haspopup', 'dialog')
-      link.setAttribute('aria-controls', sectionId)
-    })
-
-    const onDocumentClick = (event: MouseEvent) => {
-      if (event.defaultPrevented || event.button !== 0) return
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-      const link = (event.target as Element | null)?.closest?.(`a[href="${hash}"]`)
-      if (!link) return
-      event.preventDefault()
-      if (window.location.hash !== hash) {
-        window.history.pushState(window.history.state, '', hash)
-      }
-      open(link as HTMLElement)
-    }
-
-    // Back and forward buttons open and close it with the address.
-    const onHashChange = () => {
-      if (window.location.hash === hash) open()
-      else requestClose()
-    }
-
-    const onClose = () => {
-      window.clearTimeout(closeTimer.current)
-      document.documentElement.style.overflow = ''
-      setPhase('closed')
-      // Unmounting the player stops the video.
-      setPlaying(false)
-      if (window.location.hash === hash) {
-        window.history.replaceState(
-          window.history.state,
-          '',
-          window.location.pathname + window.location.search,
-        )
-      }
-      openerRef.current?.focus()
-    }
-
-    // Escape: play the close motion instead of closing at once.
-    const onCancel = (event: Event) => {
-      event.preventDefault()
-      requestClose()
-    }
-
-    document.addEventListener('click', onDocumentClick)
-    window.addEventListener('hashchange', onHashChange)
-    dialog.addEventListener('close', onClose)
-    dialog.addEventListener('cancel', onCancel)
-
-    if (window.location.hash === hash) open()
-
-    return () => {
-      document.removeEventListener('click', onDocumentClick)
-      window.removeEventListener('hashchange', onHashChange)
-      dialog.removeEventListener('close', onClose)
-      dialog.removeEventListener('cancel', onCancel)
-      window.clearTimeout(closeTimer.current)
-      document.documentElement.style.overflow = ''
-    }
-  }, [hash, sectionId, open, requestClose])
 
   if (!sectionId) return null
 

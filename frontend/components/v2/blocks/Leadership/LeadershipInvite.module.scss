@@ -1,0 +1,297 @@
+@use '../../../../styles/tokens' as ds;
+
+// Invitation pop-up after the Leadership groups. Dialog behavior and motion
+// follow the Text & Media pop-up (PilotDialog).
+
+$breakpoint: 768px;
+$ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+.invite {
+  display: flex;
+  justify-content: flex-start;
+}
+
+// Same size as the Get in Touch and Text & Media primary buttons.
+.button {
+  padding: 12px 28px;
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dialog {
+  width: min(720px, calc(100vw - 3rem));
+  max-width: none;
+  max-height: calc(100dvh - 4rem);
+  // globals.css resets every margin to 0; a modal dialog centers with auto.
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-top: 8px solid var(--brand-aqua-teal);
+  background: var(--brand-creamy-beige);
+  color: var(--brand-black);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.25);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  text-align: left;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
+  }
+}
+
+// Hidden for the one frame between showModal() and the open class.
+.dialog[open]:not(.isOpen):not(.isClosing) {
+  opacity: 0;
+}
+
+.isOpen {
+  animation: rise 500ms $ease-out both;
+
+  &::backdrop {
+    animation: fadeIn 500ms ease-out both;
+  }
+}
+
+.isClosing {
+  animation: sink 200ms ease-in both;
+
+  &::backdrop {
+    animation: fadeOut 200ms ease-in both;
+  }
+}
+
+// Zero-height sticky row keeps the X in view without taking up space.
+.closeBar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+
+  // Phones: a solid strip, so text scrolls under it rather than under the X.
+  @media (max-width: #{$breakpoint - 1px}) {
+    align-items: center;
+    height: 3.75rem;
+    background: var(--brand-creamy-beige);
+
+    .close {
+      margin: 0 0.5rem 0 0;
+    }
+  }
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0.75rem 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+  background: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-body);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  &:hover {
+    background: var(--brand-warm-yellow);
+    color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.content {
+  padding: 3rem 3.5rem 3rem 3rem;
+
+  @media (max-width: #{$breakpoint - 1px}) {
+    padding: 0.25rem 1.25rem 2.5rem;
+  }
+}
+
+// No text-transform, so the wordmark keeps its case (mBOLDen).
+.heading {
+  margin: 0 0 ds.$space-lg;
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.4px;
+  text-wrap: balance;
+}
+
+.body,
+.closingLine {
+  :global(p) {
+    margin: 0 0 ds.$space-md;
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--brand-black);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  :global(a) {
+    color: var(--brand-black);
+    text-decoration-color: var(--brand-aqua-teal);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+}
+
+.closing {
+  margin-top: ds.$space-xl;
+  padding-top: ds.$space-lg;
+  border-top: 3px solid var(--brand-black);
+}
+
+.emailRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: ds.$space-md;
+}
+
+.email {
+  padding-bottom: 3px;
+  border-bottom: 3px solid var(--brand-aqua-teal);
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--brand-black);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+
+  &:hover {
+    border-bottom-color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.copy {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 2px solid var(--brand-black);
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  &:hover {
+    background: var(--brand-black);
+    color: var(--brand-white);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.status {
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+}
+
+.isOpen .content > * {
+  animation: fadeUp 400ms $ease-out both;
+}
+
+@for $i from 1 through 4 {
+  .isOpen .content > :nth-child(#{$i}) {
+    animation-delay: #{200 + ($i - 1) * 120}ms;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sink {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog,
+  .dialog::backdrop,
+  .dialog *,
+  .dialog[open]:not(.isOpen):not(.isClosing) {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+  }
+}
