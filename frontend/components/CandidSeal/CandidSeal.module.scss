@@ -1,0 +1,18 @@
+// Set the width per placement with `className`; the seal is square.
+.seal {
+  display: block;
+  flex: none;
+  line-height: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-warm-yellow);
+    outline-offset: 3px;
+  }
+}

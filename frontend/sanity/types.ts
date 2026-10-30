@@ -1937,6 +1937,12 @@ export type SiteSettings = {
     alt?: string;
     url?: string;
   };
+  candidSeal?: {
+    enabled?: boolean;
+    url?: string;
+    sealSrc?: string;
+    alt?: string;
+  };
   advancementContact?: {
     name?: string;
     title?: string;
