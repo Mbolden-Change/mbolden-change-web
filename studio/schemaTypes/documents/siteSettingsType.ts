@@ -41,6 +41,43 @@ export const siteSettingsType = defineType({
       ],
     }),
     defineField({
+      name: 'candidSeal',
+      title: 'Candid Seal of Transparency',
+      type: 'object',
+      description:
+        'Shown in the footer next to the Charity Navigator badge. The seal image comes live from Candid, so a new year’s seal appears on its own. Turn it off to hide it.',
+      options: {collapsible: true, collapsed: false},
+      fields: [
+        defineField({
+          name: 'enabled',
+          title: 'Show the seal',
+          type: 'boolean',
+          initialValue: true,
+        }),
+        defineField({
+          name: 'url',
+          title: 'Link',
+          type: 'url',
+          description: 'Our Candid profile, including the pkId Candid uses to count clicks. Opens in a new tab.',
+          validation: (Rule) => Rule.uri({scheme: ['https']}),
+        }),
+        defineField({
+          name: 'sealSrc',
+          title: 'Seal image address',
+          type: 'url',
+          description: 'The image address from Candid’s Dynamic Seal widget code (widgets.guidestar.org …/svg).',
+          validation: (Rule) => Rule.uri({scheme: ['https']}),
+        }),
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          initialValue: 'Candid Platinum Seal of Transparency',
+          description: 'For example “Candid Platinum Seal of Transparency”.',
+        }),
+      ],
+    }),
+    defineField({
       name: 'advancementContact',
       title: 'Advancement contact',
       type: 'object',

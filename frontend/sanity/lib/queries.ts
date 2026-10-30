@@ -340,6 +340,7 @@ export const FOOTER_QUERY = defineQuery(`*[_type == 'footer'][0] {
   organizationInfo,
   legalLinks[]${INTERNAL_OR_EXTERNAL_LINK},
   "charityBadge": *[_id == "siteSettings"][0].charityBadge,
+  "candidSeal": *[_id == "siteSettings"][0].candidSeal,
   newsletterButton {
     isExternalLink,
     url,

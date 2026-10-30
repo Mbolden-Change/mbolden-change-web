@@ -16,10 +16,14 @@ import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
 import { opensInNewTab } from '@/utils/internalOrExternalLink';
 import CharityBadge, { type CharityBadgeData } from './CharityBadge/CharityBadge';
+import CandidSeal, { type CandidSealData } from './CandidSeal/CandidSeal';
 
 type FooterProps = {
-  // The footer query adds the badge from Site Settings.
-  footerData: FooterType & { charityBadge?: CharityBadgeData | null };
+  // The footer query adds the badges from Site Settings.
+  footerData: FooterType & {
+    charityBadge?: CharityBadgeData | null;
+    candidSeal?: CandidSealData | null;
+  };
 };
 
 const Footer = ({ footerData }: FooterProps) => {
@@ -179,11 +183,14 @@ const Footer = ({ footerData }: FooterProps) => {
           <GridItem desktopSpan={12} mobileSpan={6}>
             <div className={styles.footerBottomRow}>
               <div className={styles.trust}>
-                <CharityBadge
-                  badge={footerData.charityBadge}
-                  className={styles.badge}
-                  sizes="80px"
-                />
+                <div className={styles.badges}>
+                  <CharityBadge
+                    badge={footerData.charityBadge}
+                    className={styles.badge}
+                    sizes="80px"
+                  />
+                  <CandidSeal seal={footerData.candidSeal} className={styles.badge} />
+                </div>
                 {footerData.organizationInfo && (
                   <p className={styles.ein}>
                     {footerData.organizationInfo.nonProfitDisclaimer}
