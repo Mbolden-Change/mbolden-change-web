@@ -4,8 +4,11 @@ import {PageBuilder} from '@/components/PageBuilder'
 import JsonLd from '@/components/JsonLd'
 import {
   collectFaqPairsFromPageBuilder,
+  collectSearchSummaries,
   guardFaqPage,
+  guardSearchSummaryList,
   pickGuardedSchemas,
+  stripSearchSummaries,
 } from '@/lib/jsonld'
 
 export default async function Page() {
@@ -20,12 +23,14 @@ export default async function Page() {
   )
   const jsonLd = pickGuardedSchemas([
     guardFaqPage(faqPairs, '/'),
+    // Pop-up search summaries: JSON-LD only, removed from the blocks below.
+    guardSearchSummaryList(collectSearchSummaries(page.content), {title: page.title, path: '/'}),
   ])
 
   return (
     <div className={styles['page']}>
       <JsonLd data={jsonLd} />
-      {page.content && <PageBuilder content={page.content} />}
+      {page.content && <PageBuilder content={stripSearchSummaries(page.content)} />}
     </div>
   )
 }

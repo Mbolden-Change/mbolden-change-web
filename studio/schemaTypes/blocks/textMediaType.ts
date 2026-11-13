@@ -84,6 +84,16 @@ export const textMedia = defineType({
       validation: (Rule) => Rule.required().max(120),
     }),
     defineField({
+      name: 'searchSummary',
+      title: 'Search summary (not shown on the site)',
+      type: 'text',
+      rows: 3,
+      description:
+        'One plain sentence saying what this program is. Search engines and AI tools read it. Visitors never see it.',
+      validation: (Rule) => Rule.max(300).error('Keep the search summary to 300 characters or fewer.'),
+      hidden: ({parent}) => parent?.appearance !== 'pilotDialog',
+    }),
+    defineField({
       name: 'textBody',
       title: 'Text Body',
       type: 'array',

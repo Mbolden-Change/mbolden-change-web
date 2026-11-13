@@ -21,3 +21,9 @@ export {
   portableTextToPlain,
   resolvePublishedDate,
 } from './fromContent'
+export {
+  collectSearchSummaries,
+  guardSearchSummaryList,
+  stripSearchSummaries,
+  type SearchSummaryItem,
+} from './searchSummaries'

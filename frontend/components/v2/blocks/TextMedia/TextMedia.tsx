@@ -34,8 +34,11 @@ const TextMedia = ({
   prevBlockType,
   nested = false,
   headingTag = 'h2',
+  // For search engines only (JSON-LD). Never rendered or passed on.
+  searchSummary: _searchSummary,
   ...rest
 }: TextMediaProps) => {
+  void _searchSummary
   if (rest.appearance === 'pilotDialog' && !nested) {
     return (
       <PilotDialog

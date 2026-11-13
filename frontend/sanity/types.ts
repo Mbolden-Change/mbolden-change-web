@@ -1051,6 +1051,7 @@ export type TextMedia = {
   subtitle?: string;
   sectionId?: string;
   headline: string;
+  searchSummary?: string;
   textBody: Array<{
     children?: Array<{
       marks?: Array<string>;
