@@ -5,8 +5,11 @@ import {getPage} from '@/lib/getPage'
 import JsonLd from '@/components/JsonLd'
 import {
   collectFaqPairsFromPageBuilder,
+  collectSearchSummaries,
   guardFaqPage,
+  guardSearchSummaryList,
   pickGuardedSchemas,
+  stripSearchSummaries,
 } from '@/lib/jsonld'
 import {openGraphFor, twitterFor} from '@/lib/siteMetadata'
 import styles from './page.module.css'
@@ -48,12 +51,17 @@ export default async function Page({
     page.content as Parameters<typeof collectFaqPairsFromPageBuilder>[0],
   )
   // BreadcrumbList JSON-LD waits until templates render visible breadcrumbs.
-  const jsonLd = pickGuardedSchemas([guardFaqPage(faqPairs, path)])
+  // Pop-up search summaries go out as JSON-LD only. They are removed from the
+  // blocks before rendering so the text is never part of the page.
+  const jsonLd = pickGuardedSchemas([
+    guardFaqPage(faqPairs, path),
+    guardSearchSummaryList(collectSearchSummaries(page.content), {title: page.title, path}),
+  ])
 
   return (
     <div className={styles.page}>
       <JsonLd data={jsonLd} />
-      {page.content && <PageBuilder content={page.content} />}
+      {page.content && <PageBuilder content={stripSearchSummaries(page.content)} />}
     </div>
   )
 }

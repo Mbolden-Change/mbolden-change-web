@@ -6983,6 +6983,13 @@
           },
           "optional": false
         },
+        "searchSummary": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "textBody": {
           "type": "objectAttribute",
           "value": {

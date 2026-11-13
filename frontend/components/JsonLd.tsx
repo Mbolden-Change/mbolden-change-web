@@ -19,7 +19,9 @@ export default function JsonLd({data}: JsonLdProps) {
               : `jsonld-${index}`
           }
           type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify(schema)}}
+          // "<" is written as \u003c (the same value once parsed) so text
+          // from the CMS can never close the script tag.
+          dangerouslySetInnerHTML={{__html: JSON.stringify(schema).replace(/</g, '\\u003c')}}
         />
       ))}
     </>
