@@ -27,7 +27,7 @@ test('a portrait crop of a landscape photo uses the portrait layout, focused on 
   const image = getPilotImage({
     asset,
     crop: {_type: 'sanity.imageCrop', top: 0, bottom: 0, left: 0.2, right: 0.2},
-    hotspot: {_type: 'sanity.imageHotspot', x: 0.5, y: 0.25},
+    hotspot: {_type: 'sanity.imageHotspot', x: 0.5, y: 0.25, height: 1, width: 1},
   })
   expect(image?.orientation).toBe('portrait')
   expect(image?.ratio).toBeCloseTo((2000 * 0.6) / 1333)

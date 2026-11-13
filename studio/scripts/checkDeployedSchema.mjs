@@ -1,16 +1,24 @@
-// Checks that the schema deployed to Sanity has every type and field in this
-// Studio, so tools that validate against it (such as the Sanity connector)
-// don't reject fields that exist in the code.
+// Checks that every schema record deployed to Sanity has every type and field
+// in this Studio, so tools that validate against them (such as the Sanity
+// connector) don't reject fields that exist in the code.
 //
-// Usage: node scripts/checkDeployedSchema.mjs <local-extract.json> <deployed.json>
+// There are two records, and the deploy workflow checks both:
+//   - legacy: `_.schemas.default`, stored by `sanity deploy`
+//   - studio: the Studio application's own record, which the Sanity connector
+//     uses (see scripts/studioSchemaRecord.ts)
+//
+// Usage: node scripts/checkDeployedSchema.mjs <local-extract.json> <label>=<record.json> [...]
 //   local-extract.json: output of `sanity schema extract`
-//   deployed.json:      output of `sanity schema list --id _.schemas.default --json`
+//   legacy=<file>:      output of `sanity schema list --id _.schemas.default --json`
+//   studio=<file>:      output of `sanity exec scripts/studioSchemaRecord.ts -- read <file>`
 //
-// The deployed format differs from the extract format, so this only checks
-// that each name appears in it as a JSON string. Exits 1 and lists what's
-// missing when a type or field hasn't been deployed.
+// The record formats differ from the extract format and from each other, so
+// this only checks that each name appears in a record as a JSON string. Exits
+// 1 and lists what's missing, per record, when a type or field hasn't been
+// deployed to one of them.
 
 import {readFileSync} from 'node:fs'
+import {pathToFileURL} from 'node:url'
 
 // Sanity's own types aren't part of this Studio's schema.
 const BUILT_IN = new Set(['geopoint', 'slug'])
@@ -29,8 +37,9 @@ export function expectedNames(extract) {
 }
 
 export function missingNames(extract, deployedText) {
-  // The deployed schema is stored as JSON text inside the listing's JSON, so
+  // The legacy record is stored as JSON text inside the listing's JSON, so
   // its quotes arrive escaped (\"invite\"). Unescape them before searching.
+  // The Studio record writes names as "name": "invite".
   const text = deployedText.replace(/\\"/g, '"')
   return expectedNames(extract).filter((name) => {
     const last = name.split('.').pop()
@@ -38,24 +47,47 @@ export function missingNames(extract, deployedText) {
   })
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const [extractPath, deployedPath] = process.argv.slice(2)
-  if (!extractPath || !deployedPath) {
-    console.error('Usage: node scripts/checkDeployedSchema.mjs <local-extract.json> <deployed.json>')
+/**
+ * Checks each record. `records` is a list of {label, text}. Returns one
+ * result per record: {label, empty, missing}.
+ */
+export function checkRecords(extract, records) {
+  return records.map(({label, text}) => {
+    const empty = !text.trim() || text.trim() === '[]'
+    return {label, empty, missing: empty ? [] : missingNames(extract, text)}
+  })
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const [extractPath, ...recordArgs] = process.argv.slice(2)
+  if (!extractPath || !recordArgs.length || recordArgs.some((arg) => !/^[\w-]+=.+/.test(arg))) {
+    console.error(
+      'Usage: node scripts/checkDeployedSchema.mjs <local-extract.json> <label>=<record.json> [...]',
+    )
     process.exit(2)
   }
   const extract = JSON.parse(readFileSync(extractPath, 'utf8'))
-  const deployedText = readFileSync(deployedPath, 'utf8')
-  if (!deployedText.trim() || deployedText.trim() === '[]') {
-    console.error('No deployed schema found. The schema deploy step did not store one.')
-    process.exit(1)
-  }
+  const records = recordArgs.map((arg) => {
+    const [label, ...path] = arg.split('=')
+    return {label, text: readFileSync(path.join('='), 'utf8')}
+  })
   const expected = expectedNames(extract)
-  const missing = missingNames(extract, deployedText)
-  if (missing.length) {
-    console.error(`Deployed schema is missing ${missing.length} of ${expected.length} types and fields:`)
-    for (const name of missing) console.error(`  - ${name}`)
-    process.exit(1)
+  let failed = false
+  for (const {label, empty, missing} of checkRecords(extract, records)) {
+    if (empty) {
+      failed = true
+      console.error(`${label}: no deployed schema found. The deploy step did not store one.`)
+    } else if (missing.length) {
+      failed = true
+      console.error(
+        `${label}: deployed schema is missing ${missing.length} of ${expected.length} types and fields:`,
+      )
+      for (const name of missing) console.error(`  - ${name}`)
+    } else {
+      console.log(
+        `${label}: deployed schema has all ${expected.length} types and fields from this Studio.`,
+      )
+    }
   }
-  console.log(`Deployed schema has all ${expected.length} types and fields from this Studio.`)
+  if (failed) process.exit(1)
 }

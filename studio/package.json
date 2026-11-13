@@ -12,7 +12,7 @@
     "prebuild": "npm run typegen",
     "typegen": "sanity schema extract --path=../frontend/sanity/extract.json --enforce-required-fields && sanity typegen generate",
     "deploy": "sanity deploy --yes --url mboldenchange --schema-required",
-    "test": "node --test schemaTypes/blocks/*.test.mjs",
+    "test": "node --test schemaTypes/blocks/*.test.mjs scripts/*.test.mjs",
     "deploy-graphql": "sanity graphql deploy",
     "migrate:homepage": "npx --yes tsx scripts/copyPageToProductionHomepage.ts",
     "migrate:homepage:dry": "DRY_RUN=1 npx --yes tsx scripts/copyPageToProductionHomepage.ts"
@@ -21,10 +21,10 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^3.99.0",
+    "@sanity/vision": "^4.22.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sanity": "^3.99.0",
+    "sanity": "^4.22.0",
     "styled-components": "^6.1.15"
   },
   "devDependencies": {

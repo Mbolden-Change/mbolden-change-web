@@ -1,7 +1,8 @@
 name: Deploy Sanity Studio
 
 # Redeploys the hosted Studio and its schema so schema/structure changes go live
-# automatically, then checks the deployed schema matches the code.
+# automatically, updates both deployed schema records, then checks both match
+# the code.
 on:
   push:
     branches: [main]
@@ -49,13 +50,32 @@ jobs:
           # The hosted Studio (deployed from main) targets the production dataset.
           SANITY_STUDIO_DATASET: production
 
-      - name: Check the deployed schema
-        # Fails the run, naming what's missing, if any type or field in
-        # studio/schemaTypes didn't reach the deployed schema.
+      - name: Update the Studio's own schema record
+        # `sanity deploy` stores the schema as `_.schemas.default`, but the
+        # Sanity connector checks content against a second record that belongs
+        # to the Studio application. Until now only the hosted Studio updated
+        # that one, the next time a signed-in person opened it. This uploads
+        # the schema with the Studio's own code and points the record at it.
+        # See scripts/studioSchemaRecord.ts.
+        run: npx sanity exec scripts/studioSchemaRecord.ts --mock-browser-env -- register
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}
+          SANITY_STUDIO_DATASET: production
+          # Same mode as the hosted Studio, and its switch for the upload.
+          NODE_ENV: production
+          SANITY_STUDIO_SCHEMA_DESCRIPTOR: '1'
+
+      - name: Check both deployed schema records
+        # Reads both records back from Sanity and fails the run, naming what's
+        # missing from which record, if any type or field in
+        # studio/schemaTypes didn't reach either of them.
         run: |
           npx sanity schema extract --path "$RUNNER_TEMP/local-schema.json"
-          npx sanity schema list --id _.schemas.default --json > "$RUNNER_TEMP/deployed-schema.json"
-          node scripts/checkDeployedSchema.mjs "$RUNNER_TEMP/local-schema.json" "$RUNNER_TEMP/deployed-schema.json"
+          npx sanity schema list --id _.schemas.default --json > "$RUNNER_TEMP/legacy-schema.json"
+          npx sanity exec scripts/studioSchemaRecord.ts -- read "$RUNNER_TEMP/studio-schema.json"
+          node scripts/checkDeployedSchema.mjs "$RUNNER_TEMP/local-schema.json" \
+            "legacy=$RUNNER_TEMP/legacy-schema.json" \
+            "studio=$RUNNER_TEMP/studio-schema.json"
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}
           SANITY_STUDIO_DATASET: production
