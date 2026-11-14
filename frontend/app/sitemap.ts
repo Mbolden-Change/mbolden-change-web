@@ -51,6 +51,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority,
         };
     });
+    // Pages built in code rather than in Studio. A Studio page with the same
+    // address is dropped below so no URL is listed twice.
+    const codePages: MetadataRoute.Sitemap = ['/building-the-road', '/legal-providers', '/simulator'].map(
+      (path) => ({
+        url: `${baseUrl}${path}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.9,
+      })
+    );
+    const codeUrls = new Set(codePages.map((page) => page.url));
     return [
         {
         url: baseUrl,
@@ -58,19 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'daily',
         priority: 1,  
         },
-        ...dynamicPages,
-        // Pages built in code rather than in Studio.
-        {
-        url: `${baseUrl}/building-the-road`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.9,
-        },
-        {
-        url: `${baseUrl}/legal-providers`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.9,
-        },
+        ...dynamicPages.filter((page) => !codeUrls.has(page.url)),
+        ...codePages,
     ];
 }
