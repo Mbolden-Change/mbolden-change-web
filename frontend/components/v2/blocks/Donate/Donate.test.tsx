@@ -413,4 +413,17 @@ describe('the Other ways to give link in the Donate hero', () => {
     fireEvent.click(screen.getByRole('link', {name: 'Other ways to give'}))
     expect(scrollIntoView).toHaveBeenCalledWith({behavior: 'auto', block: 'start'})
   })
+
+  test('arriving with the anchor in the address scrolls to the section without motion', () => {
+    window.history.replaceState(null, '', '/#other-ways-to-give')
+    render(<GivingOptions {...ways} />)
+    expect(scrollIntoView).toHaveBeenCalledWith({behavior: 'auto', block: 'start'})
+    expect(scrollIntoView.mock.instances[0]).toBe(document.getElementById('other-ways-to-give'))
+  })
+
+  test('arriving with any other address leaves the page where it is', () => {
+    window.history.replaceState(null, '', '/#gateway-fund')
+    render(<GivingOptions {...ways} />)
+    expect(scrollIntoView).not.toHaveBeenCalled()
+  })
 })
