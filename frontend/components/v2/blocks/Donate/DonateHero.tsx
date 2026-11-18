@@ -1,12 +1,13 @@
 'use client'
 
 import classNames from 'classnames'
-import type {CSSProperties} from 'react'
+import type {CSSProperties, MouseEvent} from 'react'
 import type {DonateHero as DonateHeroType} from '@/sanity/types'
 import CharityBadge, {type CharityBadgeData} from '@/components/CharityBadge/CharityBadge'
 import CandidSeal, {type CandidSealData} from '@/components/CandidSeal/CandidSeal'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import ZeffyEmbed from './ZeffyEmbed'
+import {OTHER_WAYS_ID} from './GivingOptions'
 import {zeffyPageUrl} from './zeffy'
 import styles from './Donate.module.scss'
 
@@ -14,6 +15,22 @@ import styles from './Donate.module.scss'
 export type DonateHeroProps = DonateHeroType & {
   charityBadge?: CharityBadgeData | null
   candidSeal?: CandidSealData | null
+}
+
+/**
+ * Scrolls to the Other Ways to Give section (a jump with reduced motion) and
+ * moves focus to its heading. Without the section on the page, the link acts
+ * as a plain link.
+ */
+const scrollToOtherWays = (event: MouseEvent<HTMLAnchorElement>) => {
+  const section = document.getElementById(OTHER_WAYS_ID)
+  if (!section) return
+  event.preventDefault()
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  section.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'})
+  section.querySelector<HTMLElement>('h2')?.focus({preventScroll: true})
+  // Keeps the address shareable, as a plain link would.
+  if (window.location.hash !== `#${OTHER_WAYS_ID}`) window.history.pushState(window.history.state, '', `#${OTHER_WAYS_ID}`)
 }
 
 /** Heading and intro on cream, beside the main Zeffy form. */
@@ -25,6 +42,7 @@ export default function DonateHero({
   showCharityBadge,
   showCandidSeal,
   badgeText,
+  otherWaysLinkText,
   charityBadge,
   candidSeal,
 }: DonateHeroProps) {
@@ -34,6 +52,7 @@ export default function DonateHero({
   const hasBadge = showCharityBadge && Boolean(charityBadge?.image?.asset?._ref)
   // On unless switched off, so the seal shows before the block is next saved.
   const hasSeal = showCandidSeal !== false
+  const linkText = otherWaysLinkText?.trim()
 
   return (
     <section
@@ -50,7 +69,7 @@ export default function DonateHero({
           )}
           <h1 className={classNames(styles.heroTitle, styles.rv, styles.d1)}>{heading}</h1>
           {intro && <p className={classNames(styles.heroIntro, styles.rv, styles.d2)}>{intro}</p>}
-          {(hasBadge || hasSeal || badgeText) && (
+          {(hasBadge || hasSeal || badgeText || linkText) && (
             <div className={classNames(styles.badgeRow, styles.rv, styles.d3)}>
               {(hasBadge || hasSeal) && (
                 <div className={styles.seals}>
@@ -59,6 +78,13 @@ export default function DonateHero({
                 </div>
               )}
               {badgeText && <p className={styles.badgeText}>{badgeText}</p>}
+              {linkText && (
+                <p className={styles.otherWays}>
+                  <a href={`#${OTHER_WAYS_ID}`} onClick={scrollToOtherWays}>
+                    {linkText}
+                  </a>
+                </p>
+              )}
             </div>
           )}
         </div>

@@ -116,9 +116,15 @@ export const donateHeroType = defineType({
     }),
     defineField({
       name: 'badgeText',
-      title: 'Text beside the badge',
+      title: 'Text below the badge',
       type: 'string',
       initialValue: 'A Four-Star Charity on Charity Navigator. Gifts are tax-deductible.',
+    }),
+    defineField({
+      name: 'otherWaysLinkText',
+      title: 'Other ways link text',
+      type: 'string',
+      description: 'Links to the Other Ways to Give section on this page.',
     }),
   ],
   preview: {
