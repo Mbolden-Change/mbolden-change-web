@@ -183,7 +183,8 @@ export const PAGE_QUERY = defineQuery(`
     },
     _type == "donateHero" => {
       ...,
-      "charityBadge": *[_id == "siteSettings"][0].charityBadge
+      "charityBadge": *[_id == "siteSettings"][0].charityBadge,
+      "candidSeal": *[_id == "siteSettings"][0].candidSeal
     },
     _type == "getInTouch" => {
       ...,

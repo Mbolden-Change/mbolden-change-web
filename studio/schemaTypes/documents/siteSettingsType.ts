@@ -45,7 +45,7 @@ export const siteSettingsType = defineType({
       title: 'Candid Seal of Transparency',
       type: 'object',
       description:
-        'Shown in the footer next to the Charity Navigator badge. The seal image comes live from Candid, so a new year’s seal appears on its own. Turn it off to hide it.',
+        'Shown in the footer and on the Donate page next to the Charity Navigator badge. The seal image comes live from Candid, so a new year’s seal appears on its own. Turn it off to hide it.',
       options: {collapsible: true, collapsed: false},
       fields: [
         defineField({

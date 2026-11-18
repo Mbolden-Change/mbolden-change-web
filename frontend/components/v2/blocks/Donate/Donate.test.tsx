@@ -4,9 +4,11 @@ import FundCards from './FundCards'
 import CampaignBanner from './CampaignBanner'
 import {withEmailLinks} from './GivingOptions'
 import DonorQuote from './DonorQuote'
+import DonateHero from './DonateHero'
 import {zeffyEmbedSrc, zeffyPageUrl} from './zeffy'
 
 jest.mock('@/lib/analytics', () => ({trackDonateClick: jest.fn()}))
+jest.mock('@/sanity/lib/image', () => ({urlFor: jest.fn(), getDimensionsFromRef: jest.fn(() => ({}))}))
 
 // jsdom has <dialog> but not showModal() or close().
 beforeAll(() => {
@@ -287,5 +289,54 @@ describe('funds hidden from the Donate page', () => {
     expect(window.location.hash).toBe('')
     expect(window.history.length).toBe(entries)
     expect(screen.getByRole('heading', {level: 2, name: 'Choose Where Your Gift Goes'})).toHaveFocus()
+  })
+})
+
+describe('the Candid seal in the Donate hero', () => {
+  const hero = {
+    _type: 'donateHero' as const,
+    heading: 'Give Boldly',
+    form: {_type: 'zeffyForm' as const, id: 'power-bold-solutions'},
+    badgeText: 'A Four-Star Charity on Charity Navigator. Gifts are tax-deductible.',
+  }
+  const candidSeal = {
+    enabled: true,
+    url: 'https://app.candid.org/profile/7036208/mbolden-change-20-4683289/?pkId=339d01ce-5387-423e-bf06-4dafa481b05d',
+    sealSrc: 'https://widgets.guidestar.org/prod/v1/pdp/transparency-seal/7036208/svg',
+    alt: 'Candid Platinum Seal of Transparency',
+  }
+  const sealName = 'Candid Platinum Seal of Transparency (opens in a new tab)'
+
+  test('shows with no value for the switch, linked to the Site Settings address in a new tab', () => {
+    render(<DonateHero {...hero} candidSeal={candidSeal} />)
+    const link = screen.getByRole('link', {name: sealName})
+    expect(link).toHaveAttribute('href', candidSeal.url)
+    expect(link).toHaveAttribute('target', '_blank')
+    const img = screen.getByAltText('Candid Platinum Seal of Transparency')
+    expect(img).toHaveAttribute('src', candidSeal.sealSrc)
+    expect(img).toHaveAttribute('width')
+    expect(img).toHaveAttribute('height')
+  })
+
+  test('shows without the Charity Navigator badge, and hides when its own switch is off', () => {
+    const {rerender} = render(<DonateHero {...hero} showCharityBadge={false} candidSeal={candidSeal} />)
+    expect(screen.getByRole('link', {name: sealName})).toBeInTheDocument()
+
+    rerender(<DonateHero {...hero} showCandidSeal={false} candidSeal={candidSeal} />)
+    expect(screen.queryByRole('link', {name: sealName})).toBeNull()
+    expect(screen.getByText(hero.badgeText)).toBeInTheDocument()
+  })
+
+  test('hides when switched off in Site Settings', () => {
+    render(<DonateHero {...hero} candidSeal={{...candidSeal, enabled: false}} />)
+    expect(screen.queryByRole('link', {name: sealName})).toBeNull()
+  })
+
+  test('disappears, leaving the badge text, when Candid’s image fails to load', () => {
+    render(<DonateHero {...hero} candidSeal={candidSeal} />)
+    fireEvent.error(screen.getByAltText('Candid Platinum Seal of Transparency'))
+    expect(screen.queryByRole('link', {name: sealName})).toBeNull()
+    expect(screen.queryByAltText('Candid Platinum Seal of Transparency')).toBeNull()
+    expect(screen.getByText(hero.badgeText)).toBeInTheDocument()
   })
 })
