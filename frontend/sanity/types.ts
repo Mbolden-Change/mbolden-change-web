@@ -363,6 +363,7 @@ export type DonateHero = {
   intro?: string;
   form: ZeffyForm;
   showCharityBadge?: boolean;
+  showCandidSeal?: boolean;
   badgeText?: string;
 };
 

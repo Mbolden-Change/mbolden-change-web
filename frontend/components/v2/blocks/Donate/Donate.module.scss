@@ -135,6 +135,25 @@ $banner-link-teal: #00687c;
   padding-top: 0.625rem;
 }
 
+// The Charity Navigator badge and Candid seal. Empty (and so no gap in the
+// row) when neither shows, such as when Candid's image fails to load.
+.seals {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.75rem;
+
+  &:empty {
+    display: none;
+  }
+
+  // The seals' own focus ring is yellow, for the black footer; on cream it
+  // needs the teal ring to be seen.
+  .badge:focus-visible {
+    outline-color: var(--brand-aqua-teal);
+  }
+}
+
 .badge {
   flex: none;
   width: 64px;

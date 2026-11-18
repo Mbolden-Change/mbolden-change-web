@@ -2408,6 +2408,13 @@
           },
           "optional": true
         },
+        "showCandidSeal": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
         "badgeText": {
           "type": "objectAttribute",
           "value": {

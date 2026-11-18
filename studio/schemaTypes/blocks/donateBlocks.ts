@@ -82,7 +82,7 @@ export const donateHeroType = defineType({
   title: 'Donate Hero',
   type: 'object',
   description:
-    'Eyebrow, heading and intro on cream with the Charity Navigator badge, beside a Zeffy form that loads with the page.',
+    'Eyebrow, heading and intro on cream with the Charity Navigator badge and Candid seal, beside a Zeffy form that loads with the page.',
   fields: [
     defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string', initialValue: 'Donate'}),
     defineField({
@@ -105,6 +105,14 @@ export const donateHeroType = defineType({
       type: 'boolean',
       initialValue: true,
       description: 'Under the intro. The badge image, alt text and link are in Site Settings.',
+    }),
+    defineField({
+      name: 'showCandidSeal',
+      title: 'Show Candid seal',
+      type: 'boolean',
+      initialValue: true,
+      description:
+        'Beside the Charity Navigator badge. On unless switched off. The seal image, alt text and link are in Site Settings.',
     }),
     defineField({
       name: 'badgeText',
