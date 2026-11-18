@@ -365,6 +365,7 @@ export type DonateHero = {
   showCharityBadge?: boolean;
   showCandidSeal?: boolean;
   badgeText?: string;
+  otherWaysLinkText?: string;
 };
 
 export type CampaignBanner = {

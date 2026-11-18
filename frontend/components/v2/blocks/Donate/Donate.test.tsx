@@ -2,7 +2,7 @@ import {act, fireEvent, render, screen} from '@testing-library/react'
 import type {FundCards as FundCardsType} from '@/sanity/types'
 import FundCards from './FundCards'
 import CampaignBanner from './CampaignBanner'
-import {withEmailLinks} from './GivingOptions'
+import GivingOptions, {withEmailLinks} from './GivingOptions'
 import DonorQuote from './DonorQuote'
 import DonateHero from './DonateHero'
 import {zeffyEmbedSrc, zeffyPageUrl} from './zeffy'
@@ -338,5 +338,79 @@ describe('the Candid seal in the Donate hero', () => {
     expect(screen.queryByRole('link', {name: sealName})).toBeNull()
     expect(screen.queryByAltText('Candid Platinum Seal of Transparency')).toBeNull()
     expect(screen.getByText(hero.badgeText)).toBeInTheDocument()
+  })
+})
+
+describe('the Other ways to give link in the Donate hero', () => {
+  const hero = {
+    _type: 'donateHero' as const,
+    heading: 'Give Boldly',
+    form: {_type: 'zeffyForm' as const, id: 'power-bold-solutions'},
+    badgeText: 'Gifts are tax-deductible.',
+  }
+  const ways = {_type: 'givingOptions' as const, heading: 'Other Ways to Give', options: []}
+  const scrollIntoView = jest.fn()
+  const original = Element.prototype.scrollIntoView
+  const matchMedia = window.matchMedia
+  const reducedMotion = (matches: boolean) => {
+    window.matchMedia = jest.fn().mockReturnValue({matches}) as unknown as typeof window.matchMedia
+  }
+
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = scrollIntoView
+    scrollIntoView.mockClear()
+    reducedMotion(false)
+  })
+  afterEach(() => {
+    Element.prototype.scrollIntoView = original
+    window.matchMedia = matchMedia
+    window.history.replaceState(null, '', '/')
+  })
+
+  test('is absent with no link text, or only spaces', () => {
+    const {rerender} = render(<DonateHero {...hero} />)
+    expect(screen.queryByRole('link', {name: /other ways/i})).toBeNull()
+    rerender(<DonateHero {...hero} otherWaysLinkText="   " />)
+    expect(screen.getByText(hero.badgeText).nextElementSibling).toBeNull()
+  })
+
+  test('follows the badge text and points at the section’s anchor in the same tab', () => {
+    render(
+      <>
+        <DonateHero {...hero} otherWaysLinkText="Other ways to give" />
+        <GivingOptions {...ways} />
+      </>,
+    )
+    const link = screen.getByRole('link', {name: 'Other ways to give'})
+    expect(link).toHaveAttribute('href', '#other-ways-to-give')
+    expect(link).not.toHaveAttribute('target')
+    expect(screen.getByText(hero.badgeText).nextElementSibling).toContainElement(link)
+    expect(document.getElementById('other-ways-to-give')).toBe(screen.getByRole('region', {name: 'Other Ways to Give'}))
+  })
+
+  test('scrolls smoothly to the section, focuses its heading and updates the address', () => {
+    render(
+      <>
+        <DonateHero {...hero} otherWaysLinkText="Other ways to give" />
+        <GivingOptions {...ways} />
+      </>,
+    )
+    fireEvent.click(screen.getByRole('link', {name: 'Other ways to give'}))
+    expect(scrollIntoView).toHaveBeenCalledWith({behavior: 'smooth', block: 'start'})
+    expect(scrollIntoView.mock.instances[0]).toBe(document.getElementById('other-ways-to-give'))
+    expect(screen.getByRole('heading', {level: 2, name: 'Other Ways to Give'})).toHaveFocus()
+    expect(window.location.hash).toBe('#other-ways-to-give')
+  })
+
+  test('jumps without motion when reduced motion is on', () => {
+    reducedMotion(true)
+    render(
+      <>
+        <DonateHero {...hero} otherWaysLinkText="Other ways to give" />
+        <GivingOptions {...ways} />
+      </>,
+    )
+    fireEvent.click(screen.getByRole('link', {name: 'Other ways to give'}))
+    expect(scrollIntoView).toHaveBeenCalledWith({behavior: 'auto', block: 'start'})
   })
 })

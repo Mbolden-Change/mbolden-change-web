@@ -8,6 +8,9 @@ import {useScrollReveal} from '../../motion/useScrollReveal'
 import styles from './Donate.module.scss'
 
 const STAGGER = [styles.d1, styles.d2, styles.d3, styles.d4]
+/** The section's anchor: /donate#other-ways-to-give, also used in emails. */
+export const OTHER_WAYS_ID = 'other-ways-to-give'
+
 const EMAIL = /([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/
 
 /** Text with each email address as an email link. */
@@ -31,6 +34,7 @@ export default function GivingOptions({eyebrow, heading, options}: GivingOptions
   return (
     <section
       ref={ref}
+      id={OTHER_WAYS_ID}
       className={classNames(styles.ways, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
     >
@@ -41,7 +45,9 @@ export default function GivingOptions({eyebrow, heading, options}: GivingOptions
               {eyebrow}
             </p>
           )}
-          <h2 className={classNames(styles.h2, styles.rv, styles.d1)}>{heading}</h2>
+          <h2 tabIndex={-1} className={classNames(styles.h2, styles.rv, styles.d1)}>
+            {heading}
+          </h2>
         </div>
         <ul className={styles.wayGrid}>
           {(options ?? []).map((option, index) =>
