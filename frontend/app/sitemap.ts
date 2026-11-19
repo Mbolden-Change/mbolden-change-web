@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next';
 import type { SanityDocument } from '@sanity/client';
 import { sanityFetch } from '@/sanity/lib/fetch';
+import { POST_CANONICAL } from '@/lib/substackPosts/config';
+import { POSTS_PATH, sitePostPath } from '@/lib/substackPosts/core';
+import { getAllPosts } from '@/lib/substackPosts/posts';
 
 async function getData() {
   const query = `*[_type in ["caseStudy", "programCaseStudy", "employerGuide", "statement", "letter", "page", "report"] && defined(slug.current)] {
@@ -53,7 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
     // Pages built in code rather than in Studio. A Studio page with the same
     // address is dropped below so no URL is listed twice.
-    const codePages: MetadataRoute.Sitemap = ['/building-the-road', '/legal-providers', '/simulator'].map(
+    const codePages: MetadataRoute.Sitemap = ['/building-the-road', '/legal-providers', '/simulator', POSTS_PATH].map(
       (path) => ({
         url: `${baseUrl}${path}`,
         lastModified: new Date(),
@@ -61,6 +64,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.9,
       })
     );
+    // Substack posts are listed only once search engines are told our copy is
+    // the original (POST_CANONICAL in lib/substackPosts/config.ts).
+    const postPages: MetadataRoute.Sitemap =
+      POST_CANONICAL === 'site'
+        ? (await getAllPosts()).map((post) => ({
+            url: `${baseUrl}${sitePostPath(post.slug)}`,
+            lastModified: new Date(post.date),
+            changeFrequency: 'monthly',
+            priority: 0.7,
+          }))
+        : [];
     const codeUrls = new Set(codePages.map((page) => page.url));
     return [
         {
@@ -71,5 +85,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         ...dynamicPages.filter((page) => !codeUrls.has(page.url)),
         ...codePages,
+        ...postPages,
     ];
 }

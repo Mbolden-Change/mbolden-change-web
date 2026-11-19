@@ -93,6 +93,10 @@ export const pageBuilderType = defineType({
       title: 'Point of View',
     }),
     defineArrayMember({
+      type: 'substackPostList',
+      title: 'Substack Post List',
+    }),
+    defineArrayMember({
       type: 'colorBlockHero',
       title: 'Hero with Color Blocks',
     }),
