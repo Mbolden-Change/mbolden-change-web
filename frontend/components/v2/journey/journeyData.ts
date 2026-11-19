@@ -1,7 +1,8 @@
 // Generated from journey-photo-collage/assets/journey.json (copy, camera, layer positions and alt text)
 // with each image's pixel size. Layers are listed back to front; x, y, w and h are percentages
 // of the artboard. The image files live in public/journey/v2: the folder name is the version,
-// so a new set of artwork gets a new folder and browsers never show a stale picture.
+// so a new set of artwork gets a new folder and browsers never show a stale picture. A single
+// corrected file gets a new name instead (stop 6's layers are back-v2 and front-v2).
 
 export type JourneyImage = {src: string; width: number; height: number}
 export type JourneyLayer = JourneyImage & {x: number; y: number; w: number; h: number; depth: number; drift: number}
@@ -149,7 +150,7 @@ export const JOURNEY: Journey = {
       ],
       "zoom": [
         1,
-        1.1
+        1.05
       ],
       "phonePan": [
         18,
@@ -283,7 +284,7 @@ export const JOURNEY: Journey = {
       },
       "layers": [
         {
-          "src": "/journey/v2/stop-6/back.webp",
+          "src": "/journey/v2/stop-6/back-v2.webp",
           "width": 2752,
           "height": 1536,
           "x": 0,
@@ -294,13 +295,13 @@ export const JOURNEY: Journey = {
           "drift": 0
         },
         {
-          "src": "/journey/v2/stop-6/front.webp",
-          "width": 1214,
-          "height": 861,
-          "x": 55.887,
-          "y": 43.945,
-          "w": 44.113,
-          "h": 56.055,
+          "src": "/journey/v2/stop-6/front-v2.webp",
+          "width": 1234,
+          "height": 880,
+          "x": 55.16,
+          "y": 42.708,
+          "w": 44.84,
+          "h": 57.292,
           "depth": 1.15,
           "drift": 0
         }
