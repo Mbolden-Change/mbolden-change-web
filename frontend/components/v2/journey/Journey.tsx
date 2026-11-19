@@ -6,7 +6,7 @@ import {useEffect, useRef, useState, type CSSProperties, type RefObject} from 'r
 import {JOURNEY, type JourneyImage, type JourneyStop} from './journeyData'
 import styles from './Journey.module.scss'
 
-// Motion and timing follow the approved prototype (journey-build/prototype/index.html).
+// Motion and timing follow the approved prototype (journey-photo-collage/prototype/index.html).
 const {stops: STOPS, timing, artboard} = JOURNEY
 const N = STOPS.length
 const INTRO = timing.introScreens
@@ -16,7 +16,7 @@ const TOTAL = INTRO + N * DWELL + OUTRO
 const RATIO = artboard.width / artboard.height
 // Each frame the drawn position moves this share of the way to the real scroll position.
 const LAG = 0.11
-// Phones show the paintings at full height and pan across them, so they need wide files too.
+// Phones show the images at full height and pan across them, so they need wide files too.
 const SIZES = '(orientation: portrait) 180vh, 100vw'
 const QUALITY = 80
 // A stop's caption starts to appear this far (in screens) after the stop has fully arrived.
@@ -26,6 +26,11 @@ const CAPTION_IN = 0.08
 const EAGER = 2
 // Scrolling this far (in screens) past the end fades the journey out and closes it.
 const CLOSE_PAST = 0.3
+// With reduced motion, a stop's second scene takes this long (in screens) to fade in: the same
+// short crossfade used between stops.
+const REDUCED_FADE = 0.3
+// The second scene fills the frame and moves with the camera at full depth.
+const FULL_FRAME = {x: 0, y: 0, depth: 1, drift: 0}
 const SHADOW = {teal: 'var(--brand-aqua-teal)', yellow: 'var(--brand-warm-yellow)', fuchsia: 'var(--brand-fuchsia)'}
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v))
@@ -66,7 +71,7 @@ function setMask(el: HTMLElement, mask: string) {
   el.style.maskImage = mask
 }
 
-/** An optimized painting. Later stops render without a source; it's added when the stop is warmed. */
+/** An optimized image. Later stops render without a source; it's added when the stop is warmed. */
 function Painting({image, alt, eager, priority}: {image: JourneyImage; alt: string; eager: boolean; priority?: boolean}) {
   const {props} = getImageProps({...image, alt, sizes: SIZES, quality: QUALITY})
   return eager ? (
@@ -84,7 +89,24 @@ function Painting({image, alt, eager, priority}: {image: JourneyImage; alt: stri
   )
 }
 
-/** The painted layers of a stop on the artboard, back to front. The front layer carries the alt text. */
+/**
+ * A stop's second scene: one full-frame image over the stop's layers, faded in by the draw loop.
+ * It starts out invisible and hidden from screen readers.
+ */
+function SecondScene({stop, eager, decorative}: {stop: JourneyStop; eager: boolean; decorative: boolean}) {
+  if (!stop.secondScene) return null
+  return (
+    <div className={styles.plane} data-second="" aria-hidden="true" style={{left: 0, top: 0, width: '100%', height: '100%', opacity: 0}}>
+      <Painting image={stop.secondScene.image} alt={decorative ? '' : stop.secondScene.alt} eager={eager} />
+    </div>
+  )
+}
+
+/**
+ * The layers of a stop on the artboard, back to front. The front layer carries the alt text.
+ * Both copies (muted and full color) hold the stop's second scene, if it has one, so the
+ * cross-fade looks the same wherever the color has bloomed.
+ */
 function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: number; decorative: boolean; flat: boolean}) {
   const eager = index < EAGER
   if (flat) {
@@ -93,13 +115,14 @@ function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: numbe
         <div className={styles.plane} style={{left: 0, top: 0, width: '100%', height: '100%'}}>
           <Painting image={stop.flat} alt={decorative ? '' : stop.alt} eager={eager} priority={index === 0} />
         </div>
+        <SecondScene stop={stop} eager={eager} decorative={decorative} />
       </div>
     )
   }
   return (
     <div className={styles.frame}>
       {stop.layers.map((layer, k) => (
-        <div key={layer.src} className={styles.plane} style={{left: `${layer.x}%`, top: `${layer.y}%`, width: `${layer.w}%`, height: `${layer.h}%`}}>
+        <div key={`${layer.src}-${k}`} className={styles.plane} style={{left: `${layer.x}%`, top: `${layer.y}%`, width: `${layer.w}%`, height: `${layer.h}%`}}>
           <Painting
             image={layer}
             alt={!decorative && k === stop.layers.length - 1 ? stop.alt : ''}
@@ -108,6 +131,7 @@ function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: numbe
           />
         </div>
       ))}
+      <SecondScene stop={stop} eager={eager} decorative={decorative} />
     </div>
   )
 }
@@ -171,7 +195,7 @@ export default function Journey({scrollerRef, onFinish}: JourneyProps) {
     const ready: boolean[] = Array(N).fill(false)
     const warming: (Promise<void> | undefined)[] = Array(N)
 
-    // Loads a stop's paintings and decodes every one before the stop may show.
+    // Loads a stop's images (its second scene included) and decodes every one before the stop may show.
     const warm = (i: number): Promise<void> => {
       if (i < 0 || i >= N) return Promise.resolve()
       if (warming[i]) return warming[i]!
@@ -309,7 +333,7 @@ export default function Journey({scrollerRef, onFinish}: JourneyProps) {
           fr.style.transform = `translate(${fl}px,${ft}px)`
           if (reduce) return
           planes[i][fi].forEach((el, k) => {
-            const layer = stop.layers[k]
+            const layer = el.dataset.second === undefined ? stop.layers[k] : FULL_FRAME
             if (!layer) return
             const px = (layer.x / 100) * W
             const py = (layer.y / 100) * H
@@ -319,6 +343,27 @@ export default function Journey({scrollerRef, onFinish}: JourneyProps) {
             el.style.transform = `translateX(${dr}px) scale(${z})`
           })
         })
+
+        // Second scene: the stop's layers cross-fade into it partway through the stop, under the
+        // same camera. With reduced motion it switches with a short crossfade at the same point.
+        const second = stop.secondScene
+        if (second) {
+          const span = DWELL + 0.55
+          const from = wipe0 + second.fadeStart * span
+          const to = reduce ? from + REDUCED_FADE : wipe0 + second.fadeEnd * span
+          const fade = smooth(from, to, t)
+          parts[i].frames.forEach((fr) => {
+            const els = Array.from(fr.children) as HTMLElement[]
+            if (!els.some((el) => el.dataset.second !== undefined)) return
+            els.forEach((el) => {
+              const isSecond = el.dataset.second !== undefined
+              if (isSecond) el.style.opacity = String(fade)
+              // Screen readers get the scene that is showing: the first until the fade is done.
+              el.toggleAttribute('aria-hidden', isSecond ? fade < 1 : fade >= 1)
+              if (el.hasAttribute('aria-hidden')) el.setAttribute('aria-hidden', 'true')
+            })
+          })
+        }
 
         // Caption: enters from the bottom left, drifts up and right, holds, then leaves up and right.
         const a = start + CAPTION_IN

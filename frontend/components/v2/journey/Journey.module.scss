@@ -178,7 +178,7 @@ $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
   }
 }
 
-// Stop 3 sits at the top so it doesn't cover the street lettering.
+// Stop 3 sits at the top so it doesn't cover the banner along the bottom.
 .top {
   top: max(28px, calc(env(safe-area-inset-top, 0px) + 22px));
   bottom: auto;
@@ -186,6 +186,24 @@ $gutter-right: max(24px, calc(env(safe-area-inset-right, 0px) + 16px));
   // Clear the close button in the top right corner.
   @media (max-width: 640px) {
     top: max(72px, calc(env(safe-area-inset-top, 0px) + 66px));
+  }
+
+  // On landscape screens smaller than 1440 x 810 the picture shrinks, so this caption
+  // (eyebrow, line and width together) shrinks with it and stays clear of the
+  // I CAN'T BREATHE sign. The line never goes below the size phones use (25px).
+  // 7.883vh is 4.4vw at the picture's shape, for windows wider than the picture.
+  @media (min-width: 641px) and (min-aspect-ratio: 11/10) {
+    --cap-size: clamp(1.5625rem, calc(min(4.4vw, 7.883vh) - 21.7px), 2.6rem);
+
+    max-width: min(calc(var(--cap-size) * 11.54), calc(100vw - 48px));
+
+    p {
+      font-size: var(--cap-size);
+    }
+
+    .capEyebrow {
+      font-size: max(calc(var(--cap-size) * 0.3154), 0.68rem);
+    }
   }
 }
 

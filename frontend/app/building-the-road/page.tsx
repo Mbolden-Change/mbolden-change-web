@@ -9,8 +9,8 @@ import {SITE_ORIGIN} from '@/lib/organizationJsonLd'
 const description =
   'Build the road to systemic equity with mBOLDen Change, from where we are today to the future we envision together.'
 const shareTitle = `${JOURNEY.title} | mBOLDen Change`
-// Stop 1's painting, cropped to the link-preview shape.
-const shareImage = {url: '/journey/share.jpg', width: 1200, height: 630, alt: JOURNEY.stops[0].alt}
+// Stop 1's image, cropped to the link-preview shape.
+const shareImage = {url: '/journey/v2/share.jpg', width: 1200, height: 630, alt: JOURNEY.stops[0].alt}
 
 export const metadata: Metadata = {
   title: JOURNEY.title,
