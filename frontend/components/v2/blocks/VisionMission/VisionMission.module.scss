@@ -164,6 +164,14 @@
     font-size: 0.9375rem;
   }
 
+  // Phones in portrait: the label sits at the top left and stays narrow, so it
+  // doesn't cover the people on the right of the image.
+  @media (max-width: 767px) and (orientation: portrait) {
+    top: 5%;
+    bottom: auto;
+    max-width: 58%;
+  }
+
   small {
     display: block;
     margin-top: 0.3em;
