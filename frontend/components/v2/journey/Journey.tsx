@@ -93,18 +93,19 @@ function Painting({image, alt, eager, priority}: {image: JourneyImage; alt: stri
  * A stop's second scene: one full-frame image over the stop's layers, faded in by the draw loop.
  * It starts out invisible and hidden from screen readers.
  */
-function SecondScene({stop, eager}: {stop: JourneyStop; eager: boolean}) {
+function SecondScene({stop, eager, decorative}: {stop: JourneyStop; eager: boolean; decorative: boolean}) {
   if (!stop.secondScene) return null
   return (
     <div className={styles.plane} data-second="" aria-hidden="true" style={{left: 0, top: 0, width: '100%', height: '100%', opacity: 0}}>
-      <Painting image={stop.secondScene.image} alt={stop.secondScene.alt} eager={eager} />
+      <Painting image={stop.secondScene.image} alt={decorative ? '' : stop.secondScene.alt} eager={eager} />
     </div>
   )
 }
 
 /**
  * The layers of a stop on the artboard, back to front. The front layer carries the alt text.
- * The full-color copy (not the decorative one) also holds the stop's second scene, if it has one.
+ * Both copies (muted and full color) hold the stop's second scene, if it has one, so the
+ * cross-fade looks the same wherever the color has bloomed.
  */
 function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: number; decorative: boolean; flat: boolean}) {
   const eager = index < EAGER
@@ -114,7 +115,7 @@ function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: numbe
         <div className={styles.plane} style={{left: 0, top: 0, width: '100%', height: '100%'}}>
           <Painting image={stop.flat} alt={decorative ? '' : stop.alt} eager={eager} priority={index === 0} />
         </div>
-        {!decorative && <SecondScene stop={stop} eager={eager} />}
+        <SecondScene stop={stop} eager={eager} decorative={decorative} />
       </div>
     )
   }
@@ -130,7 +131,7 @@ function Frame({stop, index, decorative, flat}: {stop: JourneyStop; index: numbe
           />
         </div>
       ))}
-      {!decorative && <SecondScene stop={stop} eager={eager} />}
+      <SecondScene stop={stop} eager={eager} decorative={decorative} />
     </div>
   )
 }

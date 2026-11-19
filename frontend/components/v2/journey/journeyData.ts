@@ -363,8 +363,8 @@ export const JOURNEY: Journey = {
           "height": 1536
         },
         "alt": "The same street a moment later: a woman kneels to bump fists with a schoolboy, an elder takes a neighbor's hands at her door and two workers carry a ladder past flower boxes.",
-        "fadeStart": 0.5,
-        "fadeEnd": 0.72
+        "fadeStart": 0.35,
+        "fadeEnd": 0.55
       }
     },
     {
