@@ -349,6 +349,21 @@
             },
             "rest": {
               "type": "inline",
+              "name": "substackPostList"
+            }
+          },
+          {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
               "name": "colorBlockHero"
             }
           },
@@ -2728,6 +2743,36 @@
           "optional": false
         },
         "linkLabel": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "substackPostList",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "substackPostList"
+          }
+        },
+        "initialCount": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "buttonLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"

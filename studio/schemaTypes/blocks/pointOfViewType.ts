@@ -20,6 +20,16 @@ function checkSubstackUrl(value: string | undefined, {postOnly}: {postOnly: bool
   return true
 }
 
+/** The button goes to our Substack or to a page on this site, such as /point-of-view. */
+function checkButtonUrl(value: string | undefined) {
+  if (!value) return true
+  if (value.startsWith('/')) {
+    return /^\/(?!\/)\S*$/.test(value) ? true : 'Use a page address on this site, such as /point-of-view.'
+  }
+  const result = checkSubstackUrl(value, {postOnly: false})
+  return result === true ? true : `${result} Or use a page on this site, such as /point-of-view.`
+}
+
 export const pointOfViewPostType = defineType({
   name: 'pointOfViewPost',
   title: 'Substack post',
@@ -78,7 +88,7 @@ export const pointOfViewType = defineType({
   title: 'Point of View',
   type: 'object',
   description:
-    'Three Substack posts as cards on white, with a button to the Substack. Pick up to three posts; with none picked, the three latest show automatically.',
+    'Three Substack posts as cards on white, with a button to the Substack or to Our Point of View. Each card opens the post on this site. Pick up to three posts; with none picked, the three latest show automatically.',
   fields: [
     defineField({
       name: 'eyebrow',
@@ -118,14 +128,16 @@ export const pointOfViewType = defineType({
       title: 'Button text',
       type: 'string',
       initialValue: 'Read more on Substack',
-      description: 'An ↗ is added after it.',
+      description: 'An arrow is added after it: ↗ for the Substack, → for a page on this site.',
     }),
     defineField({
       name: 'buttonUrl',
       title: 'Button link',
       type: 'url',
+      description: `Our Substack (https://${SUBSTACK_HOST}/) or a page on this site, such as /point-of-view.`,
       initialValue: `https://${SUBSTACK_HOST}/`,
-      validation: (Rule) => Rule.custom((value) => checkSubstackUrl(value as string | undefined, {postOnly: false})),
+      validation: (Rule) =>
+        Rule.uri({allowRelative: true, scheme: ['https']}).custom((value) => checkButtonUrl(value as string | undefined)),
     }),
   ],
   preview: {

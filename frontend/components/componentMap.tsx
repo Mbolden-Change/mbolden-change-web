@@ -101,6 +101,9 @@ const componentMap: ComponentsMap = {
   pointOfView: dynamic(
     () => import('@/components/v2/blocks/PointOfView/PointOfView'),
   ),
+  substackPostList: dynamic(
+    () => import('@/components/v2/pointOfView/SubstackPostList'),
+  ),
   policyText: dynamic(
     () => import('@/components/v2/blocks/PolicyText/PolicyText'),
   ),
