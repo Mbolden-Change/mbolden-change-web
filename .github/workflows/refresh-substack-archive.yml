@@ -7,6 +7,10 @@ name: Refresh Substack archive
 # New posts already appear on the site within the hour from the feed; this
 # keeps the archive file complete, since the feed only holds the latest 20.
 #
+# Known limit (Nov 2026): Substack answers GitHub's hosted runners with 403,
+# so this job fails at "Rebuild the archive" until it runs somewhere Substack
+# accepts. See the pull request that added it for the options.
+#
 # One-time setup: in GitHub → Settings → Actions → General, turn on
 # "Allow GitHub Actions to create and approve pull requests".
 on:

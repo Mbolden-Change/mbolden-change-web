@@ -136,5 +136,11 @@ async function main() {
 
 main().catch((error) => {
   console.error(error)
+  if (/^40[13] from /.test(error?.message ?? '')) {
+    console.error(
+      '\nSubstack refused this machine. It turns away some hosted servers, GitHub\'s runners among them.\n' +
+        'Nothing was changed. Run the script from a machine Substack accepts.',
+    )
+  }
   process.exit(1)
 })
