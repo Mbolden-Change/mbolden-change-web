@@ -11,8 +11,9 @@
  * its posts API (the archive API can't be paged). Needs Node 22.18 or newer,
  * which runs the shared TypeScript cleaner directly.
  *
- * The monthly "Refresh Substack archive" GitHub Action runs this and opens a
- * pull request only when the file changed.
+ * Substack refuses GitHub's hosted runners, so this is not a GitHub Action.
+ * A scheduled Claude session runs it each quarter and opens a pull request
+ * when the file changed. See "Refreshing the Substack archive" in the README.
  */
 import {readFile, writeFile, appendFile} from 'node:fs/promises'
 import {fileURLToPath} from 'node:url'

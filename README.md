@@ -44,6 +44,29 @@ Defaults to the `development` dataset. Set `SANITY_STUDIO_DATASET=production` wh
 
 Schema changes: edit `studio/schemaTypes/`, then run typegen (`npm run typegen` / `predev`) before wiring frontend queries and components. See `.cursor/rules/sanity-block-workflow.mdc`.
 
+## Refreshing the Substack archive
+
+Our Point of View (`/point-of-view`) reads every Substack post from
+`frontend/content/substack-archive.json`, plus anything newer in the Substack
+feed. The feed only holds the latest 20 posts, so the file is refreshed each
+quarter by a scheduled Claude session. Substack refuses GitHub's hosted
+runners, so this can't run as a GitHub Action.
+
+To refresh it by hand (Node 22.18 or newer), on a new branch from the latest `main`:
+
+```sh
+cd frontend
+npm ci
+node scripts/syncSubstack.mjs --check                 # compare only; writes nothing
+node scripts/syncSubstack.mjs --report report.md      # rewrite the file and list what changed
+```
+
+If it prints "No changes: the archive is current", stop there: no pull request.
+Otherwise commit only `frontend/content/substack-archive.json`, open a pull
+request with the contents of `report.md` in the description (don't commit
+`report.md`), and send Minh the preview link. Minh approves it like any other
+change; never merge without her approval.
+
 ## Design system
 
 Before writing UI, read `design-system/README.md` and `design-system/SKILL.md`. Use brand tokens from `frontend/app/globals.css` / `frontend/app/design-tokens.scss` — never hard-code hex when a `--brand-*` token exists.
