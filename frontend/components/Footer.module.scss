@@ -204,7 +204,9 @@
   color: #a6a6a6;
 }
 
-.noteLink {
+// .note .noteLink (not .noteLink alone) so the underline outranks the global
+// a:link / a:visited / a:hover / a:active reset in globals.css.
+.note .noteLink {
   color: var(--brand-warm-yellow);
   text-decoration: underline;
   text-underline-offset: 2px;
