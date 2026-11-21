@@ -12,8 +12,8 @@ const PAGE_GROUPS: Record<string, SearchGroup> = {
 }
 
 /**
- * Proposed, for Minh to confirm: pages with no group of their own (such as
- * the Privacy Policy) are listed under About.
+ * Pages with no group of their own are listed under About. (The Privacy
+ * Policy isn't in search at all; see exclusions.ts.)
  */
 export const PROPOSED_PAGE_GROUP: SearchGroup = 'About'
 

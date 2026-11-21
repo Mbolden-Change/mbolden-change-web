@@ -7,6 +7,10 @@ import type {SearchEntry} from './types'
 /** Pages and documents whose address starts with "test". */
 export const isTestSlug = (slug: string | null | undefined) => /^\/*test/i.test(slug ?? '')
 
+/** Pages Minh keeps out of search altogether: the Privacy Policy. */
+const UNLISTED_PAGES = new Set(['privacy'])
+export const isUnlistedPage = (slug: string | null | undefined) => UNLISTED_PAGES.has((slug ?? '').replace(/^\/+/, ''))
+
 /** The Document Retention & Destruction Policy, by any spelling of its name or file. */
 const RETENTION_POLICY = /retention\s*(?:&|&amp;|and)?\s*destruction|document[\s_-]*retention|retention[\s_-]*polic|destruction[\s_-]*polic/i
 export const isRetentionPolicy = (text: string | null | undefined) => RETENTION_POLICY.test(text ?? '')

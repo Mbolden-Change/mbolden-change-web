@@ -4,7 +4,7 @@ import path from 'path'
 import {forgetActionEntries, getActionEntries, parseActionIndex} from './actionSource'
 import {assembleIndex, DEFAULT_POPULAR, DEFAULT_TRY_WORDS} from './buildIndex'
 import {CODE_PAGES} from './codePages'
-import {createSearchEngine} from './engine'
+import {createSearchEngine, titleMatch} from './engine'
 import {isExcludedUrl, isRetentionPolicy, isTestSlug, scrubText} from './exclusions'
 import {groupForDocument, groupForPage} from './groups'
 import {SEARCH_INDEX_QUERY} from './sanitySource'
@@ -52,8 +52,8 @@ describe('groups', () => {
     expect(groupForPage('ready-to-grow')).toBe('Ready to Grow')
     expect(groupForPage('point-of-view')).toBe('Our Point of View')
     expect(groupForPage('donate')).toBe('Donate')
-    // Proposed, for Minh to confirm.
-    expect(groupForPage('privacy')).toBe('About')
+    // Any other page falls under About.
+    expect(groupForPage('some-other-page')).toBe('About')
   })
 
   it('puts every entry in exactly one known group', () => {
@@ -99,6 +99,12 @@ describe('exclusions', () => {
     expect(isTestSlug('contest')).toBe(false)
     expect(byUrl('/test-layouts')).toBeUndefined()
     expect(everything).not.toContain('Lorem immigrant ipsum')
+  })
+
+  it('leaves out the Privacy Policy entirely', () => {
+    expect(byUrl('/privacy')).toBeUndefined()
+    expect(everything).not.toContain('Privacy Policy')
+    expect(everything).not.toContain('We collect very little')
   })
 
   it('leaves out the homepage as a page of its own', () => {
@@ -319,6 +325,122 @@ describe('ranking and matching', () => {
       expect(scores).toEqual([...scores].sort((a, b) => b - a))
     }
     expect(results.groups[0].results[0].title).toBe('The Gateway Fund')
+  })
+})
+
+describe('top match', () => {
+  const entry = (id: string, title: string, fields: Partial<SearchEntry> = {}): SearchEntry => ({
+    id,
+    url: `/${id}`,
+    title,
+    group: 'Resources',
+    location: 'Resources',
+    ...fields,
+  })
+  const engine = createSearchEngine([
+    entry('donate', 'Donate', {group: 'Donate', body: 'Give boldly.'}),
+    entry('post-1', 'The GoFundMe Page We Never Created', {body: 'People donate and donate and donate to donate again.'}),
+    entry('simulator', 'Safety Net Simulator', {summary: 'Follow a household.'}),
+    entry('release', 'Safety Net Simulator Shows the Real Household Impact of Federal Cuts', {newTab: true, body: 'simulator simulator'}),
+    entry('page-wwt', "What We're Tackling", {body: 'therapy and a simulator'}),
+    entry('page-wwt#care-access-fund', 'Pediatric Therapy Access', {body: 'Children wait months for therapy.'}),
+    entry('fund-a', 'The Gateway Fund', {body: 'fees'}),
+    entry('fund-b', 'The Gateway Fund', {group: 'Donate', body: 'fees'}),
+    entry('post-2', 'Why Immigrant Workers and Employers Need More Than Compliance Today', {body: 'immigrant'}),
+    entry('post-3', 'End the Raids on Immigrant Workers and Build with Justice for Everyone', {body: 'immigrant'}),
+    entry('letter', 'A Letter to the Fidelity Charitable Board', {newTab: true, body: 'board board board'}),
+    entry('page-about#our-leadership', 'Our Leadership', {summary: 'Our board and staff', headings: ['Board of Directors'], body: 'Board Chair. Board Member.'}),
+    entry('post-4', 'The Philanthropic Retreat', {body: 'A long piece that mentions a board once among many other words about foundations.'}),
+  ])
+  const top = (query: string) => engine.search(query).top?.id
+
+  it('is the page asked for by name', () => {
+    expect(top('donate')).toBe('donate')
+    expect(top('Donate')).toBe('donate')
+  })
+
+  it('is the closest title when the words typed are a third of it or more', () => {
+    expect(top('simulator')).toBe('simulator')
+    expect(top('therapy')).toBe('page-wwt#care-access-fund')
+    expect(top('safety net simulator')).toBe('simulator')
+  })
+
+  it('is left out when no result clearly wins', () => {
+    // Two titles match equally well.
+    expect(top('gateway')).toBeUndefined()
+    // The word is a small part of a long title, and the scores are close.
+    expect(top('immigrant')).toBeUndefined()
+    expect(top('zzzqqq')).toBeUndefined()
+  })
+
+  it('can win on a score well above the next result', () => {
+    expect(top('board')).toBe('page-about#our-leadership')
+  })
+
+  it('is never a news row that leads to another site', () => {
+    expect(top('board')).not.toBe('letter')
+    expect(top('fidelity')).toBeUndefined()
+  })
+
+  it('still appears in its own group', () => {
+    const results = engine.search('donate')
+    expect(results.groups.find((group) => group.group === 'Donate')?.results.map((result) => result.id)).toContain('donate')
+    expect(results.total).toBe(results.groups.reduce((sum, group) => sum + group.results.length, 0))
+  })
+
+  it('measures how much of a title the words typed make up', () => {
+    expect(titleMatch('donate', 'Donate')).toBe(1)
+    expect(titleMatch('gateway fund', 'The Gateway Fund')).toBe(1)
+    expect(titleMatch('simulator', 'Safety Net Simulator')).toBeCloseTo(1 / 3)
+    expect(titleMatch('aid', 'What AI Owes Us')).toBe(0)
+  })
+})
+
+describe('section beats page', () => {
+  const entry = (id: string, title: string, fields: Partial<SearchEntry> = {}): SearchEntry => ({
+    id,
+    url: `/${id}`,
+    title,
+    group: "What We're Tackling",
+    location: '',
+    ...fields,
+  })
+  const engine = createSearchEngine([
+    // The page says "cash" far more often than its sections do.
+    entry('page-wwt', "What We're Tackling", {location: 'mboldenchange.org', summary: 'Cash, cash and more cash.', headings: ['Cash'], body: 'cash cash cash'}),
+    entry('page-wwt#safety-net', 'Student & Family Safety Net', {body: 'Emergency cash for families.'}),
+    entry('page-wwt#gateway-fund', 'The Gateway Fund', {body: 'Cash is not part of this, but fees are.'}),
+    entry('code:/legal-providers', 'Request for Funds', {body: 'Not about cash.'}),
+    entry('page-about', 'About', {group: 'About', location: 'mboldenchange.org', body: 'about us'}),
+    entry('page-ready', 'Ready to Grow', {group: 'Ready to Grow', location: 'mboldenchange.org', summary: 'Cash transfer models. Cash.', body: 'cash cash'}),
+    entry('case-study', 'Project Empower', {group: 'Ready to Grow', location: 'Ready to Grow › Case Study', body: 'Monthly cash.'}),
+    entry('page-about#our-history', 'Our History', {group: 'About', body: 'All about how we began. About 2006.'}),
+  ])
+  const order = (query: string, group: string) =>
+    engine.search(query).groups.find((entry) => entry.group === group)?.results.map((result) => result.id)
+
+  it('lists a page below its own matching sections and pop-ups', () => {
+    const ids = order('cash', "What We're Tackling")!
+    expect(ids.indexOf('page-wwt')).toBeGreaterThan(ids.indexOf('page-wwt#safety-net'))
+    expect(ids.indexOf('page-wwt')).toBeGreaterThan(ids.indexOf('page-wwt#gateway-fund'))
+  })
+
+  it('lists a page below the documents filed under it', () => {
+    expect(order('cash', 'Ready to Grow')).toEqual(['case-study', 'page-ready'])
+  })
+
+  it('leaves the page where it is when nothing else in its group matches', () => {
+    expect(order('tackling', "What We're Tackling")).toEqual(['page-wwt'])
+  })
+
+  it('keeps a page asked for by name first', () => {
+    expect(order('about', 'About')?.[0]).toBe('page-about')
+  })
+
+  it('holds on the fixture site', () => {
+    const results = createSearchEngine(index.entries).search('gateway')
+    const ids = results.groups[0].results.map((result) => result.url)
+    expect(ids.indexOf('/what-were-tackling')).toBeGreaterThan(ids.indexOf('/what-were-tackling#gateway-fund'))
   })
 })
 

@@ -19,7 +19,7 @@ export const DEFAULT_POPULAR: SearchLink[] = [
 ]
 
 /**
- * Longest body kept per entry, in words. The whole index is about 130 KB
+ * Longest body kept per entry, in words. The whole index is about 128 KB
  * gzipped uncapped, under the 250 KB budget, so nothing is cut today. Lower
  * this (for example to 3000) if the index outgrows the budget.
  */

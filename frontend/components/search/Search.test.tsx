@@ -93,7 +93,7 @@ describe('search', () => {
     const headings = screen.getAllByRole('heading', {level: 2}).map((heading) => heading.textContent)
     expect(headings[0]).toMatch(/^What We're Tackling/)
     expect(headings.at(-1)).toMatch(/^Donate/)
-    const first = screen.getAllByRole('listitem')[0]
+    const first = within(screen.getByRole('region', {name: /^What We're Tackling, /})).getAllByRole('listitem')[0]
     expect(within(first).getByRole('link')).toHaveAttribute('href', '/what-were-tackling#gateway-fund')
     expect(first).toHaveTextContent("What We're Tackling › The Gateway Fund")
   })
@@ -110,6 +110,32 @@ describe('search', () => {
     expect(screen.getByRole('link', {name: /^See all \d+ results/})).toHaveAttribute('href', '/search?q=gateway')
   })
 
+  it('shows a clear winner as the Top match, above the filters and still in its group', async () => {
+    const user = await setup()
+    await user.type(screen.getByRole('textbox'), 'therapy')
+    const top = screen.getByRole('region', {name: 'Top match'})
+    expect(within(top).getAllByRole('listitem')).toHaveLength(1)
+    expect(within(top).getByRole('link')).toHaveAttribute('href', '/what-were-tackling#care-access-fund')
+    expect(top).toHaveTextContent('Top match')
+    const group = screen.getByRole('region', {name: /^What We're Tackling, 2 results$/})
+    expect(within(group).getAllByRole('link')[0]).toHaveAttribute('href', '/what-were-tackling#care-access-fund')
+    expect(top.compareDocumentPosition(group) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+
+    await user.clear(screen.getByRole('textbox'))
+    await user.type(screen.getByRole('textbox'), 'donate')
+    expect(within(screen.getByRole('region', {name: 'Top match'})).getByRole('link')).toHaveAttribute('href', '/donate')
+    const filters = screen.queryByRole('group', {name: 'Show results from'})
+    if (filters) {
+      expect(screen.getByRole('region', {name: 'Top match'}).compareDocumentPosition(filters) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    }
+  })
+
+  it('shows no Top match when nothing clearly wins', async () => {
+    const user = await setup()
+    await user.type(screen.getByRole('textbox'), 'gateway')
+    expect(screen.queryByRole('region', {name: 'Top match'})).not.toBeInTheDocument()
+  })
+
   it('filters to one group with toggle buttons', async () => {
     const user = await setup()
     await user.type(screen.getByRole('textbox'), 'gateway')
@@ -119,8 +145,9 @@ describe('search', () => {
     await user.click(pov)
     expect(pov).toHaveAttribute('aria-pressed', 'true')
     // Only that group, with everything in it.
-    expect(screen.getAllByRole('region')).toHaveLength(1)
-    expect(screen.getAllByRole('listitem')).toHaveLength(5)
+    const groups = screen.getAllByRole('region', {name: /results$/})
+    expect(groups).toHaveLength(1)
+    expect(within(groups[0]).getAllByRole('listitem')).toHaveLength(5)
     expect(screen.queryByRole('button', {name: /Show all/})).not.toBeInTheDocument()
   })
 
@@ -129,7 +156,7 @@ describe('search', () => {
     await user.type(screen.getByRole('textbox'), 'therapy')
     // The pop-up and its page: one group.
     expect(screen.getByRole('status')).toHaveTextContent('2 results for “therapy”, best matches first')
-    expect(screen.getAllByRole('region')).toHaveLength(1)
+    expect(screen.getAllByRole('region', {name: /results$/})).toHaveLength(1)
     expect(screen.queryByRole('group', {name: 'Show results from'})).not.toBeInTheDocument()
     expect(screen.queryByRole('link', {name: /See all/})).not.toBeInTheDocument()
   })
@@ -137,7 +164,8 @@ describe('search', () => {
   it('opens mBOLDen Action in a new tab with its tag, and everything else in the same tab', async () => {
     const user = await setup()
     await user.type(screen.getByRole('textbox'), 'DAF')
-    const action = screen.getByRole('link', {name: /Move My DAF/})
+    const actionGroup = screen.getByRole('region', {name: /^From mBOLDen Action, /})
+    const action = within(actionGroup).getByRole('link', {name: /Move My DAF/})
     expect(action).toHaveAttribute('href', 'https://www.mboldenaction.org/movemydaf/')
     expect(action).toHaveAttribute('target', '_blank')
     expect(action).toHaveTextContent('Opens mboldenaction.org')
@@ -169,7 +197,7 @@ describe('search', () => {
   it('never renders hidden search keywords', async () => {
     const user = await setup()
     await user.type(screen.getByRole('textbox'), 'immigrant kids')
-    expect(screen.getAllByRole('listitem')[0]).toHaveTextContent('The Gateway Fund')
+    expect(within(screen.getByRole('region', {name: /^What We're Tackling, /})).getAllByRole('listitem')[0]).toHaveTextContent('The Gateway Fund')
     // The words typed are in the input and the status line, nowhere in the results.
     for (const item of screen.getAllByRole('listitem')) expect(item).not.toHaveTextContent(/immigrant kids/i)
     await user.clear(screen.getByRole('textbox'))
@@ -219,7 +247,7 @@ describe('search analytics', () => {
   it('reports a result click with its group and no query', async () => {
     const user = await setup()
     await user.type(screen.getByRole('textbox'), 'DAF')
-    const link = screen.getByRole('link', {name: /Move My DAF/})
+    const link = within(screen.getByRole('region', {name: /^From mBOLDen Action, /})).getByRole('link', {name: /Move My DAF/})
     link.addEventListener('click', (event) => event.preventDefault())
     await user.click(link)
     expect(track).toHaveBeenCalledTimes(1)

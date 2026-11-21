@@ -99,7 +99,7 @@ const Arrow = ({out = false}: {out?: boolean}) => (
   </span>
 )
 
-function ResultRow({result, onNavigate}: {result: SearchResult; onNavigate?: () => void}) {
+function ResultRow({result, onNavigate, label}: {result: SearchResult; onNavigate?: () => void; label?: string}) {
   const isAction = result.group === 'From mBOLDen Action'
   return (
     <li className={styles.result}>
@@ -113,6 +113,7 @@ function ResultRow({result, onNavigate}: {result: SearchResult; onNavigate?: () 
         }}
       >
         <span className={styles.resultText}>
+          {label && <span className={styles.topTag}>{label}</span>}
           {result.location && <span className={styles.location}>{result.location}</span>}
           <span className={styles.resultTitle}>
             {result.title}
@@ -278,6 +279,14 @@ export default function SearchExperience({
       <p className={styles.status} role="status" aria-live="polite">
         {statusText}
       </p>
+
+      {results.top && (
+        <section className={styles.top} aria-label="Top match">
+          <ul className={styles.results}>
+            <ResultRow key={results.top.id} result={results.top} onNavigate={onNavigate} label="Top match" />
+          </ul>
+        </section>
+      )}
 
       {results.groups.length >= 2 && (
         <div className={styles.filters} role="group" aria-label="Show results from">

@@ -414,6 +414,26 @@ $muted: var(--ds-color-text-muted);
   }
 }
 
+// The one clear winner, above the filters.
+.top {
+  animation: rise 400ms $ease-out both;
+
+  .results {
+    border: 2px solid var(--brand-black);
+  }
+}
+
+.topTag {
+  margin-bottom: 0.125rem;
+  padding: 0.1875rem 0.5rem;
+  background: var(--brand-warm-yellow);
+  color: var(--brand-black);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
 .actionTag {
   margin-top: 0.25rem;
   padding: 0.1875rem 0.5rem;
@@ -567,6 +587,7 @@ $muted: var(--ds-color-text-muted);
   .panelClosing,
   .panelClosing::backdrop,
   .group,
+  .top,
   .popular {
     animation: none;
   }

@@ -3,10 +3,10 @@
  * inside them), statements, letters, news items, case studies and guides.
  * Pure functions over the query result, so tests can pass their own content.
  */
-import {isTestSlug} from './exclusions'
+import {isTestSlug, isUnlistedPage} from './exclusions'
 import {groupForDocument, groupForPage} from './groups'
 import {clip, extractText, portableTextToLines, sectionAnchor, shortDate, tidy, type Extracted} from './text'
-import type {SearchEntry, SearchGroup, SearchLink} from './types'
+import {PAGE_LOCATION, type SearchEntry, type SearchGroup, type SearchLink} from './types'
 
 const LINK = `{title, isExternalLink, url, target, reference->{_type, "slug": slug.current, section}}`
 const PUBLISHED = `defined(slug.current) && !(_id in path("drafts.**"))`
@@ -127,7 +127,7 @@ function entriesFromPage(
   const slug = page.slug ?? ''
   const pageTitle = str(page.title)
   // The homepage isn't a result of its own: its sections live on other pages.
-  if (!slug || slug === '/' || isTestSlug(slug) || !pageTitle) return []
+  if (!slug || slug === '/' || isTestSlug(slug) || isUnlistedPage(slug) || !pageTitle) return []
 
   const path = `/${slug}`
   const group = groupForPage(slug)
@@ -249,7 +249,7 @@ function entriesFromPage(
     url: path,
     title: pageTitle,
     group,
-    location: 'mboldenchange.org',
+    location: PAGE_LOCATION,
     ...optional('summary', summary),
     ...optional('keywords', keywords),
     ...optional('headings', [...new Set(own.headings)].filter((heading) => heading !== pageTitle)),

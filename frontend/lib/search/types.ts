@@ -14,6 +14,9 @@ export type SearchGroup = (typeof GROUPS)[number]
 
 export const ACTION_GROUP: SearchGroup = 'From mBOLDen Action'
 
+/** The location line of a whole-page result. Sections, pop-ups and documents say where they sit instead. */
+export const PAGE_LOCATION = 'mboldenchange.org'
+
 /** One thing a search can find. */
 export type SearchEntry = {
   id: string
