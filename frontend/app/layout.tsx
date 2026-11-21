@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Analytics } from '@vercel/analytics/next';
+import SiteAnalytics from '@/components/SiteAnalytics';
 import './globals.css';
 import './design-tokens.scss';
 import { Archivo_Narrow, Roboto } from 'next/font/google';
@@ -93,7 +93,7 @@ export default async function RootLayout({
         </div>
         <PopUpModal popUpModalData={popUpModalData}/>
         <Footer footerData={footerData} />
-        <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );

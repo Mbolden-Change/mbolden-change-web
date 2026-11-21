@@ -182,3 +182,8 @@ a[x-apple-data-detectors] {
 .skip-target:focus {
   outline: none;
 }
+
+/* Sections that search results link to (lib/search/anchor.ts) stop below the sticky header. */
+[data-section-anchor] {
+  scroll-margin-top: 84px;
+}

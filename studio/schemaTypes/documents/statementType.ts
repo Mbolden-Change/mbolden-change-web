@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 import {articleBlock} from '../objects/articleBlock'
 
 export const statementType = defineType({
@@ -162,6 +163,7 @@ export const statementType = defineType({
         }),
       ],
     }),
+    searchKeywordsField(),
   ],
   preview: {
     select: {title: 'title', subtitle: 'issue'},

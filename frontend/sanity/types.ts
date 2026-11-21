@@ -1062,6 +1062,7 @@ export type TextMedia = {
   sectionId?: string;
   headline: string;
   searchSummary?: string;
+  searchKeywords?: Array<string>;
   textBody: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1660,6 +1661,7 @@ export type Letter = {
     _key: string;
   }>;
   moreLabel?: string;
+  searchKeywords?: Array<string>;
 };
 
 export type EmployerGuide = {
@@ -1761,6 +1763,7 @@ export type EmployerGuide = {
     }>;
     disclaimer?: string;
   };
+  searchKeywords?: Array<string>;
 };
 
 export type ProgramCaseStudy = {
@@ -1924,6 +1927,7 @@ export type ProgramCaseStudy = {
     };
     pdfLabel?: string;
   };
+  searchKeywords?: Array<string>;
 };
 
 export type SiteSettings = {
@@ -2010,6 +2014,7 @@ export type Report = {
     _type: "image";
     _key: string;
   }>;
+  searchKeywords?: Array<string>;
 };
 
 export type PopUpModal = {
@@ -2087,6 +2092,7 @@ export type CaseStudy = {
     _type: "image";
     _key: string;
   }>;
+  searchKeywords?: Array<string>;
 };
 
 export type Header = {
@@ -2253,6 +2259,7 @@ export type Page = {
   slug: Slug;
   description?: string;
   content?: PageBuilder;
+  searchKeywords?: Array<string>;
 };
 
 export type Statement = {
@@ -2337,6 +2344,7 @@ export type Statement = {
     newsletterLabel?: string;
     moreLabel?: string;
   };
+  searchKeywords?: Array<string>;
 };
 
 export type ZeffyForm = {
@@ -2395,6 +2403,24 @@ export type InternalOrExternalLink = {
   };
 };
 
+export type SearchSettings = {
+  _id: string;
+  _type: "searchSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  tryWords?: Array<string>;
+  popularLinks?: Array<{
+    _key: string;
+  } & InternalOrExternalLink>;
+  codePageKeywords?: Array<{
+    path: "/simulator" | "/legal-providers" | "/building-the-road";
+    searchKeywords?: Array<string>;
+    _type: "codePage";
+    _key: string;
+  }>;
+};
+
 export type PdfDocument = {
   _id: string;
   _type: "pdfDocument";
@@ -2430,6 +2456,7 @@ export type NewsItem = {
   details?: string;
   linkLabel?: string;
   link?: string;
+  searchKeywords?: Array<string>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -2550,5 +2577,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | SubstackPostList | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | PdfDocument | NewsItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | SubstackPostList | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SearchSettings | PdfDocument | NewsItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;

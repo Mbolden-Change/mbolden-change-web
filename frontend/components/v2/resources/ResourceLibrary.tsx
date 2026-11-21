@@ -9,6 +9,7 @@ import {youTubeEmbedUrl} from '../blocks/TextMedia/pilotImage'
 import {useScrollReveal} from '../motion/useScrollReveal'
 import {FILTERS, KIND_LABEL, KIND_LANE, linkArrow, youTubeIdFrom} from './lanes'
 import styles from './resources.module.scss'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 type Item = NonNullable<ResourceLibraryType['items']>[number]
 
@@ -73,6 +74,7 @@ export default function ResourceLibrary({eyebrow, heading, items}: ResourceLibra
       ref={ref}
       className={classNames(styles.library, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
+      {...sectionAnchorProps(heading)}
     >
       <div className={classNames(styles.wrap, styles.stack)}>
         <div className={styles.head}>

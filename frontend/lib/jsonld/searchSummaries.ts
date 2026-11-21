@@ -4,7 +4,8 @@
  * A summary is one sentence written for search engines and AI tools. It goes
  * out only as JSON-LD and is never rendered as page text, hidden or not.
  * stripSearchSummaries removes it from the blocks before they render, so it
- * can't reach a component or the data Next.js sends to the browser.
+ * can't reach a component or the data Next.js sends to the browser. It removes
+ * a block's search keywords (read only by site search) the same way.
  */
 
 import type {JsonLd, SchemaGuardResult} from './types'
@@ -23,6 +24,7 @@ type ContentBlock = {
   subtitle?: string | null
   sectionId?: string | null
   searchSummary?: string | null
+  searchKeywords?: string[] | null
   tabs?: Array<{content?: ContentBlock[] | null} | null> | null
 }
 
@@ -61,16 +63,17 @@ export function collectSearchSummaries(
   return items
 }
 
-/** The same blocks without `searchSummary`, for rendering. */
+/** The same blocks without `searchSummary` or `searchKeywords`, for rendering. */
 export function stripSearchSummaries<T>(content: T): T {
   if (!Array.isArray(content)) return content
 
   return content.map((entry: unknown) => {
     if (!entry || typeof entry !== 'object') return entry
     const block = entry as ContentBlock
-    if (block._type === 'textMedia' && 'searchSummary' in block) {
-      const {searchSummary: _removed, ...rest} = block
+    if (block._type === 'textMedia' && ('searchSummary' in block || 'searchKeywords' in block)) {
+      const {searchSummary: _removed, searchKeywords: _keywords, ...rest} = block
       void _removed
+      void _keywords
       return rest
     }
     if (block._type === 'tabsContainer' && Array.isArray(block.tabs)) {

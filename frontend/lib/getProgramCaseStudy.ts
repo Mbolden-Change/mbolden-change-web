@@ -17,5 +17,9 @@ export type CaseStudySection = 'readyToGrow' | 'resources';
 /** A case study in its section, so each address serves only its own section's case studies. */
 export const getProgramCaseStudy = cache(async (slug: string, section: CaseStudySection = 'readyToGrow') => {
   const caseStudy = await sanityFetch<ProgramCaseStudyData | null>(PROGRAM_CASE_STUDY_QUERY, { slug, section });
-  return caseStudy ?? null;
+  if (!caseStudy) return null;
+  // Search keywords are read only by site search. They never reach the page.
+  const { searchKeywords: _searchKeywords, ...shown } = caseStudy;
+  void _searchKeywords;
+  return shown as ProgramCaseStudyData;
 });

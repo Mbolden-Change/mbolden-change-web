@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 
 export const pageType = defineType({
   name: 'page',
@@ -49,5 +50,6 @@ export const pageType = defineType({
         }),
       description: 'The blocks on the page, in the order they appear.',
     }),
+    searchKeywordsField(),
   ],
 })

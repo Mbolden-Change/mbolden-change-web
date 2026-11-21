@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, type PointerEvent } from 'react';
+import React, { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import classNames from 'classnames';
 import Grid from './Grid';
@@ -13,7 +14,24 @@ import { LinkAtom, ReferenceType, hrefForInternalReference } from './atoms/Link'
 import SkewButton from './atoms/SkewButton';
 import { trackDonateClick } from '@/lib/analytics';
 import { opensInNewTab } from '@/utils/internalOrExternalLink';
+import SearchButton from './search/SearchButton';
+import { preloadSearch } from '@/lib/search/client';
 import styles from './Header.module.scss';
+
+// The panel and the search library load the first time search is opened.
+const loadSearchPanel = () => import('./search/SearchPanel');
+const SearchPanel = dynamic(loadSearchPanel, { ssr: false });
+
+/** The /search page has its own search box; the header button goes to it. */
+const SEARCH_PAGE = '/search';
+const SEARCH_PAGE_INPUT_ID = 'site-search-input';
+
+const isTyping = (target: EventTarget | null) => {
+  const element = target as HTMLElement | null;
+  return Boolean(
+    element?.closest?.('input, textarea, select, [contenteditable=""], [contenteditable="true"], [role="textbox"]'),
+  );
+};
 
 /** Pages outside a menu item's path that still belong to it, such as News & Statements under Resources. */
 const SECTION_ALIASES: Record<string, string[]> = {
@@ -26,7 +44,49 @@ export default function Header({ headerData }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [pendingHref, setPendingHref] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  // The panel isn't rendered (or downloaded) until search is first opened.
+  const [searchUsed, setSearchUsed] = useState(false);
+  const desktopSearchRef = useRef<HTMLButtonElement>(null);
+  const mobileSearchRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+
+  const warmSearch = useCallback(() => {
+    void loadSearchPanel();
+    preloadSearch();
+  }, []);
+
+  const openSearch = useCallback(() => {
+    if (window.location.pathname === SEARCH_PAGE) {
+      document.getElementById(SEARCH_PAGE_INPUT_ID)?.focus();
+      return;
+    }
+    setOpen(false);
+    setSearchUsed(true);
+    setSearchOpen(true);
+  }, []);
+
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+
+  const focusSearchButton = useCallback(() => {
+    // Whichever search button is on screen.
+    const button = [desktopSearchRef.current, mobileSearchRef.current].find(
+      (candidate) => candidate && candidate.offsetParent !== null,
+    );
+    button?.focus();
+  }, []);
+
+  // "/" opens search, unless someone is typing or another pop-up is open.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== '/' || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (isTyping(event.target) || document.querySelector('dialog[open]')) return;
+      event.preventDefault();
+      openSearch();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [openSearch]);
 
   const selectNavLink = (href: string | null) => {
     if (!href) return;
@@ -49,6 +109,7 @@ export default function Header({ headerData }: HeaderProps) {
 
   useEffect(() => {
     setPendingHref(null);
+    setSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -79,16 +140,25 @@ export default function Header({ headerData }: HeaderProps) {
               )}
             </Link>
 
-            <button
-              className={`${styles.hamburger} ${open ? styles.hamburgerOpen : ''}`}
-              aria-label="Toggle menu"
-              aria-expanded={open}
-              onClick={() => setOpen(!open)}
-            >
-              <span className={styles.bar} />
-              <span className={styles.bar} />
-              <span className={styles.bar} />
-            </button>
+            {/* Phones: search sits beside the menu button and stays visible when the menu is closed. */}
+            <div className={styles.mobileActions}>
+              <SearchButton
+                ref={mobileSearchRef}
+                expanded={searchOpen}
+                onOpen={openSearch}
+                onIntent={warmSearch}
+              />
+              <button
+                className={`${styles.hamburger} ${open ? styles.hamburgerOpen : ''}`}
+                aria-label="Toggle menu"
+                aria-expanded={open}
+                onClick={() => setOpen(!open)}
+              >
+                <span className={styles.bar} />
+                <span className={styles.bar} />
+                <span className={styles.bar} />
+              </button>
+            </div>
 
             <ul className={`${styles.linkList} ${open ? styles.open : ''}`}>
               {headerData.navigationLinks?.map((link, i) => {
@@ -151,6 +221,16 @@ export default function Header({ headerData }: HeaderProps) {
                 );
               })}
 
+              {/* Desktop: between the last link and Donate. */}
+              <li className={styles.desktopSearch}>
+                <SearchButton
+                  ref={desktopSearchRef}
+                  expanded={searchOpen}
+                  onOpen={openSearch}
+                  onIntent={warmSearch}
+                />
+              </li>
+
               {headerData.donateCTA && (
                 <li>
                   <SkewButton
@@ -182,6 +262,7 @@ export default function Header({ headerData }: HeaderProps) {
           </nav>
         </GridItem>
       </Grid>
+      {searchUsed && <SearchPanel open={searchOpen} onClose={closeSearch} onClosed={focusSearchButton} />}
     </header>
   );
 }

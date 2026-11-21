@@ -5,5 +5,9 @@ import type { EmployerGuideData } from '@/components/v2/resources/EmployerGuide'
 
 export const getEmployerGuide = cache(async (slug: string) => {
   const guide = await sanityFetch<EmployerGuideData | null>(EMPLOYER_GUIDE_QUERY, { slug });
-  return guide ?? null;
+  if (!guide) return null;
+  // Search keywords are read only by site search. They never reach the page.
+  const { searchKeywords: _searchKeywords, ...shown } = guide as EmployerGuideData & { searchKeywords?: string[] };
+  void _searchKeywords;
+  return shown as EmployerGuideData;
 });

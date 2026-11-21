@@ -7,6 +7,7 @@ import {LinkAtom} from '@/components/atoms/Link'
 import {getReferenceWithSlug, isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import styles from './Timeline.module.scss'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 export type TimelineProps = TimelineType
 
@@ -85,6 +86,7 @@ export default function Timeline({eyebrow, heading, milestones, cta}: TimelinePr
         phase === 'in' && styles.in,
       )}
       aria-label={heading}
+      {...sectionAnchorProps(heading)}
     >
       <div className={styles.inner}>
         <div className={styles.head}>

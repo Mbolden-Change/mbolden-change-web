@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 import {OlistIcon} from '@sanity/icons'
 
 export const NEWS_KINDS = [
@@ -69,6 +70,7 @@ export const newsItemType = defineType({
         'A page on this site, such as /letter/ab-1357, opens in the same tab. A full address opens in a new tab. Leave blank to show no link.',
       validation: (Rule) => Rule.uri({allowRelative: true, scheme: ['http', 'https']}),
     }),
+    searchKeywordsField(),
   ],
   orderings: [{title: 'Newest first', name: 'dateDesc', by: [{field: 'date', direction: 'desc'}]}],
   preview: {

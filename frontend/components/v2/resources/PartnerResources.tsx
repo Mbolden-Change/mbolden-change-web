@@ -5,6 +5,7 @@ import type {CSSProperties} from 'react'
 import type {PartnerResources as PartnerResourcesType} from '@/sanity/types'
 import {useScrollReveal} from '../motion/useScrollReveal'
 import styles from './resources.module.scss'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 const DELAY = [styles.d1, styles.d2, styles.d3]
 
@@ -19,6 +20,7 @@ export default function PartnerResources({eyebrow, heading, intro, partners}: Pa
       ref={ref}
       className={classNames(styles.partners, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
+      {...sectionAnchorProps(heading)}
     >
       <div className={classNames(styles.wrap, styles.stack)}>
         <div className={styles.split}>

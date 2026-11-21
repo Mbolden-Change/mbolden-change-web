@@ -6,6 +6,7 @@ import Headline from '@/components/atoms/Headline'
 import SanityNextImage from '@/components/SanityNextImage'
 import styles from './Leadership.module.scss'
 import LeadershipFeatured from './LeadershipFeatured'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 type PersonWithKey = Person & {_key?: string}
 
@@ -69,6 +70,7 @@ export default function Leadership(props: LeadershipProps) {
         flushBottom && styles.flushBottom,
       )}
       aria-label={title || 'Leadership'}
+      {...(nested ? {} : sectionAnchorProps(title))}
     >
       <div className={styles.inner}>
         {title && <Headline tag={headingTag} text={title} className={styles.title} />}
