@@ -8,6 +8,7 @@ import {
   DocumentTextIcon,
   EarthGlobeIcon,
   EnvelopeIcon,
+  SearchIcon,
 } from '@sanity/icons'
 
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
@@ -31,6 +32,7 @@ export const structure: StructureResolver = (S) =>
       singletonListItem(S, 'footer', 'Footer').icon(EarthGlobeIcon),
       singletonListItem(S, 'header', 'Header').icon(EarthGlobeIcon),
       singletonListItem(S, 'siteSettings', 'Site Settings').icon(CogIcon),
+      singletonListItem(S, 'searchSettings', 'Search settings').icon(SearchIcon),
       S.divider(),
       singletonListItem(S, 'popUpModal', 'Pop-Up Modal').icon(EarthGlobeIcon),
       S.divider(),

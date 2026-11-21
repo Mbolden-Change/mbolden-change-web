@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 import {supportedByLogoFields} from '../fields/supportedByLogo'
 import {muxPlaybackIdField} from '../fields/muxPlaybackId'
 
@@ -93,6 +94,7 @@ export const textMedia = defineType({
       validation: (Rule) => Rule.max(300).error('Keep the search summary to 300 characters or fewer.'),
       hidden: ({parent}) => parent?.appearance !== 'pilotDialog',
     }),
+    searchKeywordsField(),
     defineField({
       name: 'textBody',
       title: 'Text Body',

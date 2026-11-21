@@ -10,6 +10,7 @@ import {isRenderableInternalOrExternalLink} from '@/utils/internalOrExternalLink
 import CharityBadge, {type CharityBadgeData} from '@/components/CharityBadge/CharityBadge'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import styles from './GetInTouch.module.scss'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 /** The page query adds `contact` (the Footer's Organization info) and `charityBadge` (Site Settings). */
 export type GetInTouchProps = GetInTouchType & {
@@ -44,6 +45,7 @@ export default function GetInTouch({
       ref={ref}
       className={classNames(styles.wrapper, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
+      {...sectionAnchorProps(heading)}
     >
       <div className={styles.inner}>
         <div className={styles.copy}>

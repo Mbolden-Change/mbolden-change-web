@@ -29,3 +29,24 @@ export function trackDonateClick(location: AnalyticsLocation) {
 export function trackNewsletterSignup(location: AnalyticsLocation) {
   track('Newsletter Signup', { location });
 }
+
+// Site search. The query is sent only when a search finds nothing, so we can
+// see what people look for and don't find. Clicks never carry the query.
+const reportedQueries = new Set<string>();
+
+/** Lowercased, trimmed and cut to 60 characters. */
+export function normalizeSearchQuery(query: string) {
+  return query.toLowerCase().replace(/\s+/g, ' ').trim().slice(0, 60);
+}
+
+/** Once per query per visit. */
+export function trackSearchNoResults(query: string) {
+  const normalized = normalizeSearchQuery(query);
+  if (!normalized || reportedQueries.has(normalized)) return;
+  reportedQueries.add(normalized);
+  track('Search No Results', { query: normalized });
+}
+
+export function trackSearchResultClick(group: string) {
+  track('Search Result Click', { group });
+}

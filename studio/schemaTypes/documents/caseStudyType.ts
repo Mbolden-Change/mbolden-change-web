@@ -1,4 +1,5 @@
 import {defineType, defineField} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 
 export const caseStudyType = defineType({
   name: 'caseStudy',
@@ -50,5 +51,6 @@ export const caseStudyType = defineType({
       type: 'array',
       of: [{type: 'block'}, {type: 'image'}],
     }),
+    searchKeywordsField(),
   ],
 })

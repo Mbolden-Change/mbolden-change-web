@@ -7,6 +7,7 @@ import type {CaseStudyCards as CaseStudyCardsType, ProgramCaseStudy} from '@/san
 import {useScrollReveal} from '../motion/useScrollReveal'
 import {laneVar} from './lanes'
 import styles from './blocks.module.scss'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 /** The page query adds `cards`: each referenced case study's card fields. */
 export type CaseStudyCardsProps = CaseStudyCardsType & {
@@ -30,6 +31,7 @@ export default function CaseStudyCards({eyebrow, heading, cards, linkLabel = 'Re
       ref={ref}
       className={classNames(styles.models, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={heading}
+      {...sectionAnchorProps(heading)}
     >
       <div className={classNames(styles.wrap, styles.stack)}>
         <div className={styles.head}>

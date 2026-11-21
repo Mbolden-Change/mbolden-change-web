@@ -7,6 +7,7 @@ import {getPilotImage} from '../TextMedia/pilotImage'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import LeadershipInvite from './LeadershipInvite'
 import styles from './LeadershipFeatured.module.scss'
+import {sectionAnchorProps} from '@/lib/search/anchor'
 
 const DELAYS = [styles.d3, styles.d4]
 
@@ -39,6 +40,7 @@ export default function LeadershipFeatured({eyebrow, title, people, groups, invi
       ref={ref}
       className={classNames(styles.wrapper, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
       aria-label={title || 'Leadership'}
+      {...sectionAnchorProps(title)}
     >
       <div className={styles.inner}>
         {(eyebrow || title) && (

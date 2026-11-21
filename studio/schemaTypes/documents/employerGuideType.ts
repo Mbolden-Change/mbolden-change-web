@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 
 const COLORS = [
   {title: 'Teal', value: 'teal'},
@@ -262,6 +263,7 @@ export const employerGuideType = defineType({
         }),
       ],
     }),
+    searchKeywordsField(),
   ],
   preview: {
     select: {title: 'title', slug: 'slug.current'},

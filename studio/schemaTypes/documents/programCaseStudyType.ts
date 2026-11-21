@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 
 /** A short heading and text, used by How It Worked, What We Learned and the next phase. */
 const headingText = (name: string, title: string) =>
@@ -508,6 +509,7 @@ export const programCaseStudyType = defineType({
         defineField({name: 'pdfLabel', title: 'PDF button text', type: 'string'}),
       ],
     }),
+    searchKeywordsField(),
   ],
   preview: {
     select: {title: 'name', lane: 'lane', years: 'pilotYears'},

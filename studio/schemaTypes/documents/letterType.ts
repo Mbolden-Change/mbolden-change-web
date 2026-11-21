@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {searchKeywordsField} from '../fields/searchKeywords'
 import {EnvelopeIcon} from '@sanity/icons'
 import {articleBlock} from '../objects/articleBlock'
 
@@ -124,6 +125,7 @@ export const letterType = defineType({
       initialValue: 'All news & statements',
       description: 'Links to News & Statements. Leave blank to hide it.',
     }),
+    searchKeywordsField(),
   ],
   orderings: [{title: 'Newest first', name: 'dateDesc', by: [{field: 'date', direction: 'desc'}]}],
   preview: {
