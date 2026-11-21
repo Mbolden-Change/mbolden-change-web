@@ -22,8 +22,9 @@ export function isDonateCta(link?: LinkLike | null): boolean {
   return haystack.includes('donate');
 }
 
-export function trackDonateClick(location: AnalyticsLocation) {
-  track('Donate Click', { location });
+/** `placement` tells apart two buttons in the same location, such as the phone header's Donate. */
+export function trackDonateClick(location: AnalyticsLocation, extra?: { placement: string }) {
+  track('Donate Click', { location, ...extra });
 }
 
 export function trackNewsletterSignup(location: AnalyticsLocation) {

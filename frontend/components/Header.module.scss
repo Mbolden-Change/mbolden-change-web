@@ -98,7 +98,12 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   font-size: 16px;
 }
 
-// Search and the menu button, on phones only.
+// Phones only: the search field at the top of the open menu.
+.menuSearch {
+  display: none;
+}
+
+// Donate and the menu button, on phones only.
 .mobileActions {
   display: none;
   align-items: center;
@@ -161,8 +166,56 @@ $ease-brand: cubic-bezier(0.45, 0.05, 0.55, 0.95);
     display: flex;
   }
 
-  .desktopSearch {
+  .desktopSearch,
+  .menuDonate {
     display: none;
+  }
+
+  // Full size from 340px wide; below that it gives way just enough to keep
+  // logo, Donate and the menu button on one row (140px on a 320px phone).
+  .logoWrapper {
+    max-width: min(160px, calc(100vw - 180px));
+  }
+
+  // 44px tall with the shared Donate padding; narrower sides so the row fits small phones.
+  .mobileDonate .donateButton {
+    min-height: 44px;
+    padding-inline: 20px;
+  }
+
+  .menuSearch {
+    display: block;
+    align-self: stretch;
+  }
+
+  // A button that looks like the search panel's field and opens that panel.
+  .menuSearchField {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 1rem;
+    border: 2px solid var(--brand-black);
+    background: var(--brand-white);
+    color: var(--ds-color-text-muted);
+    font-family: var(--font-headline), Arial, Helvetica, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: text;
+
+    &:focus-visible {
+      outline: 3px solid var(--brand-aqua-teal);
+      outline-offset: 2px;
+    }
+  }
+
+  .menuSearchIcon {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    color: var(--brand-black);
   }
 
   .hamburger {

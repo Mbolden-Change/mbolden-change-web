@@ -15,6 +15,7 @@ import SkewButton from './atoms/SkewButton';
 import { trackDonateClick } from '@/lib/analytics';
 import { opensInNewTab } from '@/utils/internalOrExternalLink';
 import SearchButton from './search/SearchButton';
+import SearchIcon from './search/SearchIcon';
 import { preloadSearch } from '@/lib/search/client';
 import styles from './Header.module.scss';
 
@@ -33,6 +34,9 @@ const isTyping = (target: EventTarget | null) => {
   );
 };
 
+/** The phone header's Donate button always goes to the Donate page, in the same tab. */
+const DONATE_PAGE: ReferenceType = { _type: 'page', slug: { current: 'donate' } };
+
 /** Pages outside a menu item's path that still belong to it, such as News & Statements under Resources. */
 const SECTION_ALIASES: Record<string, string[]> = {
   resources: ['news', 'statement', 'letter'],
@@ -48,7 +52,8 @@ export default function Header({ headerData }: HeaderProps) {
   // The panel isn't rendered (or downloaded) until search is first opened.
   const [searchUsed, setSearchUsed] = useState(false);
   const desktopSearchRef = useRef<HTMLButtonElement>(null);
-  const mobileSearchRef = useRef<HTMLButtonElement>(null);
+  const menuSearchRef = useRef<HTMLButtonElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   const warmSearch = useCallback(() => {
@@ -68,10 +73,21 @@ export default function Header({ headerData }: HeaderProps) {
 
   const closeSearch = useCallback(() => setSearchOpen(false), []);
 
+  const toggleMenu = () => {
+    if (!open) {
+      // Have the panel in place before the menu's search field is tapped, so
+      // focus lands in its input within the tap and phones bring the keyboard up.
+      warmSearch();
+      setSearchUsed(true);
+    }
+    setOpen(!open);
+  };
+
   const focusSearchButton = useCallback(() => {
-    // Whichever search button is on screen.
-    const button = [desktopSearchRef.current, mobileSearchRef.current].find(
-      (candidate) => candidate && candidate.offsetParent !== null,
+    // Whichever search control is on screen. On phones the menu (and the
+    // search field in it) has closed, so focus goes back to the menu button.
+    const button = [desktopSearchRef.current, menuSearchRef.current, menuButtonRef.current].find(
+      (candidate) => candidate && candidate.offsetParent !== null && getComputedStyle(candidate).visibility !== 'hidden',
     );
     button?.focus();
   }, []);
@@ -140,19 +156,28 @@ export default function Header({ headerData }: HeaderProps) {
               )}
             </Link>
 
-            {/* Phones: search sits beside the menu button and stays visible when the menu is closed. */}
+            {/* Phones: Donate sits beside the menu button and stays visible when the menu is closed. */}
             <div className={styles.mobileActions}>
-              <SearchButton
-                ref={mobileSearchRef}
-                expanded={searchOpen}
-                onOpen={openSearch}
-                onIntent={warmSearch}
-              />
+              {headerData.donateCTA && (
+                <SkewButton
+                  variant="black"
+                  reference={DONATE_PAGE}
+                  className={styles.donateButton}
+                  wrapperClassName={styles.mobileDonate}
+                  onClick={() => {
+                    trackDonateClick('header', { placement: 'mobile-header' });
+                    handleNavClick();
+                  }}
+                >
+                  Donate
+                </SkewButton>
+              )}
               <button
+                ref={menuButtonRef}
                 className={`${styles.hamburger} ${open ? styles.hamburgerOpen : ''}`}
                 aria-label="Toggle menu"
                 aria-expanded={open}
-                onClick={() => setOpen(!open)}
+                onClick={toggleMenu}
               >
                 <span className={styles.bar} />
                 <span className={styles.bar} />
@@ -161,6 +186,22 @@ export default function Header({ headerData }: HeaderProps) {
             </div>
 
             <ul className={`${styles.linkList} ${open ? styles.open : ''}`}>
+              {/* Phones: first in the open menu. It opens the same search panel as the desktop button. */}
+              <li className={styles.menuSearch}>
+                <button
+                  ref={menuSearchRef}
+                  type="button"
+                  className={styles.menuSearchField}
+                  aria-haspopup="dialog"
+                  aria-expanded={searchOpen}
+                  onClick={openSearch}
+                  onPointerEnter={warmSearch}
+                  onFocus={warmSearch}
+                >
+                  <SearchIcon className={styles.menuSearchIcon} />
+                  <span>Search the site</span>
+                </button>
+              </li>
               {headerData.navigationLinks?.map((link, i) => {
                 const slug =
                   link.reference && 'slug' in link.reference
@@ -231,8 +272,9 @@ export default function Header({ headerData }: HeaderProps) {
                 />
               </li>
 
+              {/* Phones show Donate in the header row instead. */}
               {headerData.donateCTA && (
-                <li>
+                <li className={styles.menuDonate}>
                   <SkewButton
                     variant="black"
                     isExternalLink={
