@@ -68,10 +68,11 @@ export function gatewayEmailLink(target: EventTarget | null): Element | null {
 
 /**
  * Sends the page the click happened on and nothing else: no address, no
- * subject. Nothing is sent after Decline or with Global Privacy Control on.
+ * subject. Vercel Web Analytics has no cookies and always gets the click, like
+ * its other events. Google Analytics gets nothing after Decline or with Global
+ * Privacy Control on.
  */
 export function trackGatewayEmailClick(pathname: string) {
-  if (!consentAllowsEvents()) return;
   track('Gateway Email Click', { page: pathname });
-  gaEvent('gateway_provider_email', { page: pathname });
+  if (consentAllowsEvents()) gaEvent('gateway_provider_email', { page: pathname });
 }

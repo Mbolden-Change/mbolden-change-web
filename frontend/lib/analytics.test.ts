@@ -76,32 +76,35 @@ describe('trackGatewayEmailClick', () => {
     )
   })
 
-  it('sends nothing after Decline', () => {
+  it('sends nothing to Google after Decline', () => {
     window.localStorage.setItem(CONSENT_KEY, 'denied')
     startGa()
     trackGatewayEmailClick('/legal-providers')
     expect(events('gateway_provider_email')).toHaveLength(0)
-    expect(track).not.toHaveBeenCalled()
+    // Vercel Web Analytics is cookieless and gets the click whatever the consent state.
+    expect(track).toHaveBeenCalledWith('Gateway Email Click', {page: '/legal-providers'})
   })
 
-  it('sends nothing with Global Privacy Control on, even after Accept', () => {
+  it('sends nothing to Google with Global Privacy Control on, even after Accept', () => {
     setGpc(true)
     window.localStorage.setItem(CONSENT_KEY, 'granted')
     startGa()
     trackGatewayEmailClick('/legal-providers')
     expect(events('gateway_provider_email')).toHaveLength(0)
-    expect(track).not.toHaveBeenCalled()
+    // Vercel Web Analytics is cookieless and gets the click whatever the consent state.
+    expect(track).toHaveBeenCalledWith('Gateway Email Click', {page: '/legal-providers'})
   })
 
-  it('sends nothing while a visitor is still being asked, and sends after Accept', () => {
+  it('sends nothing to Google while a visitor is still being asked, and sends after Accept', () => {
     setTimezone('Europe/Berlin')
     startGa()
     trackGatewayEmailClick('/legal-providers')
     expect(events('gateway_provider_email')).toHaveLength(0)
-    expect(track).not.toHaveBeenCalled()
+    // Vercel Web Analytics is cookieless and gets the click whatever the consent state.
+    expect(track).toHaveBeenCalledWith('Gateway Email Click', {page: '/legal-providers'})
     window.localStorage.setItem(CONSENT_KEY, 'granted')
     trackGatewayEmailClick('/legal-providers')
     expect(events('gateway_provider_email')).toHaveLength(1)
-    expect(track).toHaveBeenCalledTimes(1)
+    expect(track).toHaveBeenCalledTimes(2)
   })
 })
