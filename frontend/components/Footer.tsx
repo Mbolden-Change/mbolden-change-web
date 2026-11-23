@@ -14,6 +14,7 @@ import ButtonComponent from './atoms/ButtonComponent';
 import { useState } from 'react';
 import ActionNetworkModal from './blocks/ActionNetworkModal/ActionNetworkModal';
 import { isDonateCta, trackDonateClick } from '@/lib/analytics';
+import { OPEN_CONSENT_EVENT } from '@/lib/ga';
 import { opensInNewTab } from '@/utils/internalOrExternalLink';
 import CharityBadge, { type CharityBadgeData } from './CharityBadge/CharityBadge';
 import CandidSeal, { type CandidSealData } from './CandidSeal/CandidSeal';
@@ -213,6 +214,14 @@ const Footer = ({ footerData }: FooterProps) => {
                     title={link.title}
                   />
                 ))}
+                {/* Reopens the Google Analytics consent bar, for any visitor. */}
+                <button
+                  type="button"
+                  className={`${styles.legalLink} ${styles.legalButton}`}
+                  onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}
+                >
+                  Cookie choices
+                </button>
               </div>
             </div>
           </GridItem>

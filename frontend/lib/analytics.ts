@@ -1,4 +1,5 @@
 import { track } from '@vercel/analytics';
+import { gaEvent } from './ga';
 
 export type AnalyticsLocation =
   | 'header'
@@ -25,6 +26,8 @@ export function isDonateCta(link?: LinkLike | null): boolean {
 /** `placement` tells apart two buttons in the same location, such as the phone header's Donate. */
 export function trackDonateClick(location: AnalyticsLocation, extra?: { placement: string }) {
   track('Donate Click', { location, ...extra });
+  // Google Analytics gets the same click: the placement, or the location where there is none.
+  gaEvent('donate_click', { placement: extra?.placement ?? location });
 }
 
 export function trackNewsletterSignup(location: AnalyticsLocation) {

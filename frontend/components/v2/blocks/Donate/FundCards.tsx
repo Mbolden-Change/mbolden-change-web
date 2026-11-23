@@ -4,6 +4,7 @@ import {useEffect, useRef, type CSSProperties} from 'react'
 import classNames from 'classnames'
 import type {FundCards as FundCardsType} from '@/sanity/types'
 import {trackDonateClick} from '@/lib/analytics'
+import {gaEvent} from '@/lib/ga'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import FundDialog, {type FundDialogHandle} from './FundDialog'
 import {laneColor} from './lanes'
@@ -25,6 +26,9 @@ const fundForHash = (funds: Fund[]) => {
   const id = window.location.hash.slice(1)
   return id ? funds.find((fund) => fund.linkId === id) : undefined
 }
+
+/** Google Analytics: a fund's pop-up opened, from its button or its link ID. */
+const reportFormOpen = (fund: Fund) => gaEvent('donate_form_open', {fund: fund.linkId || 'fund'})
 
 /**
  * A card per shown fund. Each button opens the fund's Zeffy form in a pop-up.
@@ -48,6 +52,7 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       ref.current?.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'})
       dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, opener)
+      reportFormOpen(fund)
     }
     openFromHash()
     window.addEventListener('hashchange', openFromHash)
@@ -102,6 +107,7 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
                   onClick={(event) => {
                     trackDonateClick('fund-cards')
                     dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, event.currentTarget)
+                    reportFormOpen(fund)
                   }}
                 >
                   {fund.buttonLabel || `Give to ${fund.title}`} <span aria-hidden="true">→</span>

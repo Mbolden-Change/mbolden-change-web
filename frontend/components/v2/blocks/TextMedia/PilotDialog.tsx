@@ -1,10 +1,11 @@
 'use client'
 
-import {useState, type CSSProperties} from 'react'
+import {useEffect, useState, type CSSProperties} from 'react'
 import classNames from 'classnames'
 import {PortableTextBlock} from 'next-sanity'
 import type {TextMedia as TextMediaType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
+import {gaEvent} from '@/lib/ga'
 import {deriveTextMedia, pilotCtas, type PilotDocumentFile} from './deriveTextMedia'
 import TextMediaCtas from './TextMediaCtas'
 import {getLogoImage, getPilotImage} from './pilotImage'
@@ -26,6 +27,9 @@ const PARAGRAPH_STEP = 160
 const ATTRIBUTION_GAP = 120
 // Longer display lines (quotes) are set smaller.
 const LONG_LINE_WORDS = 10
+
+/** Section ID of the Gateway Fund pop-up on What We're Tackling. */
+const GATEWAY_FUND_ID = 'gateway-fund'
 
 const QUOTE_MARKS = {
   teal: '/bold-quote-marks/quote-aqua.png',
@@ -57,6 +61,12 @@ export default function PilotDialog({
   const [playing, setPlaying] = useState(false)
   // Unmounting the player on close stops the video.
   const {dialogRef, phase, requestClose} = useHashDialog(sectionId, () => setPlaying(false))
+
+  // Google Analytics: the Gateway Fund story opened.
+  const isOpen = phase === 'open'
+  useEffect(() => {
+    if (isOpen && sectionId === GATEWAY_FUND_ID) gaEvent('gateway_story_open')
+  }, [isOpen, sectionId])
 
   const derived = deriveTextMedia({headline, textBody, ctas, ...rest})
   const linkedCtas = pilotCtas(
