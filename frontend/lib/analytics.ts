@@ -1,5 +1,5 @@
 import { track } from '@vercel/analytics';
-import { gaEvent } from './ga';
+import { consentAllowsEvents, gaEvent } from './ga';
 
 export type AnalyticsLocation =
   | 'header'
@@ -53,4 +53,26 @@ export function trackSearchNoResults(query: string) {
 
 export function trackSearchResultClick(group: string) {
   track('Search Result Click', { group });
+}
+
+// Clicks on the Gateway Fund email link, anywhere on the site.
+const GATEWAY_EMAIL_HREF = 'mailto:gatewayfund@mboldenchange.org';
+
+/** Matches the link however it is written in the CMS or in code (case, ?subject=…). */
+export const GATEWAY_EMAIL_SELECTOR = `a[href^="${GATEWAY_EMAIL_HREF}" i]`;
+
+/** The Gateway Fund email link that was clicked, or null for any other click. */
+export function gatewayEmailLink(target: EventTarget | null): Element | null {
+  return target instanceof Element ? target.closest(GATEWAY_EMAIL_SELECTOR) : null;
+}
+
+/**
+ * Sends the page the click happened on and nothing else: no address, no
+ * subject. Vercel Web Analytics has no cookies and always gets the click, like
+ * its other events. Google Analytics gets nothing after Decline or with Global
+ * Privacy Control on.
+ */
+export function trackGatewayEmailClick(pathname: string) {
+  track('Gateway Email Click', { page: pathname });
+  if (consentAllowsEvents()) gaEvent('gateway_provider_email', { page: pathname });
 }
