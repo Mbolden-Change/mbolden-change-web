@@ -2,6 +2,7 @@
 
 import {useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type Ref} from 'react'
 import {flushSync} from 'react-dom'
+import {ZEFFY_FUND_ATTR, ZEFFY_OPEN_ATTR, listenForZeffy} from '@/lib/zeffyEvents'
 import {laneColor, type Lane} from './lanes'
 import {ZEFFY_IFRAME_ATTRS, zeffyEmbedSrc, zeffyPageUrl, type ZeffyFormRef} from './zeffy'
 import styles from './Donate.module.scss'
@@ -10,6 +11,8 @@ export type DialogFund = {
   title: string
   lane?: Lane | string | null
   form?: ZeffyFormRef | null
+  /** The fund's link ID, the name it has in Google Analytics. */
+  linkId?: string | null
 }
 
 export type FundDialogHandle = {
@@ -28,6 +31,8 @@ export default function FundDialog({ref, onClose}: {ref: Ref<FundDialogHandle>; 
   const onCloseRef = useRef(onClose)
   onCloseRef.current = onClose
   const [fund, setFund] = useState<DialogFund | null>(null)
+  // Counts openings, so each one reports its donation steps once.
+  const [opening, setOpening] = useState(0)
 
   // Opens straight from the click, so it never waits on the previous
   // pop-up's close event.
@@ -36,11 +41,17 @@ export default function FundDialog({ref, onClose}: {ref: Ref<FundDialogHandle>; 
       const dialog = dialogRef.current
       if (!dialog) return
       openerRef.current = opener
-      flushSync(() => setFund(next))
+      flushSync(() => {
+        setFund(next)
+        setOpening((count) => count + 1)
+      })
       if (!dialog.open) dialog.showModal()
       document.documentElement.style.overflow = 'hidden'
     },
   }))
+
+  // Google Analytics: the payment step and a completed donation, from Zeffy's messages.
+  useEffect(() => listenForZeffy(), [])
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -109,7 +120,10 @@ export default function FundDialog({ref, onClose}: {ref: Ref<FundDialogHandle>; 
             {fund.title}
           </h2>
           {src && (
-            <div className={styles.dialogForm}>
+            <div
+              className={styles.dialogForm}
+              {...{[ZEFFY_FUND_ATTR]: fund.linkId || 'fund', [ZEFFY_OPEN_ATTR]: opening}}
+            >
               <iframe
                 title={`Donation form for ${fund.title}, powered by Zeffy`}
                 src={src}

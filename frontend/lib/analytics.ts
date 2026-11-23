@@ -30,6 +30,11 @@ export function trackDonateClick(location: AnalyticsLocation, extra?: { placemen
   gaEvent('donate_click', { placement: extra?.placement ?? location });
 }
 
+/** A completed donation, as Zeffy's form reports it. The fund only: no amount and no donor details. */
+export function trackDonationComplete(fund: string) {
+  track('Donation Complete', { fund });
+}
+
 export function trackNewsletterSignup(location: AnalyticsLocation) {
   track('Newsletter Signup', { location });
 }

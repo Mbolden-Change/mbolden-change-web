@@ -51,7 +51,7 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
       if (!opener) return
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       ref.current?.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'})
-      dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, opener)
+      dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form, linkId: fund.linkId}, opener)
       reportFormOpen(fund)
     }
     openFromHash()
@@ -106,7 +106,7 @@ export default function FundCards({eyebrow, heading, funds}: FundCardsType) {
                   aria-haspopup="dialog"
                   onClick={(event) => {
                     trackDonateClick('fund-cards')
-                    dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form}, event.currentTarget)
+                    dialogRef.current?.open({title: fund.title, lane: fund.lane, form: fund.form, linkId: fund.linkId}, event.currentTarget)
                     reportFormOpen(fund)
                   }}
                 >
