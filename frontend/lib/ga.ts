@@ -199,9 +199,8 @@ let lastPath: string | null = null
 let lastLocation = ''
 let lastReferrer = ''
 
-/** Page views are sent by hand; Google signals and ad personalization stay off. */
+/** Google signals and ad personalization stay off. */
 const tagSettings = () => ({
-  send_page_view: false,
   allow_google_signals: false,
   allow_ad_personalization_signals: false,
   ...(isInternal() ? {traffic_type: 'internal'} : {}),
@@ -236,13 +235,13 @@ export function startGa({debug = false}: {debug?: boolean} = {}) {
   gtag('set', 'url_passthrough', false)
   state = 'on'
   // The settings and the cleaned address go in with `set`, ahead of the `js`
-  // command. The Google tag can be set (in Google's admin) to ignore the
-  // `config` on the page; it would then send its own page view with the full
-  // address. Settings given this way apply either way.
+  // command: the Google tag ignores the `config` on the page (a setting in
+  // Google's admin), and only what is set this way reaches the page view it
+  // sends when it loads. That page view is the one for this page load, so
+  // none is sent from here; trackPageView covers moves between pages.
   gtag('set', {...tagSettings(), ...readPageAddress()})
   gtag('js', new Date())
   gtag('config', GA_ID, tagSettings())
-  send('page_view', {page_title: document.title})
 
   if (debug) {
     // Zeffy check: shows whether its forms post anything back to the page.
@@ -342,7 +341,10 @@ function send(name: string, params?: GaParams) {
   })
 }
 
-/** One page_view per move between pages. A change to the query string alone isn't a new page. */
+/**
+ * One page_view per move between pages. The tag sends the page view for a
+ * page load itself. A change to the query string alone isn't a new page.
+ */
 export function trackPageView() {
   if (state !== 'on' || window.location.pathname === lastPath) return
   window.gtag?.('set', readPageAddress())

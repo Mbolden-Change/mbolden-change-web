@@ -152,7 +152,7 @@ describe('consent', () => {
 })
 
 describe('the tag', () => {
-  const SETTINGS = {send_page_view: false, allow_google_signals: false, allow_ad_personalization_signals: false}
+  const SETTINGS = {allow_google_signals: false, allow_ad_personalization_signals: false}
 
   it('is set up without Google signals or ad personalization, before the js command', () => {
     startGa()
@@ -170,11 +170,13 @@ describe('the tag', () => {
 
   it('turns debug mode on only when asked', () => {
     startGa({debug: true})
-    expect(named('event', 'page_view')[0][2]).toMatchObject({debug_mode: true})
+    gaEvent('simulator_complete')
+    expect(named('event', 'simulator_complete')[0][2]).toMatchObject({debug_mode: true})
     resetGaForTests()
     window.dataLayer = undefined
     startGa()
-    expect(named('event', 'page_view')[0][2]).not.toHaveProperty('debug_mode')
+    gaEvent('simulator_complete')
+    expect(named('event', 'simulator_complete')[0][2]).not.toHaveProperty('debug_mode')
   })
 
   it('marks internal traffic from ?internal=1 until ?internal=0', () => {
@@ -189,22 +191,26 @@ describe('the tag', () => {
     expect(window.localStorage.getItem(INTERNAL_KEY)).toBeNull()
   })
 
-  it('sends one page_view per page, with cleaned addresses', () => {
+  it('leaves the page load to the tag and sends one page_view per move between pages', () => {
     window.history.replaceState(null, '', '/search?q=secret')
     startGa()
-    expect(named('event', 'page_view')).toHaveLength(1)
-    expect(named('event', 'page_view')[0][2]).toMatchObject({page_location: 'http://localhost/search'})
+    // The tag's own page view gets the cleaned address through `set`.
+    expect(named('event', 'page_view')).toHaveLength(0)
+    expect(calls().find((call) => call[0] === 'set' && typeof call[1] === 'object')![1]).toMatchObject({
+      page_location: 'http://localhost/search',
+    })
 
-    // The query changing on the same page isn't a new page.
+    // Nothing for the page that just loaded, or for its query changing.
+    trackPageView()
     window.history.replaceState(null, '', '/search?q=other')
     trackPageView()
-    expect(named('event', 'page_view')).toHaveLength(1)
+    expect(named('event', 'page_view')).toHaveLength(0)
 
     window.history.pushState(null, '', '/legal-providers?x=1')
     trackPageView()
     trackPageView()
-    expect(named('event', 'page_view')).toHaveLength(2)
-    expect(named('event', 'page_view')[1][2]).toMatchObject({
+    expect(named('event', 'page_view')).toHaveLength(1)
+    expect(named('event', 'page_view')[0][2]).toMatchObject({
       page_location: 'http://localhost/legal-providers',
       page_referrer: 'http://localhost/search',
     })
@@ -220,8 +226,8 @@ describe('the tag', () => {
       page_location: 'http://localhost/',
       page_referrer: '',
     })
-    const events = calls().map((call) => call[1])
-    expect(events.indexOf('page_view')).toBeLessThan(events.indexOf('donate_click'))
+    const order = calls().map((call) => call[0] === 'event' ? call[1] : call[0])
+    expect(order.indexOf('config')).toBeLessThan(order.indexOf('donate_click'))
 
     resetGaForTests()
     window.dataLayer = undefined
