@@ -21,6 +21,12 @@ $header: 84px;
   }
 }
 
+// Sections with a fixed address (GUIDE_ANCHORS) land below the sticky header
+// and the progress bar, whose height the page measures.
+.anchor {
+  scroll-margin-top: calc(#{$header} + var(--progress-height, 58px));
+}
+
 .wrap {
   @include reveal.wrap;
 }
