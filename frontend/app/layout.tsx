@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import SiteAnalytics from '@/components/SiteAnalytics';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+import ConsentBanner from '@/components/ConsentBanner/ConsentBanner';
 import './globals.css';
 import './design-tokens.scss';
 import { Archivo_Narrow, Roboto } from 'next/font/google';
@@ -79,6 +81,14 @@ export default async function RootLayout({
     guardWebSite(SITE_DESCRIPTION),
   ]);
 
+  // Google Analytics loads on production only; a preview can opt in with ?ga_debug=1.
+  const gaEnvironment =
+    process.env.VERCEL_ENV === 'production'
+      ? 'production'
+      : process.env.VERCEL_ENV === 'preview'
+        ? 'preview'
+        : 'other';
+
   return (
     <html lang="en">
       <body className={`${roboto.variable} ${archivoNarrow.variable}`} >
@@ -87,6 +97,7 @@ export default async function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
+        <ConsentBanner />
         <Header headerData={headerData} />
         <div id="main-content" tabIndex={-1} className="skip-target">
           {children}
@@ -94,6 +105,7 @@ export default async function RootLayout({
         <PopUpModal popUpModalData={popUpModalData}/>
         <Footer footerData={footerData} />
         <SiteAnalytics />
+        <GoogleAnalytics environment={gaEnvironment} />
       </body>
     </html>
   );

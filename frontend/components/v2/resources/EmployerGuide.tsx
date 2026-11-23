@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {useEffect, useId, useRef, useState, type CSSProperties, type ReactNode} from 'react'
 import SkewButton from '@/components/atoms/SkewButton'
 import type {EmployerGuide as EmployerGuideType} from '@/sanity/types'
+import {gaEvent} from '@/lib/ga'
 import {useScrollReveal} from '../motion/useScrollReveal'
 import styles from './EmployerGuide.module.scss'
 
@@ -116,6 +117,17 @@ export default function EmployerGuide(guide: EmployerGuideData) {
   const steps = areas.flatMap((area) => (area.steps ?? []).map((step) => `${area._key}:${step._key}`))
   const total = steps.length
   const doneCount = steps.filter((key) => done[key]).length
+
+  // Google Analytics: the tick that completes the checklist, once per page
+  // view. Ticks restored from an earlier visit don't count.
+  const reportedComplete = useRef(false)
+  const toggleStep = (key: string) => {
+    setDone((state) => ({...state, [key]: !state[key]}))
+    const nowDone = {...done, [key]: !done[key]}
+    if (reportedComplete.current || !steps.every((step) => nowDone[step])) return
+    reportedComplete.current = true
+    gaEvent('checklist_complete')
+  }
 
   // Warrant checker: any "No" points to an immigration warrant; all "Yes" to a judicial one.
   const questions = warrant?.questions ?? []
@@ -245,7 +257,7 @@ export default function EmployerGuide(guide: EmployerGuideData) {
                                 type="checkbox"
                                 id={inputId}
                                 checked={Boolean(done[key])}
-                                onChange={() => setDone((state) => ({...state, [key]: !state[key]}))}
+                                onChange={() => toggleStep(key)}
                               />
                               <label htmlFor={inputId}>
                                 <b>{step.title}</b>

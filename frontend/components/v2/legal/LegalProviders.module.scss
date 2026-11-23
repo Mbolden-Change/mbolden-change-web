@@ -104,3 +104,11 @@ $paper: #fbf6ee;
   color: #555;
   text-align: left;
 }
+
+// /legal-providers/thank-you: one cream section that fills the screen below the header.
+.thanks {
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+  background: var(--brand-creamy-beige);
+}

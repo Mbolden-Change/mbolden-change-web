@@ -19,6 +19,7 @@ import HouseholdIntro from './HouseholdIntro'
 import PolicyRound from './PolicyRound'
 import ResultsScreen from './ResultsScreen'
 import PlayBar, { ScreenStrip } from './PlayBar'
+import { gaEvent } from '@/lib/ga'
 import styles from './Simulator.module.scss'
 
 const STRIP_LABELS = {
@@ -178,6 +179,12 @@ export default function Simulator() {
   // Marks the page interactive once React has hydrated (tests wait for it).
   const [ready, setReady] = useState(false)
   useEffect(() => setReady(true), [])
+
+  // Google Analytics: the final results screen, once per run. Reads `screen`
+  // only; Start over leaves the results screen, so the next run counts again.
+  useEffect(() => {
+    if (screen === 'results') gaEvent('simulator_complete')
+  }, [screen])
 
   return (
     <main className={styles.sim} data-sim-root data-screen={screen} data-ready={ready || undefined}>

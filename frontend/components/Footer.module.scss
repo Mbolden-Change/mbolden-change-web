@@ -165,6 +165,20 @@
   }
 }
 
+// "Cookie choices": a button that reads as one of the legal links.
+.legalButton {
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
 .organizationColumn {
   display: flex;
   flex-direction: column;

@@ -6,6 +6,7 @@ import type {PortableTextBlock} from 'next-sanity'
 import type {Leadership as LeadershipType} from '@/sanity/types'
 import PortableTextComponent from '@/components/PortableTextComponent'
 import SkewButton from '@/components/atoms/SkewButton'
+import {gaEvent} from '@/lib/ga'
 import {mailtoHref} from '../../readyToGrow/lanes'
 import {useHashDialog} from '../TextMedia/useHashDialog'
 import styles from './LeadershipInvite.module.scss'
@@ -14,6 +15,8 @@ type Invite = NonNullable<LeadershipType['invite']>
 
 const COPIED_MESSAGE = 'Email address copied'
 const COPIED_FOR = 4000
+/** Section ID of the About page's "Shape the Future" pop-up. */
+const SHAPE_THE_FUTURE_ID = 'shape-the-future'
 
 /** Copies with the Clipboard API, or a selected textarea where that's missing. */
 async function copyText(text: string, container: HTMLElement | null) {
@@ -64,8 +67,14 @@ export default function LeadershipInvite({
 
   if (!label) return null
 
+  // Google Analytics: someone took the email address from the Shape the Future pop-up.
+  const reportEmail = () => {
+    if (sectionId === SHAPE_THE_FUTURE_ID) gaEvent('shape_future_email')
+  }
+
   const onCopy = async () => {
     if (!address) return
+    reportEmail()
     const ok = await copyText(address, dialogRef.current)
     if (!ok) return
     // Clear first so a second copy is announced again.
@@ -148,7 +157,7 @@ export default function LeadershipInvite({
               ) : null}
               {address && (
                 <div className={styles.emailRow}>
-                  <a className={styles.email} href={mailtoHref(address, emailSubject?.trim())}>
+                  <a className={styles.email} href={mailtoHref(address, emailSubject?.trim())} onClick={reportEmail}>
                     {address}
                   </a>
                   <button

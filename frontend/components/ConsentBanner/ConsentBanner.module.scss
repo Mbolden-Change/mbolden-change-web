@@ -1,0 +1,100 @@
+// Google Analytics consent bar: a small cream strip fixed to the bottom of
+// the screen, below the sticky header (z-index 1000) and the phone menu.
+
+.live {
+  // Takes no space in the page; the bar inside is fixed to the screen.
+  display: contents;
+}
+
+.banner {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 950;
+  background: var(--brand-creamy-beige);
+  border-top: 3px solid var(--brand-black);
+  color: var(--brand-black);
+  animation: rise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.875rem 1.5rem;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.75rem 1rem 0.875rem;
+  }
+}
+
+.text {
+  margin: 0;
+  max-width: 46rem;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: left;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+  }
+}
+
+.link {
+  color: var(--brand-black);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--brand-aqua-teal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration-color: var(--brand-fuchsia);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 2px;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.875rem;
+}
+
+// Accept and Decline look the same, so neither is the easier choice.
+.button {
+  min-width: 6.5rem;
+  min-height: 44px;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--font-headline), Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}

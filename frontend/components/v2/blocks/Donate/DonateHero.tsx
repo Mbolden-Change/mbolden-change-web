@@ -1,10 +1,11 @@
 'use client'
 
 import classNames from 'classnames'
-import type {CSSProperties, MouseEvent} from 'react'
+import {useEffect, useRef, type CSSProperties, type MouseEvent} from 'react'
 import type {DonateHero as DonateHeroType} from '@/sanity/types'
 import CharityBadge, {type CharityBadgeData} from '@/components/CharityBadge/CharityBadge'
 import CandidSeal, {type CandidSealData} from '@/components/CandidSeal/CandidSeal'
+import {gaEvent} from '@/lib/ga'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import ZeffyEmbed from './ZeffyEmbed'
 import {OTHER_WAYS_ID} from './GivingOptions'
@@ -47,8 +48,28 @@ export default function DonateHero({
   candidSeal,
 }: DonateHeroProps) {
   const {ref, phase} = useScrollReveal<HTMLElement>(0.1)
-  if (!heading) return null
+  const formRef = useRef<HTMLDivElement>(null)
   const pageUrl = zeffyPageUrl(form)
+
+  // Google Analytics: the main form is at least half in view, or fills at
+  // least half the screen where it's taller than the screen. Once per page view.
+  useEffect(() => {
+    const card = formRef.current
+    if (!card || typeof IntersectionObserver === 'undefined') return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const screen = entry.rootBounds?.height ?? window.innerHeight
+        if (entry.intersectionRatio < 0.5 && entry.intersectionRect.height < screen / 2) return
+        gaEvent('donate_form_open', {fund: 'where-needed-most'})
+        observer.disconnect()
+      },
+      {threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]},
+    )
+    observer.observe(card)
+    return () => observer.disconnect()
+  }, [pageUrl])
+
+  if (!heading) return null
   const hasBadge = showCharityBadge && Boolean(charityBadge?.image?.asset?._ref)
   // On unless switched off, so the seal shows before the block is next saved.
   const hasSeal = showCandidSeal !== false
@@ -89,7 +110,7 @@ export default function DonateHero({
           )}
         </div>
         {pageUrl && (
-          <div className={classNames(styles.formCard, styles.rv, styles.d2)}>
+          <div ref={formRef} className={classNames(styles.formCard, styles.rv, styles.d2)}>
             <ZeffyEmbed form={form} />
             <p className={styles.formNote}>
               Secure giving through Zeffy. Form not loading?{' '}
