@@ -21,11 +21,23 @@ const COLOR: Record<string, string> = {
 }
 const COPIED_MS = 1800
 
+/**
+ * Fixed section addresses, such as /resources/beyond-compliance#in-case-of-ice,
+ * used in ads and links. Don't rename them.
+ */
+export const GUIDE_ANCHORS = {
+  warrant: 'warrant-checker',
+  ice: 'in-case-of-ice',
+  materials: 'know-your-rights',
+} as const
+
 function Section({
+  id,
   className,
   label,
   children,
 }: {
+  id?: string
   className?: string
   label: string
   children: ReactNode
@@ -34,8 +46,9 @@ function Section({
   return (
     <section
       ref={ref}
+      id={id}
       aria-label={label}
-      className={classNames(styles.section, className, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
+      className={classNames(styles.section, id && styles.anchor, className, phase === 'armed' && styles.armed, phase === 'in' && styles.in)}
     >
       {children}
     </section>
@@ -114,6 +127,45 @@ export default function EmployerGuide(guide: EmployerGuideData) {
 
   useEffect(() => () => window.clearTimeout(copiedTimer.current), [])
 
+  // Section links (GUIDE_ANCHORS) stop below the sticky header and the
+  // progress bar, which is taller on phones: its height goes to the styles.
+  // On arrival at a section link, keeps the section in place while the page
+  // settles, until the visitor scrolls, taps or types.
+  const mainRef = useRef<HTMLElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const main = mainRef.current
+    const progress = progressRef.current
+    if (!main) return
+    const measure = () => main.style.setProperty('--progress-height', `${progress?.offsetHeight ?? 0}px`)
+    measure()
+    const anchors: string[] = Object.values(GUIDE_ANCHORS)
+    const hash = window.location.hash.slice(1)
+    const section = anchors.includes(hash) ? document.getElementById(hash) : null
+    const pin = () => section?.scrollIntoView({behavior: 'auto', block: 'start'})
+    pin()
+    if (typeof ResizeObserver === 'undefined') return
+    const sizes = new ResizeObserver(() => {
+      measure()
+      pin()
+    })
+    if (progress) sizes.observe(progress)
+    if (!section) return () => sizes.disconnect()
+    sizes.observe(document.body)
+    const events = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const
+    const stop = () => {
+      sizes.unobserve(document.body)
+      window.clearTimeout(timer)
+      events.forEach((name) => window.removeEventListener(name, stop))
+    }
+    const timer = window.setTimeout(stop, 6000)
+    events.forEach((name) => window.addEventListener(name, stop, {passive: true}))
+    return () => {
+      stop()
+      sizes.disconnect()
+    }
+  }, [])
+
   const steps = areas.flatMap((area) => (area.steps ?? []).map((step) => `${area._key}:${step._key}`))
   const total = steps.length
   const doneCount = steps.filter((key) => done[key]).length
@@ -167,7 +219,7 @@ export default function EmployerGuide(guide: EmployerGuideData) {
   }
 
   return (
-    <main id="as-main" className={styles.page}>
+    <main ref={mainRef} id="as-main" className={styles.page}>
       <Section label={title ?? 'Guide'} className={styles.hero}>
         <div className={classNames(styles.wrap, styles.heroGrid)}>
           <div className={styles.heroCopy}>
@@ -195,7 +247,7 @@ export default function EmployerGuide(guide: EmployerGuideData) {
       </Section>
 
       {total > 0 && (
-        <div className={styles.progress} role="status" aria-live="polite">
+        <div ref={progressRef} className={styles.progress} role="status" aria-live="polite">
           <div className={classNames(styles.wrap, styles.progressInner)}>
             <span className={styles.progressLabel}>Your progress</span>
             <span className={styles.meter} aria-hidden="true">
@@ -296,7 +348,7 @@ export default function EmployerGuide(guide: EmployerGuideData) {
       )}
 
       {warrant?.heading && (
-        <Section label={warrant.heading} className={styles.warrant}>
+        <Section id={GUIDE_ANCHORS.warrant} label={warrant.heading} className={styles.warrant}>
           <div className={classNames(styles.wrap, styles.warrantGrid)}>
             <div className={styles.head}>
               <Eyebrow text={warrant.eyebrow} bar="var(--brand-warm-yellow)" className={styles.rv} />
@@ -336,7 +388,7 @@ export default function EmployerGuide(guide: EmployerGuideData) {
       )}
 
       {ice?.steps?.length ? (
-        <Section label={ice.heading ?? 'ICE card'} className={styles.ice}>
+        <Section id={GUIDE_ANCHORS.ice} label={ice.heading ?? 'ICE card'} className={styles.ice}>
           <div className={classNames(styles.wrap, styles.iceGrid)}>
             <div className={styles.head}>
               <Eyebrow text={ice.eyebrow} bar="var(--brand-black)" className={styles.rv} />
@@ -365,7 +417,7 @@ export default function EmployerGuide(guide: EmployerGuideData) {
       ) : null}
 
       {materials?.heading && (
-        <Section label={materials.heading} className={styles.materials}>
+        <Section id={GUIDE_ANCHORS.materials} label={materials.heading} className={styles.materials}>
           <div className={classNames(styles.wrap, styles.stack)}>
             <div className={classNames(styles.head, styles.materialsHead)}>
               <Eyebrow text={materials.eyebrow} bar="var(--brand-black)" className={styles.rv} />
