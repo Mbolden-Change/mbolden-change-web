@@ -69,7 +69,7 @@ export default function ConsentBanner() {
           <div className={styles.inner}>
             <p className={styles.text}>
               {gpc
-                ? 'Your browser sends a Global Privacy Control signal, so Google Analytics stays off on this site.'
+                ? 'Your browser asked sites not to track you, so Google Analytics is off here.'
                 : 'We use Google Analytics to understand how people use this site and whether our ads work. Accept or decline.'}{' '}
               <Link href="/privacy" className={styles.link}>
                 Privacy Policy
