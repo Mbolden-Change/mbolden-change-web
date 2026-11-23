@@ -6,6 +6,7 @@ import type {DonateHero as DonateHeroType} from '@/sanity/types'
 import CharityBadge, {type CharityBadgeData} from '@/components/CharityBadge/CharityBadge'
 import CandidSeal, {type CandidSealData} from '@/components/CandidSeal/CandidSeal'
 import {gaEvent} from '@/lib/ga'
+import {MAIN_FORM_FUND, ZEFFY_FUND_ATTR, listenForZeffy} from '@/lib/zeffyEvents'
 import {useScrollReveal} from '../../motion/useScrollReveal'
 import ZeffyEmbed from './ZeffyEmbed'
 import {OTHER_WAYS_ID} from './GivingOptions'
@@ -60,7 +61,7 @@ export default function DonateHero({
       ([entry]) => {
         const screen = entry.rootBounds?.height ?? window.innerHeight
         if (entry.intersectionRatio < 0.5 && entry.intersectionRect.height < screen / 2) return
-        gaEvent('donate_form_open', {fund: 'where-needed-most'})
+        gaEvent('donate_form_open', {fund: MAIN_FORM_FUND})
         observer.disconnect()
       },
       {threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]},
@@ -68,6 +69,9 @@ export default function DonateHero({
     observer.observe(card)
     return () => observer.disconnect()
   }, [pageUrl])
+
+  // Google Analytics: the payment step and a completed donation, from Zeffy's messages.
+  useEffect(() => listenForZeffy(), [])
 
   if (!heading) return null
   const hasBadge = showCharityBadge && Boolean(charityBadge?.image?.asset?._ref)
@@ -110,7 +114,11 @@ export default function DonateHero({
           )}
         </div>
         {pageUrl && (
-          <div ref={formRef} className={classNames(styles.formCard, styles.rv, styles.d2)}>
+          <div
+            ref={formRef}
+            className={classNames(styles.formCard, styles.rv, styles.d2)}
+            {...{[ZEFFY_FUND_ATTR]: MAIN_FORM_FUND}}
+          >
             <ZeffyEmbed form={form} />
             <p className={styles.formNote}>
               Secure giving through Zeffy. Form not loading?{' '}
