@@ -160,6 +160,14 @@ export function needsConsentBanner(): boolean {
   return !hasGpc() && readConsentChoice() === null && isConsentTimezone(browserTimezone())
 }
 
+/**
+ * False with Global Privacy Control on, after Decline, and for a visitor who
+ * is still being asked. For events that must not be sent at all without consent.
+ */
+export function consentAllowsEvents(): boolean {
+  return !hasGpc() && readConsentChoice() !== 'denied' && !needsConsentBanner()
+}
+
 /** Stores Accept or Decline and tells the Google tag. Global Privacy Control keeps everything denied. */
 export function saveConsentChoice(choice: ConsentChoice) {
   writeStored(CONSENT_KEY, choice)

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SiteAnalytics from '@/components/SiteAnalytics';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import GatewayEmailClicks from '@/components/GatewayEmailClicks';
 import ConsentBanner from '@/components/ConsentBanner/ConsentBanner';
 import './globals.css';
 import './design-tokens.scss';
@@ -106,6 +107,7 @@ export default async function RootLayout({
         <Footer footerData={footerData} />
         <SiteAnalytics />
         <GoogleAnalytics environment={gaEnvironment} />
+        <GatewayEmailClicks />
       </body>
     </html>
   );
