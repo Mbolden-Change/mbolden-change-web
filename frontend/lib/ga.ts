@@ -175,11 +175,12 @@ export function consentAllowsEvents(): boolean {
 
 /**
  * Stores Accept or Decline. Accept starts the tag if it was waiting for a
- * choice. Decline switches a running tag off. Global Privacy Control keeps
- * Google Analytics off whatever is chosen.
+ * choice. Decline switches a running tag off and removes its cookies. Global
+ * Privacy Control keeps Google Analytics off whatever is chosen.
  */
 export function saveConsentChoice(choice: ConsentChoice) {
   writeStored(CONSENT_KEY, choice)
+  if (choice === 'denied' || hasGpc()) clearGaCookies()
   if (state === 'waiting') {
     if (consentAllowsEvents()) startGa({debug: debugMode})
     return
@@ -188,6 +189,42 @@ export function saveConsentChoice(choice: ConsentChoice) {
   const allowed = consentAllowsEvents()
   setGaDisabled(!allowed)
   window.gtag?.('consent', 'update', allowed ? GRANTED : ALL_DENIED)
+}
+
+/** The cookies the Google tag sets: _ga and _ga_<property>. */
+export const GA_COOKIES = ['_ga', `_ga_${GA_ID.replace(/^G-/, '')}`]
+
+/**
+ * Removes the Google Analytics cookies an earlier visit left behind. A cookie
+ * can only be removed with the domain and path it was set with, so every
+ * domain from this host up (with and without the leading dot) and every path
+ * down to this page is tried.
+ */
+export function clearGaCookies(hostname?: string, pathname?: string) {
+  if (typeof document === 'undefined') return
+  try {
+    const present = document.cookie.split(';').map((part) => part.split('=')[0].trim())
+    if (!GA_COOKIES.some((name) => present.includes(name))) return
+    const labels = (hostname ?? window.location.hostname).split('.')
+    const domains = ['']
+    // Stops before the last label: a cookie can't sit on "org" alone.
+    for (let i = 0; i < Math.max(labels.length - 1, 1); i++) {
+      const domain = labels.slice(i).join('.')
+      domains.push(`; domain=${domain}`, `; domain=.${domain}`)
+    }
+    const paths = ['/']
+    ;(pathname ?? window.location.pathname).split('/').filter(Boolean).reduce((path, segment) => {
+      const next = `${path}/${segment}`
+      paths.push(next, `${next}/`)
+      return next
+    }, '')
+    for (const name of GA_COOKIES)
+      for (const domain of domains)
+        for (const path of paths)
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=${path}${domain}`
+  } catch {
+    // Cookies blocked: there is nothing to remove.
+  }
 }
 
 const setGaDisabled = (disabled: boolean) => {
@@ -248,6 +285,8 @@ export function startGa({debug = false}: {debug?: boolean} = {}) {
   if (!consentAllowsEvents()) {
     state = hasGpc() ? 'off' : 'waiting'
     queued = []
+    // Cookies from before a Decline, or from before the browser's signal was on.
+    if (hasGpc() || readConsentChoice() === 'denied') clearGaCookies()
     return
   }
   window.dataLayer = window.dataLayer || []

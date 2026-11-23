@@ -1,10 +1,12 @@
 import {
   CONSENT_KEY,
   CONSENT_REGIONS,
+  GA_COOKIES,
   GA_ID,
   GA_START_EVENT,
   INTERNAL_KEY,
   cleanUrl,
+  clearGaCookies,
   gaEvent,
   isConsentTimezone,
   resetGaForTests,
@@ -227,6 +229,79 @@ describe('consent', () => {
     window.localStorage.setItem(CONSENT_KEY, 'granted')
     startGa()
     expect(named('event')).toHaveLength(0)
+  })
+})
+
+describe('Google Analytics cookies', () => {
+  const cookieNames = () => document.cookie.split(';').map((part) => part.split('=')[0].trim()).filter(Boolean)
+  const expire = (name: string, path: string) => (document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path}`)
+
+  beforeEach(() => {
+    window.history.replaceState(null, '', '/legal-providers/thank-you')
+    document.cookie = '_ga=GA1.1.111.222; path=/'
+    document.cookie = '_ga_TRDG8HZE56=GS2.1.s1; path=/'
+    document.cookie = '_ga=GA1.1.333.444; path=/legal-providers'
+    document.cookie = 'other=keep; path=/'
+  })
+
+  afterEach(() => {
+    for (const name of [...GA_COOKIES, 'other']) for (const path of ['/', '/legal-providers']) expire(name, path)
+  })
+
+  it('names the two cookies of this property', () => {
+    expect(GA_COOKIES).toEqual(['_ga', '_ga_TRDG8HZE56'])
+  })
+
+  it('removes them on Decline, on every path, and leaves other cookies alone', () => {
+    startGa()
+    expect(cookieNames()).toEqual(expect.arrayContaining(['_ga', '_ga_TRDG8HZE56']))
+    saveConsentChoice('denied')
+    expect(cookieNames()).toEqual(['other'])
+  })
+
+  it('removes them on Decline from the bar, before the tag has ever started', () => {
+    setTimezone('Europe/Berlin')
+    startGa()
+    expect(cookieNames()).toContain('_ga')
+    saveConsentChoice('denied')
+    expect(cookieNames()).toEqual(['other'])
+  })
+
+  it('removes them on a later visit after Decline', () => {
+    window.localStorage.setItem(CONSENT_KEY, 'denied')
+    startGa()
+    expect(cookieNames()).toEqual(['other'])
+  })
+
+  it('removes them when Global Privacy Control is detected', () => {
+    setGpc(true)
+    startGa()
+    expect(cookieNames()).toEqual(['other'])
+  })
+
+  it('keeps them with consent, and for a visitor who has not chosen yet', () => {
+    startGa()
+    saveConsentChoice('granted')
+    expect(cookieNames()).toEqual(expect.arrayContaining(['_ga', '_ga_TRDG8HZE56', 'other']))
+    resetGaForTests()
+    window.localStorage.clear()
+    setTimezone('Europe/Berlin')
+    startGa()
+    expect(cookieNames()).toEqual(expect.arrayContaining(['_ga', '_ga_TRDG8HZE56', 'other']))
+  })
+
+  it('tries the bare host and every parent domain, with and without the dot', () => {
+    const written: string[] = []
+    jest.spyOn(document, 'cookie', 'set').mockImplementation((value) => void written.push(value))
+    jest.spyOn(document, 'cookie', 'get').mockReturnValue('_ga=GA1.1.111.222')
+    clearGaCookies('www.mboldenchange.org', '/legal-providers')
+    for (const name of GA_COOKIES) {
+      for (const domain of ['', '; domain=www.mboldenchange.org', '; domain=.www.mboldenchange.org', '; domain=mboldenchange.org', '; domain=.mboldenchange.org']) {
+        expect(written).toContain(`${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=/${domain}`)
+        expect(written).toContain(`${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=/legal-providers${domain}`)
+      }
+    }
+    expect(written.some((value) => /domain=\.?org$/.test(value))).toBe(false)
   })
 })
 
