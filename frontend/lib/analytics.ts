@@ -1,5 +1,5 @@
 import { track } from '@vercel/analytics';
-import { consentAllowsEvents, gaEvent } from './ga';
+import { gaEvent } from './ga';
 
 export type AnalyticsLocation =
   | 'header'
@@ -74,5 +74,5 @@ export function gatewayEmailLink(target: EventTarget | null): Element | null {
  */
 export function trackGatewayEmailClick(pathname: string) {
   track('Gateway Email Click', { page: pathname });
-  if (consentAllowsEvents()) gaEvent('gateway_provider_email', { page: pathname });
+  gaEvent('gateway_provider_email', { page: pathname });
 }

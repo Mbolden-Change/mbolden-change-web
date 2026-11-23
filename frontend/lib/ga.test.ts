@@ -2,6 +2,7 @@ import {
   CONSENT_KEY,
   CONSENT_REGIONS,
   GA_ID,
+  GA_START_EVENT,
   INTERNAL_KEY,
   cleanUrl,
   gaEvent,
@@ -123,31 +124,109 @@ describe('consent', () => {
     expect(order.lastIndexOf('consent')).toBeLessThan(order.indexOf('config'))
   })
 
-  it('starts denied for a visitor who is about to be asked, then follows the choice', () => {
+  it('does nothing for a visitor who is about to be asked, and starts on Accept', () => {
+    setTimezone('Europe/Berlin')
+    const started = jest.fn()
+    window.addEventListener(GA_START_EVENT, started)
+    startGa()
+    gaEvent('donate_click', {placement: 'header'})
+    expect(window.dataLayer).toBeUndefined()
+    expect(window.gtag).toBeUndefined()
+    expect(started).not.toHaveBeenCalled()
+
+    saveConsentChoice('granted')
+    expect(window.localStorage.getItem(CONSENT_KEY)).toBe('granted')
+    expect(started).toHaveBeenCalledTimes(1)
+    expect(named('consent', 'default')[0][2]).toEqual(GRANTED)
+    expect(named('consent', 'update')[0][2]).toEqual(GRANTED)
+    expect(named('config')).toHaveLength(1)
+    // The click made before Accept was dropped, not kept.
+    expect(named('event')).toHaveLength(0)
+    window.removeEventListener(GA_START_EVENT, started)
+  })
+
+  it('stays off after Decline, on this visit and the next', () => {
     setTimezone('Europe/Berlin')
     startGa()
-    expect(named('consent', 'default')[0][2]).toEqual({...DENIED, wait_for_update: 500})
-    saveConsentChoice('granted')
-    expect(named('consent', 'update')[0][2]).toEqual(GRANTED)
-    expect(window.localStorage.getItem(CONSENT_KEY)).toBe('granted')
     saveConsentChoice('denied')
-    expect(named('consent', 'update')[1][2]).toEqual(DENIED)
-  })
+    gaEvent('donate_click', {placement: 'header'})
+    expect(window.dataLayer).toBeUndefined()
 
-  it('applies a stored choice on the next visit', () => {
-    window.localStorage.setItem(CONSENT_KEY, 'denied')
+    resetGaForTests()
     startGa()
-    expect(named('consent', 'update')[0][2]).toEqual(DENIED)
+    gaEvent('donate_click', {placement: 'header'})
+    window.history.pushState(null, '', '/about')
+    trackPageView()
+    expect(window.dataLayer).toBeUndefined()
   })
 
-  it('keeps everything denied with Global Privacy Control, whatever was chosen', () => {
-    setGpc(true)
+  it('switches a running tag off on Decline, and back on with Accept', () => {
+    const beacon = jest.fn(() => true)
+    const fetched = jest.fn(() => Promise.resolve())
+    window.navigator.sendBeacon = beacon
+    window.fetch = fetched as unknown as typeof fetch
+    startGa()
+    const disabled = () => (window as unknown as Record<string, unknown>)[`ga-disable-${GA_ID}`]
+    expect(disabled()).toBe(false)
+
+    saveConsentChoice('denied')
+    expect(named('consent', 'update')[0][2]).toEqual(DENIED)
+    expect(disabled()).toBe(true)
+    gaEvent('donate_click', {placement: 'header'})
+    window.history.pushState(null, '', '/about')
+    trackPageView()
+    expect(named('event')).toHaveLength(0)
+    // Anything the tag still tries to send is stopped on its way out.
+    expect(window.navigator.sendBeacon('https://region1.google-analytics.com/g/collect?v=2&en=scroll')).toBe(true)
+    window.fetch('https://www.google-analytics.com/g/collect?en=scroll', {method: 'POST'})
+    window.fetch('https://www.google.com/ccm/collect?en=page_view')
+    expect(beacon).not.toHaveBeenCalled()
+    expect(fetched).not.toHaveBeenCalled()
+    // Other requests are untouched.
+    window.fetch('/api/search-index')
+    expect(fetched).toHaveBeenCalledTimes(1)
+
+    saveConsentChoice('granted')
+    expect(named('consent', 'update')[1][2]).toEqual(GRANTED)
+    expect(disabled()).toBe(false)
+    gaEvent('donate_click', {placement: 'header'})
+    expect(named('event', 'donate_click')).toHaveLength(1)
+    window.navigator.sendBeacon('https://region1.google-analytics.com/g/collect?v=2&en=scroll')
+    expect(beacon).toHaveBeenCalledTimes(1)
+  })
+
+  it('applies a stored Accept on the next visit', () => {
+    setTimezone('Europe/Berlin')
     window.localStorage.setItem(CONSENT_KEY, 'granted')
     startGa()
-    expect(named('consent', 'default')[0][2]).toEqual({...DENIED, wait_for_update: 500})
-    expect(named('consent', 'update')).toHaveLength(0)
+    expect(named('consent', 'default')[0][2]).toEqual(GRANTED)
+    expect(named('consent', 'update')[0][2]).toEqual(GRANTED)
+  })
+
+  it('never starts with Global Privacy Control, whatever was chosen', () => {
+    setGpc(true)
+    window.localStorage.setItem(CONSENT_KEY, 'granted')
+    const started = jest.fn()
+    window.addEventListener(GA_START_EVENT, started)
+    gaEvent('gateway_story_open')
+    startGa()
     saveConsentChoice('granted')
-    expect(named('consent', 'update')[0][2]).toEqual(DENIED)
+    gaEvent('donate_click', {placement: 'header'})
+    window.history.pushState(null, '', '/about')
+    trackPageView()
+    expect(window.dataLayer).toBeUndefined()
+    expect(window.gtag).toBeUndefined()
+    expect(started).not.toHaveBeenCalled()
+    window.removeEventListener(GA_START_EVENT, started)
+  })
+
+  it('does not hold events for later while consent is missing', () => {
+    setTimezone('Europe/Berlin')
+    // Before the tag has decided anything, and before the visitor has chosen.
+    gaEvent('gateway_story_open')
+    window.localStorage.setItem(CONSENT_KEY, 'granted')
+    startGa()
+    expect(named('event')).toHaveLength(0)
   })
 })
 

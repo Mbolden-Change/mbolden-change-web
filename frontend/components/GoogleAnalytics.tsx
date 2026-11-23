@@ -5,6 +5,7 @@ import {usePathname} from 'next/navigation'
 import Script from 'next/script'
 import {
   GA_ID,
+  GA_START_EVENT,
   debugRequested,
   startGa,
   stopGa,
@@ -17,6 +18,10 @@ import {
  * The Google tag (Google Analytics 4). Loads on production only. A preview
  * opened with ?ga_debug=1 loads it in debug mode, for DebugView checks; other
  * previews and local development never contact Google.
+ *
+ * gtag.js is requested only once the tag has started, which takes consent:
+ * never with Global Privacy Control on, and not after Decline or before a
+ * visitor who is asked has chosen. Accept starts it on the spot.
  */
 export default function GoogleAnalytics({environment}: {environment: GaEnvironment}) {
   const pathname = usePathname()
@@ -34,8 +39,9 @@ export default function GoogleAnalytics({environment}: {environment: GaEnvironme
     const debug = environment === 'preview' && debugRequested()
     if (environment === 'production' || debug) {
       // Consent defaults and settings are queued before gtag.js is requested.
+      // Without consent startGa does nothing, and this fires later if the visitor accepts.
+      window.addEventListener(GA_START_EVENT, () => setLoad(true), {once: true})
       startGa({debug})
-      setLoad(true)
     } else {
       stopGa()
     }
