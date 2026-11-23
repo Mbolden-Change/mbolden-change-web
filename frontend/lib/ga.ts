@@ -15,6 +15,10 @@ export const INTERNAL_KEY = 'mbolden_internal'
 const DEBUG_KEY = 'mbolden_ga_debug'
 /** Fired on window by the footer's "Cookie choices" link to reopen the banner. */
 export const OPEN_CONSENT_EVENT = 'mbolden:cookie-choices'
+/** Fired on window when the tag starts, so GoogleAnalytics can request gtag.js. */
+export const GA_START_EVENT = 'mbolden:ga-start'
+/** Google's own switch: while true, gtag.js sends nothing for this property. */
+const GA_DISABLE_KEY = `ga-disable-${GA_ID}`
 
 export type ConsentChoice = 'granted' | 'denied'
 export type GaEnvironment = 'production' | 'preview' | 'other'
@@ -162,17 +166,69 @@ export function needsConsentBanner(): boolean {
 
 /**
  * False with Global Privacy Control on, after Decline, and for a visitor who
- * is still being asked. For events that must not be sent at all without consent.
+ * is still being asked. While false nothing goes to Google: the tag isn't
+ * loaded, events are dropped and requests to Google are stopped.
  */
 export function consentAllowsEvents(): boolean {
   return !hasGpc() && readConsentChoice() !== 'denied' && !needsConsentBanner()
 }
 
-/** Stores Accept or Decline and tells the Google tag. Global Privacy Control keeps everything denied. */
+/**
+ * Stores Accept or Decline. Accept starts the tag if it was waiting for a
+ * choice. Decline switches a running tag off and removes its cookies. Global
+ * Privacy Control keeps Google Analytics off whatever is chosen.
+ */
 export function saveConsentChoice(choice: ConsentChoice) {
   writeStored(CONSENT_KEY, choice)
+  if (choice === 'denied' || hasGpc()) clearGaCookies()
+  if (state === 'waiting') {
+    if (consentAllowsEvents()) startGa({debug: debugMode})
+    return
+  }
   if (state !== 'on') return
-  window.gtag?.('consent', 'update', choice === 'granted' && !hasGpc() ? GRANTED : ALL_DENIED)
+  const allowed = consentAllowsEvents()
+  setGaDisabled(!allowed)
+  window.gtag?.('consent', 'update', allowed ? GRANTED : ALL_DENIED)
+}
+
+/** The cookies the Google tag sets: _ga and _ga_<property>. */
+export const GA_COOKIES = ['_ga', `_ga_${GA_ID.replace(/^G-/, '')}`]
+
+/**
+ * Removes the Google Analytics cookies an earlier visit left behind. A cookie
+ * can only be removed with the domain and path it was set with, so every
+ * domain from this host up (with and without the leading dot) and every path
+ * down to this page is tried.
+ */
+export function clearGaCookies(hostname?: string, pathname?: string) {
+  if (typeof document === 'undefined') return
+  try {
+    const present = document.cookie.split(';').map((part) => part.split('=')[0].trim())
+    if (!GA_COOKIES.some((name) => present.includes(name))) return
+    const labels = (hostname ?? window.location.hostname).split('.')
+    const domains = ['']
+    // Stops before the last label: a cookie can't sit on "org" alone.
+    for (let i = 0; i < Math.max(labels.length - 1, 1); i++) {
+      const domain = labels.slice(i).join('.')
+      domains.push(`; domain=${domain}`, `; domain=.${domain}`)
+    }
+    const paths = ['/']
+    ;(pathname ?? window.location.pathname).split('/').filter(Boolean).reduce((path, segment) => {
+      const next = `${path}/${segment}`
+      paths.push(next, `${next}/`)
+      return next
+    }, '')
+    for (const name of GA_COOKIES)
+      for (const domain of domains)
+        for (const path of paths)
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=${path}${domain}`
+  } catch {
+    // Cookies blocked: there is nothing to remove.
+  }
+}
+
+const setGaDisabled = (disabled: boolean) => {
+  ;(window as unknown as Record<string, unknown>)[GA_DISABLE_KEY] = disabled
 }
 
 // ---- Internal traffic and debug ------------------------------------------
@@ -200,7 +256,8 @@ export function debugRequested(): boolean {
 // ---- The tag --------------------------------------------------------------
 
 // 'pending' until GoogleAnalytics decides whether this visit loads the tag.
-let state: 'pending' | 'on' | 'off' = 'pending'
+// 'waiting' when it would load, but the visitor hasn't accepted (yet).
+let state: 'pending' | 'waiting' | 'on' | 'off' = 'pending'
 let queued: Array<[string, GaParams | undefined]> = []
 let debugMode = false
 let lastPath: string | null = null
@@ -217,10 +274,21 @@ const tagSettings = () => ({
 /**
  * Sets consent defaults and the tag's settings. Runs before gtag.js is
  * requested, so everything is in place when it loads.
+ *
+ * Without consent nothing is set up and gtag.js is never requested: with
+ * Global Privacy Control on the tag stays off for good, and after Decline or
+ * before a choice it waits for Accept.
  */
 export function startGa({debug = false}: {debug?: boolean} = {}) {
   if (state === 'on') return
   debugMode = debug
+  if (!consentAllowsEvents()) {
+    state = hasGpc() ? 'off' : 'waiting'
+    queued = []
+    // Cookies from before a Decline, or from before the browser's signal was on.
+    if (hasGpc() || readConsentChoice() === 'denied') clearGaCookies()
+    return
+  }
   window.dataLayer = window.dataLayer || []
   // gtag.js reads the `arguments` object itself, so this can't be an arrow function.
   window.gtag = function gtag() {
@@ -228,15 +296,13 @@ export function startGa({debug = false}: {debug?: boolean} = {}) {
     window.dataLayer!.push(arguments)
   }
   const gtag = window.gtag
-  const gpc = hasGpc()
-  const choice = readConsentChoice()
+  setGaDisabled(false)
 
-  // Denied from the start with Global Privacy Control, and for anyone who is
-  // about to be asked. Everyone else starts granted, without ad personalization.
-  gtag('consent', 'default', gpc || needsConsentBanner() ? {...ALL_DENIED, wait_for_update: 500} : GRANTED)
+  // The tag only starts with consent, so the default is granted, without ad personalization.
+  gtag('consent', 'default', GRANTED)
   // Google applies this one by the visitor's location.
   gtag('consent', 'default', {...ALL_DENIED, region: CONSENT_REGIONS, wait_for_update: 500})
-  if (choice && !gpc) gtag('consent', 'update', choice === 'granted' ? GRANTED : ALL_DENIED)
+  if (readConsentChoice() === 'granted') gtag('consent', 'update', GRANTED)
 
   guardAddresses()
   gtag('set', 'ads_data_redaction', true)
@@ -262,10 +328,19 @@ export function startGa({debug = false}: {debug?: boolean} = {}) {
   const waiting = queued
   queued = []
   waiting.forEach(([name, params]) => send(name, params))
+  // GoogleAnalytics requests gtag.js now.
+  window.dispatchEvent(new Event(GA_START_EVENT))
 }
 
 const GOOGLE_REQUEST =
   /^https:\/\/(?:[a-z0-9-]+\.)*(?:google-analytics\.com|analytics\.google\.com|googletagmanager\.com|doubleclick\.net|google\.com)\//i
+
+/** The addresses the tag reports to. Stopped outright once consent is withdrawn. */
+const GOOGLE_COLLECT =
+  /^https:\/\/(?:[a-z0-9-]+\.)*(?:google-analytics\.com|analytics\.google\.com|googletagmanager\.com|doubleclick\.net|google\.com\/(?:g\/collect|ccm\/|pagead\/|ads\/))/i
+
+/** A request the tag makes after Decline: it is not sent. */
+const isStopped = (url: string) => GOOGLE_COLLECT.test(url) && !consentAllowsEvents()
 
 /** Runs the page address (dl) and referrer (dr) of a request to Google through cleanUrl. */
 export function scrubAddresses(text: string): string {
@@ -285,7 +360,8 @@ export function scrubAddresses(text: string): string {
  * its own, with the full address: Enhanced Measurement in Google's admin
  * sends a page view whenever the address changes, such as on a new search.
  * Every request to Google passes through here, so a search query can't go
- * out whatever is switched on in the admin.
+ * out whatever is switched on in the admin. After Decline on a page where the
+ * tag is already running, its requests are stopped here instead of sent.
  */
 function guardAddresses() {
   const nativeBeacon = navigator.sendBeacon?.bind(navigator)
@@ -294,6 +370,8 @@ function guardAddresses() {
       let target = url
       let body = data
       try {
+        // Reported as sent, so the tag doesn't retry another way.
+        if (isStopped(String(url))) return true
         if (GOOGLE_REQUEST.test(String(url))) {
           target = scrubAddresses(String(url))
           if (typeof data === 'string') body = scrubAddresses(data)
@@ -311,6 +389,10 @@ function guardAddresses() {
     let target = input
     let options = init
     try {
+      if (typeof input === 'string' && isStopped(input)) {
+        // Answered as if sent, so the tag doesn't retry another way.
+        return Promise.resolve(typeof Response === 'function' ? new Response(null, {status: 204}) : (undefined as never))
+      }
       if (typeof input === 'string' && GOOGLE_REQUEST.test(input)) {
         target = scrubAddresses(input)
         if (typeof init?.body === 'string') options = {...init, body: scrubAddresses(init.body)}
@@ -325,7 +407,7 @@ function guardAddresses() {
 
 /** This visit doesn't load the tag: events are dropped. */
 export function stopGa() {
-  if (state === 'on') return
+  if (state === 'on' || state === 'waiting') return
   state = 'off'
   queued = []
 }
@@ -354,14 +436,18 @@ function send(name: string, params?: GaParams) {
  * page load itself. A change to the query string alone isn't a new page.
  */
 export function trackPageView() {
-  if (state !== 'on' || window.location.pathname === lastPath) return
+  if (state !== 'on' || !consentAllowsEvents() || window.location.pathname === lastPath) return
   window.gtag?.('set', readPageAddress())
   send('page_view', {page_title: document.title})
 }
 
-/** A Google Analytics event. Parameters never carry personal data. */
+/**
+ * A Google Analytics event. Parameters never carry personal data. Without
+ * consent the event is dropped: never sent, and never kept for later.
+ */
 export function gaEvent(name: string, params?: GaParams) {
-  if (typeof window === 'undefined' || state === 'off') return
+  if (typeof window === 'undefined' || state === 'off' || state === 'waiting') return
+  if (!consentAllowsEvents()) return
   if (state === 'pending') {
     // Sent once the tag starts; dropped if it never does.
     if (queued.length < 20) queued.push([name, params])

@@ -1,6 +1,6 @@
 import {track} from '@vercel/analytics'
 import {GATEWAY_EMAIL_SELECTOR, gatewayEmailLink, trackGatewayEmailClick} from './analytics'
-import {CONSENT_KEY, resetGaForTests, startGa} from './ga'
+import {CONSENT_KEY, resetGaForTests, saveConsentChoice, startGa} from './ga'
 
 jest.mock('@vercel/analytics', () => ({track: jest.fn()}))
 
@@ -102,7 +102,7 @@ describe('trackGatewayEmailClick', () => {
     expect(events('gateway_provider_email')).toHaveLength(0)
     // Vercel Web Analytics is cookieless and gets the click whatever the consent state.
     expect(track).toHaveBeenCalledWith('Gateway Email Click', {page: '/legal-providers'})
-    window.localStorage.setItem(CONSENT_KEY, 'granted')
+    saveConsentChoice('granted')
     trackGatewayEmailClick('/legal-providers')
     expect(events('gateway_provider_email')).toHaveLength(1)
     expect(track).toHaveBeenCalledTimes(2)
