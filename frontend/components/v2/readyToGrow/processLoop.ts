@@ -126,7 +126,7 @@ export const MOBILE_LAYOUT: LoopLayout = {
     {anchor: [135, 190], chip: [78, 232]},
     {anchor: [235, 350], chip: [272, 296]},
     {anchor: [200, 430], chip: [100, 418]},
-    {anchor: [140, 718], chip: [122, 672]},
+    {anchor: [140, 718], chip: [132, 650]},
   ],
 }
 
