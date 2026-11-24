@@ -71,6 +71,9 @@ const componentMap: ComponentsMap = {
   colorBlockHero: dynamic(
     () => import('@/components/v2/readyToGrow/ColorBlockHero'),
   ),
+  processLoop: dynamic(
+    () => import('@/components/v2/readyToGrow/ProcessLoop'),
+  ),
   caseStudyCards: dynamic(
     () => import('@/components/v2/readyToGrow/CaseStudyCards'),
   ),

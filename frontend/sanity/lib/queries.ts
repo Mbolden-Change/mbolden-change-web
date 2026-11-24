@@ -149,6 +149,11 @@ export const PAGE_QUERY = defineQuery(`
       ...,
       "contact": *[_id == "siteSettings"][0].advancementContact
     },
+    _type == "processLoop" => {
+      ...,
+      "contact": *[_id == "siteSettings"][0].advancementContact,
+      "emailSubject": ^.content[_type == "funderCta"][0].emailSubject
+    },
     _type == "featuredGuide" => {
       ...,
       link${INTERNAL_OR_EXTERNAL_LINK}

@@ -1,5 +1,11 @@
 import {track} from '@vercel/analytics'
-import {GATEWAY_EMAIL_SELECTOR, gatewayEmailLink, trackGatewayEmailClick} from './analytics'
+import {
+  funderContactLocation,
+  GATEWAY_EMAIL_SELECTOR,
+  gatewayEmailLink,
+  trackFunderContactClick,
+  trackGatewayEmailClick,
+} from './analytics'
 import {CONSENT_KEY, resetGaForTests, saveConsentChoice, startGa} from './ga'
 
 jest.mock('@vercel/analytics', () => ({track: jest.fn()}))
@@ -106,5 +112,34 @@ describe('trackGatewayEmailClick', () => {
     trackGatewayEmailClick('/legal-providers')
     expect(events('gateway_provider_email')).toHaveLength(1)
     expect(track).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('funder contact links', () => {
+  it('reads where the clicked link sits, and ignores other links', () => {
+    document.body.innerHTML =
+      '<a id="a" data-funder-contact="process_loop" href="mailto:sue@mboldenchange.org"><span>Talk with us</span></a><a id="b" href="mailto:sue@mboldenchange.org">sue</a>'
+    expect(funderContactLocation(document.querySelector('#a span'))).toBe('process_loop')
+    expect(funderContactLocation(document.querySelector('#b'))).toBeNull()
+    expect(funderContactLocation(null)).toBeNull()
+  })
+
+  it('sends the location and nothing about the email', () => {
+    startGa()
+    trackFunderContactClick('partner_section')
+    expect(events('funder_contact_click')).toHaveLength(1)
+    expect(events('funder_contact_click')[0][2]).toMatchObject({location: 'partner_section'})
+    expect(track).toHaveBeenCalledWith('Funder Contact Click', {location: 'partner_section'})
+    expect(JSON.stringify([events('funder_contact_click'), (track as jest.Mock).mock.calls])).not.toMatch(
+      /mailto|subject|@/i,
+    )
+  })
+
+  it('sends nothing to Google after Decline, and still counts the click in Vercel', () => {
+    window.localStorage.setItem(CONSENT_KEY, 'denied')
+    startGa()
+    trackFunderContactClick('process_loop')
+    expect(events('funder_contact_click')).toHaveLength(0)
+    expect(track).toHaveBeenCalledWith('Funder Contact Click', {location: 'process_loop'})
   })
 })

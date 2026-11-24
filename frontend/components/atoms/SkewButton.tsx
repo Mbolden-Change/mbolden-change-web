@@ -73,8 +73,13 @@ export default function SkewButton(props: SkewButtonProps) {
   if (href) {
     // Links to the Donate page stay in the same tab.
     const hrefTarget = isDonatePath(href) ? undefined : target;
+    // data-* attributes, such as data-funder-contact, go on the link.
+    const dataAttributes = Object.fromEntries(
+      Object.entries(buttonRest).filter(([name]) => name.startsWith('data-')),
+    );
     control = (
       <a
+        {...dataAttributes}
         href={href}
         className={innerClassName}
         aria-label={ariaLabel}

@@ -76,6 +76,76 @@ export const caseStudyCardsType = defineType({
   },
 })
 
+/** The wording the How We Work loop starts with. The site uses the same text for any field left empty. */
+const PROCESS_LOOP_STAGES = [
+  {label: 'Listen', description: 'We listen to those closest to the challenges.'},
+  {label: 'Build trust', description: 'We become deeply integrated and invested in our partners' success.'},
+  {label: 'Co-create', description: 'There is no one size fits all.'},
+  {label: 'Implement', description: 'We implement alongside partners, or incubate when they're not positioned to.'},
+  {label: 'Learn & adapt', description: 'Data and feedback inform what's next.'},
+  {
+    label: 'Share back & listen',
+    description: 'We bring what we learned back to community and partners, and start again.',
+  },
+]
+
+/** Cream block with the animated How We Work loop, as on Ready to Grow. */
+export const processLoopType = defineType({
+  name: 'processLoop',
+  title: 'How We Work Loop',
+  type: 'object',
+  description:
+    'Cream block with an animated loop of six stages ending in a lightning bolt, and a link that opens an email to the Advancement contact in Site Settings.',
+  fields: [
+    defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: 'How we work'}),
+    defineField({
+      name: 'stages',
+      title: 'Stages',
+      type: 'array',
+      description:
+        'Six stages, in the order the line travels. The first five sit along the line to the bolt and the sixth on the way back. Colors and positions follow the order.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'processLoopStage',
+          title: 'Stage',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              description: 'Shown in capitals on the drawing. Keep it short.',
+              validation: (Rule) => Rule.required().max(24),
+            }),
+            defineField({
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              rows: 2,
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {select: {title: 'label', subtitle: 'description'}},
+        }),
+      ],
+      initialValue: PROCESS_LOOP_STAGES.map((stage) => ({_type: 'processLoopStage', ...stage})),
+      validation: (Rule) => Rule.length(6),
+    }),
+    defineField({
+      name: 'linkText',
+      title: 'Link text',
+      type: 'string',
+      description:
+        'Opens an email to the Advancement contact, with the same subject as the Funder Invitation on the page.',
+      initialValue: 'Talk with us about funding a model',
+    }),
+  ],
+  preview: {
+    select: {title: 'heading'},
+    prepare: ({title}) => ({title: `How We Work Loop — ${title ?? ''}`}),
+  },
+})
+
 /** Yellow block inviting funders to email the Advancement contact. */
 export const funderCtaType = defineType({
   name: 'funderCta',

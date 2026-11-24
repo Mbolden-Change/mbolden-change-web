@@ -101,6 +101,10 @@ export const pageBuilderType = defineType({
       title: 'Hero with Color Blocks',
     }),
     defineArrayMember({
+      type: 'processLoop',
+      title: 'How We Work Loop',
+    }),
+    defineArrayMember({
       type: 'caseStudyCards',
       title: 'Case Study Cards',
     }),
