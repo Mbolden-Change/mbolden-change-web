@@ -107,3 +107,33 @@ session. `.cursor/rules/` holds the same codebase rules for Cursor.
 - Rollback: revert the merge. As a last resort, restore the old `/simulator`
   rewrite to `https://safety-net-simulator.netlify.app`, which is frozen and
   should never be deployed to.
+
+## Vercel build skipping (dev and Storybook projects)
+
+`scripts/vercel-ignore-build.sh` is the "Ignored Build Step" for two of the
+three Vercel projects. It decides whether a push is worth a build.
+
+- Vercel's rule: exit 0 = skip the build, exit 1 = build. The script fails
+  safe: on any error or doubt it builds. It prints one line with the rule that
+  decided, which shows in the Vercel build log.
+- `mbolden-storybook` runs it with `storybook`: build only when the push
+  changed a path in `STORYBOOK_PATHS` since the last successful deployment of
+  that branch (`VERCEL_GIT_PREVIOUS_SHA`).
+  A new branch has no earlier
+  deployment, so it is compared with the commit where it left `main` (the
+  merge-base with `origin/main`). If `main` can't be fetched, it builds.
+- `mbolden-change-web-dev` runs it with `dev`: build only for pushes to `main`.
+- `mbolden-change-web` (production) never runs it. It builds every push,
+  including PR previews. Never wire the script to it and never add an
+  `ignoreCommand` to a `vercel.json`.
+- The command is set per project in the Vercel dashboard (Settings → Build and
+  Deployment → Ignored Build Step), not in the repo. Vercel runs it from the
+  project's Root Directory, so with Root Directory `frontend` the command is
+  `bash ../scripts/vercel-ignore-build.sh <role>`.
+- When the folder layout changes (Storybook config moves, stories import from
+  a new top-level folder, a new config file affects the Storybook build), update
+  `STORYBOOK_PATHS` in the script and the fake repo in
+  `scripts/vercel-ignore-build.test.sh`. A trailing slash means a whole folder.
+  When unsure, add the path: an extra build is cheaper than a wrong skip.
+- After any change to the script, run `bash scripts/vercel-ignore-build.test.sh`
+  and put the output in the PR.
