@@ -1,7 +1,7 @@
 import type {AdvancementContact} from '@/lib/getProgramCaseStudy'
 import type {PageBuilder, ProcessLoop} from '@/sanity/types'
 
-// How We Work loop: wording defaults, the two drawings and the trail math.
+// Community-Centered Design Process loop: wording defaults, the two drawings and the trail math.
 // Nothing here touches the DOM, so the page can render the finished drawing
 // on the server and the math can be tested.
 
@@ -9,7 +9,7 @@ export type ProcessLoopStage = {label: string; description: string}
 
 /** The wording the block starts with. Any field left empty in Studio falls back to it. */
 export const PROCESS_LOOP_DEFAULTS = {
-  heading: 'How we work',
+  heading: 'Our Community-Centered Design Process',
   linkText: 'Talk with us about funding a model',
   stages: [
     {label: 'Listen', description: 'We listen to those closest to the challenges.'},
@@ -38,7 +38,7 @@ type FunderBlock = {contact?: AdvancementContact; emailSubject?: string}
 /**
  * Ready to Grow shows the loop right after its hero even before the block is
  * added in Studio, with the default wording and the Funder Invitation's email
- * link. Once the page has a How We Work Loop block, that block is used as it
+ * link. Once the page has a Community-Centered Design Process block, that block is used as it
  * is and this does nothing.
  */
 export function withDefaultProcessLoop(slug: string, content: PageBuilder): PageBuilder {

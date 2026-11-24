@@ -102,7 +102,7 @@ export const pageBuilderType = defineType({
     }),
     defineArrayMember({
       type: 'processLoop',
-      title: 'How We Work Loop',
+      title: 'Community-Centered Design Process',
     }),
     defineArrayMember({
       type: 'caseStudyCards',

@@ -76,7 +76,7 @@ export const caseStudyCardsType = defineType({
   },
 })
 
-/** The wording the How We Work loop starts with. The site uses the same text for any field left empty. */
+/** The wording the Community-Centered Design Process loop starts with. The site uses the same text for any field left empty. */
 const PROCESS_LOOP_STAGES = [
   {label: 'Listen', description: 'We listen to those closest to the challenges.'},
   {label: 'Build trust', description: "We become deeply integrated and invested in our partners' success."},
@@ -89,15 +89,15 @@ const PROCESS_LOOP_STAGES = [
   },
 ]
 
-/** Cream block with the animated How We Work loop, as on Ready to Grow. */
+/** Cream block with the animated Community-Centered Design Process loop, as on Ready to Grow. */
 export const processLoopType = defineType({
   name: 'processLoop',
-  title: 'How We Work Loop',
+  title: 'Community-Centered Design Process',
   type: 'object',
   description:
     'Cream block with an animated loop of six stages ending in a lightning bolt, and a link that opens an email to the Advancement contact in Site Settings.',
   fields: [
-    defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: 'How we work'}),
+    defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: 'Our Community-Centered Design Process'}),
     defineField({
       name: 'stages',
       title: 'Stages',
@@ -142,7 +142,7 @@ export const processLoopType = defineType({
   ],
   preview: {
     select: {title: 'heading'},
-    prepare: ({title}) => ({title: `How We Work Loop — ${title ?? ''}`}),
+    prepare: ({title}) => ({title: `Community-Centered Design Process — ${title ?? ''}`}),
   },
 })
 

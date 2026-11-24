@@ -189,7 +189,7 @@ function LoopFigure({layout, stages, className}: LoopFigureProps) {
   }, [stages])
 
   const captionStage = scene.caption >= 0 ? stages[scene.caption] : null
-  const summary = `A loop in six stages: ${stages.map((stage) => stage.label).join(', then ')}. The line traces a lightning bolt, then returns to the start.`
+  const summary = `Our community-centered design process, a loop in six stages: ${stages.map((stage) => stage.label).join(', then ')}. The line traces a lightning bolt, then returns to the start.`
 
   return (
     <div ref={rootRef} className={classNames(styles.figure, className, live && styles.live)}>
@@ -275,7 +275,7 @@ function LoopFigure({layout, stages, className}: LoopFigureProps) {
   )
 }
 
-/** Cream block with the animated How We Work loop and a link to email the Advancement contact. */
+/** Cream block with the animated Community-Centered Design Process loop and a link to email the Advancement contact. */
 export default function ProcessLoop({heading, stages, linkText, contact, emailSubject}: ProcessLoopProps) {
   const title = heading?.trim() || PROCESS_LOOP_DEFAULTS.heading
   const label = linkText?.trim() || PROCESS_LOOP_DEFAULTS.linkText

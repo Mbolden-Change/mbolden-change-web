@@ -6,14 +6,14 @@ const contact = {name: 'Sue Sutherland', title: 'Director of Advancement', email
 
 test('renders the heading, the six stages as a list and the finished drawings', () => {
   const {container} = render(<ProcessLoop contact={contact} emailSubject="Ready to Grow" />)
-  expect(screen.getByRole('heading', {level: 2, name: 'How we work'})).toBeInTheDocument()
+  expect(screen.getByRole('heading', {level: 2, name: 'Our Community-Centered Design Process'})).toBeInTheDocument()
   const items = within(screen.getByRole('list')).getAllByRole('listitem')
   expect(items).toHaveLength(6)
   expect(items[0]).toHaveTextContent('Listen — We listen to those closest to the challenges.')
   expect(items[5]).toHaveTextContent('Share back & listen — We bring what we learned back')
   const drawings = screen.getAllByRole('img')
   expect(drawings).toHaveLength(2)
-  expect(drawings[0]).toHaveAttribute('aria-label', expect.stringContaining('Listen, then Build trust'))
+  expect(drawings[0]).toHaveAttribute('aria-label', expect.stringMatching(/^Our community-centered design process, a loop in six stages: Listen, then Build trust/))
   // Without motion (jsdom has no IntersectionObserver): no Pause button, every chip on.
   expect(screen.queryByRole('button')).toBeNull()
   expect(container.querySelectorAll('svg > g.on')).toHaveLength(12)
