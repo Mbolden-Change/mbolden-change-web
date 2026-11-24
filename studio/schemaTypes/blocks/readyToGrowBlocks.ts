@@ -79,10 +79,10 @@ export const caseStudyCardsType = defineType({
 /** The wording the How We Work loop starts with. The site uses the same text for any field left empty. */
 const PROCESS_LOOP_STAGES = [
   {label: 'Listen', description: 'We listen to those closest to the challenges.'},
-  {label: 'Build trust', description: 'We become deeply integrated and invested in our partners' success.'},
+  {label: 'Build trust', description: "We become deeply integrated and invested in our partners' success."},
   {label: 'Co-create', description: 'There is no one size fits all.'},
-  {label: 'Implement', description: 'We implement alongside partners, or incubate when they're not positioned to.'},
-  {label: 'Learn & adapt', description: 'Data and feedback inform what's next.'},
+  {label: 'Implement', description: "We implement alongside partners, or incubate when they're not positioned to."},
+  {label: 'Learn & adapt', description: "Data and feedback inform what's next."},
   {
     label: 'Share back & listen',
     description: 'We bring what we learned back to community and partners, and start again.',
