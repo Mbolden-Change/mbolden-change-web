@@ -74,10 +74,36 @@ decide_dev() {
   skip "branch '$ref' is not main; the dev project only tracks main"
 }
 
+# Runs a git fetch with a time limit where one is available. Never fatal.
+quiet_fetch() {
+  local fetcher=(git fetch --quiet "$@")
+  command -v timeout >/dev/null 2>&1 && fetcher=(timeout 60 "${fetcher[@]}")
+  "${fetcher[@]}" >/dev/null 2>&1 || true
+}
+
+# New branch (no earlier deployment to compare with): prints the commit where
+# the branch left main. Vercel's clone is shallow, so main is fetched first.
+new_branch_base() {
+  local ref="$1" base
+  quiet_fetch --depth=100 origin '+refs/heads/main:refs/remotes/origin/main'
+  git rev-parse --verify --quiet 'refs/remotes/origin/main^{commit}' >/dev/null || return 1
+  if ! base="$(git merge-base HEAD refs/remotes/origin/main 2>/dev/null)" || [[ -z "$base" ]]; then
+    # The branch may be longer than the shallow clone. Deepen it once and retry.
+    quiet_fetch --depth=100 origin "$ref"
+    base="$(git merge-base HEAD refs/remotes/origin/main 2>/dev/null)" || return 1
+  fi
+  [[ -n "$base" ]] || return 1
+  echo "$base"
+}
+
 decide_storybook() {
-  local prev="${VERCEL_GIT_PREVIOUS_SHA:-}"
-  [[ -n "$prev" ]] || build "VERCEL_GIT_PREVIOUS_SHA is empty (first deploy of this project or branch)"
-  [[ "$prev" =~ ^[0-9a-fA-F]{7,40}$ ]] || build "VERCEL_GIT_PREVIOUS_SHA is not a commit SHA"
+  local prev="${VERCEL_GIT_PREVIOUS_SHA:-}" ref="${VERCEL_GIT_COMMIT_REF:-}"
+  if [[ -z "$prev" ]]; then
+    [[ -n "$ref" ]] || build "VERCEL_GIT_PREVIOUS_SHA and VERCEL_GIT_COMMIT_REF are both empty"
+    [[ "$ref" != "main" ]] || build "VERCEL_GIT_PREVIOUS_SHA is empty on main (first deploy of this project)"
+  else
+    [[ "$prev" =~ ^[0-9a-fA-F]{7,40}$ ]] || build "VERCEL_GIT_PREVIOUS_SHA is not a commit SHA"
+  fi
 
   command -v git >/dev/null 2>&1 || build "git is not available"
   local root
@@ -85,17 +111,24 @@ decide_storybook() {
   cd "$root" || build "cannot enter the repo root"
   git rev-parse --verify --quiet 'HEAD^{commit}' >/dev/null || build "cannot read the current commit"
 
-  # Vercel's clone is shallow, so the previous commit may be missing. Try to fetch it.
-  if ! git cat-file -e "${prev}^{commit}" 2>/dev/null; then
-    local fetcher=(git fetch --quiet --depth=1 origin "$prev")
-    command -v timeout >/dev/null 2>&1 && fetcher=(timeout 60 "${fetcher[@]}")
-    "${fetcher[@]}" >/dev/null 2>&1 || true
-    git cat-file -e "${prev}^{commit}" 2>/dev/null || build "previous commit ${prev:0:9} can't be reached, even after a fetch"
+  local base since
+  if [[ -z "$prev" ]]; then
+    # First deploy of a branch other than main: compare with where it left main.
+    base="$(new_branch_base "$ref")" || build "new branch '$ref': main can't be fetched or has no merge-base with this branch"
+    since="where new branch '$ref' left main (${base:0:9})"
+  else
+    # Vercel's clone is shallow, so the previous commit may be missing. Try to fetch it.
+    if ! git cat-file -e "${prev}^{commit}" 2>/dev/null; then
+      quiet_fetch --depth=1 origin "$prev"
+      git cat-file -e "${prev}^{commit}" 2>/dev/null || build "previous commit ${prev:0:9} can't be reached, even after a fetch"
+    fi
+    base="$prev"
+    since="${prev:0:9}"
   fi
 
   local changed
-  changed="$(git diff --name-only --no-renames "$prev" HEAD 2>/dev/null)" || build "git diff against ${prev:0:9} failed"
-  [[ -n "$changed" ]] || build "no file changes since ${prev:0:9} (redeploy of the same commit)"
+  changed="$(git diff --name-only --no-renames "$base" HEAD 2>/dev/null)" || build "git diff against ${base:0:9} failed"
+  [[ -n "$changed" ]] || build "no file changes since $since (same commit)"
 
   local file match count=0
   while IFS= read -r file; do
@@ -103,11 +136,11 @@ decide_storybook() {
     count=$((count + 1))
     is_test_file "$file" && continue
     if match="$(storybook_match "$file")"; then
-      build "$file changed since ${prev:0:9} (Storybook path: $match)"
+      build "$file changed since $since (Storybook path: $match)"
     fi
   done <<<"$changed"
 
-  skip "none of the $count files changed since ${prev:0:9} are Storybook paths"
+  skip "none of the $count files changed since $since are Storybook paths"
 }
 
 ROLE="${1:-}"

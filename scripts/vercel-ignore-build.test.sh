@@ -90,8 +90,9 @@ step "lockfile" frontend/package-lock.json >/dev/null
 run "change in the lockfile -> build" 1 "$REPO" VERCEL_GIT_PREVIOUS_SHA="$BASE" -- storybook
 
 PAGE_ONLY="$(step "page only" frontend/app/page.tsx)"
-run "empty VERCEL_GIT_PREVIOUS_SHA -> build" 1 "$REPO" VERCEL_GIT_PREVIOUS_SHA= -- storybook
-run "unset VERCEL_GIT_PREVIOUS_SHA -> build" 1 "$REPO" -- storybook
+run "empty VERCEL_GIT_PREVIOUS_SHA on main -> build" 1 "$REPO" VERCEL_GIT_PREVIOUS_SHA= VERCEL_GIT_COMMIT_REF=main -- storybook
+run "empty VERCEL_GIT_PREVIOUS_SHA, branch unknown -> build" 1 "$REPO" VERCEL_GIT_PREVIOUS_SHA= -- storybook
+run "unset VERCEL_GIT_PREVIOUS_SHA, branch unknown -> build" 1 "$REPO" -- storybook
 run "previous SHA is not a SHA -> build" 1 "$REPO" VERCEL_GIT_PREVIOUS_SHA="--output=x" -- storybook
 run "unreachable previous SHA (no such commit, fetch fails) -> build" 1 "$REPO" \
   VERCEL_GIT_PREVIOUS_SHA=0123456789abcdef0123456789abcdef01234567 -- storybook
@@ -109,6 +110,55 @@ run "shallow clone, previous SHA can't be fetched -> build" 1 "$WORK/shallow2" V
 # Not a git checkout at all.
 mkdir -p "$WORK/nogit/scripts" && cp "$SCRIPT" "$WORK/nogit/scripts/"
 run "not a git checkout -> build" 1 "$WORK/nogit" VERCEL_GIT_PREVIOUS_SHA="$BASE" GIT_CEILING_DIRECTORIES="$WORK" -- storybook
+
+echo "--- storybook, new branch (empty VERCEL_GIT_PREVIOUS_SHA, not main)"
+# An "origin" whose main has moved on since the branches left it, with a
+# Storybook-path change on main that the branches must not be blamed for.
+ORIGIN="$WORK/origin"
+mkdir -p "$ORIGIN/scripts"
+git init --quiet -b main "$ORIGIN"
+cp "$SCRIPT" "$ORIGIN/scripts/"
+FORK="$(commit "$ORIGIN" base frontend/package.json frontend/app/page.tsx frontend/content/substack-archive.json \
+  frontend/components/v2/blocks/Pillars/Pillars.tsx)"
+git -C "$ORIGIN" checkout --quiet -b new-pages "$FORK"
+commit "$ORIGIN" "branch: page" frontend/app/page.tsx >/dev/null
+commit "$ORIGIN" "branch: content" frontend/content/substack-archive.json >/dev/null
+git -C "$ORIGIN" checkout --quiet -b new-component "$FORK"
+commit "$ORIGIN" "branch: page" frontend/app/page.tsx >/dev/null
+commit "$ORIGIN" "branch: component" frontend/components/v2/blocks/Pillars/Pillars.tsx >/dev/null
+git -C "$ORIGIN" checkout --quiet -b long-branch "$FORK"
+for n in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do commit "$ORIGIN" "branch: page $n" frontend/app/page.tsx >/dev/null; done
+git -C "$ORIGIN" checkout --quiet main
+commit "$ORIGIN" "main: component" frontend/components/v2/blocks/Pillars/Pillars.tsx >/dev/null
+commit "$ORIGIN" "main: package" frontend/package.json >/dev/null
+
+vercel_clone() { # vercel_clone <branch> <dir>: shallow single-branch clone, as on Vercel
+  git clone --quiet --depth=10 --branch "$1" "file://$ORIGIN" "$2"
+}
+
+vercel_clone new-pages "$WORK/new-pages"
+run "new branch touching only page/content files -> skip" 0 "$WORK/new-pages" \
+  VERCEL_GIT_PREVIOUS_SHA= VERCEL_GIT_COMMIT_REF=new-pages -- storybook
+
+vercel_clone new-component "$WORK/new-component"
+run "new branch touching a component -> build" 1 "$WORK/new-component" \
+  VERCEL_GIT_PREVIOUS_SHA= VERCEL_GIT_COMMIT_REF=new-component -- storybook
+
+vercel_clone long-branch "$WORK/long-branch"
+run "new branch longer than the shallow clone, pages only -> skip" 0 "$WORK/long-branch" \
+  VERCEL_GIT_PREVIOUS_SHA= VERCEL_GIT_COMMIT_REF=long-branch -- storybook
+
+vercel_clone new-pages "$WORK/no-main"
+git -C "$WORK/no-main" remote set-url origin "file://$WORK/does-not-exist"
+run "new branch, main fetch fails -> build" 1 "$WORK/no-main" \
+  VERCEL_GIT_PREVIOUS_SHA= VERCEL_GIT_COMMIT_REF=new-pages -- storybook
+
+git -C "$ORIGIN" checkout --quiet --orphan unrelated
+commit "$ORIGIN" "unrelated history" frontend/app/page.tsx >/dev/null
+git -C "$ORIGIN" checkout --quiet main
+vercel_clone unrelated "$WORK/unrelated"
+run "new branch with no merge-base with main -> build" 1 "$WORK/unrelated" \
+  VERCEL_GIT_PREVIOUS_SHA= VERCEL_GIT_COMMIT_REF=unrelated -- storybook
 
 echo "--- dev"
 run "branch main -> build" 1 "$REPO" VERCEL_GIT_COMMIT_REF=main -- dev

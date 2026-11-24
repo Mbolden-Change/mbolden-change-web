@@ -119,6 +119,9 @@ three Vercel projects. It decides whether a push is worth a build.
 - `mbolden-storybook` runs it with `storybook`: build only when the push
   changed a path in `STORYBOOK_PATHS` since the last successful deployment of
   that branch (`VERCEL_GIT_PREVIOUS_SHA`).
+  A new branch has no earlier
+  deployment, so it is compared with the commit where it left `main` (the
+  merge-base with `origin/main`). If `main` can't be fetched, it builds.
 - `mbolden-change-web-dev` runs it with `dev`: build only for pushes to `main`.
 - `mbolden-change-web` (production) never runs it. It builds every push,
   including PR previews. Never wire the script to it and never add an
