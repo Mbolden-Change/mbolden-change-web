@@ -63,6 +63,8 @@ export type PageBuilder = Array<{
   _key: string;
 } & ColorBlockHero | {
   _key: string;
+} & ProcessLoop | {
+  _key: string;
 } & CaseStudyCards | {
   _key: string;
 } & FunderCta | {
@@ -376,6 +378,18 @@ export type CampaignBanner = {
   heading?: string;
   text?: string;
   link?: InternalOrExternalLink;
+};
+
+export type ProcessLoop = {
+  _type: "processLoop";
+  heading?: string;
+  stages?: Array<{
+    label: string;
+    description: string;
+    _type: "processLoopStage";
+    _key: string;
+  }>;
+  linkText?: string;
 };
 
 export type PageTeaser = {
@@ -2577,5 +2591,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | SubstackPostList | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SearchSettings | PdfDocument | NewsItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PageBuilder | StatementCards | NewsRecord | MediaContact | ThenNow | StatBand | SectionHeading | RequirementCards | PunchLine | PullQuote | Checklist | ResourceLibrary | PartnerResources | FeaturedGuide | GivingOptions | FundCards | DonorQuote | DonateHero | CampaignBanner | ProcessLoop | PageTeaser | FunderCta | ColorBlockHero | CaseStudyCards | SubstackPostList | PointOfView | PointOfViewPost | PolicyText | PolicyTable | GetInTouch | Timeline | TimelineMilestone | VisionMission | WordReelWord | WordReel | FocusAreas | FeaturedIssue | FeaturedIssueStat | BoltSteps | BoltStep | ToolCards | ToolCard | StoryHighlight | ResourceList | ResourceListItem | StackedEntry | StackedEntryFeature | StackedEntries | TopicList | TopicListItem | Leadership | Person | PageHeader | Pillars | ImpactHero | Faq | TextMedia | HolidayCard | CaseStudyHighlight | CardGallery | Card | Tab | TabsContainer | TestimonialCard | TestimonialsCarousel | ResourceBanner | StatementBanner | FiftyFifty | RichText | Hero | HeroCarousel | Letter | EmployerGuide | ProgramCaseStudy | SiteSettings | Report | PopUpModal | CaseStudy | Header | PillarCard | PillarContainer | Footer | Page | Statement | ZeffyForm | InternalOrExternalLink | SearchSettings | PdfDocument | NewsItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;

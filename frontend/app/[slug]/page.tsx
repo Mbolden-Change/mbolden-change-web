@@ -12,6 +12,7 @@ import {
   stripSearchSummaries,
 } from '@/lib/jsonld'
 import {openGraphFor, twitterFor} from '@/lib/siteMetadata'
+import {withDefaultProcessLoop} from '@/components/v2/readyToGrow/processLoop'
 import styles from './page.module.css'
 
 // Tab title, such as "What We're Tackling | mBOLDen Change", and the page's
@@ -61,7 +62,9 @@ export default async function Page({
   return (
     <div className={styles.page}>
       <JsonLd data={jsonLd} />
-      {page.content && <PageBuilder content={stripSearchSummaries(page.content)} />}
+      {page.content && (
+        <PageBuilder content={withDefaultProcessLoop(slug, stripSearchSummaries(page.content))} />
+      )}
     </div>
   )
 }

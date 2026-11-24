@@ -59,7 +59,12 @@ export default function FunderCta({
         </div>
         <div className={classNames(styles.actions, styles.rv, styles.d3)}>
           {contact?.email && label && (
-            <SkewButton variant="black" href={mailtoHref(contact.email, emailSubject)} className={styles.button}>
+            <SkewButton
+              variant="black"
+              href={mailtoHref(contact.email, emailSubject)}
+              className={styles.button}
+              data-funder-contact="partner_section"
+            >
               {label}
             </SkewButton>
           )}

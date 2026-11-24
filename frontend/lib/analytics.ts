@@ -81,3 +81,25 @@ export function trackGatewayEmailClick(pathname: string) {
   track('Gateway Email Click', { page: pathname });
   gaEvent('gateway_provider_email', { page: pathname });
 }
+
+// Clicks on the links that open an email to the Advancement contact.
+export type FunderContactLocation = 'process_loop' | 'partner_section'
+
+/** On the link itself: `data-funder-contact="process_loop"`. */
+export const FUNDER_CONTACT_ATTRIBUTE = 'data-funder-contact'
+
+/** Where the clicked funder contact link sits, or null for any other click. */
+export function funderContactLocation(target: EventTarget | null): string | null {
+  if (!(target instanceof Element)) return null
+  return target.closest(`a[${FUNDER_CONTACT_ATTRIBUTE}]`)?.getAttribute(FUNDER_CONTACT_ATTRIBUTE) || null
+}
+
+/**
+ * Sends where the link sits and nothing else: no address, no subject. Vercel
+ * Web Analytics always gets the click. Google Analytics gets nothing after
+ * Decline or with Global Privacy Control on.
+ */
+export function trackFunderContactClick(location: FunderContactLocation | string) {
+  track('Funder Contact Click', { location });
+  gaEvent('funder_contact_click', { location });
+}

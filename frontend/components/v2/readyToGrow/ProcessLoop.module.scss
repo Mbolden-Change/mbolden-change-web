@@ -1,0 +1,358 @@
+@use '../../../styles/reveal';
+
+// How We Work loop (Ready to Grow). Brand tokens throughout; the two colors
+// below have no token.
+$ink: #2b2b2b; // the line's start, the bolt and the return; borders and leaders
+$gold: #c9a400; // warm yellow darkened so a 4px line reads on cream
+$pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+.section {
+  padding: 6rem 0;
+  background: var(--brand-creamy-beige);
+  // The hero above is cream too: a rule sets this block apart, as on the page teaser.
+  border-top: 4px solid var(--brand-black);
+  color: #1a1a1a;
+
+  @media (max-width: 900px) {
+    padding: 3.5rem 0;
+  }
+}
+
+.wrap {
+  @include reveal.wrap;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.title {
+  @include reveal.section-title;
+}
+
+.figure {
+  position: relative;
+  width: 100%;
+}
+
+.desktop {
+  max-width: 60rem;
+
+  @media (max-width: 639px) {
+    display: none;
+  }
+}
+
+.mobile {
+  max-width: 22rem;
+
+  @media (min-width: 640px) {
+    display: none;
+  }
+}
+
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+// The line
+.line {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lineInk {
+  stroke: $ink;
+  fill: $ink;
+}
+
+.lineGold {
+  stroke: $gold;
+  fill: $gold;
+}
+
+.lineBlack {
+  stroke: var(--brand-black);
+  fill: var(--brand-black);
+}
+
+.lineTeal {
+  stroke: var(--brand-aqua-teal);
+  fill: var(--brand-aqua-teal);
+}
+
+.lineFuchsia {
+  stroke: var(--brand-fuchsia);
+  fill: var(--brand-fuchsia);
+}
+
+.lineReturn {
+  stroke: $ink;
+  fill: $ink;
+}
+
+.line.lineReturn {
+  stroke-width: 3.5;
+}
+
+.line.lineInk,
+.line.lineGold,
+.line.lineBlack,
+.line.lineTeal,
+.line.lineFuchsia,
+.line.lineReturn {
+  fill: none;
+}
+
+// The dot leading the trail
+.head {
+  stroke: none;
+}
+
+// The bolt
+.boltFill {
+  fill: var(--brand-warm-yellow);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.boltFill.on {
+  opacity: 1;
+}
+
+.live .boltFill {
+  transform: scale(0.9);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.live .boltFill.on {
+  transform: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.5s $pop;
+}
+
+// Stages
+.leader {
+  stroke: $ink;
+  stroke-width: 1;
+}
+
+.anchor {
+  fill: $ink;
+}
+
+.leader,
+.anchor,
+.chip {
+  opacity: 0;
+}
+
+.on .leader,
+.on .anchor,
+.on .chip {
+  opacity: 1;
+}
+
+.chip {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.live .leader,
+.live .anchor {
+  transition: opacity 0.4s ease;
+}
+
+.live .chip {
+  transform: scale(0.5);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.live .on .chip {
+  transform: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.5s $pop;
+}
+
+.chipShape {
+  fill: var(--chip);
+  stroke: var(--chip-border, var(--chip));
+  stroke-width: 1;
+}
+
+.chipText {
+  fill: var(--chip-text);
+  font-family: var(--font-headline);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.listen,
+.share {
+  --chip: var(--brand-white);
+  --chip-border: #{$ink};
+  --chip-text: var(--brand-black);
+}
+
+.trust {
+  --chip: var(--brand-warm-yellow);
+  --chip-text: var(--brand-black);
+}
+
+.create {
+  --chip: var(--brand-black);
+  --chip-text: var(--brand-white);
+}
+
+.implement {
+  --chip: var(--brand-aqua-teal);
+  --chip-text: var(--brand-white);
+}
+
+.learn {
+  --chip: var(--brand-fuchsia);
+  --chip-text: var(--brand-white);
+}
+
+// Caption: room for three lines on phones, two on wider screens, so nothing below it moves.
+.caption {
+  min-height: calc(3 * 1.5em);
+  max-width: 38rem;
+  margin: 1.25rem 0 0;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  text-align: left;
+
+  strong {
+    font-weight: 700;
+    color: var(--brand-black);
+  }
+
+  @media (min-width: 640px) {
+    min-height: calc(2 * 1.5em);
+  }
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  border: 2px solid var(--brand-black);
+  border-radius: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--brand-black);
+    color: var(--brand-white);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 3px;
+  }
+}
+
+.pauseIcon {
+  width: 0.625rem;
+  height: 0.75rem;
+  border-right: 0.2rem solid currentColor;
+  border-left: 0.2rem solid currentColor;
+}
+
+.playIcon {
+  width: 0;
+  height: 0;
+  border-top: 0.375rem solid transparent;
+  border-bottom: 0.375rem solid transparent;
+  border-left: 0.625rem solid currentColor;
+}
+
+// The stages as text: for screen readers and search while the drawing moves,
+// and on the page when it doesn't (reduced motion).
+.list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.link {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-bottom: 3px;
+  border-bottom: 3px solid var(--brand-aqua-teal);
+  color: var(--brand-black);
+  font-family: var(--font-headline);
+  font-size: 1.1875rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--brand-black);
+    border-bottom-color: var(--brand-black);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand-aqua-teal);
+    outline-offset: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  // No motion: the caption has nothing to follow, so the stages are listed instead.
+  .caption {
+    display: none;
+  }
+
+  .list {
+    position: static;
+    width: auto;
+    height: auto;
+    max-width: 38rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    text-align: left;
+
+    li + li {
+      margin-top: 0.5rem;
+    }
+  }
+}
